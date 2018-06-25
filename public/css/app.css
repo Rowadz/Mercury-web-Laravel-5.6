@@ -1,0 +1,132 @@
+/* Created By LT 19/05/2018 */
+body, html {
+    overflow-x: hidden !important;
+}
+
+.welcomeImage{
+    margin-top: -15px !important; 
+    max-height: 100vh !important;
+}
+.mainTitle{
+    font-family:  fantasy, sans-serif;
+}
+
+::-moz-selection { /* Code for Firefox */
+    color: #fff;
+    background: #000;
+}
+
+::selection {
+    color: #fff;
+    background: #000;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #286090;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #1B3440;
+}
+
+#menuPopUp:hover {
+    cursor: pointer !important;
+}
+
+.myCardOnSmallScreens {
+    width: 100% !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .ui.column.grid > [class*="twelve wide"].column,
+    .ui.grid > .column.row > [class*="twelve wide"].column,
+    .ui.grid > .row > [class*="twelve wide"].column, .ui.grid > [class*="twelve wide"].column {
+        width: 100% !important;
+    }
+
+    .myCardOnSmallScreens {
+        width: inherit !important;
+    }
+
+    .myCard {
+        width: 100% !important;
+    }
+    .welcomeImage{
+        margin-top: -15px !important; 
+        height: 50vh !important;
+    }
+}
+
+.continueReadingATag {
+    color: #ff6666 !important;
+}
+
+.continueReadingATag:hover {
+    color: #ac2925 !important;
+    text-decoration: underline !important;
+}
+
+.postBodyText {
+    padding: 20px !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.postHeaderText {
+    color: #1b6d85 !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.wishListStar {
+    padding: 20px !important;
+    cursor: pointer !important;
+    float: right !important;
+}
+.hideToFixMenu{
+    display: none !important;
+}
+
+.yourPosts{
+    background-color:  #242625 !important;  
+    padding: 20px !important;
+}
+.excgangeRequests{
+    padding:  20px !important;
+    background-color: #011F2E !important;
+}
+.followDate{
+    color: gray;
+}
+.followRequestsPadding{
+    margin-top: 20px !important;
+}
+.userFollowerCard{
+    margin-top: 20px !important;
+}
+
+
+/* Profile Css */
+
+.faildToLoadImage{
+    color: #ac2925;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 20px;
+    display: none;
+}
+
+.orange{
+    color: coral;
+}
