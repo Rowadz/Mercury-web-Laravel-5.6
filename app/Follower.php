@@ -4,6 +4,7 @@ namespace Mercury;
 
 use Illuminate\Database\Eloquent\Model;
 use Mercury\User;
+
         // status
         // 0 => requested 
         // 1 => approved 
@@ -18,12 +19,24 @@ class Follower extends Model
     public static function allFollowers(){
     	return Follower::where('user_id', isset(Auth()->user()->id)?Auth()->user()->id:null)->where("status", 1)->get()->count();
     }
+
+
     public static function seeFollowers(){
         return Follower::where('user_id', Auth()->user()->id)->where("status", 1)->get();
     }
 
+
+    public static function seeTheUsersYouAreFollowing(){
+        $x = Follower::where('from_id', Auth()->user()->id)->where("status", 0)->get();
+        $users = [];
+        foreach ($x as $value) 
+            array_push($users, User::find($value->from_id));
+        return $users;
+    }
+
+
     public static function allFollowedByTheUser(){
-    	return Follower::where('from_id', isset(Auth()->user()->id)?Auth()->user()->id:null)->get()->count();
+    	return Follower::where('from_id', isset(Auth()->user()->id)?Auth()->user()->id:null)->where('status', 1)->get()->count();
     }
 
     // the users who sent a follow reuest to the auth user
@@ -97,24 +110,34 @@ class Follower extends Model
         return "Deleted!";
     }
 
-    public static function follow($id){
-        $follower = new Follower;
-        $follower->user_id = $id;
-        $follower->from_is = Auth()->user()->id;
-        $follower->status = 0;
-        $follower->save();
-        return "Requested!";
-    }
-
     public static function cancel($id){
         $follower = Follower::find($id);
-        if($follower->from_id === Auth()->user()->id){
+        if($follower->from_id === Auth()->user()->id && $follower){
             $follower->delete();    
             return true;
         }else {
+            // TODO return false
             return true;
         }
         
     }
 
+    public static function followUser($user_id){
+        if(User::find($user_id)){
+            $follower = new Follower;
+            $follower->from_id = Auth()->user()->id;
+            $follower->user_id = $user_id;
+            $follower->status = 0;
+            $follower->save();
+            return true;
+        }else{
+            // TODO return false
+            return true;
+        }
+    }
+
+    public static function unfollowUser($id){
+        // just deleting the row
+        return self::cancel($id);
+    }
 }

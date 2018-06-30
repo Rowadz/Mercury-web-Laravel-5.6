@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/css/iziToast.min.css" />
 @endsection
 @section("content")
-    <div class="ui grid" id="feed">
+    <div class="ui grid" id="whishedPosts">
         <div class="row">
             <div class="myCardOnSmallScreens sixteen wide column ">
                 <div class="ui link cards">
@@ -93,22 +93,4 @@
 @section("scripts")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js"></script>
-    <script>
-        function deleteWish(id){
-            axios.post(`/user/delete-wished-post/${id}`, {
-                id:id
-            }).then(res => {
-                $(`#${id}`).fadeOut()
-                iziToast.success({
-                    title: 'OK',
-                    message: res.data.success
-                })
-            }).catch(() => {
-                iziToast.error({
-                    title: 'OK',
-                    message: "Something went wrong!"
-                })
-            })
-        }
-    </script>
 @endsection

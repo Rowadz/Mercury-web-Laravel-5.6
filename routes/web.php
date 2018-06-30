@@ -11,42 +11,88 @@
 |
 */
 
+// loads the landaing page
 Route::get('/', 'HomeController@welcome');
 
 Auth::routes();
 
+// loads the homr page after the user logged in
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('/home/loadMorePosts', 'HomeController@loadMorePosts');
+// loads posts VIA AJAX
+Route::post('/home/loadMorePosts', 'HomeController@loadMorePosts')->name('loadMorePosts');
 
-Route::get('/show/post/{post}', 'PostController@show');
+// show a single post for visitor & user
+Route::get('/show/post/{post}', 'PostController@show')->name('showPost');
 
-Route::get("/show/all/posts", "postController@showWithNoAuth");
+// display the posts for a visitor
+Route::get("/show/all/posts", "postController@showWithNoAuth")->name('showPostsAuth');
 
-Route::post("/show/all/postsNoAuth", "postController@loadMorePostsNoAuth");
+// loads more posts for a visitor // TODO :: might make them in the same function 'controller function'
+Route::post("/show/all/postsNoAuth", "postController@loadMorePostsNoAuth")->name('showPostsNoAuth');
 
-Route::post("/post/add-to-wish-list/{post}", "WishController@addPostToWishList");
+// adds a post to the wish list
+Route::post("/post/add-to-wish-list/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
 
-Route::get("/user/show-wished-posts", "WishController@showAllPosts");
+// show the wished posts
+Route::get("/user/show-wished-posts", "WishController@showAllPosts")->name('showWishedPosts');
 
-Route::post("/user/delete-wished-post/{post}", "WishController@deleteWish");
+// deleting a wish
+Route::post("/user/delete-wished-post/{post}", "WishController@deleteWish")->name('deleteWish');
 
-Route::post("/post/{post}/addComment", "CommentController@addComment");
+// adding a comment
+Route::post("/post/{post}/addComment", "CommentController@addComment")->name('addComment');
 
-Route::get("/@/{user}", "UserController@profile")->name('profile');
+// displaying ta user profile
+Route::get("/@/{user}", "UserController@profile")->name('profile')->name('profile');
 
-Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName");
+// ??
+Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName")->name('newFollowerRequestedName');
 
-Route::get("/show/follow-Requests", "UserController@showFollowingRequests");
+// checking for a new follow requests
+Route::get("/show/follow-Requests", "UserController@showFollowingRequests")->name('showFollowingRequests');
 
-Route::post("/approve/follow", "UserController@approveFollow");
-Route::post("/decline/follow", "UserController@declineFollow");
+// approve the follow request
+Route::post("/approve/follow", "UserController@approveFollow")->name('approveFollow');
 
-Route::get("/followers", "UserController@seeFollowers");
+// decline the follow request
+Route::post("/decline/follow", "UserController@declineFollow")->name('declineFollow');
 
-Route::post("/unFollow", "UserController@unFollow");
-Route::post("/Follow", "UserController@follow");
+// getting all the followers
+Route::get("/followers", "UserController@seeFollowers")->name('seeFollowers');
+
+// unFollow the user from the profile page
+Route::post("/unFollow", "UserController@unFollow")->name('unfollow');
+
+// Follow the user from profile page
+Route::post("/Follow", "UserController@follow")->name('follow');
+
+// cancel the follow from the profile page
 Route::post("/cancelFollow", "UserController@cancelFollow")->name('cencelFollowRequest');
+
+// Follow the user from profile page
+Route::post("/followUser" , "UserController@followUser")->name('followUser');
+
+// unFollow the user from the profile page
+Route::post("/unfollowUser", "UserController@unfollowUser")->name('unfollowUser');
+
+
+// get a user's posts from sortShowUserPosts page 
+Route::get('/posts/{user}', "PostController@DescendingNAvailable")->name('allUserPosts'); // old name is allUserPosts
+
+// get all the user followers
+Route::get('/following', "UserController@seeTheUsersYouAreFollowing")->name('seeTheUsersYouAreFollowing');
+
+
+// 6 routes for sorting the data with pagination from sortShowUserPosts page
+// this in not good 
+// DRY
+Route::get('/posts/{user}/DescendingNAvailable/', "PostController@DescendingNAvailable")->name('DescendingNAvailable');
+Route::get('/posts/{user}/AscendingNAvailable/', "PostController@AscendingNAvailable")->name('AscendingNAvailable');
+Route::get('/posts/{user}/DescendingNArchived/', "PostController@DescendingNArchived")->name('DescendingNArchived');
+Route::get('/posts/{user}/AscendingNArchived/', "PostController@AscendingNArchived")->name('AscendingNArchived');
+Route::get('/posts/{user}/commentsNAvailable/', "PostController@commentsNAvailable")->name('commentsNAvailable');
+Route::get('/posts/{user}/commentsNArchived/', "PostController@commentsNArchived")->name('commentsNArchived');
 
 Route::bind('user', function ($value) {
         return Mercury\User::where('name', $value)->first() ?? abort(404);

@@ -23,9 +23,9 @@
     @yield('styles')
     <!-- The Icon -->
     <link  type="favicon.ico" href="{{ asset('images/main.png') }}">
-    
-
-
+    <script>
+        removeSpecificLoader = (id) => document.querySelector(`.imageLoader${id}`).style.visibility = 'hidden'
+    </script>
 </head>
 <body>
 
@@ -108,7 +108,7 @@
                 <i class="users icon large"></i> Followers
         </a>
 
-        <a class="item" href="#!">
+        <a class="item" href="/following">
            <!-- 🔦  -->
             <div class="ui red label">
                 {{isset($allFollowedByTheUser)? $allFollowedByTheUser : 0}}

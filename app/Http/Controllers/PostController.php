@@ -6,6 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mercury\Post;
 use Mercury\Wish;
+use Mercury\Follower;
+use Mercury\User;
+
+
+// Defualt data that you need to return 
+
+// "wishes" => Wish::getWishes(),
+// "allFollowers" => Follower::allFollowers(),
+// "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+
 
 class PostController extends Controller
 {
@@ -13,6 +23,15 @@ class PostController extends Controller
     {
         $this->middleware('auth')->except(['show', 'showWithNoAuth', 'loadMorePostsNoAuth']);
     }
+
+    // TODO add the default in the defaults method 
+    // for DRY
+    private function defaults(){
+        
+    }
+
+    // View -> User => showPost.blade.php 
+    // Route => get('/show/post/{post}')
     public function show(Post $post){
 
         if (Auth::check()) {
@@ -35,7 +54,8 @@ class PostController extends Controller
         return view("user.showPost")->with($data);
     }
 
-
+    // View =>  Visitor ->  showAllPosts.blade.php
+    // Route get("/show/all/posts")
     public function showWithNoAuth(){
         // $posts = Post::where('status', 1)->orderBy('created_at')->take(10)->get();
         $data = [
@@ -43,6 +63,10 @@ class PostController extends Controller
         ];
         return view("visitor.showAllPosts")->with($data);
     }
+
+    // View => home.blade.php
+    // Route => post("/show/all/postsNoAuth")
+    // WHY => for AJAX call 
     public function loadMorePostsNoAuth(Request $request)
     {
         return Post::loadMorePosts($request->lastId);
@@ -66,5 +90,111 @@ class PostController extends Controller
     //         "tagNames" => $tagNames,
     //         'users' => $users,
     //         'imageLocation' => $imageLocation]);
+    }
+
+    // public function allPosts(User $user){
+    //     $data = [
+    //         "wishes" => Wish::getWishes(),
+    // 		"allFollowers" => Follower::allFollowers(),
+    //         "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+    //         "posts" => Post::tenPostsForAUser($user->id),
+    //         "sortType" => 'descending order Date',
+    //         "postsType" => 'Available',
+    //         "user" => $user
+    //     ];
+    //     return view('user.showUserPosts')->with($data);
+    // }
+
+    
+    // DRY :'(
+    // View => User -> showUserPosts.blade.php
+    // Route => get('/posts/{user}')
+    // Route => get('/posts/{user}/DescendingNAvailable/')
+    public function DescendingNAvailable(User $user){
+        $data = [
+            "wishes" => Wish::getWishes(),
+    		"allFollowers" => Follower::allFollowers(),
+            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+            "posts" => Post::sortPosts(1, 0, $user->id),
+            "sortType" => 'descending order for Date',
+            "postsType" => 'Available',
+            "user" => $user
+        ];
+        return view('user.showUserPosts')->with($data);
+    }
+
+    // View => User -> showUserPosts.blade.php
+    // Route => get('/posts/{user}/AscendingNAvailable')
+    public function AscendingNAvailable(User $user){
+        $data = [
+            "wishes" => Wish::getWishes(),
+    		"allFollowers" => Follower::allFollowers(),
+            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+            "posts" => Post::sortPosts(1, 1, $user->id),
+            "sortType" => 'Ascending order for Date',
+            "postsType" => 'Available',
+            "user" => $user
+        ];
+        return view('user.showUserPosts')->with($data);
+    }
+
+    // View => User -> showUserPosts.blade.php
+    // Route => get('/posts/{user}/DescendingNArchived')
+    public function DescendingNArchived(User $user){
+        $data = [
+            "wishes" => Wish::getWishes(),
+    		"allFollowers" => Follower::allFollowers(),
+            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+            "posts" => Post::sortPosts(0, 0, $user->id),
+            "sortType" => 'Descending order for Date',
+            "postsType" => 'Archived',
+            "user" => $user
+        ];
+        return view('user.showUserPosts')->with($data);
+    }
+
+    // View => User -> showUserPosts.blade.php
+    // Route => get('/posts/{user}/AscendingNArchived')
+    public function AscendingNArchived(User $user){
+        $data = [
+            "wishes" => Wish::getWishes(),
+    		"allFollowers" => Follower::allFollowers(),
+            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+            "posts" => Post::sortPosts(0, 1, $user->id),
+            "sortType" => 'Ascending order for Date',
+            "postsType" => 'Archived',
+            "user" => $user
+        ];
+        return view('user.showUserPosts')->with($data);
+    }
+
+    // View => User -> showUserPosts.blade.php
+    // Route => get('/posts/{user}/commentsNAvailable')
+    public function commentsNAvailable(User $user){
+        $data = [
+            "wishes" => Wish::getWishes(),
+    		"allFollowers" => Follower::allFollowers(),
+            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+            "posts" => Post::sortPosts(1, 2, $user->id),
+            "sortType" => 'Order By comments number',
+            "postsType" => 'Available',
+            "user" => $user
+        ];
+        return view('user.showUserPosts')->with($data);
+    }
+
+    // View => User -> showUserPosts.blade.php
+    // Route => get('/posts/{user}/commentsNArchived')
+    public function commentsNArchived(User $user){
+        $data = [
+            "wishes" => Wish::getWishes(),
+    		"allFollowers" => Follower::allFollowers(),
+            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+            "posts" => Post::sortPosts(0, 2, $user->id),
+            "sortType" => 'Order By comments number',
+            "postsType" => 'Archived',
+            "user" => $user
+        ];
+        return view('user.showUserPosts')->with($data);
     }
 }

@@ -3,28 +3,29 @@
 @section("content")
 	<div class="ui grid container">
 			<div class="ui link cards userFollowerCard" >
-		@foreach($Followers as $follower)
+        @foreach($theFollowers as $following)
+        
   <div class="card">
     <div class="image">
-        <div class="ui active massive centered inline loader green imageLoader"></div>
-        <img src="{{ $follower->user->image }}"  onabort="brokenImageHandling()" onerror="brokenImageHandling()"  onload="removeLoader()">
+            <div class="ui active massive centered inline loader green imageLoader"></div>
+      <img src="{{ $following->image }}" onabort="brokenImageHandling()" onerror="brokenImageHandling()"  onload="removeLoader()">
     </div>
     <div class="content">
       <div class="header">
-      		<a href="/@/{{ $follower->user->name }}">
-      			{{ $follower->user->name }}
+      		<a href="/@/{{ $following->name }}">
+      			{{ $following->name }}
       		</a>
       </div>
       <div class="meta">
-        <a>Following you</a>
+        <a>You Are Following</a>
       </div>
       <div class="description">
-        {{ substr($follower->user->about, 10)}}
+        {{ substr($following->about, 10)}}
       </div>
     </div>
     <div class="extra content">
       <span class="right floated">
-        	{{ $follower->updated_at->diffForHumans() }}
+        	{{ $following->updated_at->diffForHumans() }}
       </span>
       <span>
         <i class="user icon"></i>

@@ -7,8 +7,18 @@ use Mercury\User;
 use Mercury\Wish;
 use Mercury\Follower;
 
+
+// default data you need to return te every Auth View 
+// "wishes" => Wish::getWishes(),
+// "allFollowers" => Follower::allFollowers(),
+// "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
 class UserController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     public function profile(User $user){
         $iamIFollowingThisUser = Follower::iamIFollowingThisUser($user->id);
         // return the row id if the user send a follow request
@@ -59,6 +69,17 @@ class UserController extends Controller
         return view("user.followers")->with($data);
     }
 
+    public function seeTheUsersYouAreFollowing(){
+        $data = [
+            'theFollowers' => Follower::seeTheUsersYouAreFollowing(),
+            "wishes" => Wish::getWishes(),
+            "allFollowers" => Follower::allFollowers(),
+            "allFollowedByTheUser" => Follower::allFollowedByTheUser()
+        ];
+        $u = Follower::seeTheUsersYouAreFollowing();
+        return view("user.following")->with($data);
+    }
+
     public function unFollow(Request $request){
         return Follower::unFollow($request->id);
     }
@@ -67,8 +88,25 @@ class UserController extends Controller
         return Follower::follow($request->id);
     }
 
+    // TODO if every thing went correctly return back() with nothing 
+    // if something went wrong return back() with error message
     public function cancelFollow(Request $request){
         Follower::cancel($request->row_id);
         return back();
     }
+
+    // TODO if every thing went correctly return back() with nothing 
+    // if something went wrong return back() with error message
+    public function followUser(Request $request){
+        Follower::followUser($request->user_id);
+        return back();
+    }
+
+    // TODO if every thing went correctly return back() with nothing 
+    // if something went wrong return back() with error message
+    public function unfollowUser(Request $request){
+        Follower::unfollowUser($request->row_id);
+        return back();
+    }
+
 }

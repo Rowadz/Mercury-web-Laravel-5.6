@@ -129,4 +129,23 @@ body, html {
 
 .orange{
     color: coral;
+    padding: 10px;
+}
+
+.blackText{
+    color: black !important;
+}
+.blackText:hover{
+    color: whitesmoke !important;
+}
+
+.paginationMargin{
+    margin: 20px !important;
+}
+.sortedByMargin {
+    margin-left: 200px !important;
+}
+
+.sortType{
+    color: crimson;
 }

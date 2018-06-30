@@ -20,6 +20,8 @@
       <i class="file alternate outline icon"></i>
       Recent 10 Posts
    </h4>
+
+
    <div class="row ">
       @recentPosts(['posts' => (isset($posts)) ? $posts : null])
       @endrecentPosts

@@ -10,6 +10,7 @@
     initNavbar()
     if ($("#post").length) post()
     if($("#profile").length) profile()
+    if($('img').length) handleImageLoading()
 })()
 
 
@@ -20,15 +21,18 @@ window.onload = () => {
     initPopUps()
     if($("#followingRequests").length) approveDeclineFollow()
     // if the image did not load  (Broken Image Handling)
+    if($("#whishedPosts").length) deleteAWish()
+    if($('img').length) handleImageLoading()
 }
 
 function initNavbar(){
     const sideMenu = $("#menuPopUp")
-    sideMenu.click(() => {
+    sideMenu.click(() => { // inner function, a closure
         $('.ui.sidebar').sidebar('toggle')
     })
     $("#notificationMenu").hide()
 }
+
 
 initPopUps = () => {
     const sideMenu = $("#menuPopUp")
@@ -123,6 +127,8 @@ feed = () => {
     })
 }
 
+
+
 function post(){
     const post = new Vue({
         el: "#post",
@@ -211,6 +217,11 @@ function post(){
     })
 }
 
+
+// This is lexical scoping, which describes how a parser resolves variable names when functions are nested. 
+// The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available.
+// Nested functions have access to variables declared in their outer scope.
+
 checkForFollowers = () => {
     const userName =  $("#userNameForCheckNewFollowers").val()
 	const endPoint  = `/new/${userName}/followers`
@@ -226,7 +237,7 @@ checkForFollowers = () => {
 	let followingRequestUpdate = $("#followingRequestUpdate")
 	let notificationMenu = $("#notificationMenu")
 	notificationMenu.hide()
-	checkNewFollowRequest = options => {
+	checkNewFollowRequest = options => { // checkNewFollowRequest() inner function, a closure
 			$.ajax({
 				url: options.endPoint,
 				data:options.dataToSend.userName ,
@@ -244,19 +255,20 @@ checkForFollowers = () => {
 				// Nothing to to..
 			})
 	}
- 	checkNewFollowRequestTrigger = x =>{
+ 	checkNewFollowRequestTrigger = x =>{ // checkNewFollowRequestTrigger() inner function, a closure
 		checkNewFollowRequest(options);
 		setTimeout(checkNewFollowRequestTrigger , 20000)
 	}
 	checkNewFollowRequestTrigger(1)
 }
 
+// Dead Code !
 approveDeclineFollow = ()=>{
     const approveEndPoint = "/approve/follow"
 	const declineEndPoint = "/decline/follow"
 	const xcsrfHeaders = {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 	
-	approve = id =>{
+	approve = id =>{ // approve() inner function, a closure
 		$.ajax({
 			url : approveEndPoint,
 			data: {
@@ -287,7 +299,7 @@ approveDeclineFollow = ()=>{
 		})
 	}
 
-	decline = id => {
+	decline = id => { // decline() inner function, a closure
 		$.ajax({
 			url : declineEndPoint,
 			data: {
@@ -319,16 +331,18 @@ approveDeclineFollow = ()=>{
 	}
 }
 
-brokenImageHandling = (image) => {
-    image.src = "/images/404.png"
-    $('.faildToLoadImage').show()
-    removeLoader()
+function handleImageLoading(){
+    brokenImageHandling = (image) => {
+        image.src = "/images/404.png"
+        // $('.faildToLoadImage').show()
+        removeLoader()
+    }
+    
+    removeLoader = () => {
+        $(".imageLoader").hide()
+    }
+    // removeSpecificLoader = (id) => $(`.imageLoader${id}`).hide()
 }
-
-removeLoader = () => {
-    $("#imageLoader").hide()
-}
-
 function profile(){
     const xcsrfHeaders = {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 	const endPoints = {
@@ -336,15 +350,28 @@ function profile(){
         follow: 'follow',
         cancel : 'cancel'
     }
-	unFollow = id =>{
-        alert(`unFollow row ${id}`)
+	unFollow = () =>{ // unFollow() inner function, a closure
+        $('#unfollowModal')
+        .modal({
+            closable  : true,
+            // blurring: true,
+            onDeny    : function(){
+                return 
+            },
+            onApprove : function() {
+              // TODO :: Submit a form that cancel the request !
+              $("#unfollowForm").submit()
+            }
+          })
+          .modal('show')
     }
     
-    cancel = () => {
+    cancel = () => { // cancel() inner function, a closure
 
         $('#cancelModal')
         .modal({
             closable  : true,
+            // blurring: true,
             onDeny    : function(){
                 return 
             },
@@ -357,7 +384,75 @@ function profile(){
         
     }
 
-    follow = id => {
-        alert(`follow with id =>  ${id}`)
+    follow = () => { // follow() inner function, a closure
+        $("#followModal")
+        .modal({
+            closable  : true,
+            // blurring: true,
+            onDeny    : function(){
+                return 
+            },
+            onApprove : function() {
+              // TODO :: Submit a form that cancel the request !
+              $("#followForm").submit()
+            }
+          })
+          .modal('show')
     }
+
+    openChat = () => { // openChat() inner function, a closure
+        $("#chatModal")
+        .modal({
+            closable  : true,
+            // blurring: true,
+            onDeny    : function(){
+                return 
+            },
+            onApprove : function() {
+              // TODO :: Submit a form that cancel the request !
+              $("#followForm").submit()
+            }
+          })
+          .modal('show')
+    }
+}
+
+deleteAWish = () =>{
+    deleteWish = id => { // deleteWish() inner function, a closure
+        axios.post(`/user/delete-wished-post/${id}`, {
+            id:id
+        }).then(res => {
+            $(`#${id}`).fadeOut()
+            iziToast.success({
+                title: 'OK',
+                message: res.data.success
+            })
+        }).catch(() => {
+            iziToast.error({
+                title: 'OK',
+                message: "Something went wrong!"
+            })
+        })
+    }
+}
+
+
+// for page showUserPosts
+let sortUrl = {
+    sortOption: 'Descending',
+    postsType: 'Available',
+    formAction: document.getElementById('sortingForm').action
+}
+setUrlForSorting = () => {
+    let selectedOption = $('#sortOption option:selected').val()
+    sortUrl.sortOption = selectedOption
+}
+setUrlForSortingAvailableArchived = () => {
+    let selectedOption = $("#postsType option:selected").val()
+    sortUrl.postsType = selectedOption
+}
+sortButton = () => {
+    let sortingForm = document.getElementById('sortingForm')
+    sortingForm.action = `${sortUrl.formAction}${sortUrl.sortOption}N${sortUrl.postsType}/`
+    sortingForm.submit()
 }

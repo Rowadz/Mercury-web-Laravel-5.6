@@ -1,8 +1,17 @@
 @foreach($posts as $post)
-<div class="myCard card animated flipInX">
+{{-- animated flipInX --}}
+<div class="myCard card ">
     <div class="image">
         @foreach($post->postImages as $image)
-            <img class="ui  image" src="{{$image->location}}">
+            {{-- <div class="ui active large centered inline loader green imageLoader"></div> --}}
+            <div>
+                    <div class="ui active dimmer imageLoader{{$image->id}}">
+                      <div class="ui indeterminate text loader ">Fetching Images</div>
+                    </div>
+                    <img class="ui  image" src="{{$image->location}}" onerror="brokenImageHandling(this, {{$image->id}})" 
+                    onload="removeSpecificLoader({{$image->id}})" 
+                    onabort="removeSpecificLoader({{$image->id}})" >
+            </div>
             @break
         @endforeach
     </div>
