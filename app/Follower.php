@@ -27,10 +27,10 @@ class Follower extends Model
 
 
     public static function seeTheUsersYouAreFollowing(){
-        $x = Follower::where('from_id', Auth()->user()->id)->where("status", 0)->get();
+        $x = Follower::where('from_id', Auth()->user()->id)->where("status", 1)->get();
         $users = [];
         foreach ($x as $value) 
-            array_push($users, User::find($value->from_id));
+            array_push($users, User::find($value->user_id));
         return $users;
     }
 

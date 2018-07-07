@@ -9,7 +9,13 @@
                 @foreach($comments as $comment)
                     <div class="comment">
                         <a class="avatar">
-                            <img src="{{ $comment->user->image }}">
+                                <div class="ui active inverted dimmer imageLoader{{$comment->id}}">
+                                        <div class="ui indeterminate text loader ">Fetching data !</div>
+                                </div>
+                            <img src="{{ $comment->user->image }}" 
+                            onerror="brokenImageHandling(this, {{$comment->id}})" 
+                            onload="removeSpecificLoader({{$comment->id}})" 
+                            onabort="removeSpecificLoader({{$comment->id}})">
                         </a>
                         <div class="content">
                             <a class="author"
@@ -31,14 +37,37 @@
                     <div class="ui reply form">
                         <div class="field">
                             <input placeholder="Add your Comment Here"
-                              v-model="comment">
-                        </input>
+                              v-model="comment" id="commentInput" value="" @keyup.enter="addComment">
+                            </input>
                         </div>
                         <div class="ui primary submit labeled icon button" @click="addComment">
                             <i class="icon edit"></i> Add Comment
                         </div>
-                        <a  class="ui button red" target="_blank" href="https://emojipedia.org" rel="noreferrer"
-                        >Go and Grap an 🙂emoji!🙂</a>
+                        <div class="ui top left pointing dropdown button" id="emojis">
+                            🙂
+                            <div class="menu">
+                                <div class="item" data-value="😀" onclick="getEmoji(this)">😀</div>
+                                <div class="item" data-value="😁" onclick="getEmoji(this)">😁</div>
+                                <div class="item" data-value="😂" onclick="getEmoji(this)">😂</div>
+                                <div class="item" data-value="🤣" onclick="getEmoji(this)">🤣</div>
+                                <div class="item" data-value="😃" onclick="getEmoji(this)">😃</div>
+                                <div class="item" data-value="😄" onclick="getEmoji(this)">😄</div>
+                                <div class="item" data-value="😅" onclick="getEmoji(this)">😅</div>
+                                <div class="item" data-value="😆" onclick="getEmoji(this)">😆</div>
+                                <div class="item" data-value="😉" onclick="getEmoji(this)">😉</div>
+                                <div class="item" data-value="😍" onclick="getEmoji(this)">😍</div>
+                                <div class="item" data-value="🤢" onclick="getEmoji(this)">🤢</div>
+                                <div class="item" data-value="🤑" onclick="getEmoji(this)">🤑</div>
+                                <div class="item" data-value="👽" onclick="getEmoji(this)">👽</div>
+                                <div class="item" data-value="💩" onclick="getEmoji(this)">💩</div>
+                                <div class="item" data-value="🤯" onclick="getEmoji(this)">🤯</div>
+                                <div class="item" data-value="🤒" onclick="getEmoji(this)">🤒</div>
+                                <div class="item" data-value="🤬" onclick="getEmoji(this)">🤬</div>
+                            </div>
+                          </div>
+
+                        {{-- <a  class="ui button red" target="_blank" href="https://emojipedia.org" rel="noreferrer"
+                        >Go and Grap an 🙂emoji!🙂</a> --}}
                     </div>
                     @endAuth
                 @endif

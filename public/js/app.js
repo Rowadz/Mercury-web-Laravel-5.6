@@ -10,7 +10,8 @@
     initNavbar()
     if ($("#post").length) post()
     if($("#profile").length) profile()
-    if($('img').length) handleImageLoading()
+    // if($('img').length) handleImageLoading()
+    handleImageLoading()
 })()
 
 
@@ -41,6 +42,10 @@ initPopUps = () => {
         on: 'focus'
     })
     sideMenu.popup()
+
+    // start post PopUps & dropDowns
+    // I'm putting the post popups here beacuse the Vue instance in the post view 
+    // will load pefore the Jquery!
     $("#postStatusIsOne").popup({
         on: 'hover',
         position   : 'bottom left'
@@ -49,6 +54,34 @@ initPopUps = () => {
         on : 'hover',
         position: 'bottom left'
     })
+    if($("#alreadyInYourWishList").length) $("#alreadyInYourWishList").popup({
+        on: 'hover',
+        position: 'bottom left'
+    })
+    if($("#addToWishList").length) $("#addToWishList").popup({
+        on:'hover',
+        position: 'top right'
+    })
+    $("#postQuantity").popup({
+        on: 'hover',
+        postion: 'bottom right'
+    })
+    $("#location").popup({
+        on: 'hover',
+        postion: 'bottom left'
+    })
+    $("#videoLink").popup({
+        on: 'hover',
+        position: 'bottom left'
+    })
+    if($("#exchangeRequest").length) $("#exchangeRequest").popup({
+        on: 'hover',
+        position: 'top right'
+    })
+    $('#emojis').dropdown({
+        direction: 'upward'
+    })
+    // end post PopUps
     $("#notificationMenu").popup({
         on: 'hover',
     })
@@ -128,7 +161,13 @@ feed = () => {
 }
 
 
-
+// emojis does not work with Vue 
+// that's why there is a function outside the Vue instance
+getEmoji = (emoji) => {
+    let commentText = document.getElementById("commentInput")
+    console.log(commentText.value, emoji.innerHTML)
+    commentText.value = commentText.value +  emoji.innerHTML
+}
 function post(){
     const post = new Vue({
         el: "#post",
@@ -438,10 +477,11 @@ deleteAWish = () =>{
 
 
 // for page showUserPosts
+let x =  document.getElementById('sortingForm')
 let sortUrl = {
     sortOption: 'Descending',
     postsType: 'Available',
-    formAction: document.getElementById('sortingForm').action
+    formAction: (typeof(x) !== 'undefined' && x !== null) ? document.getElementById('sortingForm').action : null
 }
 setUrlForSorting = () => {
     let selectedOption = $('#sortOption option:selected').val()

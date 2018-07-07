@@ -5,11 +5,15 @@
         @endif
         @if(isset(Auth()->user()->image))
             <input type="text" id="userImage" value="{{ Auth()->user()->image }}" hidden>
-        @endif
+        @endif        
     <div class="ui feed" style="padding-left: 20px;">
         <div class="event">
             <div class="label">
-                <img src="{{ $post->user->image }}">
+                    <div class="ui active inverted  dimmer imageLoader">
+                            <div class="ui indeterminate text loader ">Fetching Image</div>
+                    </div>
+                <img src="{{ $post->user->image }}" 
+                onerror="brokenImageHandling(this)" onload="removeLoader()" onabort="removeLoader()">
             </div>
             <div class="content">
                 <div class="date">
@@ -39,8 +43,14 @@
         <div class="three column row">
             @foreach($postImages as $image)
                 <div class="column">
+                        <div class="ui active inverted dimmer imageLoader{{$image->id}}">
+                                <div class="ui indeterminate text loader ">Fetching Images</div>
+                        </div>
                     <img class="ui centered medium image"
-                         src="{{ $image->location }}">
+                         src="{{ $image->location }}" 
+                         onerror="brokenImageHandling(this, {{$image->id}})" 
+                    onload="removeSpecificLoader({{$image->id}})" 
+                    onabort="removeSpecificLoader({{$image->id}})" >
                 </div>
             @endforeach
         </div>
@@ -50,47 +60,10 @@
         <i class="clipboard icon"></i>
         Post Body
     </h4>
-    @auth
 
-    {{--<i class="bookmark outline icon wishListStar" @click="addPostToWishList({{ $post->id }})"></i>--}}
-    @if($post->user->name !== Auth()->user()->name)
-        @if($isWished)
-            <div class="ui labeled button" tabindex="0">
-                <div class="ui teal button">
-                    <i class="bookmark icon"></i>
-                </div>
-                <a class="ui basic teal left pointing label" >
-                    Already in your wish list
-                </a>
-            </div>
-        @else
-            <div class="ui labeled button" tabindex="0">
-                <div class="ui orange button " id="addToWishListButton"
-                     @click="addPostToWishList({{ $post->id }})">
-                    <i class="bookmark outline icon"></i>
-                </div>
-                <a class="ui basic orange left pointing label" id="addToWishListText">
-                    Add to wish list
-                </a>
-            </div>
-        @endif
-    @endif
+    @options(['isWished' => $isWished, 'post' => $post])
 
-    @endauth
-    @if($post->status === 0)
-        <a class="ui red left corner label" id="postStatusIsZero"
-           data-content="This means the post is archived!">
-            <i class="archive  icon"></i>
-        </a>
-    @else
-        <a class="ui teal left corner label" id="postStatusIsOne" data-content="This means the post is still
-        available ">
-            <i class="flag checkered icon "></i>
-        </a>
-
-
-    @endif
-
+    @endoptions
 
     <p class="postBodyText">
         {{ $post->body }}

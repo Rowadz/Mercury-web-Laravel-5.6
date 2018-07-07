@@ -101,8 +101,9 @@ class Post extends Model
             case 2:
                 // Number of comments
                 // I did this move because we can't access the $availableOrArchived inside the closure function
-                if($availableOrArchived === 1) return self::commentPostSortAvailable($userId);
-                else return self::commentPostSortArchived($userId);
+                // if($availableOrArchived === 1) return self::sortComments($userId);
+                // else return self::sortComments($userId);
+                return self::sortComments($userId, ($availableOrArchived === 1) ? 1 : 0);
                 break;
             default:
                 // do nothing
@@ -110,16 +111,37 @@ class Post extends Model
         }
     }
 
-    private static function commentPostSortAvailable($userId){ 
-        return Post::where('user_id', $userId)->withCount(['comments'=> function ($query){
-            $query->where('status', 1);
-        }])->orderBy('comments_count', 'DESC')->paginate(10);
+    private static function sortComments($userId, $status){
+        return Post::where(['user_id' => $userId, 'status' => $status])
+                    ->withCount(['comments'])
+                    ->orderBy('comments_count', 'DESC')
+                    ->paginate(10);
     }
 
-    private static function commentPostSortArchived($userId){
-        return Post::where('user_id', $userId)->withCount(['comments'=> function ($query){
-            $query->where('status', 0);
-        }])->orderBy('comments_count', 'DESC')->paginate(10);
-    }
+    // private static function commentPostSortAvailable($userId){ 
+    //     return Post::where(['user_id'=> $userId, 'status' => 1])
+    //                     ->withCount(['comments'])
+    //                     ->orderBy('comments_count', 'DESC')
+    //                     ->paginate(10);
+    // }
+
+    // private static function commentPostSortArchived($userId){
+    //     return Post::where(['user_id' => $userId, 'status' => 0])
+    //                 ->withCount(['comments'])
+    //                 ->orderBy('comments_count', 'DESC')
+    //                 ->paginate(10);
+    // }
+
+    // private static function commentPostSortAvailable($userId){ 
+    //     return Post::where('user_id', $userId)->withCount(['comments'=> function ($query){
+    //         $query->where('status', 1);
+    //     }])->orderBy('comments_count', 'DESC')->paginate(10);
+    // }
+
+    // private static function commentPostSortArchived($userId){
+    //     return Post::where('user_id', $userId)->withCount(['comments'=> function ($query){
+    //         $query->where('status', 0);
+    //     }])->orderBy('comments_count', 'DESC')->paginate(10);
+    // }
 }
 

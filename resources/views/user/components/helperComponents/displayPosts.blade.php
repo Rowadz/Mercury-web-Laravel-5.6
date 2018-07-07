@@ -57,7 +57,13 @@
         </div>
         <div class="description">
             <h4 style="color: #2e3436;">{{ $post->user->name }} says : </h4>
-            <p>{{ substr($post->body ,1400)}}
+            <p>
+                @if(strlen($post->body) >= 1400)
+                    {{ substr($post->body , 1400)}}
+                @else
+                    {{ substr($post->body, 100) }}
+                @endif
+
                 <a href="/show/post/{{$post->id}}" rel="noreferrer" target="_blank"
                    class="continueReadingATag">CONTINUE READING....👁️</a>
             </p>

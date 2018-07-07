@@ -32,6 +32,7 @@ class PostController extends Controller
 
     // View -> User => showPost.blade.php 
     // Route => get('/show/post/{post}')
+    // for thge Visitor or the User
     public function show(Post $post){
 
         if (Auth::check()) {

@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         // post components
         Blade::component('user.components.showPostComponents.post', 'post');
         Blade::component('user.components.showPostComponents.comments', 'comments');
+        Blade::component('user.components.showPostComponents.options', 'options');
         
         // profile components
         Blade::component('user.components.profileComponents.generalInfo', 'generalInfo');
