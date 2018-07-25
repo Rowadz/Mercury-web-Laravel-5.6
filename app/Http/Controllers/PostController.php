@@ -49,7 +49,6 @@ class PostController extends Controller
             "comments" => $post->comments,
             // "comments" => null,
             "isWished" => $isWished,
-            "wishes" => Wish::getWishes()
 
         ];
         return view("user.showPost")->with($data);
@@ -113,9 +112,6 @@ class PostController extends Controller
     // Route => get('/posts/{user}/DescendingNAvailable/')
     public function DescendingNAvailable(User $user){
         $data = [
-            "wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
             "posts" => Post::sortPosts(1, 0, $user->id),
             "sortType" => 'descending order for Date',
             "postsType" => 'Available',
@@ -128,9 +124,6 @@ class PostController extends Controller
     // Route => get('/posts/{user}/AscendingNAvailable')
     public function AscendingNAvailable(User $user){
         $data = [
-            "wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
             "posts" => Post::sortPosts(1, 1, $user->id),
             "sortType" => 'Ascending order for Date',
             "postsType" => 'Available',
@@ -143,9 +136,6 @@ class PostController extends Controller
     // Route => get('/posts/{user}/DescendingNArchived')
     public function DescendingNArchived(User $user){
         $data = [
-            "wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
             "posts" => Post::sortPosts(0, 0, $user->id),
             "sortType" => 'Descending order for Date',
             "postsType" => 'Archived',
@@ -158,9 +148,6 @@ class PostController extends Controller
     // Route => get('/posts/{user}/AscendingNArchived')
     public function AscendingNArchived(User $user){
         $data = [
-            "wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
             "posts" => Post::sortPosts(0, 1, $user->id),
             "sortType" => 'Ascending order for Date',
             "postsType" => 'Archived',
@@ -173,9 +160,6 @@ class PostController extends Controller
     // Route => get('/posts/{user}/commentsNAvailable')
     public function commentsNAvailable(User $user){
         $data = [
-            "wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
             "posts" => Post::sortPosts(1, 2, $user->id),
             "sortType" => 'Order By comments number',
             "postsType" => 'Available',
@@ -188,9 +172,6 @@ class PostController extends Controller
     // Route => get('/posts/{user}/commentsNArchived')
     public function commentsNArchived(User $user){
         $data = [
-            "wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
             "posts" => Post::sortPosts(0, 2, $user->id),
             "sortType" => 'Order By comments number',
             "postsType" => 'Archived',

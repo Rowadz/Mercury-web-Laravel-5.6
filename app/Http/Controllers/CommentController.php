@@ -10,11 +10,15 @@ use Mercury\Post;
 class CommentController extends Controller
 {
     public function addComment(Request $request, Post $post){
-        $comment = new Comment;
-        $comment->user_id = Auth()->user()->id;
-        $comment->post_id = $request->postId;
-        $comment->body = strip_tags($request->comment);
-        $comment->save();
-        return response()->json(["Success" => "Comment added"]);
+        if(Comment::create($request->postId, $request->comment)){
+            return response()->json(["message" => "Comment added"]);
+        } else {
+            return response()->json(["message" => "Something went wrong"]);
+        }
     }
+
+    // TODO
+    // 1 - update comment
+    // 2 - delete comment
+    
 }

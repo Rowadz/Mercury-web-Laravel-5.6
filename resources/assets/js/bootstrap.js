@@ -1,6 +1,7 @@
 
 window._ = require('lodash');
 // TODO: I Commented This
+// this is for bootstrap
 // window.Popper = require('popper.js').default;
 
 /**
@@ -9,12 +10,14 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
-// TODO: ALSO THIS
-// try {
-//     window.$ = window.jQuery = require('jquery');
-//
-//     require('bootstrap');
-// } catch (e) {}
+
+try {
+    // the main lib the website needs
+    window.$ = window.jQuery = require('jquery');
+    require('materialize-css');
+    window.AOS = require('AOS');
+    // require('bootstrap');
+} catch (e) {}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

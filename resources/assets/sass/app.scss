@@ -1,1 +1,248 @@
 
+/* Created By LT 19/05/2018 */
+@import "node_modules/materialize-css/sass/materialize";
+@import "node_modules/aos/dist/aos";
+
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+html ,body{
+    overflow-x: hidden !important;
+}
+
+::-moz-selection { /* Code for Firefox */
+    color: #80deea;
+    background: #1a1a1a;
+}
+
+::selection {
+    color: #80deea;
+    background: #1a1a1a;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #414a4c;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #0e1111;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #353839;
+}
+// Start Welcome page
+.main{
+    
+    background-image: url('../../../public/images/main2.png');
+    /* background-image: url('../img/cardWired.jpg'); */
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+nav{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    height: 90px;
+    line-height: 90px;
+    z-index: 1 !important;
+}
+
+nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
+    height: 90px;
+    line-height: 90px;
+}
+
+nav .button-collapse i {
+    height: 90px;
+    line-height: 90px;
+}
+
+nav .brand-logo { 
+    font-size: 1.6rem; 
+}
+
+// nav .button-collapse i, nav .brand-logo, nav .sidenav-trigger,  nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
+//     height: 90px;
+//     line-height: 90px;
+    
+// }
+@media only screen and (min-width: 601px){
+    nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+        height: 90px;
+        line-height: 90px;
+    }
+}
+
+
+nav li:hover{
+    background-color: transparent;
+    border-bottom: 5px #80deea solid; 
+}
+// nav li i{
+//     margin-top: 15px;
+// }
+
+nav li a{
+    font-size: 20px !important;
+}
+
+// #dropdownAuth{
+//     width: 300px !important;
+// }
+
+// button{
+//     border-radius: 20px !important;
+// }
+
+.Vspace{
+    padding: 20px;
+}
+.VeryBigspace{
+    padding: 50px;
+}
+/* .highlightText{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card3{
+    background-image: url('../img/alcohol-art-bottles.jpg');
+    background-size: cover;
+} */
+
+.exploreButton{
+    background-color:  rgba(50,59,62, 0.7);
+    /* background-color: rgba(29, 170, 189, 0.7) !important; */
+}
+.exploreButton:hover{
+    background-color:  rgba(29, 170, 189, 0.7) !important;
+}
+// End Welcome page
+// Start login page
+.mainLogin{
+    background-image: url('../../../public/images/pattren4.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100%;
+    font-family: 'Courier New', Courier, monospace !important;
+}
+.datepicker-table-wrapper{
+    color: #1a1a1a !important;
+}
+.mainResgister{
+    background-image: url('../../../public/images/coolBackgroundMain2.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-size: 100%;
+    padding: 20px !important;
+}
+
+.login-image{
+    max-width: 200% !important;   
+}
+
+.inputs{
+    padding:20px !important;
+}
+
+.greet{
+    font-family: 'Courier New', Courier, monospace;
+}
+.VspaceLogin{
+    padding: 10px;
+}
+// end login page
+
+// Post CSS
+#scrollTop{
+    position: fixed !important;
+}
+.tagChip{
+    margin-top: 10px !important;
+}
+
+.strongChips{
+    font-weight: bold !important;    
+}
+// end Post CSS
+
+
+// some posts css
+.customShadow{
+    box-shadow: 0 4px 8px 0 rgba(167,255,235, 0.2), 0 6px 20px 0 rgba(167,255,235, 0.19) !important;
+}
+// end some posts css
+
+// show single post 
+.infoButtonPadding{
+    padding: 10px !important;
+}
+#comment{
+    color: aliceblue !important;
+}
+
+.postBody{
+    box-shadow: 0 4px 8px 0 rgb(0, 184, 212), 0 6px 20px 0 rgb(0, 184, 212) !important; 
+}
+
+.postHeader{
+    box-shadow: 0 4px 8px 0 rgb(255, 23, 68), 0 6px 20px 0 rgb(255, 23, 68) !important; 
+}
+
+.postImage{
+    box-shadow: 0 4px 8px 0 rgb(237, 231, 246), 0 6px 20px 0 rgb(237, 231, 246) !important; 
+}
+
+.optionsButton{
+    box-shadow: 0 4px 8px 0 rgb(0, 0, 0), 0 6px 20px 0 rgb(237, 231, 246) !important; 
+}
+.paddingTags{
+    padding-top: 20px !important; 
+}
+
+.usernameComment{
+    font-weight: bold;
+    text-shadow: 1px 1px #15959F;
+}
+.commentCollectionRemoveUl{
+    border: none !important;
+}
+.input-field input[type=text]:focus + label {
+    color: #F8F8FF !important;
+}
+.input-field input[type=text]{
+    color: #F8F8FF !important;
+}
+// end show signle post
+
+
+// fixing some errors
+#dropdownAuth{
+    overflow: visible !important;
+}
+.dropdown-content{
+    overflow: visible !important;
+}
+.dropdown-content {
+    @extend .collection;
+    overflow: visible !important;
+}
+
+.card {
+    z-index: 0;
+    overflow-y: visible !important;
+}
+.card:hover {
+    z-index: 1 !important;
+}
+// .card:hover {
+//     z-index: 1 ;
+// }
+// end fixing some errors

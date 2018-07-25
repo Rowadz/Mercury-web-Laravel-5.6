@@ -43,7 +43,10 @@ class Post extends Model
 
     
     public static function tenPosts(){
-        return Post::where('status', 1)->orderBy('created_at')->take(10)->get();
+        return Post::where('status', 1)
+                    ->orderBy('created_at', 'DESC')
+                    ->take(10)
+                    ->get();
     }
 
     // default, when the page loaded

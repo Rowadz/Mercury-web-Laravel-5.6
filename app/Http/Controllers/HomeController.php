@@ -26,26 +26,7 @@ class HomeController extends Controller
 
     public function welcome()
     {
-        if (Auth::check()) {
-            $allFollowers = Follower::allFollowers();
-            $allFollowedByTheUser = Follower::allFollowedByTheUser();
-            $posts = Post::where('status', 1)->orderBy('created_at')->take(10)->get();
-            $wishes = Wish::getWishes();
-            $data = [
-                'allFollowedByTheUser' => $allFollowedByTheUser,
-                'allFollowers' => $allFollowers,
-                'posts' => $posts,
-                'wishes' => $wishes
-            ];
-        } else {
-            $data = [
-                'allFollowedByTheUser' => null,
-                'allFollowers' => null,
-                'posts' => null
-            ];
-        }
-
-        return view('welcome')->with($data);
+        return view('welcome');
     }
 
     /**
@@ -62,10 +43,7 @@ class HomeController extends Controller
         $posts = Post::tenPosts();
         $wishes = Wish::getWishes();
         $data = [
-            'allFollowedByTheUser' => $allFollowedByTheUser,
-            'allFollowers' => $allFollowers,
-            'posts' => $posts,
-            'wishes' => $wishes
+            'posts' => $posts
         ];
 
         return view('home')->with($data);

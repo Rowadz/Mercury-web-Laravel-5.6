@@ -27,10 +27,10 @@ Route::post('/home/loadMorePosts', 'HomeController@loadMorePosts')->name('loadMo
 Route::get('/show/post/{post}', 'PostController@show')->name('showPost');
 
 // display the posts for a visitor
-Route::get("/show/all/posts", "postController@showWithNoAuth")->name('showPostsAuth');
+Route::get("/show/all/posts", "postController@showWithNoAuth")->name('showPostsNoAuth');
 
 // loads more posts for a visitor // TODO :: might make them in the same function 'controller function'
-Route::post("/show/all/postsNoAuth", "postController@loadMorePostsNoAuth")->name('showPostsNoAuth');
+Route::post("/show/all/postsNoAuth", "postController@loadMorePostsNoAuth")->name('loadshowPostsNoAuth');
 
 // adds a post to the wish list
 Route::post("/post/add-to-wish-list/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
@@ -45,8 +45,7 @@ Route::post("/user/delete-wished-post/{post}", "WishController@deleteWish")->nam
 Route::post("/post/{post}/addComment", "CommentController@addComment")->name('addComment');
 
 // displaying ta user profile
-Route::get("/@/{user}", "UserController@profile")->name('profile')->name('profile');
-
+Route::get("/@/{user}", "UserController@profile")->name('profile');
 // ??
 Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName")->name('newFollowerRequestedName');
 
@@ -94,6 +93,9 @@ Route::get('/posts/{user}/DescendingNArchived/', "PostController@DescendingNArch
 Route::get('/posts/{user}/AscendingNArchived/', "PostController@AscendingNArchived")->name('AscendingNArchived');
 Route::get('/posts/{user}/commentsNAvailable/', "PostController@commentsNAvailable")->name('commentsNAvailable');
 Route::get('/posts/{user}/commentsNArchived/', "PostController@commentsNArchived")->name('commentsNArchived');
+
+
+Route::get('/chat', "UserCompoenet@chat")->name('openChat');
 
 Route::bind('user', function ($value) {
         return Mercury\User::where('name', $value)->first() ?? abort(404);

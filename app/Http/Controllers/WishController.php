@@ -16,12 +16,7 @@ class WishController extends Controller
     }
 
     public function addPostToWishList(Request $request, Post $post){
-
-        $wish = new Wish();
-        $wish->post_id = $request->id;
-        $wish->user_id = Auth()->user()->id;
-        $wish->save();
-        return response()->json(["success" => "You just saved this post!"]);
+        return Wish::create($request->id);
     }
 
     public function showAllPosts(){

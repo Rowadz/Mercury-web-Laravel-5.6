@@ -5,6 +5,9 @@ namespace Mercury\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
+use Mercury\Wish;
+use Mercury\Follower;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +39,27 @@ class AppServiceProvider extends ServiceProvider
         // helper components
         // this component is used in the home.blade, the visitor page & profile page
         Blade::component('user.components.helperComponents.displayPosts', 'displayPosts');
+        Blade::component('user.components.helperComponents.vuePosts', 'vuePosts');
+        Blade::component('layouts.navBarWelcome', 'navBarWelcome');
+        // register a callback function when the navBarWelcome renderd so
+        // you don't need to keep getting the the default information each time
+        // you return a view !.
+        View::composer('layouts.navBarWelcome', function($view){
+            $view->with(
+                [
+                    "wishes" => Wish::getWishes(),
+    		        "allFollowers" => Follower::allFollowers(),
+    		        "allFollowedByTheUser" => Follower::allFollowedByTheUser()
+                ]
+            );
+        });
+
+        // View::share('defaultData',[
+        //     "wishes" => Wish::getWishes(),
+    	// 	"allFollowers" => Follower::allFollowers(),
+    	// 	"allFollowedByTheUser" => Follower::allFollowedByTheUser()
+        // ]);
+        
     }
 
     /**

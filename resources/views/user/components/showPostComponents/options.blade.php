@@ -1,6 +1,37 @@
-@auth
+<div class="row">
+    
+    <div class="col s6 m6" data-aos="fade-down-left">
+            <a class="waves-effect waves-light btn tooltipped purple darken-1"
+                data-position="bottom" data-tooltip="Quantity: {{ $post->quantity }}"><i class="material-icons left"
+               >widgets</i>
+               {{ $post->quantity }}
+            </a>
+         </div>
+    
+    
+        <div class="col s6 m6" data-aos="fade-down-left">
+           <a class="waves-effect waves-light btn tooltipped blue darken-1"
+            data-position="bottom" data-tooltip="Location: {{$post->location}}"><i class="material-icons left"
+              >location_on</i>
+                {{ $post->location }}
+           </a>
+        </div>
+        @if(isset($post->video_link))
+        <div class="col s6 m6 infoButtonPadding" data-aos="flip-right">
+           <a class="waves-effect waves-light btn tooltipped red darken-1 "
+              data-position="bottom" data-tooltip="There is a video of this item" target="_blank"
+              href="{{ $post->video_link }}"><i class="material-icons left"
+              >ondemand_video</i>
+                Video
+           </a>
+        </div>
+        @endif
+</div>
 
 {{--<i class="bookmark outline icon wishListStar" @click="addPostToWishList({{ $post->id }})"></i>--}}
+{{-- @auth
+
+
 @if($post->user->name !== Auth()->user()->name)
     @if($isWished)
         <div class="ui labeled button" tabindex="0" 
@@ -38,7 +69,8 @@
 
     @endif
 @endif
-@endauth
+@endauth --}}
+{{-- 
 @if($post->quantity === 0)
     <div class="ui labeled button" tabindex="0"
     data-title="Quantity" data-content="The item Quantity" id="postQuantity">
@@ -60,6 +92,7 @@
         </a>
     </div>
 @endif
+
 <div class="ui labeled button" tabindex="0"
 data-title="Location" data-content="The Location you might meet" id="location">
     <div class="ui yellow button">
@@ -69,6 +102,7 @@ data-title="Location" data-content="The Location you might meet" id="location">
         {{ $post->location }}
     </a>
 </div>
+
 @if(isset($post->video_link))
     <div class="ui labeled button" tabindex="0"
     data-title="YouTube Video" data-content="The Op provided a Video to the item" id="videoLink">
@@ -91,4 +125,4 @@ data-title="Location" data-content="The Location you might meet" id="location">
     available ">
         <i class="flag checkered icon "></i>
     </a>
-@endif
+@endif --}}

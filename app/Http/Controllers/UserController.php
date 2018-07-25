@@ -28,9 +28,6 @@ class UserController extends Controller
     	$data = [
             "user" => $user,
             "posts" => $user->posts()->orderBy('created_at', 'desc')->take(10)->get(),
-    		"wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-    		"allFollowedByTheUser" => Follower::allFollowedByTheUser(),
             "iamIFollowingThisUser" => Follower::iamIFollowingThisUser($user->id),
             "followId" => (isset($followId)) ? $followId : null
         ];
@@ -43,9 +40,6 @@ class UserController extends Controller
 
     public function showFollowingRequests(Request $request){
     	$data = [
-    		"wishes" => Wish::getWishes(),
-    		"allFollowers" => Follower::allFollowers(),
-    		"allFollowedByTheUser" => Follower::allFollowedByTheUser(),
     		"followers" => Follower::allRequests()
     	];
     	return view("user.followingRequests")->with($data);
@@ -62,9 +56,6 @@ class UserController extends Controller
     public function seeFollowers(){
         $data = [
             'Followers' => Follower::seeFollowers(),
-            "wishes" => Wish::getWishes(),
-            "allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser()
         ];
         return view("user.followers")->with($data);
     }
@@ -72,9 +63,6 @@ class UserController extends Controller
     public function seeTheUsersYouAreFollowing(){
         $data = [
             'theFollowers' => Follower::seeTheUsersYouAreFollowing(),
-            "wishes" => Wish::getWishes(),
-            "allFollowers" => Follower::allFollowers(),
-            "allFollowedByTheUser" => Follower::allFollowedByTheUser()
         ];
         $u = Follower::seeTheUsersYouAreFollowing();
         return view("user.following")->with($data);
