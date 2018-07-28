@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-
 /**
   * Created by LT on 19/05/2018.
 */
@@ -38,7 +37,9 @@ window.onload = () => {
         constrainWidth: false,
         onCloseStart : () => {
             $('.card').css('z-index', 1)
-            $('img').css('z-index', 1)
+            $('.card-title').css('z-index', 1)
+            $('.postImage').css('z-index', 1)
+            $('.parallax-container').css('z-index', 1)
         }
     });
     if($('.mainResgister').length) initSignUp()
@@ -47,6 +48,10 @@ window.onload = () => {
     $('.materialboxed').materialbox()
     clickStuff()
     overFlow()
+    $('.modal').modal()
+    $('.parallax').parallax()
+    $('select').formSelect()
+    if($('#sortPostsUserProfile').length) initSortingForProfile()
 }
 
 function initNavbar(){
@@ -58,7 +63,9 @@ const overFlow = () => {
     // the li that opens the dropdown list in the navbar
     $("#fixOverFlowIssue").click(()=>{
         $('.card').css('z-index',-1)
-        $('img').css('z-index', -1)
+        $('.chip').css('z-index', 1)
+        $('.postImage').css('z-index', -1)
+        $('.parallax-container').css('z-index', -1)
     })
 }
 const clickStuff = () => {
@@ -129,9 +136,11 @@ const feed = () => {
                 `)
                 let url = null
                 if($("#feedNoAuth").length)  url = '/show/all/postsNoAuth'
+                else if($('#profile').length) url = '/show/user/posts/profile'
                 else  url = '/home/loadMorePosts'
                 axios.post(url, {
-                    lastId: this.lastId
+                    lastId: this.lastId,
+                    userId : ($('#userIdProfile').length) ? $('#userIdProfile').val() : null
                 })
                     .then((response) => {
                         $("#dimmerHere").html("More")
@@ -412,76 +421,20 @@ function handleImageLoading(){
     // removeSpecificLoader = (id) => $(`.imageLoader${id}`).hide()
 }
 function profile(){
-    const xcsrfHeaders = {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-	const endPoints = {
-        unFollow : 'unFollow',
-        follow: 'follow',
-        cancel : 'cancel'
+    if($('#sendConfirmed').length) {
+        $('#sendConfirmed').click(()=>{
+            $('#sendConfirmed').addClass('disabled')
+        })
     }
-	const unFollow = () =>{ // unFollow() inner function, a closure
-        $('#unfollowModal')
-        .modal({
-            closable  : true,
-            // blurring: true,
-            onDeny    : function(){
-                return 
-            },
-            onApprove : function() {
-              // TODO :: Submit a form that cancel the request !
-              $("#unfollowForm").submit()
-            }
-          })
-          .modal('show')
+    if($('#cancelConfirmed').length) {
+        $('#cancelConfirmed').click(()=>{
+            $('#cancelConfirmed').addClass('disabled')
+        })
     }
-    
-    const cancel = () => { // cancel() inner function, a closure
-
-        $('#cancelModal')
-        .modal({
-            closable  : true,
-            // blurring: true,
-            onDeny    : function(){
-                return 
-            },
-            onApprove : function() {
-              // TODO :: Submit a form that cancel the request !
-              $("#cancelForm").submit()
-            }
-          })
-          .modal('show')
-        
-    }
-
-    const follow = () => { // follow() inner function, a closure
-        $("#followModal")
-        .modal({
-            closable  : true,
-            // blurring: true,
-            onDeny    : function(){
-                return 
-            },
-            onApprove : function() {
-              // TODO :: Submit a form that cancel the request !
-              $("#followForm").submit()
-            }
-          })
-          .modal('show')
-    }
-
-    const openChat = () => { // openChat() inner function, a closure
-        $("#chatModal")
-        .modal({
-            closable  : true,
-            // blurring: true,
-            onDeny    : function(){
-                return 
-            },
-            onApprove : function() {
-              // TODO :: Submit a form that cancel the request !
-              $("#followForm").submit()
-            }
-          })
-          .modal('show')
+    if($('#unFollowConfirmed').length) {
+        $('#unFollowConfirmed').click(()=>{
+            $('#unFollowConfirmed').addClass('disabled')
+        })
     }
 }
 
@@ -504,25 +457,27 @@ const deleteAWish = () =>{
     }
 }
 
+initSortingForProfile = () =>{
+    // for page showUserPosts
+    let x =  document.getElementById('sortingForm')
+    let sortUrl = {
+        sortOption: 'Descending',
+        postsType: 'Available',
+        formAction: (typeof(x) !== 'undefined' && x !== null) ? document.getElementById('sortingForm').action : null
+    }
+    $('#sortOption').change(()=>{
+        let selectedOption = $('#sortOption option:selected').val()
+        sortUrl.sortOption = selectedOption
+    })
+    $('#postsType').change(()=>{
+        let selectedOption = $("#postsType option:selected").val()
+        sortUrl.postsType = selectedOption
+    })
 
-// for page showUserPosts
-let x =  document.getElementById('sortingForm')
-let sortUrl = {
-    sortOption: 'Descending',
-    postsType: 'Available',
-    formAction: (typeof(x) !== 'undefined' && x !== null) ? document.getElementById('sortingForm').action : null
-}
-const setUrlForSorting = () => {
-    let selectedOption = $('#sortOption option:selected').val()
-    sortUrl.sortOption = selectedOption
-}
-const setUrlForSortingAvailableArchived = () => {
-    let selectedOption = $("#postsType option:selected").val()
-    sortUrl.postsType = selectedOption
-}
-const sortButton = () => {
-    let sortingForm = document.getElementById('sortingForm')
-    sortingForm.action = `${sortUrl.formAction}${sortUrl.sortOption}N${sortUrl.postsType}/`
-    sortingForm.submit()
-}
+    $('#sortPostsUserProfileButton').click(()=>{
+        let sortingForm = document.getElementById('sortingForm')
+        sortingForm.action = `${sortUrl.formAction}${sortUrl.sortOption}N${sortUrl.postsType}/`
+        sortingForm.submit()
+    })
 
+}

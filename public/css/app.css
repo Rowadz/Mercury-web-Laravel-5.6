@@ -11025,7 +11025,7 @@ nav .brand-logo {
 
 nav li:hover {
   background-color: transparent;
-  border-bottom: 5px #80deea solid;
+  border-bottom: 5px #80deea dotted;
 }
 
 nav li a {
@@ -11179,5 +11179,35 @@ nav li a {
 
 .card:hover {
   z-index: 1 !important;
+}
+
+.aboutText {
+  font-size: 15px;
+}
+
+.addNigativeMarginToTop {
+  margin-top: -200px;
+}
+
+.userInfoRevealCard {
+  float: right !important;
+}
+
+.userInfoRevealCardMailTitle {
+  padding: 10px !important;
+  font-weight: bold;
+}
+
+.actionsButtonsProfile {
+  padding: 10px !important;
+}
+
+.actionsButtonsProfile a {
+  -webkit-box-shadow: 10px 10px 5px grey !important;
+          box-shadow: 10px 10px 5px grey !important;
+}
+
+.floatLeftModalFooter {
+  float: left !important;
 }
 

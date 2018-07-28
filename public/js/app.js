@@ -791,7 +791,6 @@ module.exports = __webpack_require__(36);
  */
 
 __webpack_require__(10);
-
 /**
   * Created by LT on 19/05/2018.
 */
@@ -823,7 +822,9 @@ window.onload = function () {
         constrainWidth: false,
         onCloseStart: function onCloseStart() {
             $('.card').css('z-index', 1);
-            $('img').css('z-index', 1);
+            $('.card-title').css('z-index', 1);
+            $('.postImage').css('z-index', 1);
+            $('.parallax-container').css('z-index', 1);
         }
     });
     if ($('.mainResgister').length) initSignUp();
@@ -832,6 +833,10 @@ window.onload = function () {
     $('.materialboxed').materialbox();
     clickStuff();
     overFlow();
+    $('.modal').modal();
+    $('.parallax').parallax();
+    $('select').formSelect();
+    if ($('#sortPostsUserProfile').length) initSortingForProfile();
 };
 
 function initNavbar() {
@@ -843,7 +848,9 @@ var overFlow = function overFlow() {
     // the li that opens the dropdown list in the navbar
     $("#fixOverFlowIssue").click(function () {
         $('.card').css('z-index', -1);
-        $('img').css('z-index', -1);
+        $('.chip').css('z-index', 1);
+        $('.postImage').css('z-index', -1);
+        $('.parallax-container').css('z-index', -1);
     });
 };
 var clickStuff = function clickStuff() {
@@ -897,9 +904,10 @@ var feed = function feed() {
                 $('#dimmerImage').removeClass("\n                    scale-in\n                ");
                 $('#dimmerImage').addClass("\n                    scale-out\n                ");
                 var url = null;
-                if ($("#feedNoAuth").length) url = '/show/all/postsNoAuth';else url = '/home/loadMorePosts';
+                if ($("#feedNoAuth").length) url = '/show/all/postsNoAuth';else if ($('#profile').length) url = '/show/user/posts/profile';else url = '/home/loadMorePosts';
                 axios.post(url, {
-                    lastId: this.lastId
+                    lastId: this.lastId,
+                    userId: $('#userIdProfile').length ? $('#userIdProfile').val() : null
                 }).then(function (response) {
                     $("#dimmerHere").html("More");
                     //console.log(typeof (response.data.posts))
@@ -1003,6 +1011,7 @@ function post() {
                     comment = comment.replace(/(<([^>]+)>)/ig, "");
                     userName = userName.replace(/(<([^>]+)>)/ig, "");
                     userImage = userImage.replace(/(<([^>]+)>)/ig, "");
+
                     axios.post("/post/" + this.postId + "/addComment", {
                         comment: comment,
                         postId: this.postId
@@ -1153,72 +1162,21 @@ function handleImageLoading() {
     // removeSpecificLoader = (id) => $(`.imageLoader${id}`).hide()
 }
 function profile() {
-    var xcsrfHeaders = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') };
-    var endPoints = {
-        unFollow: 'unFollow',
-        follow: 'follow',
-        cancel: 'cancel'
-    };
-    var unFollow = function unFollow() {
-        // unFollow() inner function, a closure
-        $('#unfollowModal').modal({
-            closable: true,
-            // blurring: true,
-            onDeny: function onDeny() {
-                return;
-            },
-            onApprove: function onApprove() {
-                // TODO :: Submit a form that cancel the request !
-                $("#unfollowForm").submit();
-            }
-        }).modal('show');
-    };
-
-    var cancel = function cancel() {
-        // cancel() inner function, a closure
-
-        $('#cancelModal').modal({
-            closable: true,
-            // blurring: true,
-            onDeny: function onDeny() {
-                return;
-            },
-            onApprove: function onApprove() {
-                // TODO :: Submit a form that cancel the request !
-                $("#cancelForm").submit();
-            }
-        }).modal('show');
-    };
-
-    var follow = function follow() {
-        // follow() inner function, a closure
-        $("#followModal").modal({
-            closable: true,
-            // blurring: true,
-            onDeny: function onDeny() {
-                return;
-            },
-            onApprove: function onApprove() {
-                // TODO :: Submit a form that cancel the request !
-                $("#followForm").submit();
-            }
-        }).modal('show');
-    };
-
-    var openChat = function openChat() {
-        // openChat() inner function, a closure
-        $("#chatModal").modal({
-            closable: true,
-            // blurring: true,
-            onDeny: function onDeny() {
-                return;
-            },
-            onApprove: function onApprove() {
-                // TODO :: Submit a form that cancel the request !
-                $("#followForm").submit();
-            }
-        }).modal('show');
-    };
+    if ($('#sendConfirmed').length) {
+        $('#sendConfirmed').click(function () {
+            $('#sendConfirmed').addClass('disabled');
+        });
+    }
+    if ($('#cancelConfirmed').length) {
+        $('#cancelConfirmed').click(function () {
+            $('#cancelConfirmed').addClass('disabled');
+        });
+    }
+    if ($('#unFollowConfirmed').length) {
+        $('#unFollowConfirmed').click(function () {
+            $('#unFollowConfirmed').addClass('disabled');
+        });
+    }
 }
 
 var deleteAWish = function deleteAWish() {
@@ -1241,25 +1199,28 @@ var deleteAWish = function deleteAWish() {
     };
 };
 
-// for page showUserPosts
-var x = document.getElementById('sortingForm');
-var sortUrl = {
-    sortOption: 'Descending',
-    postsType: 'Available',
-    formAction: typeof x !== 'undefined' && x !== null ? document.getElementById('sortingForm').action : null
-};
-var setUrlForSorting = function setUrlForSorting() {
-    var selectedOption = $('#sortOption option:selected').val();
-    sortUrl.sortOption = selectedOption;
-};
-var setUrlForSortingAvailableArchived = function setUrlForSortingAvailableArchived() {
-    var selectedOption = $("#postsType option:selected").val();
-    sortUrl.postsType = selectedOption;
-};
-var sortButton = function sortButton() {
-    var sortingForm = document.getElementById('sortingForm');
-    sortingForm.action = "" + sortUrl.formAction + sortUrl.sortOption + "N" + sortUrl.postsType + "/";
-    sortingForm.submit();
+initSortingForProfile = function initSortingForProfile() {
+    // for page showUserPosts
+    var x = document.getElementById('sortingForm');
+    var sortUrl = {
+        sortOption: 'Descending',
+        postsType: 'Available',
+        formAction: typeof x !== 'undefined' && x !== null ? document.getElementById('sortingForm').action : null
+    };
+    $('#sortOption').change(function () {
+        var selectedOption = $('#sortOption option:selected').val();
+        sortUrl.sortOption = selectedOption;
+    });
+    $('#postsType').change(function () {
+        var selectedOption = $("#postsType option:selected").val();
+        sortUrl.postsType = selectedOption;
+    });
+
+    $('#sortPostsUserProfileButton').click(function () {
+        var sortingForm = document.getElementById('sortingForm');
+        sortingForm.action = "" + sortUrl.formAction + sortUrl.sortOption + "N" + sortUrl.postsType + "/";
+        sortingForm.submit();
+    });
 };
 
 /***/ }),
@@ -1283,6 +1244,7 @@ try {
   window.$ = window.jQuery = __webpack_require__(13);
   __webpack_require__(14);
   window.AOS = __webpack_require__(15);
+
   // require('bootstrap');
 } catch (e) {}
 

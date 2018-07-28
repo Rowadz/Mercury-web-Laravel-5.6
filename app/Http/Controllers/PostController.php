@@ -69,42 +69,8 @@ class PostController extends Controller
     // WHY => for AJAX call 
     public function loadMorePostsNoAuth(Request $request)
     {
-        return Post::loadMorePosts($request->lastId);
-    //     $posts = Post::where('status', 1)->where('id', '>', $request->lastId)->orderBy('created_at')->take(10)->get();
-
-    //     $commentNumber = [];
-    //     $tagNames = [];
-    //     $users = [];
-    //     $imageLocation = [];
-    //     foreach ($posts as $key => $post) {
-    //         $commentNumber[$key] = $post->comments->count();
-    //         $tagNames[$key] = $post->tag->name;
-    //         $users[$key] = $post->user->name;
-    //         foreach ($post->postImages as $image){
-    //             $imageLocation[$key] = $image->location;
-    //             break;
-    //         }
-    //     }
-    //     return response()->json(["posts" => $posts,
-    //         "commentNumber" => $commentNumber,
-    //         "tagNames" => $tagNames,
-    //         'users' => $users,
-    //         'imageLocation' => $imageLocation]);
+        return Post::loadMorePosts($request->lastId, $request->userId);
     }
-
-    // public function allPosts(User $user){
-    //     $data = [
-    //         "wishes" => Wish::getWishes(),
-    // 		"allFollowers" => Follower::allFollowers(),
-    //         "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
-    //         "posts" => Post::tenPostsForAUser($user->id),
-    //         "sortType" => 'descending order Date',
-    //         "postsType" => 'Available',
-    //         "user" => $user
-    //     ];
-    //     return view('user.showUserPosts')->with($data);
-    // }
-
     
     // DRY :'(
     // View => User -> showUserPosts.blade.php
@@ -178,5 +144,9 @@ class PostController extends Controller
             "user" => $user
         ];
         return view('user.showUserPosts')->with($data);
+    }
+
+    public function loadUserPosts(Request $request){
+        return Post::loadMorePosts($request->lastId, $request->userId);
     }
 }

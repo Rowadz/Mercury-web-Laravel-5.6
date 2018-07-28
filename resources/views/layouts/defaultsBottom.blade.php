@@ -6,6 +6,7 @@ crossorigin="anonymous" ></script> --}}
     {{-- <script src="https://unpkg.com/aos@next/dist/aos.js"></script> --}}
     @yield('scripts')
     <script src="{{ asset('js/app.js') }}" ></script>
+    
 
 @auth
 <input type="text" value="{{Auth()->user()->name}}"  id="userNameForCheckNewFollowers" hidden>

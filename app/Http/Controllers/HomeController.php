@@ -51,26 +51,6 @@ class HomeController extends Controller
 
     public function loadMorePosts(Request $request)
     {
-        return Post::loadMorePosts($request->lastId);
-        // $posts = Post::where('status', 1)->where('id', '>', $request->lastId)->orderBy('created_at')->take(10)->get();
-
-        // $commentNumber = [];
-        // $tagNames = [];
-        // $users = [];
-        // $imageLocation = [];
-        // foreach ($posts as $key => $post) {
-        //     $commentNumber[$key] = $post->comments->count();
-        //     $tagNames[$key] = $post->tag->name;
-        //     $users[$key] = $post->user->name;
-        //     foreach ($post->postImages as $image){
-        //         $imageLocation[$key] = $image->location;
-        //         break;
-        //     }
-        // }
-        // return response()->json(["posts" => $posts,
-        //     "commentNumber" => $commentNumber,
-        //     "tagNames" => $tagNames,
-        //     'users' => $users,
-        //     'imageLocation' => $imageLocation]);
+        return Post::loadMorePosts($request->lastId, $request->userId);
     }
 }

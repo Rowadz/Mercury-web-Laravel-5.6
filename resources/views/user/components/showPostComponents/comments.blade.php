@@ -40,7 +40,8 @@
         <div class="col s12">
             <div class="row">
                 <div class="input-field col s6"  data-aos="zoom-out">
-                    <input   type="text" class="validate" required  v-model="comment" id="commentInput" @keyup.enter="addComment">
+                    <textarea  class="validate materialize-textarea" required  v-model="comment" id="commentInput" @keyup.enter="addComment">
+                    </textarea>
                     <label for="commentInput">Comment</label>
                 </div>
             </div>

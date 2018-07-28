@@ -16,14 +16,14 @@
         
     <div  id="feed">
         <div class="row">
-            {{-- Load cards That come with the view --}}
-            @offersCards(["posts" => $posts])
+                @displayPosts(["posts" => $posts])
+                
+                @enddisplayPosts
+                <input type="text" id="lastId"  hidden value="{{ $posts[sizeof($posts) - 1]->id }}" >
+            <!-- Loaded posts from ajax call -->
+                @vuePosts()
+                @endvuePosts
 
-            @endoffersCards
-            {{-- Load the feed list --}}
-            {{-- @feedList
-
-            @endfeedList --}}
         </div>
     </div>
 

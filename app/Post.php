@@ -58,8 +58,11 @@ class Post extends Model
         orderBy('created_at', 'DESC')->
         paginate(10);
     }
-    public static function loadMorePosts($id){
-        $posts = Post::where('status', 1)->where('id', '>',$id)->orderBy('created_at')->take(10)->get();
+    public static function loadMorePosts($id, $userId){
+        if(is_null($userId))
+            $posts = Post::where('status', 1)->where('id', '>',$id)->orderBy('created_at')->take(10)->get();
+        else $posts = Post::where('status', 1)->where('id', '>', $id)->where('user_id', $userId)->orderBy('created_at')->take(10)->get();
+        
         $commentNumber = [];
         $tagNames = [];
         $users = [];

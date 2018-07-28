@@ -12,7 +12,7 @@
     <div class="col s6 m2">
        <div class="chip z-depth-5 blue-grey darken-3" data-aos="fade-up-left">
           <img src="{{ $post->user->image }}" alt="Contact Person">
-          <a href="/@/{{ $post->user->name }}">
+          <a href="/{{ $post->user->name }}">
           <strong>
                 @guest
                     {{$post->user->name}} 🐼

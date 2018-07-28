@@ -19,7 +19,8 @@
                 <!-- the <p></p> -->
                 <p></p> 
                 <!-- Is for padding -->
-            <a  href = "{{route('showPostsNoAuth')}}" class = "btn  waves-effect waves-light btn-large hoverable exploreButton" data-aos="zoom-in">
+                
+            <a  href = "{{isset( Auth()->user()->id ) ? route('home') : route('showPostsNoAuth')}}" class = "btn  waves-effect waves-light btn-large hoverable exploreButton" data-aos="zoom-in">
                     Explore! <i class="material-icons right">remove_red_eye</i>
             </a>
         </div>

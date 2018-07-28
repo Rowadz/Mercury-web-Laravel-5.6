@@ -29,7 +29,9 @@ class UserController extends Controller
             "user" => $user,
             "posts" => $user->posts()->orderBy('created_at', 'desc')->take(10)->get(),
             "iamIFollowingThisUser" => Follower::iamIFollowingThisUser($user->id),
-            "followId" => (isset($followId)) ? $followId : null
+            "followId" => (isset($followId)) ? $followId : null,
+            'followers' => Follower::followersProfile($user->id),
+            'following' => Follower::followingProfile($user->id)
         ];
     	return view("user.profile")->with($data);
     }
@@ -57,6 +59,7 @@ class UserController extends Controller
         $data = [
             'Followers' => Follower::seeFollowers(),
         ];
+        dd($data);
         return view("user.followers")->with($data);
     }
 

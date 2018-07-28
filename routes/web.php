@@ -45,7 +45,7 @@ Route::post("/user/delete-wished-post/{post}", "WishController@deleteWish")->nam
 Route::post("/post/{post}/addComment", "CommentController@addComment")->name('addComment');
 
 // displaying ta user profile
-Route::get("/@/{user}", "UserController@profile")->name('profile');
+Route::get("/{user}", "UserController@profile")->name('profile');
 // ??
 Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName")->name('newFollowerRequestedName');
 
@@ -93,7 +93,7 @@ Route::get('/posts/{user}/DescendingNArchived/', "PostController@DescendingNArch
 Route::get('/posts/{user}/AscendingNArchived/', "PostController@AscendingNArchived")->name('AscendingNArchived');
 Route::get('/posts/{user}/commentsNAvailable/', "PostController@commentsNAvailable")->name('commentsNAvailable');
 Route::get('/posts/{user}/commentsNArchived/', "PostController@commentsNArchived")->name('commentsNArchived');
-
+Route::post('/show/user/posts/profile', 'PostController@loadUserPosts')->name('loadUserPosts');
 
 Route::get('/chat', "UserCompoenet@chat")->name('openChat');
 

@@ -16,6 +16,7 @@ try {
     window.$ = window.jQuery = require('jquery');
     require('materialize-css');
     window.AOS = require('AOS');
+   
     // require('bootstrap');
 } catch (e) {}
 

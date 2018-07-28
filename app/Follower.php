@@ -85,18 +85,6 @@ class Follower extends Model
   
     }
 
-    public static function iamIFollowingThisUser($id){
-        
-        if($id !== Auth()->user()->id){
-            $data = Follower::where("from_id", isset(Auth()->user()->id)?Auth()->user()->id:null)->
-                    where("user_id", $id)->
-                    first();
-            if(!empty($data))
-                return $data->status;
-            else return false;
-        }
-        else return null;
-    }
 
     public static  function getRowId($id){
         return Follower::where("from_id", Auth()->user()->id)->
@@ -139,5 +127,34 @@ class Follower extends Model
     public static function unfollowUser($id){
         // just deleting the row
         return self::cancel($id);
+    }
+
+
+
+    public static function iamIFollowingThisUser($id){
+        
+        if($id !== Auth()->user()->id){
+            $data = Follower::where("from_id", isset(Auth()->user()->id)?Auth()->user()->id:null)->
+                    where("user_id", $id)->
+                    first();
+            if(!empty($data))
+                return $data->status;
+            else return false;
+        }
+        else return null;
+    }
+
+    public static function followersProfile($userId){
+        return Follower::where([
+            'user_id' => $userId,
+            'status' => 1
+        ])->count();
+    }
+
+    public static function followingProfile($userId){
+        return Follower::where([
+            'from_id' => $userId,
+            'status' => 1
+        ])->count();
     }
 }
