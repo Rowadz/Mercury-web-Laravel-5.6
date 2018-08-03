@@ -13,7 +13,7 @@
                 <li><a class="btn-floating red tooltipped"  data-position="left" data-tooltip="Already Saved"><i class="material-icons">bookmark</i></a></li>
             @else
                 {{-- Can't bind Vue (@click) here  --}}
-                <li  onclick="addPostToWishList({{ $post->id }})" id="addToWishListButton"><a class="btn-floating red tooltipped" data-position="left" data-tooltip="Click Here to add post to wish list"><i class="material-icons">bookmark_border</i></a></li>
+                <li class="{{ $post->id }}"  id="addToWishListButton"><a class="btn-floating red tooltipped" data-position="left" data-tooltip="Click Here to add post to wish list"><i class="material-icons">bookmark_border</i></a></li>
             @endif
        @endif
        <!-- Exchange Request -->
@@ -24,12 +24,12 @@
 </div>
 @endauth 
 
- @navBarWelcome(
+ @navBar(
     [
         'style' => 'grey darken-3 z-depth-5'
     ]
     )
-@endnavBarWelcome
+@endnavBar
 
     <div id="{{ isset(Auth()->user()->id) ? 'post' : ''}}" >
         {{-- Load post here --}}

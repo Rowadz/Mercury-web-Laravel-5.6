@@ -1,6 +1,12 @@
-@extends('layouts.welcomeLayout')
+@include('layouts.defaults')
 
-@section('main')
+<div class="main">
+    <!-- Nav -->
+        {{-- @include('layouts.nabBarWelcome') --}}
+        @navBar()
+        @endnavBar 
+    <!-- End Nav -->
+    
 <!-- Vertical spacing -->
 <div class="Vspace"></div>
 <div class="VeryBigspace show-on-large"></div>
@@ -8,6 +14,7 @@
 
 <!-- Main Show case -->
 <div class="container">
+    
     <div class="row ">
         <div class="col s12 m6 cyan-text text-accent-4">
             <h1 data-aos="fade-up-left">
@@ -27,10 +34,10 @@
     </div>
 </div>
 <!-- end main Show case -->
-@endsection
 
+</div>
 
-@section('section-three')
+<section class="section-three">
 <div class="container">
         <h1 class="white-text center">
                 <b>
@@ -72,10 +79,10 @@
         </div>
     </div>
 </div>
-@endsection
+</section>
 
 
-@section('footer')
+<footer class="page-footer grey darken-2">
 <div class="footer-copyright">
         <div class="container">
           © 2019 Lorem, ipsum.
@@ -86,4 +93,6 @@
         </a>
         </div>
 </div>
-@endsection
+</footer>
+
+@include('layouts.defaultsBottom')

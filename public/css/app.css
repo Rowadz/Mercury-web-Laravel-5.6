@@ -11096,6 +11096,7 @@ nav li a {
 
 #scrollTop {
   position: fixed !important;
+  z-index: 9999 !important;
 }
 
 .tagChip {
@@ -11115,7 +11116,7 @@ nav li a {
   padding: 10px !important;
 }
 
-#comment {
+#commentInput {
   color: aliceblue !important;
 }
 
@@ -11209,5 +11210,14 @@ nav li a {
 
 .floatLeftModalFooter {
   float: left !important;
+}
+
+#sortPostsUserProfile {
+  margin-top: 10px !important;
+}
+
+.followRequestsModal {
+  max-width: 100% !important;
+  max-height: 100% !important;
 }
 

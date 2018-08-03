@@ -777,20 +777,36 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
-module.exports = __webpack_require__(36);
+module.exports = __webpack_require__(42);
 
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__bootstrap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__my_modules_profileFollowFunctionallies__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__my_modules_init__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__my_modules_vue_postFunctionalities__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__my_modules_followRequestsFunctionality__ = __webpack_require__(41);
 /**
  * First, we will load all of this project's Javascript utilities and other
  * dependencies. Then, we will be ready to develop a robust and powerful
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
-__webpack_require__(10);
+
+
+
+
+
+
+
 /**
   * Created by LT on 19/05/2018.
 */
@@ -800,356 +816,33 @@ __webpack_require__(10);
 // so the user can comment before the images loads 
 // in case they take long time
 (function () {
-    initNavbar();
-    if ($("#post").length) post();
-    if ($("#profile").length) profile();
+    if ($("#post").length) Object(__WEBPACK_IMPORTED_MODULE_5__my_modules_vue_postFunctionalities__["a" /* default */])();
+    $('.sidenav').sidenav();
     // if($('img').length) handleImageLoading()
     handleImageLoading();
 })();
 
 // execute when the page loads
 window.onload = function () {
-    // if ($("#userNameForCheckNewFollowers").length) checkForFollowers()
-    if ($("#feed").length) feed();
-    init();
+    Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
+    if ($("#feed").length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
+    if ($('#sortPostsUserProfile').length) Object(__WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__["a" /* default */])();
     if ($("#followingRequests").length) approveDeclineFollow();
     // if the image did not load  (Broken Image Handling)
     if ($("#whishedPosts").length) deleteAWish();
     if ($('img').length) handleImageLoading();
-    $('.sidenav').sidenav();
-    // init the navbar
-    $(".dropdown-trigger").dropdown({
-        constrainWidth: false,
-        onCloseStart: function onCloseStart() {
-            $('.card').css('z-index', 1);
-            $('.card-title').css('z-index', 1);
-            $('.postImage').css('z-index', 1);
-            $('.parallax-container').css('z-index', 1);
-        }
-    });
-    if ($('.mainResgister').length) initSignUp();
-    $('.tooltipped').tooltip();
-    $('.fixed-action-btn').floatingActionButton();
-    $('.materialboxed').materialbox();
-    clickStuff();
-    overFlow();
-    $('.modal').modal();
-    $('.parallax').parallax();
-    $('select').formSelect();
-    if ($('#sortPostsUserProfile').length) initSortingForProfile();
+    if ($("#profile").length) Object(__WEBPACK_IMPORTED_MODULE_2__my_modules_profileFollowFunctionallies__["a" /* default */])();
+    Object(__WEBPACK_IMPORTED_MODULE_6__my_modules_followRequestsFunctionality__["a" /* default */])();
 };
-
-function initNavbar() {
-    $('.sidenav').sidenav();
-    // M.toast({html: '🤖 Welcome humnan 🤯 🤖'})
-}
-
-var overFlow = function overFlow() {
-    // the li that opens the dropdown list in the navbar
-    $("#fixOverFlowIssue").click(function () {
-        $('.card').css('z-index', -1);
-        $('.chip').css('z-index', 1);
-        $('.postImage').css('z-index', -1);
-        $('.parallax-container').css('z-index', -1);
-    });
-};
-var clickStuff = function clickStuff() {
-    $('#scrollTop').click(function () {
-        $('html, body').animate({
-            scrollTop: $("#feed").offset().top
-        }, 1000);
-    });
-};
-
-var initSignUp = function initSignUp() {
-    $('select').formSelect();
-    $('.datepicker').datepicker();
-};
-
-var init = function init() {
-    AOS.init();
-};
-
-var feed = function feed() {
-    var x = new Vue({
-        el: "#feed",
-        data: {
-            posts: [],
-            lastId: $("#lastId").val(),
-            counter: 0,
-            commentNumber: [],
-            tagNames: [],
-            users: [],
-            imageLocation: []
-        },
-        methods: {
-            brokenImageHandling: function brokenImageHandling(image) {
-                image.src = "/images/404.png";
-                // $('.faildToLoadImage').show()
-                this.removeLoader();
-            },
-            removeLoader: function removeLoader() {
-                $(".imageLoader").hide();
-            },
-            removeSpecificLoader: function removeSpecificLoader(id) {
-                console.log("imageLoader" + id);
-                $(".imageLoader" + id).hide();
-            },
-            loadMorePosts: function loadMorePosts() {
-                var _this = this;
-
-                // console.log('@click="loadMorePosts')
-                $("#dimmerHere").html("\n                        <div class=\"preloader-wrapper big active\">\n                        <div class=\"spinner-layer spinner-blue-only\">\n                        <div class=\"circle-clipper left\">\n                            <div class=\"circle\"></div>\n                        </div><div class=\"gap-patch\">\n                            <div class=\"circle\"></div>\n                        </div><div class=\"circle-clipper right\">\n                            <div class=\"circle\"></div>\n                        </div>\n                        </div>\n                    </div>\n                ");
-                $('#dimmerImage').removeClass("\n                    scale-out\n                ");
-                $('#dimmerImage').removeClass("\n                    scale-in\n                ");
-                $('#dimmerImage').addClass("\n                    scale-out\n                ");
-                var url = null;
-                if ($("#feedNoAuth").length) url = '/show/all/postsNoAuth';else if ($('#profile').length) url = '/show/user/posts/profile';else url = '/home/loadMorePosts';
-                axios.post(url, {
-                    lastId: this.lastId,
-                    userId: $('#userIdProfile').length ? $('#userIdProfile').val() : null
-                }).then(function (response) {
-                    $("#dimmerHere").html("More");
-                    //console.log(typeof (response.data.posts))
-                    var allPosts = response.data.posts;
-                    var x = allPosts.length;
-                    for (var i = 0; i < x; i++) {
-                        _this.posts.push(allPosts[i]);
-                    } // console.log(this.posts)
-                    var allCommentNumber = response.data.commentNumber;
-                    x = allCommentNumber.length;
-                    for (var _i = 0; _i < x; _i++) {
-                        _this.commentNumber.push(allCommentNumber[_i]);
-                    } //this.commentNumber = response.data.
-                    allTagsNames = response.data.tagNames;
-                    x = allTagsNames.length;
-                    for (var _i2 = 0; _i2 < x; _i2++) {
-                        _this.tagNames.push(allTagsNames[_i2]);
-                    }users = response.data.users;
-                    x = users.length;
-                    for (var _i3 = 0; _i3 < x; _i3++) {
-                        _this.users.push(users[_i3]);
-                    } //this.tagNames = response.data.tagNames
-                    imageLocation = response.data.imageLocation;
-                    x = imageLocation.length;
-                    for (var _i4 = 0; _i4 < x; _i4++) {
-                        _this.imageLocation.push(imageLocation[_i4]);
-                    }_this.lastId = allPosts[allPosts.length - 1].id;
-                    //console.log(this.lastId)
-                    $('#dimmerImage').attr("src", "/images/returnHome.png");
-                    var audio = new Audio('/sounds/service-bell_daniel_simion.mp3');
-                    $('#dimmerImage').addClass("\n                             scale-in\n                        ");
-                    audio.play();
-                }).catch(function (error) {
-                    var audio = new Audio('/sounds/Lightsaber_Turn_Off.mp3');
-                    audio.play();
-                    $('#dimmerImage').attr("src", "/images/404.png");
-                    $('#dimmerImage').addClass("\n                            scale-in\n                        ");
-                    $("#dimmerHere").html("\uD83E\uDD16");
-                });
-            }
-        }
-    });
-};
-
-// emojis does not work with Vue 
-// that's why there is a function outside the Vue instance
-var getEmoji = function getEmoji(emoji) {
-    var commentText = document.getElementById("commentInput");
-    console.log(commentText.value, emoji.innerHTML);
-    commentText.value = commentText.value + emoji.innerHTML;
-};
-
-function post() {
-
-    addPostToWishList = function addPostToWishList(id) {
-        axios.post("/post/add-to-wish-list/" + id, {
-            id: id
-        }).then(function (res) {
-            // console.log(res.data)
-            var addToWishListButton = $("#addToWishListButton");
-            addToWishListButton.addClass("disabled");
-            addToWishListButton.html("<i class=\"bookmark icon\"></i> ");
-            $("#addToWishListText").html("The post Added to your wish list");
-            M.toast({
-                html: res.data.message,
-                classes: res.data.message === "You just saved this post !" ? 'light-blue darken-3' : 'deep-purple darken-2'
-            });
-        }).catch(function (err) {
-            M.toast({
-                html: 'Something went wrong',
-                classes: 'red accent-3'
-            });
-        });
-    };
-
-    var post = new Vue({
-        el: "#post",
-        data: {
-            postId: $("#postId").val(),
-            loadedComments: null,
-            comment: ''
-        },
-        methods: {
-            // Vue Two way binding did't work with the emoji lib.
-            // this is why is use jquery here!
-            addComment: function addComment() {
-                var _this2 = this;
-
-                var comment = this.comment;
-                var userName = $("#userName").val();
-                var userImage = $("#userImage").val();
-                if (comment.length === 0 || comment.trim().length === 0) {
-                    M.toast({
-                        html: 'Add Some Text, NO white space!',
-                        classes: 'red accent-1'
-                    });
-                } else {
-                    comment = comment.trim();
-                    userName = userName.trim();
-                    userImage = userImage.trim();
-                    comment = comment.replace(/(<([^>]+)>)/ig, "");
-                    userName = userName.replace(/(<([^>]+)>)/ig, "");
-                    userImage = userImage.replace(/(<([^>]+)>)/ig, "");
-
-                    axios.post("/post/" + this.postId + "/addComment", {
-                        comment: comment,
-                        postId: this.postId
-                    }).then(function (res) {
-                        M.toast({
-                            html: res.data.message,
-                            classes: 'blue accent-2'
-                        });
-                        $("#addMoreCommentsHere").append("\n                        <div class=\"col s12 m6\" data-aos=\"zoom-in\">\n                            <ul class=\"collection\">\n                                <li class=\"collection-item avatar  z-depth-5 white-text blue-grey darken-3\">\n                                <img src=\"" + userImage + "\" alt=\"user image\" class=\"circle  z-depth-5\">\n                                    <span class=\"title\">\n                                        <strong class=\"usernameComment\">\n                                            \uD83D\uDC3B  " + userName + " \n                                        </strong>\n                                    </span>\n                                    <p> \n                                        <small class=\"commentDate\">\n                                            \uD83D\uDCC6 Just now!\n                                        </small>\n                                    <br><br>\n                                            " + comment + "\n                                    </p>\n                                    <a href=\"/" + userName + "\" class=\"secondary-content\"><i class=\"material-icons\">person_outline</i></a>\n                                </li>\n                            </ul>\n                        </div>\n                        ");
-                        _this2.comment = '';
-                    }).catch(function (err) {
-                        M.toast({
-                            html: 'Something went wrong, try again',
-                            classes: 'red accent-2'
-                        });
-                    });
-                }
-                //console.log({comment: $("#commentTextarea").val(), postId: this.postId})
-            }
-        }
-
-    });
-}
 
 // This is lexical scoping, which describes how a parser resolves variable names when functions are nested. 
-// The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available.
+// The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared
+//  within the source code to determine where that variable is available.
 // Nested functions have access to variables declared in their outer scope.
 
-// checkForFollowers = () => {
-//     const userName =  $("#userNameForCheckNewFollowers").val()
-// 	const endPoint  = `/new/${userName}/followers`
-// 	const dataToSend = {
-// 		userName : userName
-// 	}
-// 	const XcsrfHeaders = {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-// 	const options = {
-// 		endPoint : endPoint,
-// 		dataToSend: dataToSend,
-// 		XcsrfHeaders : XcsrfHeaders
-// 	}
-// 	let followingRequestUpdate = $("#followingRequestUpdate")
-// 	let notificationMenu = $("#notificationMenu")
-// 	notificationMenu.hide()
-// 	checkNewFollowRequest = options => { // checkNewFollowRequest() inner function, a closure
-// 			$.ajax({
-// 				url: options.endPoint,
-// 				data:options.dataToSend.userName ,
-// 				method: "POST",
-// 				headers: options.XcsrfHeaders
-// 			}).done((res)=>{
-// 				if(res.newFollowers.length >= 1) {
-// 					const audio = new Audio('/sounds/newFollow.mp3')
-//                     audio.play()
-//                     notificationMenu.fadeIn()
-// 				}
-// 				notificationMenu.html(parseInt(notificationMenu.html()) + res.newFollowers.length)
-// 				followingRequestUpdate.html((res.newFollowers.length + res.oldFollowers.length))
-// 			}).fail(()=>{
-// 				// Nothing to to..
-// 			})
-// 	}
-//  	checkNewFollowRequestTrigger = x =>{ // checkNewFollowRequestTrigger() inner function, a closure
-// 		checkNewFollowRequest(options);
-// 		setTimeout(checkNewFollowRequestTrigger , 20000)
-// 	}
-// 	checkNewFollowRequestTrigger(1)
-// }
-
-// Dead Code !
-var approveDeclineFollow = function approveDeclineFollow() {
-    var approveEndPoint = "/approve/follow";
-    var declineEndPoint = "/decline/follow";
-    var xcsrfHeaders = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') };
-
-    var approve = function approve(id) {
-        // approve() inner function, a closure
-        $.ajax({
-            url: approveEndPoint,
-            data: {
-                id: id
-            },
-            method: "POST",
-            headers: xcsrfHeaders
-        }).done(function (res) {
-            if (res === "Approved!") {
-                iziToast.success({
-                    title: 'Success',
-                    message: res
-                });
-                var followCard = $("#followCard" + id);
-                followCard.hide();
-            } else {
-                iziToast.error({
-                    title: 'Error',
-                    message: res + " \uD83E\uDD37"
-                });
-            }
-        }).fail(function (err) {
-            iziToast.error({
-                title: 'Error',
-                message: 'Something Went Wrong 🤷'
-            });
-        });
-    };
-
-    var decline = function decline(id) {
-        // decline() inner function, a closure
-        $.ajax({
-            url: declineEndPoint,
-            data: {
-                id: id
-            },
-            method: "POST",
-            headers: xcsrfHeaders
-        }).done(function (res) {
-            if (res === "Declined!") {
-                iziToast.success({
-                    title: 'Success',
-                    message: res
-                });
-                var followCard = $("#followCard" + id);
-                followCard.hide();
-            } else {
-                iziToast.error({
-                    title: 'Error',
-                    message: res + " \uD83E\uDD37"
-                });
-            }
-        }).fail(function (err) {
-            iziToast.error({
-                title: 'Error',
-                message: 'Something Went Wrong 🤷'
-            });
-        });
-    };
-};
-
+// TODO delete the outer function
 function handleImageLoading() {
+    // TODO add event listners to do this
     var brokenImageHandling = function brokenImageHandling(image) {
         image.src = "/images/404.png";
         // $('.faildToLoadImage').show()
@@ -1161,31 +854,15 @@ function handleImageLoading() {
     };
     // removeSpecificLoader = (id) => $(`.imageLoader${id}`).hide()
 }
-function profile() {
-    if ($('#sendConfirmed').length) {
-        $('#sendConfirmed').click(function () {
-            $('#sendConfirmed').addClass('disabled');
-        });
-    }
-    if ($('#cancelConfirmed').length) {
-        $('#cancelConfirmed').click(function () {
-            $('#cancelConfirmed').addClass('disabled');
-        });
-    }
-    if ($('#unFollowConfirmed').length) {
-        $('#unFollowConfirmed').click(function () {
-            $('#unFollowConfirmed').addClass('disabled');
-        });
-    }
-}
 
+// TODO delete the outer function
 var deleteAWish = function deleteAWish() {
     var deleteWish = function deleteWish(id) {
         // deleteWish() inner function, a closure
-        axios.post("/user/delete-wished-post/" + id, {
+        axios.post('/user/delete-wished-post/' + id, {
             id: id
         }).then(function (res) {
-            $("#" + id).fadeOut();
+            $('#' + id).fadeOut();
             iziToast.success({
                 title: 'OK',
                 message: res.data.success
@@ -1197,30 +874,6 @@ var deleteAWish = function deleteAWish() {
             });
         });
     };
-};
-
-initSortingForProfile = function initSortingForProfile() {
-    // for page showUserPosts
-    var x = document.getElementById('sortingForm');
-    var sortUrl = {
-        sortOption: 'Descending',
-        postsType: 'Available',
-        formAction: typeof x !== 'undefined' && x !== null ? document.getElementById('sortingForm').action : null
-    };
-    $('#sortOption').change(function () {
-        var selectedOption = $('#sortOption option:selected').val();
-        sortUrl.sortOption = selectedOption;
-    });
-    $('#postsType').change(function () {
-        var selectedOption = $("#postsType option:selected").val();
-        sortUrl.postsType = selectedOption;
-    });
-
-    $('#sortPostsUserProfileButton').click(function () {
-        var sortingForm = document.getElementById('sortingForm');
-        sortingForm.action = "" + sortUrl.formAction + sortUrl.sortOption + "N" + sortUrl.postsType + "/";
-        sortingForm.submit();
-    });
 };
 
 /***/ }),
@@ -42257,6 +41910,441 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = initSortingForProfile;
+function initSortingForProfile() {
+    // for page showUserPosts
+    var x = document.getElementById('sortingForm');
+    var sortUrl = {
+        sortOption: 'Descending',
+        postsType: 'Available',
+        formAction: typeof x !== 'undefined' && x !== null ? document.getElementById('sortingForm').action : null
+    };
+    $('#sortOption').change(function () {
+        var selectedOption = $('#sortOption option:selected').val();
+        sortUrl.sortOption = selectedOption;
+    });
+    $('#postsType').change(function () {
+        var selectedOption = $("#postsType option:selected").val();
+        sortUrl.postsType = selectedOption;
+    });
+
+    $('#sortPostsUserProfileButton').click(function () {
+        var sortingForm = document.getElementById('sortingForm');
+        sortingForm.action = '' + sortUrl.formAction + sortUrl.sortOption + 'N' + sortUrl.postsType + '/';
+        sortingForm.submit();
+    });
+}
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = profileFollowFunctions;
+function profileFollowFunctions() {
+    // still not working ....
+    if ($('#sendConfirmed').length) {
+        $('#sendConfirmed').click(function () {
+            $('#sendConfirmed').addClass('disabled');
+        });
+    }
+    if ($('#cancelConfirmed').length) {
+        $('#cancelConfirmed').click(function () {
+            $('#cancelConfirmed').addClass('disabled');
+        });
+    }
+    if ($('#unFollowConfirmed').length) {
+        $('#unFollowConfirmed').click(function () {
+            $('#unFollowConfirmed').addClass('disabled');
+        });
+    }
+}
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = init;
+function init() {
+    AOS.init();
+    // if ($("#userNameForCheckNewFollowers").length) checkForFollowers()
+
+
+    $('.sidenav').sidenav();
+    // init the navbar
+    $(".dropdown-trigger").dropdown({
+        constrainWidth: false,
+        onCloseStart: function onCloseStart() {
+            $('.card').css('z-index', 1);
+            $('.card-title').css('z-index', 1);
+            $('.postImage').css('z-index', 1);
+            $('.parallax-container').css('z-index', 1);
+        }
+    });
+    if ($('.mainResgister').length) initSignUp();
+    $('.tooltipped').tooltip();
+    $('.fixed-action-btn').floatingActionButton();
+    $('.materialboxed').materialbox();
+    clickStuff();
+    overFlow();
+    $('.modal').modal();
+    $('.parallax').parallax();
+    $('select').formSelect();
+}
+
+var overFlow = function overFlow() {
+    // the li that opens the dropdown list in the navbar
+    $("#fixOverFlowIssue").click(function () {
+        $('.card').css('z-index', -1);
+        $('.chip').css('z-index', 1);
+        $('.postImage').css('z-index', -1);
+        $('.parallax-container').css('z-index', -1);
+    });
+};
+var clickStuff = function clickStuff() {
+    $('#scrollTop').click(function () {
+        $('html, body').animate({
+            scrollTop: $("#feed").offset().top
+        }, 1000);
+    });
+};
+
+var initSignUp = function initSignUp() {
+    $('select').formSelect();
+    $('.datepicker').datepicker();
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = feed;
+// calling the infinite scroll in the home
+// using Vue
+function feed() {
+    var x = new Vue({
+        el: "#feed",
+        data: {
+            posts: [],
+            lastId: $("#lastId").val(),
+            counter: 0,
+            commentNumber: [],
+            tagNames: [],
+            users: [],
+            imageLocation: []
+        },
+        methods: {
+            brokenImageHandling: function brokenImageHandling(image) {
+                image.src = "/images/404.png";
+                // $('.faildToLoadImage').show()
+                this.removeLoader();
+            },
+            removeLoader: function removeLoader() {
+                $(".imageLoader").hide();
+            },
+            removeSpecificLoader: function removeSpecificLoader(id) {
+                console.log("imageLoader" + id);
+                $(".imageLoader" + id).hide();
+            },
+            loadMorePosts: function loadMorePosts() {
+                var _this = this;
+
+                // console.log('@click="loadMorePosts')
+                $("#dimmerHere").html("\n                        <div class=\"preloader-wrapper big active\">\n                        <div class=\"spinner-layer spinner-blue-only\">\n                        <div class=\"circle-clipper left\">\n                            <div class=\"circle\"></div>\n                        </div><div class=\"gap-patch\">\n                            <div class=\"circle\"></div>\n                        </div><div class=\"circle-clipper right\">\n                            <div class=\"circle\"></div>\n                        </div>\n                        </div>\n                    </div>\n                ");
+                $('#dimmerImage').removeClass("\n                    scale-out\n                ");
+                $('#dimmerImage').removeClass("\n                    scale-in\n                ");
+                $('#dimmerImage').addClass("\n                    scale-out\n                ");
+                var url = null;
+                if ($("#feedNoAuth").length) url = '/show/all/postsNoAuth';else if ($('#profile').length) url = '/show/user/posts/profile';else url = '/home/loadMorePosts';
+                axios.post(url, {
+                    lastId: this.lastId,
+                    userId: $('#userIdProfile').length ? $('#userIdProfile').val() : null
+                }).then(function (response) {
+                    $("#dimmerHere").html("More");
+                    //console.log(typeof (response.data.posts))
+                    var allPosts = response.data.posts;
+                    var x = allPosts.length;
+                    for (var i = 0; i < x; i++) {
+                        _this.posts.push(allPosts[i]);
+                    } // console.log(this.posts)
+                    var allCommentNumber = response.data.commentNumber;
+                    x = allCommentNumber.length;
+                    for (var _i = 0; _i < x; _i++) {
+                        _this.commentNumber.push(allCommentNumber[_i]);
+                    } //this.commentNumber = response.data.
+                    var allTagsNames = response.data.tagNames;
+                    x = allTagsNames.length;
+                    for (var _i2 = 0; _i2 < x; _i2++) {
+                        _this.tagNames.push(allTagsNames[_i2]);
+                    }var users = response.data.users;
+                    x = users.length;
+                    for (var _i3 = 0; _i3 < x; _i3++) {
+                        _this.users.push(users[_i3]);
+                    } //this.tagNames = response.data.tagNames
+                    var imageLocation = response.data.imageLocation;
+                    x = imageLocation.length;
+                    for (var _i4 = 0; _i4 < x; _i4++) {
+                        _this.imageLocation.push(imageLocation[_i4]);
+                    }_this.lastId = allPosts[allPosts.length - 1].id;
+                    //console.log(this.lastId)
+                    $('#dimmerImage').attr("src", "/images/returnHome.png");
+                    var audio = new Audio('/sounds/service-bell_daniel_simion.mp3');
+                    $('#dimmerImage').addClass("\n                             scale-in\n                        ");
+                    audio.play();
+                }).catch(function (error) {
+                    console.log(error);
+                    var audio = new Audio('/sounds/Lightsaber_Turn_Off.mp3');
+                    audio.play();
+                    $('#dimmerImage').attr("src", "/images/404.png");
+                    $('#dimmerImage').addClass("\n                            scale-in\n                        ");
+                    $("#dimmerHere").html("\uD83E\uDD16");
+                });
+            }
+        }
+    });
+}
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = post;
+function post() {
+    // added addPostToWishList outside the Vue instance because 
+    // Some wired Error 
+    $('#addToWishListButton').click(function () {
+        addPostToWishList($("#addToWishListButton").attr('class'));
+    });
+    var addPostToWishList = function addPostToWishList(id) {
+        axios.post('/post/add-to-wish-list/' + id, {
+            id: id
+        }).then(function (res) {
+            // console.log(res.data)
+            var addToWishListButton = $("#addToWishListButton");
+            addToWishListButton.addClass("disabled");
+            addToWishListButton.html('<i class="bookmark icon"></i> ');
+            $("#addToWishListText").html("The post Added to your wish list");
+            M.toast({
+                html: res.data.message,
+                classes: res.data.message === "You just saved this post !" ? 'light-blue darken-3' : 'deep-purple darken-2'
+            });
+        }).catch(function (err) {
+            M.toast({
+                html: 'Something went wrong',
+                classes: 'red accent-3'
+            });
+        });
+    };
+
+    var post = new Vue({
+        el: "#post",
+        data: {
+            postId: $("#postId").val(),
+            loadedComments: null,
+            comment: ''
+        },
+        methods: {
+            // Vue Two way binding did't work with the emoji lib.
+            // this is why is use jquery here!
+            addComment: function addComment() {
+                var _this = this;
+
+                var comment = this.comment;
+                var userName = $("#userName").val();
+                var userImage = $("#userImage").val();
+                if (comment.length === 0 || comment.trim().length === 0) {
+                    M.toast({
+                        html: 'Add Some Text, NO white space!',
+                        classes: 'red accent-1'
+                    });
+                } else {
+                    comment = comment.trim();
+                    userName = userName.trim();
+                    userImage = userImage.trim();
+                    comment = comment.replace(/(<([^>]+)>)/ig, "");
+                    userName = userName.replace(/(<([^>]+)>)/ig, "");
+                    userImage = userImage.replace(/(<([^>]+)>)/ig, "");
+
+                    axios.post('/post/' + this.postId + '/addComment', {
+                        comment: comment,
+                        postId: this.postId
+                    }).then(function (res) {
+                        M.toast({
+                            html: res.data.message,
+                            classes: 'blue accent-2'
+                        });
+                        $("#addMoreCommentsHere").append('\n                        <div class="col s12 m6" data-aos="zoom-in">\n                            <ul class="collection">\n                                <li class="collection-item avatar  z-depth-5 white-text blue-grey darken-3">\n                                <img src="' + userImage + '" alt="user image" class="circle  z-depth-5">\n                                    <span class="title">\n                                        <strong class="usernameComment">\n                                            \uD83D\uDC3B  ' + userName + ' \n                                        </strong>\n                                    </span>\n                                    <p> \n                                        <small class="commentDate">\n                                            \uD83D\uDCC6 Just now!\n                                        </small>\n                                    <br><br>\n                                            ' + comment + '\n                                    </p>\n                                    <a href="/' + userName + '" class="secondary-content"><i class="material-icons">person_outline</i></a>\n                                </li>\n                            </ul>\n                        </div>\n                        ');
+                        _this.comment = '';
+                    }).catch(function (err) {
+                        M.toast({
+                            html: 'Something went wrong, try again',
+                            classes: 'red accent-2'
+                        });
+                    });
+                }
+                //console.log({comment: $("#commentTextarea").val(), postId: this.postId})
+            }
+        }
+
+    });
+}
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = followRequestsFunctionality;
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var followRequestsNumber = null;
+
+function followRequestsFunctionality() {
+    //  follow Requests Modal modal init start
+    $('.followRequestsModal').modal({
+        onOpenStart: function onOpenStart() {
+            axios.post('/show/follow-Requests').then(function (success) {
+                success.data.forEach(function (user) {
+                    // console.log(user)
+                    $('#usersRequestedToFollowYou').append('\n                        <section id="usersRequestedToFollowYouData">                    \n                            <div class="card deep-orange lighten-2 black-text" data-username="' + user.user.name + '">\n                            <div class="card-content">\n                                <ul class="collection  deep-orange lighten-2 commentCollectionRemoveUl">\n                                    <li class="collection-item avatar deep-orange lighten-2 commentCollectionRemoveUl ' + user.user.id + '-userRequest">\n                                        <img src="' + user.user.image + '" alt="user image" class="circle">\n                                        <span class="title strongChips searchFollowRequestsBasedOnNames" id="' + user.user.name + '">' + user.user.name + '</span>\n                                        <p>sent you a request</p>\n                                        <a href="/' + user.user.name + '" target="_blank" class="secondary-content"><i class="material-icons blue-grey-text text-darken-4">account_box</i></a>\n                                    </li>\n                                </ul>\n                                <button class="aprroveFollowRequestButtons btn-floating btn-large waves-effect waves-light light-blue darken-3 z-depth-5" id="' + user.user.id + '-' + user.user.name + '-approve">\n                                    <i class="material-icons">check</i>\n                                </button>\n                                <button class="declineFollowRequestButtons btn-floating btn-large waves-effect waves-red  red accent-2 userInfoRevealCard z-depth-5" id="' + user.user.id + '-' + user.user.name + '-delete"><i class="material-icons">clear</i></button>\n                            </div>\n                            <div class="card-tabs">\n                                <ul class="tabs tabs-fixed-width tabs-transparent">\n                                <li class="tab"><a href="#' + user.user.id + 'aboutTheUserWhoSentRequest">About</a></li>\n                                <li class="tab"><a class="active" href="#' + user.user.id + 'whenTheRequestHaveBeenSent">When</a></li>\n                                </ul>\n                            </div>\n                            <div class="card-content deep-orange lighten-1 userRequest-tabs-' + user.user.id + '">\n                                <div id="' + user.user.id + 'aboutTheUserWhoSentRequest" class="truncate">' + user.user.about + '</div>\n                                <div id="' + user.user.id + 'whenTheRequestHaveBeenSent">' + user.created_at + '</div>\n                            </div>\n                            </div>\n                            </section>\n                        ');
+                });
+                $('.tabs').tabs(); // for the tabs, for each user
+                followRequestsNumber = success.data.length;
+                $('#numberOfFollowRequests').html('Follow requests ' + success.data.length);
+                $('#preloaderfollowRequestsModal').hide();
+                aprroveFollowRequest();
+                declineFollowRequest();
+                searchFollowRequests(); // need to be here beacuse of the promise (if this is out side the then promiss it will load empty array)
+            }).catch(function (error) {
+                console.log(error);
+                M.toast({ html: 'something went wrong 🤖', classes: 'red accent-3' });
+            });
+        },
+        onCloseEnd: function onCloseEnd() {
+            $("#followRequestsModal").html('\n                <div class="row">\n                <div class="input-field col s12 m12">\n                    <i class="material-icons prefix grey-text text-lighten-3">search</i>\n                    <input id="searchFollowRequests" type="text">\n                    <label for="searchFollowRequests">Filter by first name</label>\n                </div>\n            </div>    \n            <div class="modal-content white-text">\n                <h4 id="numberOfFollowRequests">Follow requests</h4>\n                <section id="usersRequestedToFollowYou">\n        \n                <div class="preloader-wrapper big active" id="preloaderfollowRequestsModal">\n                <div class="spinner-layer spinner-blue-only">\n                  <div class="circle-clipper left">\n                    <div class="circle"></div>\n                  </div><div class="gap-patch">\n                    <div class="circle"></div>\n                  </div><div class="circle-clipper right">\n                    <div class="circle"></div>\n                  </div>\n                </div>\n              </div>\n            \n                </section>\n            </div>\n            <div class="modal-footer blue-grey darken-4">\n                <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">Dismiss</a>\n            </div>\n            ');
+        }
+    });
+    //  follow Requests Modal modal end
+}
+
+function aprroveFollowRequest() {
+    // if you use arrow function here,
+    // you will not get the id !!!!!
+    $('.aprroveFollowRequestButtons').on('click', function () {
+        var _this = this;
+
+        // console.log( $( this ).attr('id') ) 
+        var _$$attr$split = $(this).attr('id').split('-'),
+            _$$attr$split2 = _slicedToArray(_$$attr$split, 2),
+            userId = _$$attr$split2[0],
+            userName = _$$attr$split2[1];
+        // console.log(userId, userName)
+
+
+        $(this).addClass('disabled');
+        // $(`#${userId}.${userName}.delete`).addClass('disabled')
+        $(this).next().addClass('disabled'); // disable the delete button
+        axios.post("/approve/follow", {
+            from_id: userId
+        }).then(function (success) {
+            // console.log(success)
+            // console.log(`#${userId}.${userName}.delete`)
+            $(_this).hide();
+            $(_this).next().hide(); // hiding the delete button
+            M.toast({ html: success.data.success + ' ' + userName, classes: 'rounded light-blue accent-4' });
+            updateFollowRequestNumbers();
+            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
+            chagneColorBasedOnResult(true, userId);
+        }).catch(function (error) {
+            $(_this).removeClass('disabled');
+            $(_this).next().removeClass('disabled');
+            console.log(error);
+            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
+            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
+            chagneColorBasedOnResult(false, userId);
+        });
+    });
+}
+
+function declineFollowRequest() {
+    // if you use arrow function here,
+    // you will not get the id !!!!!
+    $('.declineFollowRequestButtons').on('click', function () {
+        var _this2 = this;
+
+        // console.log( $( this ).attr('id') ) 
+        var _$$attr$split3 = $(this).attr('id').split('-'),
+            _$$attr$split4 = _slicedToArray(_$$attr$split3, 2),
+            userId = _$$attr$split4[0],
+            userName = _$$attr$split4[1];
+        // console.log(userId, userName)
+
+
+        $(this).addClass('disabled');
+        $(this).prev().addClass('disabled'); // disable the approve button
+        axios.post("/decline/follow", {
+            from_id: userId
+        }).then(function (success) {
+            $(_this2).hide();
+            $(_this2).prev().hide();
+            M.toast({ html: success.data.success + ' ' + userName, classes: 'rounded light-blue accent-44' });
+            updateFollowRequestNumbers();
+            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
+            chagneColorBasedOnResult(true, userId, true);
+        }).catch(function (error) {
+            $(_this2).removeClass('disabled');
+            $(_this2).prev().removeClass('disabled');
+            console.log(error);
+            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
+            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
+            chagneColorBasedOnResult(false, userId);
+        });
+    });
+}
+
+function updateFollowRequestNumbers() {
+    $("#numberOfFollowRequests").html('Follow requests ' + (followRequestsNumber - 1));
+    $('.updateFollowRequestsNumber').html('' + (followRequestsNumber - 1));
+    followRequestsNumber--;
+}
+
+function chagneColorBasedOnResult(result, userId) {
+    var decline = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    $('.userRequest-' + userId).removeClass('deep-orange lighten-2').addClass(result ? decline ? 'purple accent-2' : 'light-blue lighten-2' : 'red lighten-2');
+    $('.userRequest-tabs-' + userId).removeClass('deep-orange lighten-1').addClass(result ? decline ? 'purple accent-1' : 'light-blue lighten-1' : 'red lighten-1');
+}
+
+function searchFollowRequests() {
+    var followRequestUserNsmes = [];
+    $('.searchFollowRequestsBasedOnNames').each(function (i, obj) {
+        followRequestUserNsmes.push(obj.innerHTML);
+    });
+    $(document).on('keyup', '#searchFollowRequests', function () {
+        var input = $('#searchFollowRequests');
+        followRequestUserNsmes.forEach(function (name) {
+            var x = name.toUpperCase(),
+                y = input.val().toUpperCase();
+            if (x.indexOf(y) > -1 && input.val()) {
+                // console.log(`${name} !== ${$('#searchFollowRequests').val()}`) 
+                $("#usersRequestedToFollowYou").find('div[data-username=\'' + name + '\']').fadeIn();
+            } else if (!input.val()) {
+                $("#usersRequestedToFollowYou").find('div[data-username=\'' + name + '\']').fadeIn();
+            } else {
+                $("#usersRequestedToFollowYou").find('div[data-username=\'' + name + '\']').fadeOut();
+            }
+        });
+    });
+}
+
+/***/ }),
+/* 42 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

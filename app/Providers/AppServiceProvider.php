@@ -40,16 +40,23 @@ class AppServiceProvider extends ServiceProvider
         // this component is used in the home.blade, the visitor page & profile page
         Blade::component('user.components.helperComponents.displayPosts', 'displayPosts');
         Blade::component('user.components.helperComponents.vuePosts', 'vuePosts');
-        Blade::component('layouts.navBarWelcome', 'navBarWelcome');
+        Blade::component('layouts.navBar', 'navBar');
+
+        // social components
+        Blade::component('user.components.socialComponents.followers', 'followers');
+        Blade::component('user.components.socialComponents.followRequests', 'followRequests');
+
+
         // register a callback function when the navBarWelcome renderd so
         // you don't need to keep getting the the default information each time
         // you return a view !.
-        View::composer('layouts.navBarWelcome', function($view){
+        View::composer('layouts.navBar', function($view){
             $view->with(
                 [
                     "wishes" => Wish::getWishes(),
     		        "allFollowers" => Follower::allFollowers(),
-    		        "allFollowedByTheUser" => Follower::allFollowedByTheUser()
+                    "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
+                    "followRequestsCount" => Follower::followRequestsCount()
                 ]
             );
         });

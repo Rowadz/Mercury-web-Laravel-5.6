@@ -3,7 +3,7 @@
 
         <!-- Nav -->
             {{-- @include('layouts.nabBarWelcome') --}}
-            @navBarWelcome(
+            @navBar(
                     [
                         // 'allFollowers' => $allFollowers,
                         // 'allFollowedByTheUser' => $allFollowedByTheUser,
@@ -11,7 +11,7 @@
                         'style' => 'grey darken-3 z-depth-5'
                     ]
                     )
-            @endnavBarWelcome
+            @endnavBar
         <!-- End Nav -->
         
     <div  id="feed">

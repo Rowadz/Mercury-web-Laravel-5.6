@@ -50,7 +50,8 @@ Route::get("/{user}", "UserController@profile")->name('profile');
 Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName")->name('newFollowerRequestedName');
 
 // checking for a new follow requests
-Route::get("/show/follow-Requests", "UserController@showFollowingRequests")->name('showFollowingRequests');
+// opens a modal 
+Route::post("/show/follow-Requests", "UserController@showFollowingRequests")->name('showFollowingRequests');
 
 // approve the follow request
 Route::post("/approve/follow", "UserController@approveFollow")->name('approveFollow');

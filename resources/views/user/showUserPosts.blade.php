@@ -1,12 +1,12 @@
 @include('layouts.defaults')
 
 
-@navBarWelcome(
+@navBar(
   [
       'style' => 'grey darken-4 z-depth-4',
   ]
   )
-@endnavBarWelcome
+@endnavBar
 <div class="row" id="sortPostsUserProfile">
         <div class="col s12 m6">
             <form action="/posts/{{$user->name}}/" method="GET" id="sortingForm">

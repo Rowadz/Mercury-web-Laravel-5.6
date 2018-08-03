@@ -1,6 +1,6 @@
 @include('layouts.defaults')
 
-@navBarWelcome(
+@navBar(
                 [
                 'allFollowers' => isset($allFollowers) ? $allFollowers : null,
                 'allFollowedByTheUser' => isset($allFollowedByTheUser) ? $allFollowedByTheUser : null,
@@ -8,7 +8,7 @@
                 'style' => 'grey darken-3 z-depth-5'
                 ]
                 )
-@endnavBarWelcome
+@endnavBar
 <!-- Feed -->
 <span id="feedNoAuth"></span>
 <a class="btn-floating btn-large waves-effect waves-light  yellow darken-4 z-depth-5" id="scrollTop" >
@@ -19,7 +19,7 @@
                 <div class="col s12 m12  ">
                    <!-- <div class="container"> -->
                    <div class="row">
-        @displayPosts(["posts" => $posts])
+        @displayPosts(["posts" => isset($posts) ? $posts : null, 'sm' => 's12 m4'])
 
         @enddisplayPosts
 

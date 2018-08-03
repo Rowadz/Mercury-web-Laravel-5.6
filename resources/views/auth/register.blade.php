@@ -1,7 +1,7 @@
 @include('layouts.defaults')
 
-@navBarWelcome(['style' => 'grey darken-1 z-depth-5'])
-@endnavBarWelcome
+@navBar(['style' => 'grey darken-1 z-depth-5'])
+@endnavBar
 
 <section class="mainLogin ">
     <div class="VspaceLogin"></div>

@@ -92,7 +92,7 @@
                     </form>
                  </div>
               </div>
-              @elseif($iamIFollowingThisUser == 2 || $iamIFollowingThisUser === 0)
+              @elseif($iamIFollowingThisUser === 0)
               <div class="col s6 m6 actionsButtonsProfile ">
                  <a class="waves-effect waves-light btn hoverable blue darken-2 modal-trigger 
                     btn-large" href="#cancelModal">

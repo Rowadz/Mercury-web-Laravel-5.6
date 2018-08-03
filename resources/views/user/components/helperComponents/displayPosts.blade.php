@@ -76,7 +76,7 @@
 --}}
 
               @foreach($posts as $post)
-              <div class="col s12 m4 ">
+            <div class="col {{isset($sm) ? $sm : 's12 m4'}}">
                  <div class="card  cyan darken-3 customShadow z-depth-5 ">
                     <div class="row">
                        <div class="col s12 m12 right-align">

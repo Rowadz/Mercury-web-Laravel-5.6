@@ -22,7 +22,7 @@ class UserController extends Controller
     public function profile(User $user){
         $iamIFollowingThisUser = Follower::iamIFollowingThisUser($user->id);
         // return the row id if the user send a follow request
-        if($iamIFollowingThisUser === 2 || $iamIFollowingThisUser === 0 || $iamIFollowingThisUser === 1){
+        if($iamIFollowingThisUser === 0 || $iamIFollowingThisUser === 1){
             $followId = Follower::getRowId($user->id);
         }
     	$data = [
@@ -41,18 +41,15 @@ class UserController extends Controller
     }
 
     public function showFollowingRequests(Request $request){
-    	$data = [
-    		"followers" => Follower::allRequests()
-    	];
-    	return view("user.followingRequests")->with($data);
+    	return  Follower::allRequests();
     }
 
     public function approveFollow(Request $request){
-        return Follower::approve($request->id);
+        return Follower::approve($request->from_id);
     }
 
     public function declineFollow(Request $request){
-        return Follower::decline($request->id);
+        return Follower::decline($request->from_id);
     }
 
     public function seeFollowers(){

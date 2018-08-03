@@ -18,7 +18,7 @@
     <!-- MoreCss -->
     @yield('moreCSS')
     <script>
-            removeSpecificLoader = (id) => document.querySelector(`.imageLoader${id}`).style.visibility = 'hidden'
+            removeSpecificLoader = id => document.querySelector(`.imageLoader${id}`).style.visibility = 'hidden'
     </script>
 </head>
 

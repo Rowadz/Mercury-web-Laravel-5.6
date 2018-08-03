@@ -1,12 +1,12 @@
 @include('layouts.defaults')
 
 
-@navBarWelcome(
+@navBar(
   [
       'style' => 'grey darken-4 z-depth-5',
   ]
   )
-@endnavBarWelcome
+@endnavBar
 
 <div class="row">
   <div class="col s12 m12">
@@ -18,6 +18,7 @@
 </div>
 <div class="row" id="feed">
   <div class="col s12 m4 addNigativeMarginToTop">
+    {{-- {{ dd($user, $iamIFollowingThisUser, $followId) }} --}}
     @generalInfo([
       'user' => $user,
       'iamIFollowingThisUser' => $iamIFollowingThisUser,
@@ -35,7 +36,7 @@
         </div>
      </div>
      
-     @displayPosts(['posts' => (isset($posts)) ? $posts : null])
+     @displayPosts(['posts' => (isset($posts)) ? $posts : null, 'sm' => 's12 m6'])
 
      @enddisplayPosts
      {{-- <input type="text" id="lastId"  hidden value="{{ $posts[sizeof($posts) - 1]->id }}" >
