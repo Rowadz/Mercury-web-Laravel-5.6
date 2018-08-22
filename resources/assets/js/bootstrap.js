@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 // TODO: I Commented This
 // this is for bootstrap

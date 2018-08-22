@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Mercury\Wish;
 use Mercury\Follower;
+use Mercury\ExchangeRequest;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,8 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // for the models error ?
+        // for the models error when run the migration command
         Schema::defaultStringLength(191);
+
+
         // Aliasing Components
 
         // home component
@@ -45,28 +48,24 @@ class AppServiceProvider extends ServiceProvider
         // social components
         Blade::component('user.components.socialComponents.followers', 'followers');
         Blade::component('user.components.socialComponents.followRequests', 'followRequests');
+        Blade::component('user.components.socialComponents.following', 'following');
+        Blade::component('user.components.socialComponents.wishes', 'wishes');
+        Blade::component('user.components.socialComponents.sendExchangeRequest', 'sendExchangeRequest');
 
-
-        // register a callback function when the navBarWelcome renderd so
+        // register a callback function when the navBar renderd so
         // you don't need to keep getting the the default information each time
         // you return a view !.
         View::composer('layouts.navBar', function($view){
             $view->with(
                 [
-                    "wishes" => Wish::getWishes(),
+                    "wishes" => Wish::getWishesNumber(),
     		        "allFollowers" => Follower::allFollowers(),
                     "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
-                    "followRequestsCount" => Follower::followRequestsCount()
+                    "followRequestsCount" => Follower::followRequestsCount(),
+                    "exchangeRequestCount" => ExchangeRequest::exchangeRequestCount()
                 ]
             );
         });
-
-        // View::share('defaultData',[
-        //     "wishes" => Wish::getWishes(),
-    	// 	"allFollowers" => Follower::allFollowers(),
-    	// 	"allFollowedByTheUser" => Follower::allFollowedByTheUser()
-        // ]);
-        
     }
 
     /**

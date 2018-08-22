@@ -27,6 +27,7 @@ export default function feed () {
             },
             loadMorePosts(){
                 // console.log('@click="loadMorePosts')
+                $("#dimmerHere").addClass('disabled')
                 $("#dimmerHere").html(`
                         <div class="preloader-wrapper big active">
                         <div class="spinner-layer spinner-blue-only">
@@ -40,15 +41,9 @@ export default function feed () {
                         </div>
                     </div>
                 `)
-                $('#dimmerImage').removeClass(`
-                    scale-out
-                `)
-                $('#dimmerImage').removeClass(`
-                    scale-in
-                `)
-                $('#dimmerImage').addClass(`
-                    scale-out
-                `)
+                $('#dimmerImage').removeClass(`scale-out`)
+                $('#dimmerImage').removeClass(`scale-in`)
+                $('#dimmerImage').addClass(`scale-out`)
                 let url = null
                 if($("#feedNoAuth").length)  url = '/show/all/postsNoAuth'
                 else if($('#profile').length) url = '/show/user/posts/profile'
@@ -59,6 +54,7 @@ export default function feed () {
                 })
                     .then((response) => {
                         $("#dimmerHere").html("More")
+                        $("#dimmerHere").removeClass('disabled')
                         //console.log(typeof (response.data.posts))
                         let allPosts = response.data.posts
                         let x = allPosts.length
@@ -92,9 +88,7 @@ export default function feed () {
                         let audio = new Audio('/sounds/Lightsaber_Turn_Off.mp3')
                         audio.play()
                         $('#dimmerImage').attr("src", "/images/404.png")
-                        $('#dimmerImage').addClass(`
-                            scale-in
-                        `)
+                        $('#dimmerImage').addClass(`scale-in`)
                         $("#dimmerHere").html(`🤖`)
                     })
             }

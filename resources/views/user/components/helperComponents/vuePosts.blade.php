@@ -1,95 +1,6 @@
-{{-- 
-<div class="myCard card animated flipInX" v-for="(post, index) in posts">
-   <div class="image">
-      <img class="ui image" :src="imageLocation[index]">
-   </div>
-   <div class="content">
-      <div class="header">@{{ post.header }}</div>
-      <div class="meta">
-         <a class="ui red right ribbon label" rel="noreferrer"
-            v-if="post.tag_id == 1" >
-         @{{ tagNames[index] }}
-         </a>
-         <a class="ui teal right ribbon label" rel="noreferrer"
-            v-else-if="post.tag_id == 2">
-         @{{ tagNames[index] }}
-         </a>
-         <a class="ui orange right ribbon label" rel="noreferrer"
-            v-else-if="post.tag_id == 3">
-         @{{ tagNames[index] }}
-         </a>
-         <a class="ui yellow right ribbon label" rel="noreferrer"
-            v-else-if="post.tag_id == 4">
-         @{{ tagNames[index] }}
-         </a>
-         <a class="ui green right ribbon label" rel="noreferrer"
-            v-else-if="post.tag_id == 5">
-         @{{ tagNames[index] }}
-         </a>
-         <a class="ui blue right ribbon label" rel="noreferrer"
-            v-else-if="post.tag_id == 6">
-         @{{ tagNames[index] }}
-         </a>
-         <a class="ui violet right ribbon label" rel="noreferrer"
-            v-else-if="post.tag_id == 7">
-         @{{ tagNames[index] }}
-         </a>
-         <a class="ui black right ribbon label" rel="noreferrer"
-            v-else-if="post.tag_id == 8">
-         @{{ tagNames[index] }}
-         </a>
-      </div>
-      <div class="description">
-         <h4 style="color: #2e3436;">@{{ users[index] }} says : </h4>
-         <p>
-            @{{ post.body.substring(1400)}}
-            <a :href=`/show/post/${post.id}`
-               rel="noreferrer" target="_blank"
-               class="continueReadingATag">CONTINUE READING....👁</a>
-         </p>
-      </div>
-   </div>
-   <div class="extra content">
-      <span class="right floated">
-      @{{     post.created_at}}
-      </span>
-      <span>
-      💬 @{{ commentNumber[index] }}
-      </span>
-   </div>
-</div>
---}}
-<!-- Press Here to load more card -->
-{{-- 
-<div class="myCard card" @click="loadMorePosts">
-   <div class="image">
-      <img class="ui image" src="{{asset('images/returnHome.png')}}" id="dimmerImage">
-   </div>
-   <div class="content">
-      <div class="header">Header</div>
-      <div class="meta">
-         <a class="ui olive right ribbon label" rel="noreferrer">
-         🔖
-         </a>
-      </div>
-      <div class="description" id="dimmerHere">
-         <p> Press here to load more posts
-         </p>
-      </div>
-   </div>
-   <div class="extra content">
-      <span class="right floated">
-      📅
-      </span>
-      <span>
-      ### 💬
-      </span>
-   </div>
-</div>
---}}
 <section class="cardsAjax">
-    
-        <div class="col s12 m4"  v-for="(post, index) in posts">
+        <div class="col {{isset($sm) ? $sm : 's12 m4'}}">
+        <div v-for="(post, index) in posts">
                 <div class="card  cyan darken-3  z-depth-5">
                    <div class="row">
                       <div class="col s12 m12 right-align">
@@ -146,59 +57,57 @@
                    </div>
                 </div>
              </div>
+        <!-- Loader -->
         
-        
+                        <div class="card  cyan darken-3 hoverable z-depth-5">
+                           <div class="row">
+                             <div class="col s6 m6">
+                                         <button  @click="loadMorePosts" class="btn-floating btn-large waves-effect waves-light z-depth-5" id="dimmerHere">
+                                             More
+                                         </button>
+                             </div>
+                              <div class="col s6 m6 right-align">
+                                 <div class="chip z-depth-5 tagChip">
+                                    <a href="#!" class="right-align">Tag name</a>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="card-image">
+                              <img src="{{asset('images/returnHome.png')}}" class="responsive-img scale-transition" id="dimmerImage">
+                              <span class="card-title black-text">
+                              <strong class="chip strongChips">
+                              Post Title
+                              </strong>   
+                              </span>
+                              <a class="btn-floating halfway-fab  waves-effect waves-teal blue-grey darken-4 z-depth-5">
+                              <i class="material-icons">free_breakfast</i>
+                              </a>
+                           </div>
+                           <div class="card-content cyan lighten-3">
+                              <div class="row">
+                                 <div class="col s12 m12">
+                                    <div class="chip z-depth-5 strongChips">
+                                       🐨
+                                    </div>
+                                    <div class="chip z-depth-5">
+                                       📅
+                                    </div>
+                                    <div class="chip z-depth-5">
+                                       💬
+                                    </div>
+                                 </div>
+                              </div>
+                              <p class="flow-text" >
+                                 Click The load button
+                              </p>
+                           </div>
+                        
+                     </div>
+             
+        <!-- End loader -->
+        </div>
             </section>  
         
 
-{{-- 
-<div class="col s12 m12 l12" >
-        <!-- <div class="container"> -->
-        <div class="row"> --}}
-        <div class="col s12 m4">
-           <div class="card  cyan darken-3 hoverable z-depth-5">
-              <div class="row">
-                <div class="col s6 m6">
-                            <button  @click="loadMorePosts" class="btn-floating btn-large waves-effect waves-light z-depth-5" id="dimmerHere">
-                                More
-                            </button>
-                </div>
-                 <div class="col s6 m6 right-align">
-                    <div class="chip z-depth-5 tagChip">
-                       <a href="#!" class="right-align">Tag name</a>
-                    </div>
-                 </div>
-              </div>
-              <div class="card-image">
-                 <img src="{{asset('images/returnHome.png')}}" class="responsive-img scale-transition" id="dimmerImage">
-                 <span class="card-title black-text">
-                 <strong class="chip strongChips">
-                 Post Title
-                 </strong>   
-                 </span>
-                 <a class="btn-floating halfway-fab  waves-effect waves-teal blue-grey darken-4 z-depth-5">
-                 <i class="material-icons">free_breakfast</i>
-                 </a>
-              </div>
-              <div class="card-content cyan lighten-3">
-                 <div class="row">
-                    <div class="col s12 m12">
-                       <div class="chip z-depth-5 strongChips">
-                          🐨
-                       </div>
-                       <div class="chip z-depth-5">
-                          📅
-                       </div>
-                       <div class="chip z-depth-5">
-                          💬
-                       </div>
-                    </div>
-                 </div>
-                 <p class="flow-text" >
-                    Click The load button
-                 </p>
-              </div>
-           </div>
-        </div>
-        {{-- </div>
-</div> --}}
+
+       

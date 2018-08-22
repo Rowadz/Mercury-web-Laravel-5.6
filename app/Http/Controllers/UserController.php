@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Mercury\User;
 use Mercury\Wish;
 use Mercury\Follower;
-
+use Mercury\ExchangeRequest;
+use Mercury\Post;
 
 // default data you need to return te every Auth View 
 // "wishes" => Wish::getWishes(),
@@ -45,56 +46,93 @@ class UserController extends Controller
     }
 
     public function approveFollow(Request $request){
+        $validatedData = $request->validate([
+            'from_id' => 'required|exists:followers,from_id'
+        ]);
         return Follower::approve($request->from_id);
     }
 
     public function declineFollow(Request $request){
+        $validatedData = $request->validate([
+            'from_id' => 'required|exists:followers,from_id'
+        ]);
         return Follower::decline($request->from_id);
     }
 
-    public function seeFollowers(){
-        $data = [
-            'Followers' => Follower::seeFollowers(),
-        ];
-        dd($data);
-        return view("user.followers")->with($data);
+    public function seeFollowers(Request $request){
+        $validatedData = $request->validate([
+            'highestId' => 'numeric'
+        ]);
+        return Follower::seeFollowers($request->highestId ?: null);
     }
 
-    public function seeTheUsersYouAreFollowing(){
-        $data = [
-            'theFollowers' => Follower::seeTheUsersYouAreFollowing(),
-        ];
-        $u = Follower::seeTheUsersYouAreFollowing();
-        return view("user.following")->with($data);
+    public function seeTheUsersYouAreFollowing(Request $request){
+        $validatedData = $request->validate([
+            'highestId' => 'numeric'
+        ]);
+        return Follower::seeTheUsersYouAreFollowing($request->highestId ?: null);
     }
 
     public function unFollow(Request $request){
+        $validatedData = $request->validate([
+            'id' => 'required|exists:followers,user_id'
+        ]);
         return Follower::unFollow($request->id);
     }
 
     public function follow(Request $request){
+        $validatedData = $request->validate([
+            'id' => 'required|numeric,'
+        ]);
         return Follower::follow($request->id);
     }
 
-    // TODO if every thing went correctly return back() with nothing 
-    // if something went wrong return back() with error message
     public function cancelFollow(Request $request){
+        $validatedData = $request->validate([
+            'row_id' => 'required|exists:followers,id'
+        ]);
         Follower::cancel($request->row_id);
         return back();
     }
 
-    // TODO if every thing went correctly return back() with nothing 
-    // if something went wrong return back() with error message
+
     public function followUser(Request $request){
+        $validatedData = $request->validate([
+            'user_id' => 'required|numeric'
+        ]);
         Follower::followUser($request->user_id);
         return back();
     }
 
-    // TODO if every thing went correctly return back() with nothing 
-    // if something went wrong return back() with error message
+    
     public function unfollowUser(Request $request){
+        $validatedData = $request->validate([
+            'row_id' => 'required|exists:followers,id'
+        ]);
         Follower::unfollowUser($request->row_id);
         return back();
     }
 
+    public function sendExchangeRequest(Request $request){
+        $validatedData = $request->validate([
+            'postId' => 'required|numeric|exists:posts,id',
+            'userPostId' => 'required|numeric|exists:posts,id'
+        ]);
+        if(Post::checkPostStatus($request->postId, 1) && Post::checkPostStatus($request->userPostId, 1)){
+            return ExchangeRequest::sendExchangeRequest($request->userPostId, $request->postId);    
+        } else {
+            return response()->json(["On the wrong side 🤬🤬, don't miss with our server side monkeys" => "🐒🐒🐒🐒🐒🐒🐒🐒"]);
+        }
+    }
+
+    public function seeExchangeRequest(){
+        return view('user.exchangeRequests')->with(["exchangeRequests" => ExchangeRequest::dataForTheExchangeRequstsView()]);
+    }
+
+    public function exchangeRequestLoadMore(Request $request){
+        $validatedData = $request->validate([
+            'idToSend' => 'numeric|exists:exchange_requests,id'
+        ]);
+        return ExchangeRequest::loadMore($request->idToSend);
+    }
 }

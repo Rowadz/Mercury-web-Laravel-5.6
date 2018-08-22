@@ -17,26 +17,42 @@ class Follower extends Model
     }
 
     public static function allFollowers(){
-    	return Follower::where('user_id', isset(Auth()->user()->id)?Auth()->user()->id:null)->where("status", 1)->get()->count();
+    	return Follower::where([
+            'user_id' => isset(Auth()->user()->id)?Auth()->user()->id:null,
+            'status' => 1
+        ])->get()->count();
     }
 
 
-    public static function seeFollowers(){
-        return Follower::where('user_id', Auth()->user()->id)->where("status", 1)->get();
+    public static function seeFollowers($highestId = null){
+        return Follower::with('user')->where([
+                                'user_id' => Auth()->user()->id,
+                                'status' => 1,
+                            ])->where('id' ,'>', $highestId ?: 0)
+                            ->orderBy('id')
+                            ->take(10)->get();
     }
 
 
-    public static function seeTheUsersYouAreFollowing(){
-        $x = Follower::where('from_id', Auth()->user()->id)->where("status", 1)->get();
-        $users = [];
-        foreach ($x as $value) 
-            array_push($users, User::find($value->user_id));
-        return $users;
+    public static function seeTheUsersYouAreFollowing($highestId = null){
+        $following = Follower::where([
+            'from_id' => Auth()->user()->id,
+            'status' => 1
+        ])->where('id', '>' , $highestId ?: 0)
+            ->orderBy('id')
+            ->take(10)
+            ->get();
+        $sizeofFollowingArray = sizeof($following);
+        for ($i=0; $i <  $sizeofFollowingArray; $i++) $following[$i]['user'] = User::find($following[$i]->user_id)->toArray();
+        return $following;
     }
 
 
     public static function allFollowedByTheUser(){
-    	return Follower::where('from_id', isset(Auth()->user()->id)?Auth()->user()->id:null)->where('status', 1)->get()->count();
+        return Follower::where([
+            'from_id' => isset(Auth()->user()->id)?Auth()->user()->id:null,
+            'status' => 1
+        ])->get()->count();
     }
 
     public static function followRequestsCount(){
@@ -45,21 +61,7 @@ class Follower extends Model
             'status' => 0
         ])->count() :  null;
     }
-
-    // the users who sent a follow reuest to the auth user
-    // public static function newFollowerRequestedName(){
-    // 	$newFollowers =  Follower::where("user_id", Auth()->user()->id)->where("status", 0)->get();
-    // 	$oldFollowers = Follower::where("user_id", Auth()->user()->id)->where("status", 2)->get();
-    // 	$returnFollowers = $newFollowers;
-    // 	foreach ($newFollowers as $follower) {
-    // 		$follower->status = 2;
-    // 		$follower->save();
-    // 	}
-    // 	return response()->json([
-    // 		"newFollowers" => $returnFollowers,
-    // 		"oldFollowers" => $oldFollowers
-    // 	]);
-    // }
+    
     public static function allRequests(){
         try{
             $userSentRequest = Follower::with('user')->where([
@@ -206,4 +208,5 @@ class Follower extends Model
             'status' => 1
         ])->count();
     }
+
 }

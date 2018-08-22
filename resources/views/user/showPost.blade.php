@@ -7,18 +7,40 @@
        data-tooltip="Options">
     <i class="large material-icons">menu</i>
     </a>
-    <ul>
+    <ul id="postActionsWishUnWish">
         @if($post->user->name !== Auth()->user()->name)
             @if($isWished)
-                <li><a class="btn-floating red tooltipped"  data-position="left" data-tooltip="Already Saved"><i class="material-icons">bookmark</i></a></li>
+                <li id="deletePostFromWithListButton">
+                    <a class="btn-floating red tooltipped"  data-position="left" data-tooltip="Already Saved">
+                        <i class="material-icons">bookmark</i>
+                    </a>
+                </li>
             @else
-                {{-- Can't bind Vue (@click) here  --}}
-                <li class="{{ $post->id }}"  id="addToWishListButton"><a class="btn-floating red tooltipped" data-position="left" data-tooltip="Click Here to add post to wish list"><i class="material-icons">bookmark_border</i></a></li>
+                <li id="addToWishListButton">
+                    <a class="btn-floating red tooltipped" data-position="left" data-tooltip="Click Here to add post to wish list">
+                        <i class="material-icons">bookmark_border</i>
+                    </a>
+                </li>
             @endif
+       @else
+            <li>
+                <a class="btn-floating  blue darken-3 tooltipped" data-position="left" data-tooltip="Your Post !">
+                    <i class="material-icons">tag_faces</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating yellow darken-2 tooltipped" data-position="left" data-tooltip="send Exchange Request">
+                    <i class="material-icons">forward</i>
+                </a>
+            </li>
        @endif
        <!-- Exchange Request -->
-       @if(Auth()->user()->id !== $post->user_id)
-        <li><a class="btn-floating yellow darken-3 tooltipped" data-position="left" data-tooltip="Send Exchange Request now"><i class="material-icons">pets</i></a></li>
+       @if(Auth()->user()->id !== $post->user_id && $post->status === 1)
+        <li>
+            <a class="btn-floating yellow darken-3 tooltipped modal-trigger" id="sendExchangeRequestTrigger" href="#sendExchangeRequestModal" data-position="left" data-tooltip="Send Exchange Request now">
+                <i class="material-icons">pets</i>
+            </a>
+        </li>
        @endif
     </ul>
 </div>
@@ -40,14 +62,9 @@
         @endcomments
     </div>
 
+    
+    @sendExchangeRequest
+    @endsendExchangeRequest
 
-@extends('layouts.defaultsBottom')
-
-@section("scripts")
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"></script>--}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script> --}}
-    @Auth
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    @endauth
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js"></script> --}}
-@endsection
+<span id="showPostId" class="hideMe">{{$post->id}}</span>
+@include('layouts.defaultsBottom')

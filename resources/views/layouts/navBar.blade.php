@@ -19,7 +19,7 @@
                     <i class=" large material-icons">home</i> 
                     </a>
                  </li>
-                 <li><a class="dropdown-trigger" href="#!" data-target="dropdownAuth" id="fixOverFlowIssue"> <i class="material-icons">more_vert</i></a></li>
+                 <li><a class="dropdown-trigger" href="#!" data-target="dropdownAuth"> <i class="material-icons">more_vert</i></a></li>
                  @endauth
               </ul>
            </div>
@@ -39,7 +39,7 @@
            <a href="{{ route('openChat') }}" class="black-text">
            <i class="material-icons black-text">message</i> 
            Chat
-           <span class="new badge black white-text">+99</span>
+           <span class="new badge black white-text z-depth-5">+99</span>
            </a>
         </li>
         <li> 
@@ -50,32 +50,32 @@
            </a>
         </li>
         <li>
-           <a href="" class="black-text">
+           <a href="{{route('exchangeRequest')}}" class="black-text modal-trigger">
            <i class="material-icons black-text">room_service</i>
            Exchange Request
-           <span class="new badge black white-text">+99</span>
+           <span class="new badge black white-text z-depth-5">{{$exchangeRequestCount ?: 0}}</span>
            </a>
         </li>
         <li>
-           <a href="{{ route('seeFollowers') }}" class="black-text">
+           <a href="#followersModal" class="black-text modal-trigger followersModalTrigger">
            <i class="material-icons black-text">group</i> 
            Followers
-           <span class="badge black white-text">{{isset( $allFollowers )? $allFollowers : 'zero'}}</span>
+           <span class="badge black white-text z-depth-5 updateFollowersNumber" id="getFollowersNumber">{{isset( $allFollowers )? $allFollowers : 'zero'}}</span>
            </a>
         </li>
         <li>
-           <a href="{{ route('seeTheUsersYouAreFollowing') }}" class="black-text">
+           <a href="#followingModal" class="black-text modal-trigger peopleYouAreFollowingModalTrigger">
            <i class="material-icons black-text">group_work</i>  
            People you are following
-           <span class="badge black white-text">{{isset($allFollowedByTheUser)? $allFollowedByTheUser : 'zero'}}</span>
+           <span class="badge black white-text z-depth-5" id="getpeopleYouAreFollowingNumber">{{isset($allFollowedByTheUser)? $allFollowedByTheUser : 'zero'}}</span>
            </a>
         </li>
         <li class="divider"></li>
         <li>
-           <a href="{{route('showWishedPosts')}}" class="black-text">
+           <a href="#wishesModal" class="black-text modal-trigger wishesModalTrigger">
            <i class="material-icons black-text">stars</i> 
-           Wished Posts
-           <span class="badge black white-text"> {{ isset($wishes) ? $wishes : 0 }} </span>
+                Wished Posts
+           <span class="badge black white-text z-depth-5 updateWishesNumber" id="getWishesNumber"> {{ isset($wishes) ? $wishes : 0 }} </span>
            </a>
         </li>
         <li>
@@ -95,6 +95,8 @@
            @csrf
         </form>
      </ul>
+
+
      <!-- Side nav -->
      <ul id="dropdownAuthSideNav" class="dropdown-content">
         <li> 
@@ -112,21 +114,21 @@
            </a>
         </li>
         <li>
-           <a href="" class="black-text">
+           <a href="{{route('exchangeRequest')}}" class="black-text modal-trigger">
            <i class="material-icons black-text">room_service</i>
            Exchange Request
-           <span class="new badge black white-text z-depth-5">+99</span>
+           <span class="new badge black white-text z-depth-5">{{$exchangeRequestCount ?: 0}}</span>
            </a>
         </li>
         <li>
-           <a href="{{ route('seeFollowers') }}" class="black-text">
+           <a href="#followersModal" class="black-text modal-trigger followersModalTrigger">
            <i class="material-icons black-text">group</i> 
-           Followers
-           <span class="badge black white-text z-depth-5">{{isset( $allFollowers )? $allFollowers : 'zero'}}</span>
+                Followers
+           <span class="badge black white-text z-depth-5 updateFollowersNumber">{{isset( $allFollowers )? $allFollowers : 'zero'}}</span>
            </a>
         </li>
         <li>
-           <a href="{{ route('seeTheUsersYouAreFollowing') }}" class="black-text">
+           <a href="#followingModal" class="black-text modal-trigger peopleYouAreFollowingModalTrigger">
            <i class="material-icons black-text">group_work</i>  
            People you are following
            <span class="badge black white-text z-depth-5">{{isset($allFollowedByTheUser)? $allFollowedByTheUser : 'zero'}}</span>
@@ -134,10 +136,10 @@
         </li>
         <li class="divider"></li>
         <li>
-           <a href="{{route('showWishedPosts')}}" class="black-text">
+           <a href="#wishesModal" class="black-text modal-trigger wishesModalTrigger">
            <i class="material-icons black-text">stars</i> 
            Wished Posts
-           <span class="badge black white-text z-depth-5"> {{ isset($wishes) ? $wishes : 0 }} </span>
+           <span class="badge black white-text z-depth-5 updateWishesNumber"> {{ isset($wishes) ? $wishes : 0 }} </span>
            </a>
         </li>
         <li>
@@ -172,6 +174,17 @@
         </li>
      </ul>
 
-     @followRequests()
+     @followRequests
      @endfollowRequests
+
+     @followers
+     @endfollowers
+
+     @following
+     @endfollowing
+
+     @wishes
+     @endwishes
+
+     
      @endauth

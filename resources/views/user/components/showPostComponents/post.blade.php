@@ -9,7 +9,7 @@
 
 <!-- Chips -->
  <div class="row paddingTags">
-    <div class="col s6 m2">
+    <div class="col s12 m4">
        <div class="chip z-depth-5 blue-grey darken-3" data-aos="fade-up-left">
           <img src="{{ $post->user->image }}" alt="Contact Person">
           <a href="/{{ $post->user->name }}">
@@ -70,7 +70,7 @@
 
 
  <div class="row">
-        <div class="col s12 m3">
+        <div class="col s12 m12">
            <div class="card-panel grey darken-4 z-depth-5 postHeader" data-aos="fade-down-right">
               <span class="white-text">
                  <h4>
@@ -80,15 +80,20 @@
                  </h4>
               </span>
            </div>
+
            @options(['isWished' => $isWished, 'post' => $post])
 
            @endoptions
        
         </div>
+    </div>
+</div class="row">
         <div class="col s12 m9">
            <div class="card-panel grey darken-4 z-depth-5 postBody" data-aos="flip-down">
               <span class="white-text flow-text">
+                  <blockquote>
                     {{ $post->body }}
+                  </blockquote>
               </sp4an>
            </div>
         </div>

@@ -4,6 +4,12 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+// user_id  who sent the request
+// post_id  the offerd Post
+// original_post_id  the The post that recived an exchange request
+// status => 1 accepted 
+// status => 0 pending 
+
 class CreateExchangeRequestsTable extends Migration
 {
     /**
@@ -15,8 +21,8 @@ class CreateExchangeRequestsTable extends Migration
     {
         Schema::create('exchange_requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('post_id');
+            $table->unsignedInteger('user_id'); // who sent the request
+            $table->unsignedInteger('post_id'); // the offerd Post
             $table->unsignedSmallInteger('status');
             $table->foreign('post_id')->references('id')->on('posts');
             $table->foreign('user_id')->references('id')->on('users');

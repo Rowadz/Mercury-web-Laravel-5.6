@@ -1,24 +1,32 @@
 @include('layouts.defaults')
 
-@navBar(['style' => 'grey darken-3 z-depth-5'])
-@endnavBar
+{{-- @navBar(['style' => 'grey darken-4 z-depth-5'])
+@endnavBar --}}
 
-<section class="mainLogin ">
-    <div class="VspaceLogin"></div>
-    <div class="container white flow-text  z-depth-5 hoverable mainResgister">
-       <h1 class="inputs greet" >
-          Great to see you again!
+<section class="mainLogin" id="loginPage">
+        <div class="" id="particles-js">
+    <!-- <div class="VspaceLogin"></div> -->
+    <div class="row fixParticlesIssue">
+    <div class="container  flow-text  z-depth-5 hoverable mainResgister ">
+       <h1 class="inputs greet white-text" >
+          Great to see you again! 
        </h1>
        <div class="row  ">
-          <div class="col s12 m12 inputs">
-             <div class="col s6 m6 white-text" data-aos="fade-right">
-                <a class="waves-effect waves-light btn indigo accent-2 z-depth-5 hoverable">Facebook</a>
-             </div>
-             <div class="col s6 m6 white-text" data-aos="fade-left">
-                <a class="waves-effect waves-light btn red accent-2 z-depth-5 hoverable">Google +</a>
-             </div>
-          </div>
-       </div>
+            <div class="col s12 m12 inputs">
+               <div class="col s12 m6 white-text" data-aos="fade-right">
+                     <a href="{{route('wlcome')}}" class="btn-floating btn-large waves-effect waves-light deep-orange accent-2 hoverable tooltipped" data-position="top" data-tooltip="Return">
+                         <i class="material-icons">arrow_back</i>
+                     </a>
+                     <a href="/register" class="btn-floating btn-large waves-effect waves-light yellow accent-2 hoverable tooltipped" data-position="top" data-tooltip="register">
+                         <i class="material-icons black-text">person_add</i>
+                     </a>
+               </div>
+               <div class="col s12 m6 white-text" data-aos="fade-left">
+                     <a class="waves-effect waves-light btn indigo accent-2 z-depth-5 hoverable">Facebook</a>
+                     <a class="waves-effect waves-light btn red accent-2 z-depth-5 hoverable">Google +</a>
+               </div>
+            </div>
+         </div>
        <div class="divider"></div>
        <div class="row  loginFormPadding">
           <div class="col s12 m6 white-text ">
@@ -26,11 +34,11 @@
                     @csrf
                 <div class="row">
                    <div class="input-field col s12 m12" data-aos="flip-down">
-                      <i class="material-icons prefix black-text">email</i>
+                      <i class="material-icons prefix white-text">email</i>
                       <input 
                             id = "email"
                             type = "email"
-                            class = "validate"
+                            class = "validate white-text"
                             value = "{{ old('email') }}"
                             required
                             name = 'email'
@@ -41,11 +49,11 @@
                 </div>
                 <div class="row">
                    <div class="input-field col s12 m12 " data-aos="flip-up">
-                      <i class="material-icons prefix black-text">security</i>
+                      <i class="material-icons prefix white-text">security</i>
                       <input 
                             id = "password" 
                             type = "password" 
-                            class = "validate"
+                            class = "validate white-text"
                             required
                             name = "password"
                             >
@@ -59,8 +67,8 @@
                    </label>
                 </p>
                 <button class="btn waves-effect waves-light  z-depth-5 hoverable grey darken-3" type="submit" name="action"
-                data-aos="zoom-in-left" > {{ __('Login') }}
-                <i class="material-icons right">send</i>
+                 > {{ __('Login') }}
+                <i class="material-icons right">weekend</i>
                 </button>
                 {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
                         {{ __('Forgot Your Password?') }}
@@ -68,9 +76,9 @@
              </form>
           </div>
           <div class="col s12 m6 white-text inputs">
-             <div class="input-field col s12 m6 hide-on-small-only" data-aos="flip-left">
+             {{-- <div class="input-field col s12 m6 hide-on-small-only" data-aos="flip-left">
                 <img src="{{asset('images/pattren2.png')}}" alt="Login Form" class="login-image   responsive-img">
-             </div>
+             </div> --}}
           </div>
        </div>
        <div class="row">
@@ -95,6 +103,8 @@
             </div>
        </div>
     </div>
+</div>
+</div>
  </section>
 
 

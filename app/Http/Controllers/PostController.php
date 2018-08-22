@@ -147,6 +147,15 @@ class PostController extends Controller
     }
 
     public function loadUserPosts(Request $request){
+        $validatedData = $request->validate([
+            'lastId' => 'required|numeric',
+            'userId' => 'required|numeric|exists:users,id'
+        ]);
         return Post::loadMorePosts($request->lastId, $request->userId);
+    }
+
+
+    public function getPostdataExchangeRequest($keyword){
+        return Post::getPostdataExchangeRequest($keyword);
     }
 }

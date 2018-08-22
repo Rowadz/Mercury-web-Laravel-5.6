@@ -9,7 +9,7 @@ crossorigin="anonymous" ></script> --}}
     
 
 @auth
-<input type="text" value="{{Auth()->user()->name}}"  id="userNameForCheckNewFollowers" hidden>
+<input type="text" value="{{Auth()->user()->name}}"  id="authUserName" hidden>
 {{-- <script src="{{ asset("js/checkForFollower.js") }}"></script> --}}
 @endauth
 </body>

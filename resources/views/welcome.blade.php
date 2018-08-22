@@ -1,40 +1,34 @@
 @include('layouts.defaults')
 
-<div class="main">
-    <!-- Nav -->
-        {{-- @include('layouts.nabBarWelcome') --}}
-        @navBar()
-        @endnavBar 
-    <!-- End Nav -->
+<div class="main black" id="welcomePage">
+    <div id="particles-js" class="particles-js-welcome">
     
-<!-- Vertical spacing -->
-<div class="Vspace"></div>
-<div class="VeryBigspace show-on-large"></div>
-    <!-- End vertical spacing -->
+            @navBar(["position" => "position:inherit !important"])
 
-<!-- Main Show case -->
-<div class="container">
-    
-    <div class="row ">
-        <div class="col s12 m6 cyan-text text-accent-4">
-            <h1 data-aos="fade-up-left">
-                <b>
-                    A platform to exchange items    
-                </b> 
-            </h1>
-            <div class="divider"></div>
-                <!-- the <p></p> -->
-                <p></p> 
-                <!-- Is for padding -->
-                
-            <a  href = "{{isset( Auth()->user()->id ) ? route('home') : route('showPostsNoAuth')}}" class = "btn  waves-effect waves-light btn-large hoverable exploreButton" data-aos="zoom-in">
-                    Explore! <i class="material-icons right">remove_red_eye</i>
-            </a>
+            @endnavBar 
+    <div class="container positionFixedAndMargins">
+           
+        <div class="row">
+            <div class="col s12 m6 cyan-text text-accent-4">
+                <h1 data-aos="fade-up-left">
+                    <b>
+                        A platform to exchange items    
+                    </b> 
+                </h1>
+                <div class="divider"></div>
+                    <!-- the <p></p> -->
+                    <p></p> 
+                    <!-- Is for padding -->
+                    
+                <a  href = "{{isset( Auth()->user()->id ) ? route('home') : route('showPostsNoAuth')}}"
+                    class = "btn  waves-effect waves-light btn-large hoverable exploreButton pulse" data-aos="zoom-in">
+                        Explore! <i class="material-icons right">remove_red_eye</i>
+                </a>
+            </div>
         </div>
     </div>
-</div>
 <!-- end main Show case -->
-
+</div>
 </div>
 
 <section class="section-three">

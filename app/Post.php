@@ -41,6 +41,9 @@ class Post extends Model
         return $this->hasMany("Mercury\\Wish");
     }
 
+    public function exchangeRequests(){
+        return $this->hasMany("Mercury\ExchangeRequest");
+    }
     
     public static function tenPosts(){
         return Post::where('status', 1)
@@ -124,30 +127,19 @@ class Post extends Model
                     ->paginate(10);
     }
 
-    // private static function commentPostSortAvailable($userId){ 
-    //     return Post::where(['user_id'=> $userId, 'status' => 1])
-    //                     ->withCount(['comments'])
-    //                     ->orderBy('comments_count', 'DESC')
-    //                     ->paginate(10);
-    // }
+    public static function getPostdataExchangeRequest($keyword){
 
-    // private static function commentPostSortArchived($userId){
-    //     return Post::where(['user_id' => $userId, 'status' => 0])
-    //                 ->withCount(['comments'])
-    //                 ->orderBy('comments_count', 'DESC')
-    //                 ->paginate(10);
-    // }
+        return Post::select('header', 'id')->where([
+            "user_id" => Auth()->user()->id,
+            "status" => 1
+        ])->where('header', 'like', "%{$keyword}%")->first() ?: [];
+    }
 
-    // private static function commentPostSortAvailable($userId){ 
-    //     return Post::where('user_id', $userId)->withCount(['comments'=> function ($query){
-    //         $query->where('status', 1);
-    //     }])->orderBy('comments_count', 'DESC')->paginate(10);
-    // }
-
-    // private static function commentPostSortArchived($userId){
-    //     return Post::where('user_id', $userId)->withCount(['comments'=> function ($query){
-    //         $query->where('status', 0);
-    //     }])->orderBy('comments_count', 'DESC')->paginate(10);
-    // }
+    public static function checkPostStatus($id, $status){
+        return (Post::where([
+            'id' => $id,
+            "status" => $status
+        ])->first()) ? true : false;
+    }
 }
 

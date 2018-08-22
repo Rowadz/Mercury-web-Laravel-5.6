@@ -16,22 +16,23 @@ class WishController extends Controller
     }
 
     public function addPostToWishList(Request $request, Post $post){
+        $validatedData = $request->validate([
+            'id' => 'required|exists:posts,id'
+        ]);
         return Wish::create($request->id);
     }
 
-    public function showAllPosts(){
-        $data = [
-            "wished" => Wish::where('user_id', Auth()->user()->id)->get(),
-            "wishes" => Wish::where("user_id", Auth()->user()->id)->count()
-        ];
-        return view("user.wishedPosts")->with($data);
+    public function showWishedPosts(Request $request){
+        $validatedData = $request->validate([
+            'lowestId' => 'numeric'
+        ]);
+        return Wish::getWishes($request->lowestId ?: null);
     }
 
     public function deleteWish(Request $request, Wish $wish){
-        if ($wish){
-            Wish::find($request->id)->delete();
-            return response()->json(["success" => "The Wish has been deleted"]);
-        }
-        return response()->json(["error" => "Something went wrong"]);
+        $validatedData = $request->validate([
+            'id' => 'required|numeric|exists:wishes,post_id'
+        ]);
+        return Wish::deleteWish($request->id);
     }
 }

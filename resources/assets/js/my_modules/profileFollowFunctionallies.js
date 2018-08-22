@@ -1,4 +1,5 @@
 export default function profileFollowFunctions(){
+    $('.modal').modal()
     // still not working ....
     if($('#sendConfirmed').length) {
         $('#sendConfirmed').click(()=>{

@@ -13,7 +13,7 @@
 */
 
 // loads the landaing page
-Route::get('/', 'HomeController@welcome');
+Route::get('/', 'HomeController@welcome')->name('wlcome');
 
 Auth::routes();
 
@@ -27,19 +27,19 @@ Route::post('/home/loadMorePosts', 'HomeController@loadMorePosts')->name('loadMo
 Route::get('/show/post/{post}', 'PostController@show')->name('showPost');
 
 // display the posts for a visitor
-Route::get("/show/all/posts", "postController@showWithNoAuth")->name('showPostsNoAuth');
+Route::get("/posts", "postController@showWithNoAuth")->name('showPostsNoAuth');
 
 // loads more posts for a visitor // TODO :: might make them in the same function 'controller function'
 Route::post("/show/all/postsNoAuth", "postController@loadMorePostsNoAuth")->name('loadshowPostsNoAuth');
 
 // adds a post to the wish list
-Route::post("/post/add-to-wish-list/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
-
-// show the wished posts
-Route::get("/user/show-wished-posts", "WishController@showAllPosts")->name('showWishedPosts');
+Route::post("/addToWishList/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
 
 // deleting a wish
-Route::post("/user/delete-wished-post/{post}", "WishController@deleteWish")->name('deleteWish');
+Route::post("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
+
+// show the wished posts
+Route::post("/wishedPosts", "WishController@showWishedPosts")->name('showWishedPosts');
 
 // adding a comment
 Route::post("/post/{post}/addComment", "CommentController@addComment")->name('addComment');
@@ -47,7 +47,7 @@ Route::post("/post/{post}/addComment", "CommentController@addComment")->name('ad
 // displaying ta user profile
 Route::get("/{user}", "UserController@profile")->name('profile');
 // ??
-Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName")->name('newFollowerRequestedName');
+// Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName")->name('newFollowerRequestedName');
 
 // checking for a new follow requests
 // opens a modal 
@@ -60,7 +60,7 @@ Route::post("/approve/follow", "UserController@approveFollow")->name('approveFol
 Route::post("/decline/follow", "UserController@declineFollow")->name('declineFollow');
 
 // getting all the followers
-Route::get("/followers", "UserController@seeFollowers")->name('seeFollowers');
+Route::post("/user/followers", "UserController@seeFollowers")->name('seeFollowers');
 
 // unFollow the user from the profile page
 Route::post("/unFollow", "UserController@unFollow")->name('unfollow');
@@ -82,7 +82,7 @@ Route::post("/unfollowUser", "UserController@unfollowUser")->name('unfollowUser'
 Route::get('/posts/{user}', "PostController@DescendingNAvailable")->name('allUserPosts'); // old name is allUserPosts
 
 // get all the user followers
-Route::get('/following', "UserController@seeTheUsersYouAreFollowing")->name('seeTheUsersYouAreFollowing');
+Route::post('/user/following', "UserController@seeTheUsersYouAreFollowing")->name('seeTheUsersYouAreFollowing');
 
 
 // 6 routes for sorting the data with pagination from sortShowUserPosts page
@@ -96,7 +96,44 @@ Route::get('/posts/{user}/commentsNAvailable/', "PostController@commentsNAvailab
 Route::get('/posts/{user}/commentsNArchived/', "PostController@commentsNArchived")->name('commentsNArchived');
 Route::post('/show/user/posts/profile', 'PostController@loadUserPosts')->name('loadUserPosts');
 
-Route::get('/chat', "UserCompoenet@chat")->name('openChat');
+Route::get('/chat', "UserController@chat")->name('openChat');
+
+Route::get('/json/{json}','HomeController@particles');
+Route::get('/search/posts/{keyword}', 'PostController@getPostdataExchangeRequest')->where('keyword', '[A-Za-z]+');
+Route::post('/sendExchangeRequest', 'UserController@sendExchangeRequest');
+Route::get('/show/exchangeRequests', 'UserController@seeExchangeRequest')->name('exchangeRequest');
+Route::post('/exchangeRequest/loadMore', 'UserController@exchangeRequestLoadMore')->name('exchangeRequestLoadMore');
+Route::get('/testing/now', function(){
+        
+// dd(
+        
+//         // Mercury\ExchangeRequest::where([
+//         //         'user_id' => Auth()->user()->id
+//         // ])->with(['exchangeRequests'])->get()
+//         Mercury\Post::where([
+//                 'user_id' => Auth()->user()->id
+//         ])->withCount(['exchangeRequests'])->get()
+//         ,
+//         Mercury\Post::find(586)->exchangeRequests()->where('user_id', Auth()->user()->id)->get()
+//         ,
+//         Mercury\ExchangeRequest::with(['post' => function($q){
+//                 $q->where([
+//                     "user_id" => Auth()->user()->id
+//                 ]);
+//             }])->get()
+// );
+        // dd(
+        //         Mercury\ExchangeRequest::whereHas('post', function($q){
+        //                 $q->where('user_id',  22);
+        //         })->count(),
+        //         Mercury\Post::whereHas('exchangeRequests', function($q){
+        //                 $q->where('user_id',  Auth()->user()->id);
+        //         })->get(),
+        //         Mercury\Post::has('exchangeRequests')->get(),
+        //         Mercury\ExchangeRequest::has('post')->get()
+        // );
+        return Mercury\ExchangeRequest::dataForTheExchangeRequstsView();
+});
 
 Route::bind('user', function ($value) {
         return Mercury\User::where('name', $value)->first() ?? abort(404);

@@ -1,11 +1,7 @@
 @include('layouts.defaults')
 
 
-@navBar(
-  [
-      'style' => 'grey darken-4 z-depth-4',
-  ]
-  )
+@navBar(['style' => 'grey darken-4 z-depth-4'])
 @endnavBar
 <div class="row" id="sortPostsUserProfile">
         <div class="col s12 m6">

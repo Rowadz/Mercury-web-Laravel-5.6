@@ -9,8 +9,16 @@ import initSortingForProfile from './my_modules/sortPaginationProfilePosts'
 import profileFollowFunctions from './my_modules/profileFollowFunctionallies'
 import init from './my_modules/init'
 import feed from './my_modules/vue/infiniteScrollHome'
-import post from './my_modules/vue/postFunctionalities'
-import followRequestsFunctionality from './my_modules/followRequestsFunctionality'
+// import post from './my_modules/social/postFunctionalities'
+import followRequestsFunctionality from './my_modules/social/followRequestsFunctionality'
+// import seeFollowersFunctionality from './my_modules/social/seeFollowersFunctionality'
+// import seeFollwoingFunctionality from './my_modules/social/followingFunctionality'
+import generalSocialFun from './my_modules/social/generalSocialFun'
+import postFunctions from './my_modules/social/postFunctionalities'
+import wishes from './my_modules/social/wishes'
+import * as particle from './lib/particles'
+import sendExchangeRequestInit from './my_modules/social/sendExchangeRequest'
+import exchangeRequestsInit from './my_modules/exchangeRequests'
 /**
   * Created by LT on 19/05/2018.
 */
@@ -19,8 +27,9 @@ import followRequestsFunctionality from './my_modules/followRequestsFunctionalit
 // execute before the page load ( for slow images )
 // so the user can comment before the images loads 
 // in case they take long time
+// This is AN IFFE
 (()=>{
-    if ($("#post").length) post()
+    if ($("#post").length) postFunctions()
     $('.sidenav').sidenav()
     // if($('img').length) handleImageLoading()
     handleImageLoading()
@@ -37,6 +46,46 @@ window.onload = () => {
     if($('img').length) handleImageLoading()
     if($("#profile").length) profileFollowFunctions()
     followRequestsFunctionality()
+    if( $("#welcomePage").length){
+        particlesJS.load('particles-js','./json/wlecome', () => {
+            
+        })
+    } else if($("#registerPage").length){
+        particlesJS.load('particles-js','./json/register', () => {
+            
+        })
+    } else if($("#loginPage").length){
+        particlesJS.load('particles-js','./json/login', () => {
+            
+        })
+    }
+    if ($("#post").length) {
+        sendExchangeRequestInit()
+    }
+    $('.peopleYouAreFollowingModalTrigger').click(()=>{
+        generalSocialFun(
+            '/user/following',
+            'seeFollowingModal',
+            'modalSection-following',
+            'followingNumberModal',
+            'getpeopleYouAreFollowingNumber',
+            'following'
+        )
+    })
+    $('.followersModalTrigger').click(()=>{
+        generalSocialFun(
+            '/user/followers',
+            'seeFollowersModal',
+            'modalSection-followers',
+            'followersNumberModal',
+            'getFollowersNumber',
+            'followers'
+        )
+    })
+    $('.wishesModalTrigger').click(()=>{
+        wishes()
+    })
+    if($("#exchangeRequestsPage").length) exchangeRequestsInit()
 }
 
 

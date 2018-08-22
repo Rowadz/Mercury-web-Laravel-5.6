@@ -1,10 +1,21 @@
 export default function init  () {
     AOS.init()
-        // if ($("#userNameForCheckNewFollowers").length) checkForFollowers()
-    
-   
-    $('.sidenav').sidenav()
-    // init the navbar
+    if($('.mainResgister').length) initSignUp()
+    $('.tooltipped').tooltip()
+    $('.fixed-action-btn').floatingActionButton()
+    $('.materialboxed').materialbox()
+    scrollToTop()
+    overFlowDropDownMenu()
+    $('.modal').modal()
+    $('.parallax').parallax()
+    $('select').formSelect()
+    M.FloatingActionButton.init($('.fixed-action-btn'), {
+      direction: 'top',
+      hoverEnabled: false
+    })
+}
+
+function overFlowDropDownMenu(){
     $(".dropdown-trigger").dropdown({
         constrainWidth: false,
         onCloseStart : () => {
@@ -12,41 +23,27 @@ export default function init  () {
             $('.card-title').css('z-index', 1)
             $('.postImage').css('z-index', 1)
             $('.parallax-container').css('z-index', 1)
+            $('.collection').css('z-index', 1)
+        },
+        onOpenStart: () => {
+                $('.card').css('z-index',-1)
+                $('.chip').css('z-index', 1)
+                $('.postImage').css('z-index', -1)
+                $('.parallax-container').css('z-index', -1)
+                $('.collection').css('z-index', -1)
         }
     })
-    if($('.mainResgister').length) initSignUp()
-    $('.tooltipped').tooltip()
-    $('.fixed-action-btn').floatingActionButton()
-    $('.materialboxed').materialbox()
-    clickStuff()
-    overFlow()
-    $('.modal').modal()
-    $('.parallax').parallax()
-    $('select').formSelect()
 }
 
-
-
-
-const overFlow = () => {
-    // the li that opens the dropdown list in the navbar
-    $("#fixOverFlowIssue").click(()=>{
-        $('.card').css('z-index',-1)
-        $('.chip').css('z-index', 1)
-        $('.postImage').css('z-index', -1)
-        $('.parallax-container').css('z-index', -1)
-    })
-}
-const clickStuff = () => {
+function scrollToTop(){
     $('#scrollTop').click(()=>{
         $('html, body').animate({
-            scrollTop: $("#feed").offset().top
+            scrollTop: $("#scrollTopFinalDest").offset().top
         }, 1000);
     })
 }
 
-const initSignUp = () => {
+function initSignUp(){
     $('select').formSelect()
     $('.datepicker').datepicker()
 }
-
