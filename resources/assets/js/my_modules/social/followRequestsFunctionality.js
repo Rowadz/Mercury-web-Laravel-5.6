@@ -16,7 +16,7 @@ export default function followRequestsFunctionality(){
                         <section id="usersRequestedToFollowYouData">                    
                             <div class="card grey lighten-1 black-text userRequest-${user.user.id} col s12 m6" data-username="${user.user.name}">
                             <div class="card-content">
-                                <ul class="collection   commentCollectionRemoveUl">
+                                <ul class="collection borderNone">
                                     <li class="collection-item avatar grey lighten-2 commentCollectionRemoveUl userRequest-${user.user.id}">
                                         <img src="${user.user.image}" alt="user image" class="circle">
                                         <span class="title strongChips searchFollowRequestsBasedOnNames" id="${user.user.name}">${user.user.name}</span>
@@ -78,7 +78,7 @@ export default function followRequestsFunctionality(){
                 <p>Press <span class="red-text">Esc</span> To go back or the X Button</p>
             </div>
             <div class="col s12 m6">
-                <a class="btn-floating  waves-effect waves-light deep-orange accent-4 z-depth-5 userInfoRevealCard modal-close">
+                <a class="btn-floating  waves-effect waves-light deep-orange accent-4 z-depth-5 modal-close floatRight">
                   <i class="material-icons">close</i>
                 </a>
             </div>
@@ -127,7 +127,7 @@ function aprroveFollowRequest(){
         $(this).addClass('disabled')
         // $(`#${userId}.${userName}.delete`).addClass('disabled')
         $(this).next().addClass('disabled') // disable the delete button
-        axios.post("/approve/follow", {
+        axios.patch("/approve/follow", {
             from_id : userId
         })
         .then(success => {
@@ -160,8 +160,10 @@ function declineFollowRequest(){
         // console.log(userId, userName)
         $(this).addClass('disabled')
         $(this).prev().addClass('disabled') // disable the approve button
-        axios.post("/decline/follow", {
-            from_id: userId
+        axios.delete("/decline/follow", {
+            data:{
+                from_id: userId
+            }
         })
         .then(success => {
             $(this).hide()
@@ -197,7 +199,7 @@ function updateFollowRequestNumbers(increaseNumberOfFollowers = false){
 }
 
 function chagneColorBasedOnResult(result, userId, decline = false){
-    $(`.userRequest-${userId}`).removeClass('grey lighten-1' ).addClass((result) ? (decline) ?  'purple accent-2' : 'light-blue lighten-2' :'red lighten-2')
+    $(`.userRequest-${userId}`).removeClass('grey lighten-1' ).addClass((result) ? (decline) ?  'deep-orange lighten-1' : 'light-blue lighten-2' :'red lighten-2')
     // $(`.userRequest-tabs-${userId}`).removeClass('deep-orange lighten-1').addClass((result) ? (decline) ? 'purple accent-1' : 'light-blue lighten-1' :'red lighten-1')
 }
 

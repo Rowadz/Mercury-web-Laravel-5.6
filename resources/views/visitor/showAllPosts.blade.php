@@ -1,5 +1,8 @@
-@include('layouts.defaults')
+@extends('layouts.master')
 
+@section('title', "Mercury | Visitor 👾")
+
+@section('content')
 @navBar(['style' => 'grey darken-3 z-depth-5'])
 @endnavBar
 <!-- Feed -->
@@ -27,8 +30,10 @@
     </div>
 </div>
 
-
-@extends('layouts.defaultsBottom')
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 @endsection
+
+@section('scripts')
+        @parent
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>    
+@endsection
+

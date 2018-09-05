@@ -9,6 +9,11 @@ use Mercury\Post;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function addComment(Request $request, Post $post){
         if($post->status === 0){
             return response()->json(["message" => "Something went wrong"]);

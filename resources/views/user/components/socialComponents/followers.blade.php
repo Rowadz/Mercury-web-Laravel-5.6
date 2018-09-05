@@ -10,13 +10,13 @@
         <p class="hide-on-small-only">Press <span class="red-text">Esc</span> To go back or the X Button</p>
      </div>
      <div class="col s12 m6">
-        <a class="btn-floating waves-effect waves-light deep-orange accent-4 z-depth-5 userInfoRevealCard modal-close">
+        <a class="btn-floating waves-effect waves-light deep-orange accent-4 z-depth-5  modal-close floatRight">
         <i class="material-icons">close</i>
         </a>
      </div>
      <div class="input-field col s12 m12">
         <i class="material-icons prefix grey-text text-lighten-3">search</i>
-        <input id="searchFilter-followers" type="text">
+        <input id="searchFilter-followers" class="white-text" type="text">
         <label for="searchFilter-followers">Filter by first name</label>
      </div>
   </div>
@@ -31,7 +31,7 @@
      </div>
      <div class="row">
         <div class="col s12 m12">
-           <ul class="collection commentCollectionRemoveUl">
+           <ul class="collection borderNone">
               <div class="row">
                  <section id="modalSection-followers">
                     <!-- PreLoader -->

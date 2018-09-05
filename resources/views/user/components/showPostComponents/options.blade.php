@@ -1,4 +1,4 @@
-<div class="row">
+<section class="row" id="infoAboutPost">
     
     <div class="col s6 m3" data-aos="fade-down-left">
             <a class="waves-effect waves-light btn tooltipped purple darken-1"
@@ -26,7 +26,7 @@
            </a>
         </div>
         @endif
-</div>
+</section>
 
 {{--<i class="bookmark outline icon wishListStar" @click="addPostToWishList({{ $post->id }})"></i>--}}
 {{-- @auth

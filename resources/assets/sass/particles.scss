@@ -1,0 +1,17 @@
+#particles-js{
+    margin: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    width: 100%;
+    // login & register
+    height: 120vh;
+    display: block;
+    position: absolute;
+}
+.particles-js-register{
+    height: 150vh !important;
+}
+.particles-js-welcome{
+    height: inherit !important;
+}

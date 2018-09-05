@@ -1,0 +1,46 @@
+.registerSection{
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static;
+    .datepicker-table-wrapper{
+        color: getVariableData($colors, haunttaur) !important;
+    }
+    .inputs{
+        padding:20px !important;
+    }
+    .greet{
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .fixParticlesIssue{
+        position: inherit;
+    }
+    
+}
+.mainLogin{
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static;
+    .inputs{
+        padding:20px !important;
+    }    
+    .greet{
+        // font-family: 'Courier New', Courier, monospace;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .fixParticlesIssue{
+        position: inherit;
+        width: 100% !important;
+    }
+}
+
+/* Change the white to any color  */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px getVariableData($colors, vortexling)  inset !important;
+    box-shadow: 0 0 0 30px getVariableData($colors, vortexling) inset !important;
+}
+/*Change text in autofill textbox*/
+input:-webkit-autofill {
+    -webkit-text-fill-color: getVariableData($colors, theLonelyStatue) !important;
+}

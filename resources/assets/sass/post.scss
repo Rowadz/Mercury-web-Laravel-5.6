@@ -1,0 +1,41 @@
+#postWrapper{
+    #infoAboutPost{
+        .infoButtonPadding{
+            padding: 10px !important;
+        }
+    }
+    .hideMe{
+        display: none !important;
+    }
+    #commentInput{
+        color: getVariableData($colors, brineling) !important;
+    }
+    .postBody{
+        box-shadow: 0 4px 8px 0 getVariableData($colors, smokevine), 0 6px 20px 0 getVariableData($colors, smokevine) !important; 
+    }
+    .postHeader{
+        box-shadow: 0 4px 8px 0 getVariableData($colors, infernalbrood), 0 6px 20px 0 getVariableData($colors, infernalbrood) !important; 
+    }
+    .postImage{
+        box-shadow: 0 4px 8px 0 getVariableData($colors, soulsoul), 0 6px 20px 0 getVariableData($colors, soulsoul) !important; 
+    }
+    .optionsButton{
+        box-shadow: 0 4px 8px 0 getVariableData($colors, haunttaur), 0 6px 20px 0 getVariableData($colors, soulsoul) !important; 
+    }
+    .paddingTags{
+        padding-top: 20px !important; 
+    }
+    .usernameComment{
+        font-weight: bold;
+        text-shadow: 1px 1px getVariableData($colors, theArcticTumor) !important;
+    }
+    .commentCollectionRemoveUl{
+        border: none !important;
+    }
+    .input-field input[type=text]:focus + label {
+        color: getVariableData($colors, smokepaw) !important;
+    }
+    .input-field input[type=text]{
+        color: getVariableData($colors, smokepaw) !important;
+    }
+}

@@ -36,7 +36,7 @@ Route::post("/show/all/postsNoAuth", "postController@loadMorePostsNoAuth")->name
 Route::post("/addToWishList/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
 
 // deleting a wish
-Route::post("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
+Route::delete("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
 
 // show the wished posts
 Route::post("/wishedPosts", "WishController@showWishedPosts")->name('showWishedPosts');
@@ -54,28 +54,28 @@ Route::get("/{user}", "UserController@profile")->name('profile');
 Route::post("/show/follow-Requests", "UserController@showFollowingRequests")->name('showFollowingRequests');
 
 // approve the follow request
-Route::post("/approve/follow", "UserController@approveFollow")->name('approveFollow');
+Route::patch("/approve/follow", "UserController@approveFollow")->name('approveFollow');
 
-// decline the follow request
-Route::post("/decline/follow", "UserController@declineFollow")->name('declineFollow');
+// decline the follow request http request
+Route::delete("/decline/follow", "UserController@declineFollow")->name('declineFollow');
 
 // getting all the followers
 Route::post("/user/followers", "UserController@seeFollowers")->name('seeFollowers');
 
-// unFollow the user from the profile page
-Route::post("/unFollow", "UserController@unFollow")->name('unfollow');
+// // unFollow the user from the profile page
+// Route::post("/unFollow", "UserController@unFollow")->name('unfollow');
 
-// Follow the user from profile page
-Route::post("/Follow", "UserController@follow")->name('follow');
+// // Follow the user from profile page
+// Route::post("/Follow", "UserController@follow")->name('follow');
 
 // cancel the follow from the profile page
-Route::post("/cancelFollow", "UserController@cancelFollow")->name('cencelFollowRequest');
+Route::delete("/cancelFollow", "UserController@cancelFollow")->name('cencelFollowRequest');
 
 // Follow the user from profile page
 Route::post("/followUser" , "UserController@followUser")->name('followUser');
 
 // unFollow the user from the profile page
-Route::post("/unfollowUser", "UserController@unfollowUser")->name('unfollowUser');
+Route::delete("/unfollowUser", "UserController@unfollowUser")->name('unfollowUser');
 
 
 // get a user's posts from sortShowUserPosts page 
@@ -88,12 +88,15 @@ Route::post('/user/following', "UserController@seeTheUsersYouAreFollowing")->nam
 // 6 routes for sorting the data with pagination from sortShowUserPosts page
 // this in not good 
 // DRY
-Route::get('/posts/{user}/DescendingNAvailable/', "PostController@DescendingNAvailable")->name('DescendingNAvailable');
-Route::get('/posts/{user}/AscendingNAvailable/', "PostController@AscendingNAvailable")->name('AscendingNAvailable');
-Route::get('/posts/{user}/DescendingNArchived/', "PostController@DescendingNArchived")->name('DescendingNArchived');
-Route::get('/posts/{user}/AscendingNArchived/', "PostController@AscendingNArchived")->name('AscendingNArchived');
-Route::get('/posts/{user}/commentsNAvailable/', "PostController@commentsNAvailable")->name('commentsNAvailable');
-Route::get('/posts/{user}/commentsNArchived/', "PostController@commentsNArchived")->name('commentsNArchived');
+Route::prefix('/posts/{user}')->group(function(){
+        Route::get('/DescendingNAvailable', "PostController@DescendingNAvailable")->name('DescendingNAvailable');
+        Route::get('/AscendingNAvailable', "PostController@AscendingNAvailable")->name('AscendingNAvailable');
+        Route::get('/DescendingNArchived', "PostController@DescendingNArchived")->name('DescendingNArchived');
+        Route::get('/AscendingNArchived', "PostController@AscendingNArchived")->name('AscendingNArchived');
+        Route::get('/commentsNAvailable', "PostController@commentsNAvailable")->name('commentsNAvailable');
+        Route::get('/commentsNArchived', "PostController@commentsNArchived")->name('commentsNArchived');
+});
+
 Route::post('/show/user/posts/profile', 'PostController@loadUserPosts')->name('loadUserPosts');
 
 Route::get('/chat', "UserController@chat")->name('openChat');
@@ -101,10 +104,31 @@ Route::get('/chat', "UserController@chat")->name('openChat');
 Route::get('/json/{json}','HomeController@particles');
 Route::get('/search/posts/{keyword}', 'PostController@getPostdataExchangeRequest')->where('keyword', '[A-Za-z]+');
 Route::post('/sendExchangeRequest', 'UserController@sendExchangeRequest');
-Route::get('/show/exchangeRequests', 'UserController@seeExchangeRequest')->name('exchangeRequest');
+
 Route::post('/exchangeRequest/loadMore', 'UserController@exchangeRequestLoadMore')->name('exchangeRequestLoadMore');
+
+
+
+
+
+Route::prefix('/show/exchangeRequests')->group(function(){
+        Route::get('/', 'UserController@seeExchangeRequest')->name('exchangeRequest');        
+        Route::middleware(['onlyAjax'])->group(function () {
+                Route::get('/DESC', 'UserController@seeExchangeRequestDESC');
+                Route::get('/ASC', 'UserController@seeExchangeRequestASC');
+        });
+        Route::patch('/accept', 'UserController@acceptExchangeRequest');
+        Route::delete('/delete', 'UserController@deleteExchangeRequest');
+});
+
+
+
+Route::get("/explore/tags/{keyword?}", 'UserController@exploreTageReturnView')->name('exploreTage');
+
+
+
+
 Route::get('/testing/now', function(){
-        
 // dd(
         
 //         // Mercury\ExchangeRequest::where([
@@ -133,9 +157,5 @@ Route::get('/testing/now', function(){
         //         Mercury\ExchangeRequest::has('post')->get()
         // );
         return Mercury\ExchangeRequest::dataForTheExchangeRequstsView();
-});
-
-Route::bind('user', function ($value) {
-        return Mercury\User::where('name', $value)->first() ?? abort(404);
 });
 

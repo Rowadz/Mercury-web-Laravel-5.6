@@ -66,6 +66,12 @@ class AppServiceProvider extends ServiceProvider
                 ]
             );
         });
+
+        // usage <p>@newlinesToBr($message->body)</p>
+        Blade::directive('newlinesToBr', function ($text) {
+            return "<?php echo nl2br({$text}); ?>";
+        });
+        
     }
 
     /**

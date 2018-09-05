@@ -135,11 +135,11 @@ class Follower extends Model
                first()->id;
     }
 
-    public static function unFollow($id){
-        $follower = Follower::where("from_id", Auth()->user()->id)->where("user_id", $id);
-        $follower->delete();
-        return "Deleted!";
-    }
+    // public static function unFollow($id){
+    //     $follower = Follower::where("from_id", Auth()->user()->id)->where("user_id", $id);
+    //     $follower->delete();
+    //     return "Deleted!";
+    // }
 
     public static function cancel($id){
         // deleting the follow request by column id

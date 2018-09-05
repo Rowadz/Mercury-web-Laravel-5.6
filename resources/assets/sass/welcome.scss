@@ -1,0 +1,18 @@
+.main{
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-color: getVariableData($colors ,mainColor) !important;
+    .positionFixedAndMargins{
+        position: inherit;
+        width: 100%;
+        margin: 200px;
+    }
+    .exploreButton{
+        background-color:  getVariableData($colors, blightpod) !important;
+    }
+    .exploreButton:hover{
+        background-color:  getVariableData($colors, murksoul) !important;
+    }
+}

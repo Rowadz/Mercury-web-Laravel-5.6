@@ -7,10 +7,10 @@ export default function wishes(){
             axios.post('/wishedPosts')
             .then(success => {
                 appendData(success.data)
-                console.log(success.data)
+                // console.log(success.data)
                 wishedPostsNumber = Number($("#getWishesNumber").text())
                 lowestId = success.data[success.data.length - 1].id
-                console.log(lowestId)
+                // console.log(lowestId)
                 $("#Preloader-wishes").remove()
                 loadMoreWishes()
             })
@@ -88,8 +88,10 @@ function deleteWish(){
         // console.log(el.target.id)
         let [,postId] = el.target.id.split('-')
         $(`#wishToDeleteButton-${postId}`).addClass('disabled')
-        axios.post(`/deleteWishedPost/${el.target.id}`, {
-            id: postId
+        axios.delete(`/deleteWishedPost/${el.target.id}`, {
+            data: {
+                id: postId
+            }
         })
         .then(success => {
             M.toast({html: `${success.data.message}`, classes: 'rounded'})

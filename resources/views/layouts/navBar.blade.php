@@ -50,7 +50,7 @@
            </a>
         </li>
         <li>
-           <a href="{{route('exchangeRequest')}}" class="black-text modal-trigger">
+           <a href="{{route('exchangeRequest')}}" class="black-text">
            <i class="material-icons black-text">room_service</i>
            Exchange Request
            <span class="new badge black white-text z-depth-5">{{$exchangeRequestCount ?: 0}}</span>
@@ -79,10 +79,16 @@
            </a>
         </li>
         <li>
-           <a href="#!" class="black-text">
+           <a href="{{route('exploreTage')}}" class="black-text">
            <i class="material-icons black-text">toys</i>
            Explore Tags
            </a>
+        </li>
+        <li>
+                <a href="#" class="black-text pulse">
+                        <i class="material-icons black-text">face</i>
+                        People to Review
+                </a>
         </li>
         <li class="divider"></li>
         <li  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -114,7 +120,7 @@
            </a>
         </li>
         <li>
-           <a href="{{route('exchangeRequest')}}" class="black-text modal-trigger">
+           <a href="{{route('exchangeRequest')}}" class="black-text">
            <i class="material-icons black-text">room_service</i>
            Exchange Request
            <span class="new badge black white-text z-depth-5">{{$exchangeRequestCount ?: 0}}</span>
@@ -143,7 +149,7 @@
            </a>
         </li>
         <li>
-           <a href="#!" class="black-text">
+           <a href="{{route('exploreTage')}}" class="black-text">
            <i class="material-icons black-text">toys</i>
            Explore Tags
            </a>
@@ -172,19 +178,5 @@
            Options
            </a>
         </li>
-     </ul>
-
-     @followRequests
-     @endfollowRequests
-
-     @followers
-     @endfollowers
-
-     @following
-     @endfollowing
-
-     @wishes
-     @endwishes
-
-     
+     </ul>     
      @endauth

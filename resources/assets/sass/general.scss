@@ -1,0 +1,114 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+html ,body{
+    overflow-x: hidden !important;
+    ::-moz-selection { /* Code for Firefox */
+        color: #80deea;
+        background: #1a1a1a;
+    }
+    
+    ::selection {
+        color: #80deea;
+        background: #1a1a1a;
+    }
+    
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #414a4c;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #0e1111;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #353839;
+    }
+    
+}
+
+
+
+// helpers => if they become large I might put them into another file
+.floatRight{
+    float: right !important;
+}
+.borderNone{
+    border:  none !important;
+}
+.Vspace{
+    padding: 20px;
+}
+
+.VeryBigspace{
+    padding: 50px;
+}
+#scrollTop{
+    position: fixed !important;
+    z-index: 9999 !important;
+}
+.tagChip{
+    margin-top: 10px !important;
+}
+
+.strongChips{
+    font-weight: bold !important;    
+}
+.exploreButton{
+    background-color:  getVariableData($colors, blightpod) !important;
+}
+.exploreButton:hover{
+    background-color:  getVariableData($colors, murksoul) !important;
+}
+
+#mobile-demo{
+    z-index: 100000 !important;
+}
+// for some cards !
+.customShadow{
+    box-shadow: 0 4px 8px 0 getVariableData($colors, mistface), 0 6px 20px 0 getVariableData($colors, mistfaceLight) !important;
+}
+
+// fixing some errors
+#dropdownAuth{
+    overflow: visible !important;
+}
+.dropdown-content{
+    overflow: visible !important;
+}
+.dropdown-content {
+    @extend .collection;
+    overflow: visible !important;
+}
+
+.card {
+    z-index: 0;
+    overflow-y: visible !important;
+}
+.card:hover {
+    z-index: 1 !important;
+}
+// end fixing some errors
+
+// social Herlpers
+.fullScreenModal{
+    width: 100% !important;
+    max-height: 100%  !important;
+    height: 100% !important;
+    top: 0 !important;
+}
+.paddingSocial{
+    padding: 10px !important;
+}
+.marginSocial{
+    margin: 10px !important;
+}
+// end social

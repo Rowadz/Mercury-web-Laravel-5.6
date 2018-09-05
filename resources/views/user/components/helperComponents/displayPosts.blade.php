@@ -1,11 +1,11 @@
 <!-- If Not profile display them on top each other -->
-@if(isset($sm) && !isset($profile))
+@if(isset($sm) && !isset($nextToEachOther))
   <div class="col {{$sm ?: 's12 m4'}}">
 @endif
    @foreach($posts as $post)
       <!-- If profile display them next to each other -->
-      @if(isset($profile))
-       <div class="col {{isset($sm) && isset($profile) ? $sm : 's12 m4'}}">
+      @if(isset($nextToEachOther))
+       <div class="col {{isset($sm) && isset($nextToEachOther) ? $sm : 's12 m4'}}">
       @endif
       <div class="card  cyan darken-3 customShadow z-depth-5 ">
          <div class="row">
@@ -71,10 +71,10 @@
             </p>
          </div>
       </div>
-      @if(isset($profile))
+      @if(isset($nextToEachOther))
    </div>
    @endif
    @endforeach
-   @if(!isset($profile) && isset($sm))
+   @if(!isset($nextToEachOther) && isset($sm))
 </div>
 @endif

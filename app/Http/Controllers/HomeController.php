@@ -84,6 +84,8 @@ class HomeController extends Controller
         "#01579b" => "light-blue darken-4", 
         "#c5cae9" => "indigo lighten-4"
       ]);
+      // 616161
+      $fixedColor = "#546e7a";
       switch ($jsonName) {
         case 'wlecome':
         $particles = [
@@ -101,7 +103,7 @@ class HomeController extends Controller
         case 'login':
         $particles = [
           "howMuch" => 60,
-          "color" => "#616161",
+          "color" => $fixedColor,
           "line_color" => $ranLineColor,
           "shape" => "polygon",
           "opacity" => 0.1,
@@ -114,7 +116,7 @@ class HomeController extends Controller
         case 'register':
         $particles = [
           "howMuch" => 60,
-          "color" => "#616161",
+          "color" => "#5d4037",
           "line_color" => $ranLineColor,
           "shape" => "polygon",
           "opacity" => 0.1,

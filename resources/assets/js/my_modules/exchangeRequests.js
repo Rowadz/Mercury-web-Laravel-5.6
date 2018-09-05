@@ -1,16 +1,79 @@
+let exchangeRequestReverseSortingTurn = 'ASC',
+exchangeRequestReverseSortingTurnClicked = false
 export default function exchangeRequestsInit(){
     exchangeRequestsModalOptionsInit()
     exchangeRequestsLoadMoreButtonInit()
+    $("#exchangeRequestReverseSorting").click(()=>{
+        $("#exchangeRequestReverseSorting").hide()
+        exchangeRequestReverseSorting(exchangeRequestReverseSortingTurn === 'DESC')
+        switch (exchangeRequestReverseSortingTurn) {
+            case 'DESC':
+                exchangeRequestReverseSortingTurn = 'ASC'
+                break;
+            case 'ASC':
+                exchangeRequestReverseSortingTurn = 'DESC'
+            default:
+                break;
+        }
+    })
 }
 
 function exchangeRequestsModalOptionsInit(){
-    $('#exchangeRequestsModalOptions').modal({
-        onOpenEnd: () => {
-            console.log("exchangeRequestsModalOptions onOpenEnd")
-        },
-        onCloseEnd: () => {
-            console.log("exchangeRequestsModalOptions onCloseEnd")
+    let exchangeRequestsModalOptions = $('#exchangeRequestsModalOptions')
+    let exchangeRequestsModalOptionsController = M.Modal.getInstance(exchangeRequestsModalOptions)
+    // exchangeRequestsModalOptions.modal({
+    //     onOpenEnd: () => {
+    //         console.log("exchangeRequestsModalOptions onOpenEnd")
+    //     },
+    //     onCloseEnd: () => {
+    //         console.log("exchangeRequestsModalOptions onCloseEnd")
+    //     }
+    // })
+    let dataToSubmit = undefined
+    $('.modal-trigger-custom').click(e=>{
+        // console.log(e.target.parentElement)
+        let x = e.target.parentElement
+        let z = $(x)
+        dataToSubmit = {
+            exchangeRequestId: z.data('exchange-request-id'),
+            postId: z.data('auth-user-post-id'),
+            theOtherPostId: z.data('post-id')
         }
+        console.log(dataToSubmit)
+        // console.log(z.data('exchange-request-id'))
+        // console.log(z.attr('data-exchange-request-id'))
+        exchangeRequestsModalOptionsController.open()
+    })
+
+    $("#acceptExchangeRequestButtonModal").off('click')
+    $("#acceptExchangeRequestButtonModal").click(()=>{
+        axios.patch('/show/exchangeRequests/accept',{
+            exchangeRequestInfo: dataToSubmit
+        }).then(success => {
+            console.log(success.data)
+            M.toast({html: `${success.data.message} 🐵`})
+            if(success.data.action === 'refresh')
+                window.location.reload(true)
+        }).catch(error => {
+            console.log(error)
+            M.toast({html: 'Something went wrong 🤖', classes: 'rounded'})
+        })
+    })
+
+    $("#deleteExchangeRequestButtonModal").off('click')
+    $("#deleteExchangeRequestButtonModal").click(()=>{
+        axios.delete('/show/exchangeRequests/delete', {
+            data:{
+                exchangeRequestInfo: dataToSubmit
+            }
+        }).then(success => {
+            console.log(success.data)
+            M.toast({html: `${success.data.message} 🐵`})
+            window.location.reload(true)
+        }).catch(error => {
+            console.log(error)
+            M.toast({html: 'Something went wrong 🤖', classes: 'rounded'})
+        })
     })
 }
 
@@ -20,10 +83,11 @@ function exchangeRequestsLoadMoreButtonInit(){
     $("#exchangeRequestsLoadMoreButton").click(() => {
         $("#exchangeRequestsLoadMoreButton").addClass('disabled')
         axios.post('/exchangeRequest/loadMore', {
-            idToSend
+            idToSend,
+            turn: ((exchangeRequestReverseSortingTurn === 'DESC') && exchangeRequestReverseSortingTurnClicked) ? 'ASC' : 'DESC'
         }).then(success => {
             if(success.data.length === 0) {
-                M.toast({html: 'No more Data 🐵', classes: 'rounded'})
+                M.toast({html: 'No more Data 🤖', classes: 'rounded'})
             } else {
                 $("#exchangeRequestsLoadMoreButton").removeClass('disabled')
                 idToSend = success.data[success.data.length - 1].id
@@ -38,6 +102,7 @@ function exchangeRequestsLoadMoreButtonInit(){
 }
 
 function appendDataExchangeRequests(exchangeRequests){
+    $(".modal-trigger-custom").off('click')
     exchangeRequests.forEach(exchangeRequest => {
         $('#httpAjaxData').append(`
             <div class="card z-depth-5 exchangeRequest" data-aos="flip-left" id="exchangeRequest-${exchangeRequest.id}">
@@ -56,12 +121,12 @@ function appendDataExchangeRequests(exchangeRequests){
                 <i class="material-icons right">more_vert</i>
             </span>
             <p>
-                <a href="/show/post/${exchangeRequest.theOtherPost.id}" target="_blank">
-                <i class="material-icons black-text">open_in_new</i>
-                </a>
-                <a href="#exchangeRequestsModalOptions" class="modal-trigger">
-                <i class="material-icons black-text">linear_scale</i>
-                </a>
+            <a href="/show/post/${exchangeRequest.theOtherPost.id}" target="_blank" class="btn-floating btn-large deep-purple lighten-4 pulse waves-effect waves-purple">
+            <i class="material-icons black-text">open_in_new</i>
+           </a>
+            <a class="btn-floating btn-large cyan lighten-4 pulse modal-trigger-custom waves-effect waves-red"  data-exchange-request-id="${exchangeRequest.id}" data-auth-user-post-id="${exchangeRequest.post.id}" data-post-id="${exchangeRequest.theOtherPost.id}">
+              <i class="material-icons black-text pulse">more_horiz</i>
+            </a>
             </p>
             </div>
             <div class="card-reveal">
@@ -87,5 +152,44 @@ function appendDataExchangeRequests(exchangeRequests){
             </div>
         </div>
         `)
+    })
+    exchangeRequestsModalOptionsInit()
+}
+
+function exchangeRequestReverseSorting(ShouldItBeDESC){
+    exchangeRequestReverseSortingTurnClicked = true
+    $("#exchangeRequestsLoadMoreButton").addClass('disabled')
+    // Remove all child nodes from the DOM.
+    $("#exchangeRequestsDataSorting").empty()
+    $("#exchangeRequestsDataSorting").html(`    
+            <div class="preloader-wrapper big active" id="exchangeRequestsDataSortingPreLoader">
+                <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+                </div>
+            </div>
+            <section id="httpAjaxData"></section>
+    `)
+    axios.get(`/show/exchangeRequests/${ (ShouldItBeDESC) ? 'DESC' : 'ASC' }`)
+    .then(success => {
+        console.log(success.data)
+        appendDataExchangeRequests(success.data)
+        $("#exchangeRequestsLoadMoreButton").removeClass('disabled')
+        $("#exchangeRequestReverseSorting").removeClass('disabled')
+        $("#exchangeRequestsDataSortingPreLoader").remove()
+        $("#exchangeRequestsLoadMoreButton").off('click')
+        $("#exchangeRequestReverseSorting").fadeIn(2000)
+        exchangeRequestsLoadMoreButtonInit()
+    }).catch(error => {
+        $("#exchangeRequestsDataSortingPreLoader").remove()
+        $("#exchangeRequestReverseSorting").removeClass('disabled')
+        M.toast({html: 'Something went wrong 🤖', classes: 'rounded'})
+        console.log(error)
+        $("#exchangeRequestReverseSorting").fadeIn(2000)
     })
 }

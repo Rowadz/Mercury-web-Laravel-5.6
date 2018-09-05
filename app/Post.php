@@ -14,8 +14,8 @@ class Post extends Model
     protected $fillable = [
         'user_id', 'tag_id', 'header', 'body', 'location', 'quantity', 'status', 'video_link'
     ];
+
     // setting realtionships
-    
     // One Post has many postimage
     public function postImages(){
         return $this->hasMany('Mercury\PostImage');
@@ -74,16 +74,19 @@ class Post extends Model
             $commentNumber[$key] = $post->comments->count();
             $tagNames[$key] = $post->tag->name;
             $users[$key] = $post->user->name;
-            foreach ($post->postImages as $image){
-                $imageLocation[$key] = $image->location;
-                break;
-            }
+            $imageLocation[$key] = $post->postImages[0]->location;
+            // foreach ($post->postImages as $image){
+            //     $imageLocation[$key] = $image->location;
+            //     break;
+            // }
         }
-        return response()->json(["posts" => $posts,
-            "commentNumber" => $commentNumber,
-            "tagNames" => $tagNames,
-            'users' => $users,
-            'imageLocation' => $imageLocation]);
+        return response()->json([
+                "posts" => $posts,
+                "commentNumber" => $commentNumber,
+                "tagNames" => $tagNames,
+                'users' => $users,
+                'imageLocation' => $imageLocation
+            ]);
     }
     
     public static function sortPosts($availableOrArchived, $sortOption, $userId){
@@ -140,6 +143,16 @@ class Post extends Model
             'id' => $id,
             "status" => $status
         ])->first()) ? true : false;
+    }
+
+
+    public static function moveToArchive($postsIds){
+        foreach($postsIds as $rowId){
+            $x = Post::find($rowId);
+            $x->status = 0;
+            $x->save();
+        }
+        // Post::destroy($postsIds);
     }
 }
 

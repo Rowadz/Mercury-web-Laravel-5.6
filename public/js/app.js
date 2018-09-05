@@ -42042,7 +42042,8 @@ function overFlowDropDownMenu() {
 }
 
 function scrollToTop() {
-    $('#scrollTop').click(function () {
+    var scrollTopButton = $("#scrollTop");
+    scrollTopButton.click(function () {
         $('html, body').animate({
             scrollTop: $("#scrollTopFinalDest").offset().top
         }, 1000);
@@ -42168,7 +42169,7 @@ function followRequestsFunctionality() {
                 success.data.forEach(function (user) {
                     // the userRequest-${user.user.id} class is for updating the IU in chagneColorBasedOnResult function
                     // console.log(user)
-                    $('#usersRequestedToFollowYou').append('\n                        <section id="usersRequestedToFollowYouData">                    \n                            <div class="card grey lighten-1 black-text userRequest-' + user.user.id + ' col s12 m6" data-username="' + user.user.name + '">\n                            <div class="card-content">\n                                <ul class="collection   commentCollectionRemoveUl">\n                                    <li class="collection-item avatar grey lighten-2 commentCollectionRemoveUl userRequest-' + user.user.id + '">\n                                        <img src="' + user.user.image + '" alt="user image" class="circle">\n                                        <span class="title strongChips searchFollowRequestsBasedOnNames" id="' + user.user.name + '">' + user.user.name + '</span>\n                                        <p>sent you a request</p>\n                                        <a href="/' + user.user.name + '" target="_blank" class="secondary-content tooltipped"\n                                        data-position="bottom" data-tooltip="Go to profile">\n                                        <i class="material-icons blue-grey-text text-darken-4">account_box</i></a>\n                                    </li>\n                                </ul>\n                                <button\n                                 class="aprroveFollowRequestButtons btn-floating  waves-effect waves-light light-blue darken-3 z-depth-5 tooltipped"\n                                 data-position="bottom" data-tooltip="Accecpt Follow Request ~ The user Will be notified"\n                                  id="' + user.user.id + '-' + user.user.name + '-approve">\n                                    <i class="material-icons">check</i>\n                                </button>\n                                <button \n                                class="declineFollowRequestButtons btn-floating  waves-effect waves-red  red accent-2 userInfoRevealCard z-depth-5 tooltipped"\n                                    data-position="bottom" data-tooltip="Decline Follow Request ~ The user will not be notified"\n                                    id="' + user.user.id + '-' + user.user.name + '-delete">\n                                        <i class="material-icons">clear</i>\n                                 </button>\n                            </div>\n                           <!-- <div class="card-tabs">\n                                <ul class="tabs tabs-fixed-width tabs-transparent">\n                                <li class="tab"><a href="#' + user.user.id + 'aboutTheUserWhoSentRequest">About</a></li>\n                                <li class="tab"><a class="active" href="#' + user.user.id + 'whenTheRequestHaveBeenSent">When</a></li>\n                                </ul>\n                            </div>\n                            <div class="card-content deep-orange lighten-1 userRequest-tabs-' + user.user.id + '">\n                                <div id="' + user.user.id + 'aboutTheUserWhoSentRequest" class="truncate">' + user.user.about + '</div>\n                                <div id="' + user.user.id + 'whenTheRequestHaveBeenSent">' + user.created_at + '</div>\n                            </div> --> \n                            </div>\n                            </section>\n                        ');
+                    $('#usersRequestedToFollowYou').append('\n                        <section id="usersRequestedToFollowYouData">                    \n                            <div class="card grey lighten-1 black-text userRequest-' + user.user.id + ' col s12 m6" data-username="' + user.user.name + '">\n                            <div class="card-content">\n                                <ul class="collection borderNone">\n                                    <li class="collection-item avatar grey lighten-2 commentCollectionRemoveUl userRequest-' + user.user.id + '">\n                                        <img src="' + user.user.image + '" alt="user image" class="circle">\n                                        <span class="title strongChips searchFollowRequestsBasedOnNames" id="' + user.user.name + '">' + user.user.name + '</span>\n                                        <p>sent you a request</p>\n                                        <a href="/' + user.user.name + '" target="_blank" class="secondary-content tooltipped"\n                                        data-position="bottom" data-tooltip="Go to profile">\n                                        <i class="material-icons blue-grey-text text-darken-4">account_box</i></a>\n                                    </li>\n                                </ul>\n                                <button\n                                 class="aprroveFollowRequestButtons btn-floating  waves-effect waves-light light-blue darken-3 z-depth-5 tooltipped"\n                                 data-position="bottom" data-tooltip="Accecpt Follow Request ~ The user Will be notified"\n                                  id="' + user.user.id + '-' + user.user.name + '-approve">\n                                    <i class="material-icons">check</i>\n                                </button>\n                                <button \n                                class="declineFollowRequestButtons btn-floating  waves-effect waves-red  red accent-2 userInfoRevealCard z-depth-5 tooltipped"\n                                    data-position="bottom" data-tooltip="Decline Follow Request ~ The user will not be notified"\n                                    id="' + user.user.id + '-' + user.user.name + '-delete">\n                                        <i class="material-icons">clear</i>\n                                 </button>\n                            </div>\n                           <!-- <div class="card-tabs">\n                                <ul class="tabs tabs-fixed-width tabs-transparent">\n                                <li class="tab"><a href="#' + user.user.id + 'aboutTheUserWhoSentRequest">About</a></li>\n                                <li class="tab"><a class="active" href="#' + user.user.id + 'whenTheRequestHaveBeenSent">When</a></li>\n                                </ul>\n                            </div>\n                            <div class="card-content deep-orange lighten-1 userRequest-tabs-' + user.user.id + '">\n                                <div id="' + user.user.id + 'aboutTheUserWhoSentRequest" class="truncate">' + user.user.about + '</div>\n                                <div id="' + user.user.id + 'whenTheRequestHaveBeenSent">' + user.created_at + '</div>\n                            </div> --> \n                            </div>\n                            </section>\n                        ');
                 });
                 $('.tabs').tabs(); // for the tabs, for each user
                 followRequestsNumber = success.data.length;
@@ -42187,7 +42188,7 @@ function followRequestsFunctionality() {
             $('.tooltipped').tooltip();
         },
         onCloseEnd: function onCloseEnd() {
-            $("#followRequestsModal").html('\n            <div class="row paddingSocial">\n            <div class="col s12 m6 white-text">\n                <p>Press <span class="red-text">Esc</span> To go back or the X Button</p>\n            </div>\n            <div class="col s12 m6">\n                <a class="btn-floating  waves-effect waves-light deep-orange accent-4 z-depth-5 userInfoRevealCard modal-close">\n                  <i class="material-icons">close</i>\n                </a>\n            </div>\n              <div class="input-field col s12 m12">\n                  <i class="material-icons prefix grey-text text-lighten-3">search</i>\n                  <input id="searchFollowRequests" type="text">\n                  <label for="searchFollowRequests">Filter by first name</label>\n                </div>\n            </div>    \n              <div class="modal-content white-text">\n                <h4 id="numberOfFollowRequests">Follow requests</h4>\n                <div class="row">\n                <section id="usersRequestedToFollowYou">\n      \n                <div class="row center-align">\n                <div class="preloader-wrapper big active" id="preloaderfollowRequestsModal">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n                    \n                </section>\n                </div>\n              </div>\n            ');
+            $("#followRequestsModal").html('\n            <div class="row paddingSocial">\n            <div class="col s12 m6 white-text">\n                <p>Press <span class="red-text">Esc</span> To go back or the X Button</p>\n            </div>\n            <div class="col s12 m6">\n                <a class="btn-floating  waves-effect waves-light deep-orange accent-4 z-depth-5 modal-close floatRight">\n                  <i class="material-icons">close</i>\n                </a>\n            </div>\n              <div class="input-field col s12 m12">\n                  <i class="material-icons prefix grey-text text-lighten-3">search</i>\n                  <input id="searchFollowRequests" type="text">\n                  <label for="searchFollowRequests">Filter by first name</label>\n                </div>\n            </div>    \n              <div class="modal-content white-text">\n                <h4 id="numberOfFollowRequests">Follow requests</h4>\n                <div class="row">\n                <section id="usersRequestedToFollowYou">\n      \n                <div class="row center-align">\n                <div class="preloader-wrapper big active" id="preloaderfollowRequestsModal">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n                    \n                </section>\n                </div>\n              </div>\n            ');
         }
     });
     //  follow Requests Modal modal end
@@ -42210,7 +42211,7 @@ function aprroveFollowRequest() {
         $(this).addClass('disabled');
         // $(`#${userId}.${userName}.delete`).addClass('disabled')
         $(this).next().addClass('disabled'); // disable the delete button
-        axios.post("/approve/follow", {
+        axios.patch("/approve/follow", {
             from_id: userId
         }).then(function (success) {
             // console.log(success)
@@ -42248,8 +42249,10 @@ function declineFollowRequest() {
 
         $(this).addClass('disabled');
         $(this).prev().addClass('disabled'); // disable the approve button
-        axios.post("/decline/follow", {
-            from_id: userId
+        axios.delete("/decline/follow", {
+            data: {
+                from_id: userId
+            }
         }).then(function (success) {
             $(_this2).hide();
             $(_this2).prev().hide();
@@ -42287,7 +42290,7 @@ function updateFollowRequestNumbers() {
 function chagneColorBasedOnResult(result, userId) {
     var decline = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    $('.userRequest-' + userId).removeClass('grey lighten-1').addClass(result ? decline ? 'purple accent-2' : 'light-blue lighten-2' : 'red lighten-2');
+    $('.userRequest-' + userId).removeClass('grey lighten-1').addClass(result ? decline ? 'deep-orange lighten-1' : 'light-blue lighten-2' : 'red lighten-2');
     // $(`.userRequest-tabs-${userId}`).removeClass('deep-orange lighten-1').addClass((result) ? (decline) ? 'purple accent-1' : 'light-blue lighten-1' :'red lighten-1')
 }
 
@@ -42568,10 +42571,10 @@ function wishes() {
             $("#wishesNumberModal").html($("#getWishesNumber").text());
             axios.post('/wishedPosts').then(function (success) {
                 appendData(success.data);
-                console.log(success.data);
+                // console.log(success.data)
                 wishedPostsNumber = Number($("#getWishesNumber").text());
                 lowestId = success.data[success.data.length - 1].id;
-                console.log(lowestId);
+                // console.log(lowestId)
                 $("#Preloader-wishes").remove();
                 loadMoreWishes();
             }).catch(function (error) {
@@ -42602,8 +42605,10 @@ function deleteWish() {
             postId = _el$target$id$split2[1];
 
         $("#wishToDeleteButton-" + postId).addClass('disabled');
-        axios.post("/deleteWishedPost/" + el.target.id, {
-            id: postId
+        axios.delete("/deleteWishedPost/" + el.target.id, {
+            data: {
+                id: postId
+            }
         }).then(function (success) {
             M.toast({ html: "" + success.data.message, classes: 'rounded' });
             updateNumberAndUI(postId);
@@ -44127,19 +44132,81 @@ function sendExchangeRequest() {
 /* harmony export (immutable) */ __webpack_exports__["a"] = exchangeRequestsInit;
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
+var exchangeRequestReverseSortingTurn = 'ASC',
+    exchangeRequestReverseSortingTurnClicked = false;
 function exchangeRequestsInit() {
     exchangeRequestsModalOptionsInit();
     exchangeRequestsLoadMoreButtonInit();
+    $("#exchangeRequestReverseSorting").click(function () {
+        $("#exchangeRequestReverseSorting").hide();
+        exchangeRequestReverseSorting(exchangeRequestReverseSortingTurn === 'DESC');
+        switch (exchangeRequestReverseSortingTurn) {
+            case 'DESC':
+                exchangeRequestReverseSortingTurn = 'ASC';
+                break;
+            case 'ASC':
+                exchangeRequestReverseSortingTurn = 'DESC';
+            default:
+                break;
+        }
+    });
 }
 
 function exchangeRequestsModalOptionsInit() {
-    $('#exchangeRequestsModalOptions').modal({
-        onOpenEnd: function onOpenEnd() {
-            console.log("exchangeRequestsModalOptions onOpenEnd");
-        },
-        onCloseEnd: function onCloseEnd() {
-            console.log("exchangeRequestsModalOptions onCloseEnd");
-        }
+    var exchangeRequestsModalOptions = $('#exchangeRequestsModalOptions');
+    var exchangeRequestsModalOptionsController = M.Modal.getInstance(exchangeRequestsModalOptions);
+    // exchangeRequestsModalOptions.modal({
+    //     onOpenEnd: () => {
+    //         console.log("exchangeRequestsModalOptions onOpenEnd")
+    //     },
+    //     onCloseEnd: () => {
+    //         console.log("exchangeRequestsModalOptions onCloseEnd")
+    //     }
+    // })
+    var dataToSubmit = undefined;
+    $('.modal-trigger-custom').click(function (e) {
+        // console.log(e.target.parentElement)
+        var x = e.target.parentElement;
+        var z = $(x);
+        dataToSubmit = {
+            exchangeRequestId: z.data('exchange-request-id'),
+            postId: z.data('auth-user-post-id'),
+            theOtherPostId: z.data('post-id')
+        };
+        console.log(dataToSubmit);
+        // console.log(z.data('exchange-request-id'))
+        // console.log(z.attr('data-exchange-request-id'))
+        exchangeRequestsModalOptionsController.open();
+    });
+
+    $("#acceptExchangeRequestButtonModal").off('click');
+    $("#acceptExchangeRequestButtonModal").click(function () {
+        axios.patch('/show/exchangeRequests/accept', {
+            exchangeRequestInfo: dataToSubmit
+        }).then(function (success) {
+            console.log(success.data);
+            M.toast({ html: success.data.message + " \uD83D\uDC35" });
+            if (success.data.action === 'refresh') window.location.reload(true);
+        }).catch(function (error) {
+            console.log(error);
+            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+        });
+    });
+
+    $("#deleteExchangeRequestButtonModal").off('click');
+    $("#deleteExchangeRequestButtonModal").click(function () {
+        axios.delete('/show/exchangeRequests/delete', {
+            data: {
+                exchangeRequestInfo: dataToSubmit
+            }
+        }).then(function (success) {
+            console.log(success.data);
+            M.toast({ html: success.data.message + " \uD83D\uDC35" });
+            window.location.reload(true);
+        }).catch(function (error) {
+            console.log(error);
+            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+        });
     });
 }
 
@@ -44152,10 +44219,11 @@ function exchangeRequestsLoadMoreButtonInit() {
     $("#exchangeRequestsLoadMoreButton").click(function () {
         $("#exchangeRequestsLoadMoreButton").addClass('disabled');
         axios.post('/exchangeRequest/loadMore', {
-            idToSend: idToSend
+            idToSend: idToSend,
+            turn: exchangeRequestReverseSortingTurn === 'DESC' && exchangeRequestReverseSortingTurnClicked ? 'ASC' : 'DESC'
         }).then(function (success) {
             if (success.data.length === 0) {
-                M.toast({ html: 'No more Data 🐵', classes: 'rounded' });
+                M.toast({ html: 'No more Data 🤖', classes: 'rounded' });
             } else {
                 $("#exchangeRequestsLoadMoreButton").removeClass('disabled');
                 idToSend = success.data[success.data.length - 1].id;
@@ -44170,8 +44238,34 @@ function exchangeRequestsLoadMoreButtonInit() {
 }
 
 function appendDataExchangeRequests(exchangeRequests) {
+    $(".modal-trigger-custom").off('click');
     exchangeRequests.forEach(function (exchangeRequest) {
-        $('#httpAjaxData').append("\n            <div class=\"card z-depth-5 exchangeRequest\" data-aos=\"flip-left\" id=\"exchangeRequest-" + exchangeRequest.id + "\">\n            <div class=\"card-image waves-effect waves-block waves-light\">\n            <img class=\"activator\" src=\"" + exchangeRequest.theOtherPost.imageLocation + "\">\n            </div>\n            <div class=\"card-content\">\n            <span class=\"card-title activator grey-text text-darken-4\">\n                <small class=\"chip strongChips grey darken-3 blue-text z-depth-5\">\n                " + exchangeRequest.theOtherPost.header + "\n                </small>\n                <span class=\"chip strongChips grey darken-4 yellow-text text-accent-1 z-depth-5\">\n                Sent  @ " + exchangeRequest.created_at + "\n                </span>\n                <p class=\"flow-text truncate\">" + exchangeRequest.theOtherPost.body + "</p>\n                <i class=\"material-icons right\">more_vert</i>\n            </span>\n            <p>\n                <a href=\"/show/post/" + exchangeRequest.theOtherPost.id + "\" target=\"_blank\">\n                <i class=\"material-icons black-text\">open_in_new</i>\n                </a>\n                <a href=\"#exchangeRequestsModalOptions\" class=\"modal-trigger\">\n                <i class=\"material-icons black-text\">linear_scale</i>\n                </a>\n            </p>\n            </div>\n            <div class=\"card-reveal\">\n            <span class=\"card-title grey-text text-darken-4\">Your post<i class=\"material-icons right\">close</i></span>\n            <div class=\"card\">\n                <div class=\"card-image\">\n                    <img src=\"" + exchangeRequest.post.imageLocation + "\">\n                    <span class=\"card-title\">\n                    <small class=\"chip strongChips grey darken-4 blue-text z-depth-5\">\n                    " + exchangeRequest.post.header + "\n                    </small>\n                    </span>\n                </div>\n                <div class=\"card-content\">\n                    <p class=\"flow-text truncate\">" + exchangeRequest.post.body + "</p>\n                </div>\n                <div class=\"card-action\">\n                    <a href=\"/show/post/" + exchangeRequest.post.id + "\" target=\"_blank\">\n                    <i class=\"material-icons black-text\">open_in_new</i>\n                    </a>\n                </div>\n            </div>\n            </div>\n        </div>\n        ");
+        $('#httpAjaxData').append("\n            <div class=\"card z-depth-5 exchangeRequest\" data-aos=\"flip-left\" id=\"exchangeRequest-" + exchangeRequest.id + "\">\n            <div class=\"card-image waves-effect waves-block waves-light\">\n            <img class=\"activator\" src=\"" + exchangeRequest.theOtherPost.imageLocation + "\">\n            </div>\n            <div class=\"card-content\">\n            <span class=\"card-title activator grey-text text-darken-4\">\n                <small class=\"chip strongChips grey darken-3 blue-text z-depth-5\">\n                " + exchangeRequest.theOtherPost.header + "\n                </small>\n                <span class=\"chip strongChips grey darken-4 yellow-text text-accent-1 z-depth-5\">\n                Sent  @ " + exchangeRequest.created_at + "\n                </span>\n                <p class=\"flow-text truncate\">" + exchangeRequest.theOtherPost.body + "</p>\n                <i class=\"material-icons right\">more_vert</i>\n            </span>\n            <p>\n            <a href=\"/show/post/" + exchangeRequest.theOtherPost.id + "\" target=\"_blank\" class=\"btn-floating btn-large deep-purple lighten-4 pulse waves-effect waves-purple\">\n            <i class=\"material-icons black-text\">open_in_new</i>\n           </a>\n            <a class=\"btn-floating btn-large cyan lighten-4 pulse modal-trigger-custom waves-effect waves-red\"  data-exchange-request-id=\"" + exchangeRequest.id + "\" data-auth-user-post-id=\"" + exchangeRequest.post.id + "\" data-post-id=\"" + exchangeRequest.theOtherPost.id + "\">\n              <i class=\"material-icons black-text pulse\">more_horiz</i>\n            </a>\n            </p>\n            </div>\n            <div class=\"card-reveal\">\n            <span class=\"card-title grey-text text-darken-4\">Your post<i class=\"material-icons right\">close</i></span>\n            <div class=\"card\">\n                <div class=\"card-image\">\n                    <img src=\"" + exchangeRequest.post.imageLocation + "\">\n                    <span class=\"card-title\">\n                    <small class=\"chip strongChips grey darken-4 blue-text z-depth-5\">\n                    " + exchangeRequest.post.header + "\n                    </small>\n                    </span>\n                </div>\n                <div class=\"card-content\">\n                    <p class=\"flow-text truncate\">" + exchangeRequest.post.body + "</p>\n                </div>\n                <div class=\"card-action\">\n                    <a href=\"/show/post/" + exchangeRequest.post.id + "\" target=\"_blank\">\n                    <i class=\"material-icons black-text\">open_in_new</i>\n                    </a>\n                </div>\n            </div>\n            </div>\n        </div>\n        ");
+    });
+    exchangeRequestsModalOptionsInit();
+}
+
+function exchangeRequestReverseSorting(ShouldItBeDESC) {
+    exchangeRequestReverseSortingTurnClicked = true;
+    $("#exchangeRequestsLoadMoreButton").addClass('disabled');
+    // Remove all child nodes from the DOM.
+    $("#exchangeRequestsDataSorting").empty();
+    $("#exchangeRequestsDataSorting").html("    \n            <div class=\"preloader-wrapper big active\" id=\"exchangeRequestsDataSortingPreLoader\">\n                <div class=\"spinner-layer spinner-blue-only\">\n                <div class=\"circle-clipper left\">\n                    <div class=\"circle\"></div>\n                </div><div class=\"gap-patch\">\n                    <div class=\"circle\"></div>\n                </div><div class=\"circle-clipper right\">\n                    <div class=\"circle\"></div>\n                </div>\n                </div>\n            </div>\n            <section id=\"httpAjaxData\"></section>\n    ");
+    axios.get("/show/exchangeRequests/" + (ShouldItBeDESC ? 'DESC' : 'ASC')).then(function (success) {
+        console.log(success.data);
+        appendDataExchangeRequests(success.data);
+        $("#exchangeRequestsLoadMoreButton").removeClass('disabled');
+        $("#exchangeRequestReverseSorting").removeClass('disabled');
+        $("#exchangeRequestsDataSortingPreLoader").remove();
+        $("#exchangeRequestsLoadMoreButton").off('click');
+        $("#exchangeRequestReverseSorting").fadeIn(2000);
+        exchangeRequestsLoadMoreButtonInit();
+    }).catch(function (error) {
+        $("#exchangeRequestsDataSortingPreLoader").remove();
+        $("#exchangeRequestReverseSorting").removeClass('disabled');
+        M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+        console.log(error);
+        $("#exchangeRequestReverseSorting").fadeIn(2000);
     });
 }
 

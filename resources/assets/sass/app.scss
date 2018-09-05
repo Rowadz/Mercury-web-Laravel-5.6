@@ -1,358 +1,52 @@
-
 /* Created By LT 19/05/2018 */
 @import "node_modules/materialize-css/sass/materialize";
 @import "node_modules/aos/dist/aos";
+@import "general.scss";
+@import "particles.scss";
 
-*{
-    font-family: 'Courier New', Courier, monospace;
-}
-html ,body{
-    overflow-x: hidden !important;
-}
 
-::-moz-selection { /* Code for Firefox */
-    color: #80deea;
-    background: #1a1a1a;
-}
+$colors:(
+    mainColor: #151019,
+    blightpod: rgba(50,59,62, 0.7),
+    murksoul: rgba(29, 170, 189, 0.7),
+    haunttaur: #1a1a1a,
+    vortexling: #eceff1,
+    theLonelyStatue: #1A1A1A,
+    mistface: rgba(167,255,235, 0.2),
+    mistfaceLight : rgba(167,255,235, 0.19),
+    brineling: #f0f8ff,
+    smokevine: rgb(0, 184, 212),
+    infernalbrood: rgb(255, 23, 68),
+    soulsoul: rgb(237, 231, 246),
+    theArcticTumor: #15959F,
+    smokepaw: #F8F8FF
+);
 
-::selection {
-    color: #80deea;
-    background: #1a1a1a;
-}
+$mediaQueriesVariables: (
+    phone: 601px
+);
 
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-}
+@function getVariableData($setName,$varName){
+    @return map-get($setName, $varName)
+};
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: #414a4c;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #0e1111;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #353839;
-}
-// Start Welcome page
-.main{
-    
-    // background-image: url('../../../public/images/main2.png');
-    /* background-image: url('../img/cardWired.jpg'); */
-    height: 100vh;
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 100%;
-    background-color: #151019 !important;
-    
-    // position: absolute;
-}
-.positionFixedAndMargins{
-    position: inherit;
-    width: 100% ;
-    margin: 200px; 
-}
-#particles-js{
-    margin: 0;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    width: 100%;
-    // login & register
-    height: 120vh;
-    display: block;
-    position: absolute;
-}
-.particles-js-register{
-    height: 150vh !important;
-}
-.particles-js-welcome{
-    height: inherit !important;
-}
-nav{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    height: 90px;
-    line-height: 90px;
-    z-index: 1 !important;
-    position: inherit !important;
-}
-nav{
-    a{
-        outline: none;
+@mixin phone {
+    @media only screen and (min-width: #{getVariableData($mediaQueriesVariables, phone)}){
+        @content;
     }
 }
+// imported after the mixin and the function beacuse these files uses them
+@import "nav.scss";
+@import "welcome.scss";
+@import "loginRegister.scss";
+@import "post.scss";
+@import "profile.scss";
 
-nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
-    height: 90px;
-    line-height: 90px;
-}
-
-nav .button-collapse i {
-    height: 90px;
-    line-height: 90px;
-}
-
-nav .brand-logo { 
-    font-size: 1.6rem; 
-}
-nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
-    height: 90px;
-    line-height: 90px;
-}
-
-// nav .button-collapse i, nav .brand-logo, nav .sidenav-trigger,  nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
-//     height: 90px;
-//     line-height: 90px;
-    
-// }
-@media only screen and (min-width: 601px){
-    nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
-        height: 90px;
-        line-height: 90px;
-    }
-}
-
-
-nav li:hover{
-    background-color: transparent;
-    // border-bottom: 5px #80deea dotted; 
-}
-// nav li i{
-//     margin-top: 15px;
-// }
-
-nav li a{
-    font-size: 20px !important;
-}
-
-// #dropdownAuth{
-//     width: 300px !important;
-// }
-
-// button{
-//     border-radius: 20px !important;
-// }
-
-.Vspace{
-    padding: 20px;
-}
-.VeryBigspace{
-    padding: 50px;
-}
-/* .highlightText{
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.card3{
-    background-image: url('../img/alcohol-art-bottles.jpg');
-    background-size: cover;
-} */
-
-.exploreButton{
-    background-color:  rgba(50,59,62, 0.7);
-    /* background-color: rgba(29, 170, 189, 0.7) !important; */
-}
-.exploreButton:hover{
-    background-color:  rgba(29, 170, 189, 0.7) !important;
-}
-// End Welcome page
-// Start login page
-.mainLogin2{
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    position: static;
-}
-.mainLogin{
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    position: static;
-    // background-image: url('../../../public/images/pattren4.png');
-    // background-repeat: no-repeat;
-    // background-size: cover;
-    // background-size: 100%;
-    // font-family: 'Courier New', Courier, monospace !important;
-}
-.fixParticlesIssue{
-    position: inherit;
-}
-.datepicker-table-wrapper{
-    color: #1a1a1a !important;
-}
-// .mainResgister{
-//     // background-image: url('../../../public/images/coolBackgroundMain2.svg');
-//     // background-repeat: no-repeat;
-//     // background-size: contain;
-//     // background-size: 100%;
-//     // padding: 20px !important;
-// }
-
-.login-image{
-    max-width: 200% !important;   
-}
-
-.inputs{
-    padding:20px !important;
-}
-
-.greet{
-    font-family: 'Courier New', Courier, monospace;
-}
-.VspaceLogin{
-    padding: 10px;
-}
-
-/* Change the white to any color ;) */
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px #eceff1 inset !important;
-}
-/*Change text in autofill textbox*/
-input:-webkit-autofill {
-    -webkit-text-fill-color: #000 !important;
-}
-// end login page
-
-// Post CSS
-#scrollTop{
-    position: fixed !important;
-    z-index: 9999 !important;
-}
-.tagChip{
-    margin-top: 10px !important;
-}
-
-.strongChips{
-    font-weight: bold !important;    
-}
-// end Post CSS
-
-
-// some posts css
-.customShadow{
-    box-shadow: 0 4px 8px 0 rgba(167,255,235, 0.2), 0 6px 20px 0 rgba(167,255,235, 0.19) !important;
-}
-// end some posts css
-
-// show single post 
-.infoButtonPadding{
-    padding: 10px !important;
-}
-.hideMe{
-    display: none !important;
-}
-#commentInput{
-    color: aliceblue !important;
-}
-
-.postBody{
-    box-shadow: 0 4px 8px 0 rgb(0, 184, 212), 0 6px 20px 0 rgb(0, 184, 212) !important; 
-    // white-space: pre-wrap !important;
-}
-
-.postHeader{
-    box-shadow: 0 4px 8px 0 rgb(255, 23, 68), 0 6px 20px 0 rgb(255, 23, 68) !important; 
-}
-
-.postImage{
-    box-shadow: 0 4px 8px 0 rgb(237, 231, 246), 0 6px 20px 0 rgb(237, 231, 246) !important; 
-}
-
-.optionsButton{
-    box-shadow: 0 4px 8px 0 rgb(0, 0, 0), 0 6px 20px 0 rgb(237, 231, 246) !important; 
-}
-.paddingTags{
-    padding-top: 20px !important; 
-}
-
-.usernameComment{
-    font-weight: bold;
-    text-shadow: 1px 1px #15959F;
-}
-.commentCollectionRemoveUl{
-    border: none !important;
-}
-.input-field input[type=text]:focus + label {
-    color: #F8F8FF !important;
-}
-.input-field input[type=text]{
-    color: #F8F8FF !important;
-}
-// end show signle post
-
-
-// fixing some errors
-#dropdownAuth{
-    overflow: visible !important;
-}
-.dropdown-content{
-    overflow: visible !important;
-}
-.dropdown-content {
-    @extend .collection;
-    overflow: visible !important;
-}
-
-.card {
-    z-index: 0;
-    overflow-y: visible !important;
-}
-.card:hover {
-    z-index: 1 !important;
-}
-// .card:hover {
-//     z-index: 1 ;
-// }
-// end fixing some errors
-
-// profile
-.aboutText{
-    font-size: 15px;
-}
-.addNigativeMarginToTop{
-    margin-top: -200px;
-}
-.userInfoRevealCard{
-    float: right !important;
-}
-.userInfoRevealCardMailTitle{
-    padding: 10px !important;
-    font-weight: bold;
-}
-.actionsButtonsProfile{
-    padding: 10px !important;
-}
-.actionsButtonsProfile a{
-    box-shadow: 10px 10px 5px grey !important;
-}
-.floatLeftModalFooter{
-    float: left !important;
-}
+// for sorting the posts
 #sortPostsUserProfile{
     margin-top: 10px !important;
+    .select-wrapper input.select-dropdown {
+        color: whitesmoke !important;
+    }
 }
-// end profile
-
-// social 
-.fullScreenModal{
-    width: 100% !important;
-    max-height: 100%  !important;
-    height: 100% !important;
-    top: 0 !important;
-}
-.paddingSocial{
-    padding: 10px !important;
-}
-.marginSocial{
-    margin: 10px !important;
-}
-// end social
-
-// @@@@@@@@@@@ SEE THIS
-// white-space: pre;
-// @@@@@@@@@@@
+// end for sorting the posts

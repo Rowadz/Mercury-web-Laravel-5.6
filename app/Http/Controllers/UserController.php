@@ -9,6 +9,8 @@ use Mercury\Follower;
 use Mercury\ExchangeRequest;
 use Mercury\Post;
 
+
+
 // default data you need to return te every Auth View 
 // "wishes" => Wish::getWishes(),
 // "allFollowers" => Follower::allFollowers(),
@@ -73,19 +75,19 @@ class UserController extends Controller
         return Follower::seeTheUsersYouAreFollowing($request->highestId ?: null);
     }
 
-    public function unFollow(Request $request){
-        $validatedData = $request->validate([
-            'id' => 'required|exists:followers,user_id'
-        ]);
-        return Follower::unFollow($request->id);
-    }
+    // public function unFollow(Request $request){
+    //     $validatedData = $request->validate([
+    //         'id' => 'required|exists:followers,user_id'
+    //     ]);
+    //     return Follower::unFollow($request->id);
+    // }
 
-    public function follow(Request $request){
-        $validatedData = $request->validate([
-            'id' => 'required|numeric,'
-        ]);
-        return Follower::follow($request->id);
-    }
+    // public function follow(Request $request){
+    //     $validatedData = $request->validate([
+    //         'id' => 'required|numeric,'
+    //     ]);
+    //     return Follower::follow($request->id);
+    // }
 
     public function cancelFollow(Request $request){
         $validatedData = $request->validate([
@@ -133,6 +135,40 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'idToSend' => 'numeric|exists:exchange_requests,id'
         ]);
-        return ExchangeRequest::loadMore($request->idToSend);
+        return ExchangeRequest::loadMore($request->idToSend, $request->turn);
+    }
+
+    public function seeExchangeRequestDESC(){
+        return ExchangeRequest::loadMore(null, 'DESC');
+    }
+
+    public function seeExchangeRequestASC(){
+        return ExchangeRequest::loadMore(null, 'ASC');
+    }
+
+    public function acceptExchangeRequest(Request $request){
+        $validatedData = $request->validate([
+            'exchangeRequestInfo.exchangeRequestId' => 'numeric|exists:exchange_requests,id',
+            'exchangeRequestInfo.postId' => 'numeric|exists:exchange_requests,original_post_id',
+            'exchangeRequestInfo.theOtherPostId' => 'numeric|exists:exchange_requests,post_id'
+        ]);
+        if(ExchangeRequest::checkIfExchangeRequestExist($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['postId'], $request->exchangeRequestInfo['theOtherPostId'])){
+            return ExchangeRequest::acceptExchangeRequest($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['postId'], $request->exchangeRequestInfo['theOtherPostId']);
+        } else return response()->json(["message" => 'the post already exchanged ! ¯\_(ツ)_/¯']);
+    }
+
+    public function deleteExchangeRequest(Request $request){
+        $validatedData = $request->validate([
+            'exchangeRequestInfo.exchangeRequestId' => 'numeric|exists:exchange_requests,id',
+            'exchangeRequestInfo.postId' => 'numeric|exists:exchange_requests,original_post_id',
+            'exchangeRequestInfo.theOtherPostId' => 'numeric|exists:exchange_requests,post_id'
+        ]);
+        if(ExchangeRequest::checkIfExchangeRequestExist($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['postId'], $request->exchangeRequestInfo['theOtherPostId'])){
+            return ExchangeRequest::deleteExchangeRequest($request->exchangeRequestInfo['exchangeRequestId']);
+        } else return response()->json(["message" => '¯\_(ツ)_/¯']);
+    }
+
+    public function exploreTageReturnView($keyword = null){
+        return view('exploreTags');
     }
 }

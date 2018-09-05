@@ -1,0 +1,26 @@
+#profileWrapper{
+    #profileWrapperGeneralInfo{
+        .aboutText{
+            font-size: 15px;
+        }
+        .userInfoRevealCard{
+            float: right !important;
+        }
+        .userInfoRevealCardMailTitle{
+            padding: 10px !important;
+            font-weight: bold;
+        }
+        .actionsButtonsProfile{
+            padding: 10px !important;
+            a{
+                box-shadow: 10px 10px 5px getVariableData($colors, theLonelyStatue) !important;
+            }
+        }        
+        .floatLeftModalFooter{
+            float: left !important;
+        }
+    }
+    .addNigativeMarginToTop{
+        margin-top: -200px;
+    }
+}

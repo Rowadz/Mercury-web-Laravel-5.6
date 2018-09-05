@@ -36,11 +36,13 @@ function overFlowDropDownMenu(){
 }
 
 function scrollToTop(){
-    $('#scrollTop').click(()=>{
+    let scrollTopButton  = $("#scrollTop")
+    scrollTopButton.click(()=>{
         $('html, body').animate({
             scrollTop: $("#scrollTopFinalDest").offset().top
         }, 1000);
     })
+
 }
 
 function initSignUp(){
