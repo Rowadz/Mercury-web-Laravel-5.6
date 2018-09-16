@@ -19,13 +19,14 @@ A Web application using  [Laravel](https://laravel.com/). The PHP Framework For 
 * Minify CSS and Javascript. :heavy_multiplication_x:
 
 #### Real ' // Todos ' or Bugs :bug:
-1 - Fix The bug in the **landing page** (welcome page), login page, and register  page **which you can't notice it the first time!**, and it won't matter but it will make the UI/UX better. :heavy_multiplication_x:
-2 - If you have time improve on the wished posts modal **(design)** & the follow request Modal **(Performance)**. :heavy_multiplication_x:
-3 - Implement the **Explore**, Which will take a so much Time page. :heavy_multiplication_x:
-4 - Make the validation on the login & register uses asynchronous HTTP requests. :heavy_multiplication_x:
-5 - Don't forget the Chat and notification, **real time** using Redis .:heavy_multiplication_x:
-6 - Add more realistic features to the profile page. :heavy_multiplication_x:
-7 - When the user navigate to profile => * clicks on the image * => posts,
+- Fix The bug in the **landing page** (welcome page), login page, and register  page **which you can't notice it the first time!**, and it won't matter but it will make the UI/UX better. :heavy_multiplication_x:
+- If you have time improve on the wished posts modal **(design)** & the follow request Modal **(Performance)**. :heavy_multiplication_x:
+- Implement the **Explore**, Which will take a so much Time page. :heavy_multiplication_x:
+- Make the validation on the login & register uses asynchronous HTTP requests. :heavy_multiplication_x:
+- Don't forget the Chat and notification, **real time** using Redis .:heavy_multiplication_x:
+- Add more realistic features to the profile page. :heavy_multiplication_x:
+- When the user navigate to profile => * clicks on the image * => posts,
 the design here is a little bit weird and there is a bug **(the z-index bug)**. :heavy_multiplication_x:
-8 - Implement realistic and efficient  search which could be accessed from every where. :heavy_multiplication_x:
-9 - I believe that there is more than this   ¯\_(ツ)_/¯.
+- Implement realistic and efficient  search which could be accessed from every where. :heavy_multiplication_x:
+- I believe that there is more than this   ¯\_(ツ)_/¯.
+
