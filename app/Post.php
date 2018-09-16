@@ -3,7 +3,7 @@
 namespace Mercury;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Mercury\Tag;
 
 //  Available posts => status = 1
 //  Archived  posts => status = 0
@@ -23,7 +23,7 @@ class Post extends Model
 
     // one post have one tag
     public function tag(){
-        return $this->belongsTo("Mercury\\tag");
+        return $this->belongsTo("Mercury\\Tag");
     }
 
     // one post has many comments

@@ -14,7 +14,7 @@
            <i class="material-icons right">more_vert</i>
            </span>
            <blockquote class="flow-text aboutText blue-grey-text text-lighten-4"> 
-              {{ substr ($user->about, sizeof($user->about) - 100) }}
+              {{ substr ($user->about, 100) }}
               <br>
               <a class="red-text text-accent-2 modal-trigger" href="#aboutModal">
               read More ⟿ 

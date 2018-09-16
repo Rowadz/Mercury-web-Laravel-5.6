@@ -27,16 +27,17 @@ Route::post('/home/loadMorePosts', 'HomeController@loadMorePosts')->name('loadMo
 Route::get('/show/post/{post}', 'PostController@show')->name('showPost');
 
 // display the posts for a visitor
-Route::get("/posts", "postController@showWithNoAuth")->name('showPostsNoAuth');
+Route::get("/posts", "PostController@showWithNoAuth")->name('showPostsNoAuth');
 
 // loads more posts for a visitor // TODO :: might make them in the same function 'controller function'
-Route::post("/show/all/postsNoAuth", "postController@loadMorePostsNoAuth")->name('loadshowPostsNoAuth');
+Route::post("/show/all/postsNoAuth", "PostController@loadMorePostsNoAuth")->name('loadshowPostsNoAuth');
 
 // adds a post to the wish list
 Route::post("/addToWishList/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
 
 // deleting a wish
-Route::delete("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
+// TODO make it delete HTTP request
+Route::post("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
 
 // show the wished posts
 Route::post("/wishedPosts", "WishController@showWishedPosts")->name('showWishedPosts');

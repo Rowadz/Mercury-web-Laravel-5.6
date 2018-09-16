@@ -1,60 +1,31 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Welcome to Mercury
+# :fearful:
+### I'm making these notes for future because I don't have the time to make any changes right now, and I believe I will come back to this after a month or two, and I think this will make me remember what I have done.
+A Web application using  [Laravel](https://laravel.com/). The PHP Framework For Web Artisans
+####  Some notes or 'Todos' :
+- PHP [faker](https://github.com/fzaninotto/Faker) for generating database data for testing. :heavy_check_mark:
+- [AOS ](https://michalsnik.github.io/aos/) for good animation. :heavy_check_mark:
+- [JQuery](https://jquery.com/) . :heavy_check_mark:
+- [Webpack](https://webpack.js.org/) & [Babel](https://babeljs.io/) for bundling and compiling [ES6](http://es6-features.org/#Constants) and [SASS](https://sass-lang.com/), of course using [Laravel Mix](https://laravel.com/docs/5.7/mix). :heavy_check_mark:
+- [Materialize-css](https://materializecss.com/) for styling and making the website responsive. :heavy_check_mark:
+- [Axios](https://github.com/axios/axios) A promise based HTTP client for the browser and node.js. :heavy_check_mark:
+- And a little bit of [Vuejs](https://vuejs.org/). :heavy_check_mark:
+- Used [particlesjs](https://vincentgarreau.com/particles.js/) . :heavy_check_mark:
+- [Redis](https://redis.io/) For caching and enabling real time communication using [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern)  architecture. :heavy_multiplication_x:
+* All the **CRUD** operations are in the models **(static methods)**, and the controllers are just a medium to enable interaction between requests and responses. :heavy_check_mark:
+* The **Controllers** only validate the data and return what the models gave them. :heavy_check_mark:
+* Almost all the JavaScript code is written in ES6, **some JQuery code only worked when I used ES5**. :heavy_check_mark:
+* All The images are minified. :heavy_check_mark:
+* Minify CSS and Javascript. :heavy_multiplication_x:
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
-
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Real ' // Todos ' or Bugs :bug:
+1 - Fix The bug in the **landing page** (welcome page), login page, and register  page **which you can't notice it the first time!**, and it won't matter but it will make the UI/UX better. :heavy_multiplication_x:
+2 - If you have time improve on the wished posts modal **(design)** & the follow request Modal **(Performance)**. :heavy_multiplication_x:
+3 - Implement the **Explore**, Which will take a so much Time page. :heavy_multiplication_x:
+4 - Make the validation on the login & register uses asynchronous HTTP requests. :heavy_multiplication_x:
+5 - Don't forget the Chat and notification, **real time** using Redis .:heavy_multiplication_x:
+6 - Add more realistic features to the profile page. :heavy_multiplication_x:
+7 - When the user navigate to profile => * clicks on the image * => posts,
+the design here is a little bit weird and there is a bug **(the z-index bug)**. :heavy_multiplication_x:
+8 - Implement realistic and efficient  search which could be accessed from every where. :heavy_multiplication_x:
+9 - I believe that there is more than this   ¯\_(ツ)_/¯.
