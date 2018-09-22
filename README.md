@@ -1,5 +1,49 @@
 # Welcome to Mercury
-# :fearful:
+# :neckbeard:
+#### YOU NEED `PHP 7+`
+#### Clone the app.
+```git 
+$ git clone https://github.com/MohammedAl-Rowad/Mercury-web-Laravel-5.6.git
+```
+#### Install all the PHP dependencies 
+``` composer
+$ composer install
+```
+#### Install all the JavaScript dependencies 
+``` npm
+$ npm install
+```
+#### Configure the application
+ - rename the `.env.example` to `.env` and configure the file to match your machine.
+#### Run this command to create the tables
+```php 
+$ php artisan migrate
+```
+#### This will run your app on port 8000
+```cmd
+$ php artisan serve
+```
+- if want to change the port number for some reason use : 
+```cmd
+$ sudo php artisan serve --port=8080
+```
+- easier options are  `laravel valet` or `homestead`
+ 
+#### write the front-end code in `/resources/assets`
+- `/resources/assets/js` please separate the js files into modules.
+- `/resources/assets/sass` is for the css, and please separate the files to make if easier to read and maintain.
+- You need To run the following command so the code can be compiled and bundled:
+* for each change
+```npm
+$ npm run dev
+```
+* or `watch` every change and compile it automatically
+```
+$ npm run watch
+```
+
+#### If you want to seed the database just run the seeders in `/database/seeds`
+* [how to do it](https://laravel.com/docs/5.6/seeding) 
 ### I'm making these notes for future because I don't have the time to make any changes right now, and I believe I will come back to this after a month or two, and I think this will make me remember what I have done.
 A Web application using  [Laravel](https://laravel.com/). The PHP Framework For Web Artisans
 ####  Some notes or 'Todos' :
