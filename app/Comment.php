@@ -6,37 +6,65 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    public function post(){
-        return $this->belongsTo("Mercury\\Post");
+    /**
+     * each comment belongs to one post
+     * through the post_id
+     * @return void
+     */
+    public function post()
+    {
+        return $this->belongsTo("Mercury\Post");
     }
 
-    public function user(){
-        return $this->belongsTo("Mercury\\User");
+    /**
+     * each comment belongs to one user
+     * through the post_id
+     * @return void
+     */
+    public function user()
+    {
+        return $this->belongsTo("Mercury\User");
     }
 
-    public static function create($id, $comment){
-        try {
-            $theComment = new Comment;
-            $theComment->user_id = Auth()->user()->id;
-            $theComment->post_id = $id;
-            $theComment->body = $comment;
-            $theComment->save();
-            return response()->json(["message" => "Comment added"]);
-        } catch(Exception $e){
-            return response()->json(["message" => "Something went wrong"]);
-        }   
+    /**
+     * creating a new recored
+     *
+     * @param integer $id
+     * @param string $comment
+     * @return void
+     */
+    public static function create($id, $comment)
+    {
+        $theComment = new Comment;
+        $theComment->user_id = Auth()->user()->id;
+        $theComment->post_id = $id;
+        $theComment->body = $comment;
+        $theComment->save();
+        return response()->json(["message" => "Comment added"]);
     }
 
-    public static function deleteComment($id){
-        try{
-            Comment::find($id)->delete();
-            return response()->json(["success" => "The Comment has been deleted 🐵"]);
-        } catch (Exception $e){
-            return response()->json(["error" => "Something went wrong 🤖"]);
-        }
+
+    /**
+     * deleting a recored
+     *
+     * @param integer $id
+     * @return void
+     */
+    public static function deleteComment($id)
+    {
+        Comment::find($id)->delete();
+        return response()->json(["success" => "The Comment has been deleted 🐵"]);
     }
 
-    public static function edit($id, $newComment){
+    /**
+     * TODO :: make this work
+     *
+     * @param integer $id
+     * @param integer $newComment
+     * @return void
+     */
+    public static function edit($id, $newComment)
+    {
         return null;
     }
 }

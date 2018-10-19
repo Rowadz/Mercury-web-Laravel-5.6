@@ -15,136 +15,176 @@ use Mercury\Post;
 class ExchangeRequest extends Model
 {
     // who sent the request
+    /**
+     * each recored in the exchange requst will
+     * belong to one user => the onwer => the user that created the recored => the user how sent the request
+     *
+     * @return void
+     */
     public function user()
     {
         return $this->belongsTo("Mercury\User");
     }
 
-    // post_id
+    /**
+     * each recored in the exhange request table
+     * will belong to one post through the original_post_id
+     *
+     * @return void
+     */
     public function post()
     {
         return $this->belongsTo("Mercury\Post", "original_post_id");
     }
 
+    /**
+     * getting how many exchange requests was sent to the user
+     * 
+     * @return integer|null
+     */
     public static function exchangeRequestCount()
     {
         if(isset(Auth()->user()->id)){
             return ExchangeRequest::whereHas('post', function($q){
                 $q->where('user_id',  Auth()->user()->id);
-            })->where('status', 0)->count();
+            })->where('status', 'pending')->count();
         } else return null;
     }
 
+    /**
+     * adding a recored ! 
+     * 
+     * @param integer $userPostId
+     * @param integer $postId
+     * @return void
+     */
     public static function sendExchangeRequest($userPostId, $postId)
     {
-        try{
-            if(! ExchangeRequest::where([
-                'user_id' => Auth()->user()->id,
-                'post_id' => $postId,
-                'original_post_id' => $userPostId,
-                'status' => 0
-            ])->first()){
-                $exchangeRequest = new ExchangeRequest();
-                $exchangeRequest->user_id = Auth()->user()->id;
-                $exchangeRequest->post_id = $postId;
-                $exchangeRequest->original_post_id = $userPostId;
-                $exchangeRequest->status = 0;
-                $exchangeRequest->save();
-                return response()->json([
-                    "message" => "Sent 🐵"
-                ]);
-            } else return response()->json([ "message" => "Already Sent!! 🙊🙊"]);    
-            
-
-        } catch (Exception $e) {
+        if(! ExchangeRequest::where([
+            'user_id' => Auth()->user()->id,
+            'post_id' => $postId,
+            'original_post_id' => $userPostId,
+            'status' => 'pending'
+        ])->first()){
+            $exchangeRequest = new ExchangeRequest();
+            $exchangeRequest->user_id = Auth()->user()->id;
+            $exchangeRequest->post_id = $postId;
+            $exchangeRequest->original_post_id = $userPostId;
+            $exchangeRequest->status = 'pending';
+            $exchangeRequest->save();
             return response()->json([
-                "message" => "Something Went Bad 🤖"
+                "message" => "Sent 🐵"
             ]);
-        }
+        } else return response()->json([ "message" => "Already Sent!! 🙊🙊"]);
     }
 
+    /**
+     * getting the exchange request for the user
+     *
+     * @param boolean $DESC
+     * @return array
+     */
     public static function dataForTheExchangeRequstsView($DESC = true)
     {
-        try{
-            $data =  ExchangeRequest::with('post')->whereHas('post', function($q){
-                $q->where('user_id',  Auth()->user()->id);
-            })->where('status', 0)->orderBy('id', ($DESC) ? 'DESC' :'ASC')->take(2)->get();
-            
-            foreach ($data as $key => $value) {
-                $data[$key]["theOtherPost"] = Post::where([
-                    'user_id' => $value['user_id'],
-                    'id' => $value['post_id']
-                ])->first();
-            }
-            return $data;   
-            // dd($data);
-        }catch(Exception $e){
-            abort(500);
+        $data =  ExchangeRequest::with('post')->whereHas('post', function($q){
+            $q->where('user_id',  Auth()->user()->id);
+        })->where('status', 'pending')->orderBy('id', ($DESC) ? 'DESC' :'ASC')->take(2)->get();
+        
+        foreach ($data as $key => $value) {
+            $data[$key]["theOtherPost"] = Post::where([
+                'user_id' => $value['user_id'],
+                'id' => $value['post_id']
+            ])->first();
         }
+        return $data;   
     }
 
+    /**
+     * getting more exchange requests based in the id and 'DESC' or 'ASC'
+     *
+     * @param integer $id
+     * @param integer $shouldItBeDESC
+     * @return array
+     */
     public static function loadMore($id = null, $shouldItBeDESC)
     {
-        try{
-            if($id !== null && isset($shouldItBeDESC)){
-                $data =  ExchangeRequest::with('post')->whereHas('post', function($q){
-                    $q->where('user_id',  Auth()->user()->id);
-                })->where('id', ($shouldItBeDESC === 'DESC') ? '<' : '>' , $id)->where('status', 0)->orderBy('id', ($shouldItBeDESC === 'DESC') ? 'DESC' : 'ASC')->take(2)->get();
-            } else {
-                $data =  ExchangeRequest::with('post')->whereHas('post', function($q){
-                    $q->where('user_id',  Auth()->user()->id);
-                })->where('status', 0)->orderBy('id', (($shouldItBeDESC === 'DESC') ? 'DESC' : 'ASC'))->take(2)->get(); 
-            }
-            
-            foreach ($data as $key => $value) {
-                $data[$key]["theOtherPost"] = Post::where([
-                    'user_id' => $value['user_id'],
-                    'id' => $value['post_id']
-                ])->first();
-                $x = $data[$key]["theOtherPost"]->toarray();
-                $xx = $data[$key]["post"]->toarray();
-                $data[$key]->theOtherPost->imageLocation = PostImage::select('location')->where("post_id", $value['post_id'])->first()->location;
-                $data[$key]->post->imageLocation = PostImage::select('location')->where("post_id", $value['original_post_id'])->first()->location;
-                // you can do this as well !
-                // $data[$key]['theOtherPost']['imageLocation'] = PostImage::select('location')->where("post_id", $value['post_id'])->first()->location;
-                // $data[$key]["post"]['imageLocation'] = PostImage::select('location')->where("post_id", $value['original_post_id'])->first()->location;
-            }
-            return $data;   
-        }catch(Exception $e){
-            return response()->json([
-                "message" => "Something Went Bad 🤖"
-            ]);
+        if($id !== null && isset($shouldItBeDESC)){
+            $data =  ExchangeRequest::with('post')->whereHas('post', function($q){
+                $q->where('user_id',  Auth()->user()->id);
+            })->where('id', ($shouldItBeDESC === 'DESC') ? '<' : '>' , $id)->where('status', 'pending')->orderBy('id', ($shouldItBeDESC === 'DESC') ? 'DESC' : 'ASC')->take(2)->get();
+        } else {
+            $data =  ExchangeRequest::with('post')->whereHas('post', function($q){
+                $q->where('user_id',  Auth()->user()->id);
+            })->where('status', 'pending')->orderBy('id', (($shouldItBeDESC === 'DESC') ? 'DESC' : 'ASC'))->take(2)->get(); 
         }
+        
+        foreach ($data as $key => $value) {
+            $data[$key]["theOtherPost"] = Post::where([
+                'user_id' => $value['user_id'],
+                'id' => $value['post_id']
+            ])->first();
+            $x = $data[$key]["theOtherPost"]->toarray();
+            $xx = $data[$key]["post"]->toarray();
+            $data[$key]->theOtherPost->imageLocation = PostImage::select('location')->where("post_id", $value['post_id'])->first()->location;
+            $data[$key]->post->imageLocation = PostImage::select('location')->where("post_id", $value['original_post_id'])->first()->location;
+            // you can do this as well !
+            // $data[$key]['theOtherPost']['imageLocation'] = PostImage::select('location')->where("post_id", $value['post_id'])->first()->location;
+            // $data[$key]["post"]['imageLocation'] = PostImage::select('location')->where("post_id", $value['original_post_id'])->first()->location;
+        }
+        return $data;   
     }
 
+    /**
+     * checking if request exists or no 
+     *
+     * @param integer $rowId
+     * @param integer $postId
+     * @param integer $theOtherPostId
+     * @return boolean
+     */
     public static function checkIfExchangeRequestExist($rowId, $postId, $theOtherPostId)
     {
         if(ExchangeRequest::where([
             'id' => $rowId,
             'post_id' => $theOtherPostId,
             'original_post_id' => $postId,
-            'status' => 0
+            'status' => 'pending'
         ])->first())
             return true;
         return false;    
     }
 
+    /**
+     *  this method will 
+     * * change the status of the exchange request,
+     * * set the 2 posts to the Archive
+     * * set the exchange request to it self and the exchange request to the other post to Archive 
+     * @param integer $rowId
+     * @param integer $postId
+     * @param integer $theOtherPostId
+     * @return void
+     */
     public static function acceptExchangeRequest($rowId, $postId, $theOtherPostId)
     {   
         DB::transaction(function () use ($rowId, $postId, $theOtherPostId) {
             Post::moveToArchive([$postId, $theOtherPostId]);
             self::moveToArchive([$postId, $theOtherPostId]);
             $exchangeRequest = ExchangeRequest::find($rowId);
-            $exchangeRequest->status = 1;
+            $exchangeRequest->status = 'accepted';
             $exchangeRequest->save();
         });
-        // refresh the page 
         return response()->json([
             "message" => "You just accepted this exchange request",
             "action" => 'refresh'
         ]);
     }
 
+    /**
+     * delete the recored based on the id
+     *
+     * @param integer $rowId
+     * @return string
+     */
     public static function deleteExchangeRequest($rowId){
         ExchangeRequest::destroy($rowId);
         return response()->json([
@@ -152,19 +192,24 @@ class ExchangeRequest extends Model
         ]);
     }
 
+    /**
+     * getting each recored and setting the status to 2
+     * @param array $exchangeRequestsIds
+     * @return void
+     */
     private static function moveToArchive($exchangeRequestsIds)
     {
         foreach($exchangeRequestsIds as $id){
-            $x = ExchangeRequest::where([
+            $exchangeRequest = ExchangeRequest::where([
                 'post_id' => $id,
             ])->orWhere([
                 'original_post_id' => $id,
             ])->where([
-                'status' => 0
+                'status' => 'pending'
             ])->get();
-            foreach ($x as $exchangeRequest) {
-                $exchangeRequest->status = 2;
-                $exchangeRequest->save();
+            foreach ($exchangeRequest as $recored) {
+                $recored->status = 'archive';
+                $recored->save();
             }
         }
     }

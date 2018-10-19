@@ -39,7 +39,6 @@ class HomeController extends Controller
 
         $allFollowers = Follower::allFollowers();
         $allFollowedByTheUser = Follower::allFollowedByTheUser();
-        // $posts = Post::where('status', 1)->orderBy('created_at')->take(10)->get();
         $posts = Post::tenPosts();
         $wishes = Wish::getWishes();
         $data = [
@@ -49,6 +48,12 @@ class HomeController extends Controller
         return view('home')->with($data);
     }
 
+    /**
+     * load more posts based on the last is that was sent
+     *
+     * @param Request $request
+     * @return void
+     */
     public function loadMorePosts(Request $request)
     {
         return Post::loadMorePosts($request->lastId, $request->userId);
@@ -56,7 +61,16 @@ class HomeController extends Controller
 
 
 
-    public function particles($jsonName){
+
+    /**
+     * IGNORE THIS
+     * this for the particlesJs Lib
+     *
+     * @param string $jsonName
+     * @return void
+     */
+    public function particles($jsonName)
+    {
       $ranColor = array_rand([
         '#616161' => "grey darken-2", 
         "#004d40" => "teal darken-4", 

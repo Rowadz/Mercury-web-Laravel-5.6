@@ -47,8 +47,7 @@ Route::post("/post/{post}/addComment", "CommentController@addComment")->name('ad
 
 // displaying ta user profile
 Route::get("/{user}", "UserController@profile")->name('profile');
-// ??
-// Route::post("/new/{user}/followers", "UserController@newFollowerRequestedName")->name('newFollowerRequestedName');
+
 
 // checking for a new follow requests
 // opens a modal 
@@ -103,7 +102,7 @@ Route::post('/show/user/posts/profile', 'PostController@loadUserPosts')->name('l
 Route::get('/chat', "UserController@chat")->name('openChat');
 
 Route::get('/json/{json}','HomeController@particles');
-Route::get('/search/posts/{keyword}', 'PostController@getPostdataExchangeRequest')->where('keyword', '[A-Za-z]+');
+Route::get('/search/posts/{keyword?}', 'PostController@getPostdataExchangeRequest');
 Route::post('/sendExchangeRequest', 'UserController@sendExchangeRequest');
 
 Route::post('/exchangeRequest/loadMore', 'UserController@exchangeRequestLoadMore')->name('exchangeRequestLoadMore');

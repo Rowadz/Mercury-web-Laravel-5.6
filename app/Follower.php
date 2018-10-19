@@ -13,7 +13,7 @@ use Mercury\Follower;
 class Follower extends Model
 {   
 	public function user(){
-        return $this->belongsTo("Mercury\\User", "from_id");
+        return $this->belongsTo("Mercury\User", "from_id");
     }
 
     public static function allFollowers(){
@@ -86,39 +86,23 @@ class Follower extends Model
 
     public static function approve($id){
         $follower = self::checkIfFollowRequestExistInTheDataBase($id);
-        if( ! empty($follower) && ($follower->user_id === Auth()->user()->id)){
-            try{
-                $follower->status = 1;
-                $follower->save();
-                return response()->json([
-                    'success' => 'You accepted the follow request from '
-                ]);
-            }catch(Exception $e){
-                return response()->json([
-                    'error' => 'something went wrong'
-                ]);
-            }
-        } else return response()->json([
-            'error' => 'not a valid request'
-        ]);
+        if(!empty($follower) && ($follower->user_id === Auth()->user()->id)){
+            $follower->status = 1;
+            $follower->save();
+            return response()->json([
+                'success' => 'You accepted the follow request from '
+            ]);
+        } else return response()->json(['error' => 'not a valid request' ]);
     }
 
     public static function decline($id){
         $follower = self::checkIfFollowRequestExistInTheDataBase($id);
         if( ! empty($follower) && ($follower->user_id === Auth()->user()->id)){
-            try{
-                $follower->delete();
-                return response()->json([
-                    'success' => 'You declined the follow request from '
-                ]);
-            }catch(Exception $e){
-                return response()->json([
-                    'error' => 'something went wrong'
-                ]);
-            }
-        } else return response()->json([
-            'error' => 'not a valid request'
-        ]);
+            $follower->delete();
+            return response()->json([
+                'success' => 'You declined the follow request from '
+            ]);
+        } else return response()->json(['error' => 'not a valid request']);
     }
 
     private static function checkIfFollowRequestExistInTheDataBase($id){
@@ -135,23 +119,14 @@ class Follower extends Model
                first()->id;
     }
 
-    // public static function unFollow($id){
-    //     $follower = Follower::where("from_id", Auth()->user()->id)->where("user_id", $id);
-    //     $follower->delete();
-    //     return "Deleted!";
-    // }
-
     public static function cancel($id){
         // deleting the follow request by column id
         $follower = Follower::find($id);
         if($follower->from_id === Auth()->user()->id && $follower){
             $follower->delete();    
             return true;
-        }else {
-            // TODO return false
-            return true;
         }
-        
+        return false;  
     }
 
     public static function followUser($user_id){
@@ -161,15 +136,12 @@ class Follower extends Model
                     'from_id' => isset(Auth()->user()->id) ? Auth()->user()->id : null,
                     'user_id' => $user_id
                 ])->first())){
-            // dd("??");
             $follower = new Follower;
             $follower->from_id = Auth()->user()->id;
             $follower->user_id = $user_id;
             $follower->status = 0;
             $follower->save();
             return true;
-        }else{
-            // dd("💘");
         }
         return false;
     }

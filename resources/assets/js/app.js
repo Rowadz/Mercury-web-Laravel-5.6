@@ -1,9 +1,3 @@
-/**
- * First, we will load all of this project's Javascript utilities and other
- * dependencies. Then, we will be ready to develop a robust and powerful
- * application frontend using useful Laravel and JavaScript libraries.
- */
-
 import './bootstrap';
 import initSortingForProfile from './my_modules/sortPaginationProfilePosts'
 import profileFollowFunctions from './my_modules/profileFollowFunctionallies'
@@ -11,17 +5,12 @@ import init from './my_modules/init'
 import feed from './my_modules/vue/infiniteScrollHome'
 // import post from './my_modules/social/postFunctionalities'
 import followRequestsFunctionality from './my_modules/social/followRequestsFunctionality'
-// import seeFollowersFunctionality from './my_modules/social/seeFollowersFunctionality'
-// import seeFollwoingFunctionality from './my_modules/social/followingFunctionality'
 import generalSocialFun from './my_modules/social/generalSocialFun'
 import postFunctions from './my_modules/social/postFunctionalities'
 import wishes from './my_modules/social/wishes'
 import * as particle from './lib/particles'
 import sendExchangeRequestInit from './my_modules/social/sendExchangeRequest'
 import exchangeRequestsInit from './my_modules/exchangeRequests'
-/**
-  * Created by LT on 19/05/2018.
-*/
 
 // init function should always run before anything so the website won't appear frozened
 // execute before the page load ( for slow images )

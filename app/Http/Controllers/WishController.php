@@ -15,20 +15,42 @@ class WishController extends Controller
         $this->middleware('auth');
     }
 
-    public function addPostToWishList(Request $request, Post $post){
+    /**
+     * adding a recored
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return string
+     */
+    public function addPostToWishList(Request $request, Post $post)
+    {
         $validatedData = $request->validate([
             'id' => 'required|exists:posts,id'
         ]);
         return Wish::create($request->id);
     }
 
-    public function showWishedPosts(Request $request){
+    /**
+     * getting the wishes based the id
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function showWishedPosts(Request $request)
+    {
         $validatedData = $request->validate([
             'lowestId' => 'numeric'
         ]);
         return Wish::getWishes($request->lowestId ?: null);
     }
 
+    /**
+     * deleting the recored
+     *
+     * @param Request $request
+     * @param Wish $wish
+     * @return string
+     */
     public function deleteWish(Request $request, Wish $wish){
         $validatedData = $request->validate([
             'id' => 'required|numeric|exists:wishes,post_id'

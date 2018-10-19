@@ -131,11 +131,14 @@ class Post extends Model
     }
 
     public static function getPostdataExchangeRequest($keyword){
-
+        $upperCase = strtoupper($keyword);
+        $lowerCase = strtolower($keyword);
         return Post::select('header', 'id')->where([
             "user_id" => Auth()->user()->id,
             "status" => 1
-        ])->where('header', 'like', "%{$keyword}%")->first() ?: [];
+        ])->where('header', 'like', "%{$upperCase}%")
+          ->orWhere('header', 'like', "%{$lowerCase}%")
+          ->first() ?: [];
     }
 
     public static function checkPostStatus($id, $status){
