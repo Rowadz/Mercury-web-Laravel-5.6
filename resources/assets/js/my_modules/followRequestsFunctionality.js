@@ -1,14 +1,17 @@
-let followRequestsNumber = null
+/*eslint no-console: */
+let followRequestsNumber = null;
 
 export default function followRequestsFunctionality(){
-    //  follow Requests Modal modal init start
-    $('.followRequestsModal').modal({
-        onOpenStart: () => {
-            axios.post('/show/follow-Requests')
-                 .then(success => {                     
-                    success.data.forEach(user => {
-                        // console.log(user)
-                        $('#usersRequestedToFollowYou').append(`
+	const axios = window.axios;
+	const M = window.M;
+	//  follow Requests Modal modal init start
+	$('.followRequestsModal').modal({
+		onOpenStart: () => {
+			axios.post('/show/follow-Requests')
+				.then(success => {                     
+					success.data.forEach(user => {
+						// console.log(user)
+						$('#usersRequestedToFollowYou').append(`
                         <section id="usersRequestedToFollowYouData">                    
                             <div class="card deep-orange lighten-2 black-text" data-username="${user.user.name}">
                             <div class="card-content">
@@ -37,24 +40,24 @@ export default function followRequestsFunctionality(){
                             </div>
                             </div>
                             </section>
-                        `)
-                    })
-                    $('.tabs').tabs() // for the tabs, for each user
-                    followRequestsNumber = success.data.length
-                    $('#numberOfFollowRequests').html(`Follow requests ${success.data.length}`)
-                    $('#preloaderfollowRequestsModal').hide()
-                    aprroveFollowRequest()  
-                    declineFollowRequest()
-                    searchFollowRequests() // need to be here beacuse of the promise (if this is out side the then promiss it will load empty array)
-                 })
-                 .catch(error => {
-                    console.log(error)
-                    M.toast({html: 'something went wrong 🤖', classes: 'red accent-3'});
-                 })
+                        `);
+					});
+					$('.tabs').tabs(); // for the tabs, for each user
+					followRequestsNumber = success.data.length;
+					$('#numberOfFollowRequests').html(`Follow requests ${success.data.length}`);
+					$('#preloaderfollowRequestsModal').hide();
+					aprroveFollowRequest();  
+					declineFollowRequest();
+					searchFollowRequests(); // need to be here beacuse of the promise (if this is out side the then promiss it will load empty array)
+				})
+				.catch(error => {
+					console.log(error);
+					M.toast({html: 'something went wrong 🤖', classes: 'red accent-3'});
+				});
                 
-        },
-        onCloseEnd: () => {
-            $("#followRequestsModal").html(`
+		},
+		onCloseEnd: () => {
+			$('#followRequestsModal').html(`
                 <div class="row">
                 <div class="input-field col s12 m12">
                     <i class="material-icons prefix grey-text text-lighten-3">search</i>
@@ -83,110 +86,114 @@ export default function followRequestsFunctionality(){
             <div class="modal-footer blue-grey darken-4">
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">Dismiss</a>
             </div>
-            `)
-        }
-    })
-    //  follow Requests Modal modal end
+            `);
+		}
+	});
+	//  follow Requests Modal modal end
     
 }
 
 function aprroveFollowRequest(){
-    // if you use arrow function here,
-    // you will not get the id !!!!!
-    $('.aprroveFollowRequestButtons').on('click',function(){
-        // console.log( $( this ).attr('id') ) 
-        let [userId, userName] = $( this ).attr('id').split('-')
-        // console.log(userId, userName)
-        $(this).addClass('disabled')
-        // $(`#${userId}.${userName}.delete`).addClass('disabled')
-        $(this).next().addClass('disabled') // disable the delete button
-        axios.post("/approve/follow", {
-            from_id : userId
-        })
-        .then(success => {
-            // console.log(success)
-            // console.log(`#${userId}.${userName}.delete`)
-            $(this).hide()
-            $(this).next().hide() // hiding the delete button
-            M.toast({html: `${success.data.success} ${userName}`, classes: 'rounded light-blue accent-4'});
-            updateFollowRequestNumbers()
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
-            chagneColorBasedOnResult(true, userId)
-        })
-        .catch(error => {
-            $(this).removeClass('disabled')
-            $(this).next().removeClass('disabled')
-            console.log(error)
-            M.toast({html: 'Something went wrong 🤖', classes: 'rounded red lighten-2'});
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
-            chagneColorBasedOnResult(false, userId)
-        })
-    })
+	const axios = window.axios;
+	const M = window.M;
+	// if you use arrow function here,
+	// you will not get the id !!!!!
+	$('.aprroveFollowRequestButtons').on('click',function(){
+		// console.log( $( this ).attr('id') ) 
+		let [userId, userName] = $( this ).attr('id').split('-');
+		// console.log(userId, userName)
+		$(this).addClass('disabled');
+		// $(`#${userId}.${userName}.delete`).addClass('disabled')
+		$(this).next().addClass('disabled'); // disable the delete button
+		axios.post('/approve/follow', {
+			from_id : userId
+		})
+			.then(success => {
+				// console.log(success)
+				// console.log(`#${userId}.${userName}.delete`)
+				$(this).hide();
+				$(this).next().hide(); // hiding the delete button
+				M.toast({html: `${success.data.success} ${userName}`, classes: 'rounded light-blue accent-4'});
+				updateFollowRequestNumbers();
+				// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
+				chagneColorBasedOnResult(true, userId);
+			})
+			.catch(error => {
+				$(this).removeClass('disabled');
+				$(this).next().removeClass('disabled');
+				console.log(error);
+				M.toast({html: 'Something went wrong 🤖', classes: 'rounded red lighten-2'});
+				// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
+				chagneColorBasedOnResult(false, userId);
+			});
+	});
 }
 
 function declineFollowRequest(){
-    // if you use arrow function here,
-    // you will not get the id !!!!!
-    $('.declineFollowRequestButtons').on('click',function(){
-        // console.log( $( this ).attr('id') ) 
-        let [userId, userName] = $( this ).attr('id').split('-')
-        // console.log(userId, userName)
-        $(this).addClass('disabled')
-        $(this).prev().addClass('disabled') // disable the approve button
-        axios.post("/decline/follow", {
-            from_id: userId
-        })
-        .then(success => {
-            $(this).hide()
-            $(this).prev().hide()
-            M.toast({html: `${success.data.success} ${userName}`, classes: 'rounded light-blue accent-44'});
-            updateFollowRequestNumbers()
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
-            chagneColorBasedOnResult(true, userId, true)
-        })
-        .catch(error => {
-            $(this).removeClass('disabled')
-            $(this).prev().removeClass('disabled')
-            console.log(error)
-            M.toast({html: 'Something went wrong 🤖', classes: 'rounded red lighten-2'});
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
-            chagneColorBasedOnResult(false, userId)
-        })
-    })
+	const axios = window.axios;
+	const M = window.M;
+	// if you use arrow function here,
+	// you will not get the id !!!!!
+	$('.declineFollowRequestButtons').on('click',function(){
+		// console.log( $( this ).attr('id') ) 
+		let [userId, userName] = $( this ).attr('id').split('-');
+		// console.log(userId, userName)
+		$(this).addClass('disabled');
+		$(this).prev().addClass('disabled'); // disable the approve button
+		axios.post('/decline/follow', {
+			from_id: userId
+		})
+			.then(success => {
+				$(this).hide();
+				$(this).prev().hide();
+				M.toast({html: `${success.data.success} ${userName}`, classes: 'rounded light-blue accent-44'});
+				updateFollowRequestNumbers();
+				// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
+				chagneColorBasedOnResult(true, userId, true);
+			})
+			.catch(error => {
+				$(this).removeClass('disabled');
+				$(this).prev().removeClass('disabled');
+				console.log(error);
+				M.toast({html: 'Something went wrong 🤖', classes: 'rounded red lighten-2'});
+				// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
+				chagneColorBasedOnResult(false, userId);
+			});
+	});
 }
 
 function updateFollowRequestNumbers(){
-    $("#numberOfFollowRequests").html(`Follow requests ${followRequestsNumber - 1}`)
-    $('.updateFollowRequestsNumber').html(`${followRequestsNumber - 1}`)
-    followRequestsNumber--
+	$('#numberOfFollowRequests').html(`Follow requests ${followRequestsNumber - 1}`);
+	$('.updateFollowRequestsNumber').html(`${followRequestsNumber - 1}`);
+	followRequestsNumber--;
 }
 
 function chagneColorBasedOnResult(result, userId, decline = false){
-    $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2' ).addClass((result) ? (decline) ?  'purple accent-2' : 'light-blue lighten-2' :'red lighten-2')
-    $(`.userRequest-tabs-${userId}`).removeClass('deep-orange lighten-1').addClass((result) ? (decline) ? 'purple accent-1' : 'light-blue lighten-1' :'red lighten-1')
+	$(`.userRequest-${userId}`).removeClass('deep-orange lighten-2' ).addClass((result) ? (decline) ?  'purple accent-2' : 'light-blue lighten-2' :'red lighten-2');
+	$(`.userRequest-tabs-${userId}`).removeClass('deep-orange lighten-1').addClass((result) ? (decline) ? 'purple accent-1' : 'light-blue lighten-1' :'red lighten-1');
 }
 
 
 function searchFollowRequests(){
-    let followRequestUserNsmes = [] 
-    $('.searchFollowRequestsBasedOnNames').each(function(i, obj) {
-        followRequestUserNsmes.push(obj.innerHTML)
-    })
-    $(document).on('keyup', '#searchFollowRequests', function(){
-        let input = $('#searchFollowRequests')
-        followRequestUserNsmes.forEach(name => {
-            let x = name.toUpperCase(),
-                y = input.val().toUpperCase()
-            if((x.indexOf(y) > -1 ) && input.val() ) {
-                // console.log(`${name} !== ${$('#searchFollowRequests').val()}`) 
-                $("#usersRequestedToFollowYou").find(`div[data-username='${name}']`).fadeIn()
-            }else if(! input.val() ){
-                $("#usersRequestedToFollowYou").find(`div[data-username='${name}']`).fadeIn()
-            }else {
-                $("#usersRequestedToFollowYou").find(`div[data-username='${name}']`).fadeOut()
-            }
-        })
-    })
+	let followRequestUserNsmes = []; 
+	$('.searchFollowRequestsBasedOnNames').each(function(i, obj) {
+		followRequestUserNsmes.push(obj.innerHTML);
+	});
+	$(document).on('keyup', '#searchFollowRequests', function(){
+		let input = $('#searchFollowRequests');
+		followRequestUserNsmes.forEach(name => {
+			let x = name.toUpperCase(),
+				y = input.val().toUpperCase();
+			if((x.indexOf(y) > -1 ) && input.val() ) {
+				// console.log(`${name} !== ${$('#searchFollowRequests').val()}`) 
+				$('#usersRequestedToFollowYou').find(`div[data-username='${name}']`).fadeIn();
+			}else if(! input.val() ){
+				$('#usersRequestedToFollowYou').find(`div[data-username='${name}']`).fadeIn();
+			}else {
+				$('#usersRequestedToFollowYou').find(`div[data-username='${name}']`).fadeOut();
+			}
+		});
+	});
 }
 
  

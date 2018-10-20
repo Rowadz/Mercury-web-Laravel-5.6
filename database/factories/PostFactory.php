@@ -12,7 +12,7 @@ $factory->define(Mercury\Post::class, function (Faker $faker) {
         'body' => $faker->realText(1600, 2),
         'location' => $faker->randomElement(Mercury\User::pluck('city')->toArray()),
         'quantity' => $faker->randomElement([1, 2, 3, 4, 5]),
-        'status' => $faker->randomElement([0, 1]),
-        'video_link' => $faker->randomElement(["https://www.youtube.com/watch?v=ApN1cZoiX4w", null])
+        'status' => $faker->randomElement(['available', 'archive']),
+        'video_link' => $faker->randomElement(['https://www.youtube.com/watch?v=ApN1cZoiX4w', 'https://www.youtube.com/watch?v=hQWRp-FdTpc', null])
     ];
 });

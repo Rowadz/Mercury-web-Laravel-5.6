@@ -169,7 +169,7 @@ class UserController extends Controller
             'postId' => 'required|numeric|exists:posts,id',
             'userPostId' => 'required|numeric|exists:posts,id'
         ]);
-        if(Post::checkPostStatus($request->postId, 1) && Post::checkPostStatus($request->userPostId, 1))
+        if(Post::checkPostStatus($request->postId, 1) && Post::checkPostStatus($request->userPostId, 'available'))
             return ExchangeRequest::sendExchangeRequest($request->userPostId, $request->postId);    
         else return response()->json(["message" => "🐒🐒🐒🐒🐒🐒🐒🐒"]);
     }
@@ -264,7 +264,7 @@ class UserController extends Controller
      * @param string $keyword
      * @return void
      */
-    public function exploreTageReturnView($keyword = null)
+    public function searchPage($keyword = null)
     {
         return view('searchPage');
     }

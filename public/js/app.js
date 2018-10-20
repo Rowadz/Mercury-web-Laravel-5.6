@@ -777,7 +777,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
-module.exports = __webpack_require__(47);
+module.exports = __webpack_require__(48);
 
 
 /***/ }),
@@ -800,30 +800,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__lib_particles___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__lib_particles__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__my_modules_social_sendExchangeRequest__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__my_modules_exchangeRequests__ = __webpack_require__(46);
-/**
- * First, we will load all of this project's Javascript utilities and other
- * dependencies. Then, we will be ready to develop a robust and powerful
- * application frontend using useful Laravel and JavaScript libraries.
- */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__ = __webpack_require__(47);
 
 
 
 
 
 
-// import post from './my_modules/social/postFunctionalities'
-
-// import seeFollowersFunctionality from './my_modules/social/seeFollowersFunctionality'
-// import seeFollwoingFunctionality from './my_modules/social/followingFunctionality'
 
 
 
 
 
 
-/**
-  * Created by LT on 19/05/2018.
-*/
+
 
 // init function should always run before anything so the website won't appear frozened
 // execute before the page load ( for slow images )
@@ -831,109 +821,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // in case they take long time
 // This is AN IFFE
 (function () {
-    if ($("#post").length) Object(__WEBPACK_IMPORTED_MODULE_7__my_modules_social_postFunctionalities__["a" /* default */])();
-    $('.sidenav').sidenav();
-    // if($('img').length) handleImageLoading()
-    handleImageLoading();
+	if ($('#post').length) Object(__WEBPACK_IMPORTED_MODULE_7__my_modules_social_postFunctionalities__["a" /* default */])();
+	$('.sidenav').sidenav();
 })();
 
-// execute when the page loads
+/** 
+ * this will run before window.onload
+*/
+document.addEventListener('DOMContentLoaded', function () {
+	if ($('#registerForm').length) Object(__WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__["a" /* default */])();
+	$('.dropdown-trigger-filter').dropdown();
+});
+
+/** 
+ * this function will run after the page loaded! .
+ * in many browsers, the window.onload event is not triggered until all images have loaded
+*/
+
 window.onload = function () {
-    Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
-    if ($("#feed").length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
-    if ($('#sortPostsUserProfile').length) Object(__WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__["a" /* default */])();
-    if ($("#followingRequests").length) approveDeclineFollow();
-    // if the image did not load  (Broken Image Handling)
-    if ($("#whishedPosts").length) deleteAWish();
-    if ($('img').length) handleImageLoading();
-    if ($("#profile").length) Object(__WEBPACK_IMPORTED_MODULE_2__my_modules_profileFollowFunctionallies__["a" /* default */])();
-    Object(__WEBPACK_IMPORTED_MODULE_5__my_modules_social_followRequestsFunctionality__["a" /* default */])();
-    if ($("#welcomePage").length) {
-        particlesJS.load('particles-js', './json/wlecome', function () {});
-    } else if ($("#registerPage").length) {
-        particlesJS.load('particles-js', './json/register', function () {});
-    } else if ($("#loginPage").length) {
-        particlesJS.load('particles-js', './json/login', function () {});
-    }
-    if ($("#post").length) {
-        Object(__WEBPACK_IMPORTED_MODULE_10__my_modules_social_sendExchangeRequest__["a" /* default */])();
-    }
-    $('.peopleYouAreFollowingModalTrigger').click(function () {
-        Object(__WEBPACK_IMPORTED_MODULE_6__my_modules_social_generalSocialFun__["a" /* default */])('/user/following', 'seeFollowingModal', 'modalSection-following', 'followingNumberModal', 'getpeopleYouAreFollowingNumber', 'following');
-    });
-    $('.followersModalTrigger').click(function () {
-        Object(__WEBPACK_IMPORTED_MODULE_6__my_modules_social_generalSocialFun__["a" /* default */])('/user/followers', 'seeFollowersModal', 'modalSection-followers', 'followersNumberModal', 'getFollowersNumber', 'followers');
-    });
-    $('.wishesModalTrigger').click(function () {
-        Object(__WEBPACK_IMPORTED_MODULE_8__my_modules_social_wishes__["a" /* default */])();
-    });
-    if ($("#exchangeRequestsPage").length) Object(__WEBPACK_IMPORTED_MODULE_11__my_modules_exchangeRequests__["a" /* default */])();
-};
-
-// This is lexical scoping, which describes how a parser resolves variable names when functions are nested. 
-// The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared
-//  within the source code to determine where that variable is available.
-// Nested functions have access to variables declared in their outer scope.
-
-// TODO delete the outer function
-function handleImageLoading() {
-    // TODO add event listners to do this
-    var brokenImageHandling = function brokenImageHandling(image) {
-        image.src = "/images/404.png";
-        // $('.faildToLoadImage').show()
-        removeLoader();
-    };
-
-    var removeLoader = function removeLoader() {
-        $(".imageLoader").hide();
-    };
-    // removeSpecificLoader = (id) => $(`.imageLoader${id}`).hide()
-}
-
-// TODO delete the outer function
-var deleteAWish = function deleteAWish() {
-    var deleteWish = function deleteWish(id) {
-        // deleteWish() inner function, a closure
-        axios.post('/user/delete-wished-post/' + id, {
-            id: id
-        }).then(function (res) {
-            $('#' + id).fadeOut();
-            iziToast.success({
-                title: 'OK',
-                message: res.data.success
-            });
-        }).catch(function () {
-            iziToast.error({
-                title: 'OK',
-                message: "Something went wrong!"
-            });
-        });
-    };
+	Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
+	if ($('#feed').length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
+	if ($('#sortPostsUserProfile').length) Object(__WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__["a" /* default */])();
+	// if the image did not load  (Broken Image Handling)
+	if ($('#profile').length) Object(__WEBPACK_IMPORTED_MODULE_2__my_modules_profileFollowFunctionallies__["a" /* default */])();
+	Object(__WEBPACK_IMPORTED_MODULE_5__my_modules_social_followRequestsFunctionality__["a" /* default */])();
+	if ($('#welcomePage').length) particlesJS.load('particles-js', './json/wlecome', function () {});else if ($('#registerPage').length) particlesJS.load('particles-js', './json/register', function () {});else if ($('#loginPage').length) particlesJS.load('particles-js', './json/login', function () {});
+	if ($('#post').length) Object(__WEBPACK_IMPORTED_MODULE_10__my_modules_social_sendExchangeRequest__["a" /* default */])();
+	$('.peopleYouAreFollowingModalTrigger').click(function () {
+		Object(__WEBPACK_IMPORTED_MODULE_6__my_modules_social_generalSocialFun__["a" /* default */])('/user/following', 'seeFollowingModal', 'modalSection-following', 'followingNumberModal', 'getpeopleYouAreFollowingNumber', 'following');
+	});
+	$('.followersModalTrigger').click(function () {
+		Object(__WEBPACK_IMPORTED_MODULE_6__my_modules_social_generalSocialFun__["a" /* default */])('/user/followers', 'seeFollowersModal', 'modalSection-followers', 'followersNumberModal', 'getFollowersNumber', 'followers');
+	});
+	$('.wishesModalTrigger').click(function () {
+		Object(__WEBPACK_IMPORTED_MODULE_8__my_modules_social_wishes__["a" /* default */])();
+	});
+	if ($('#exchangeRequestsPage').length) Object(__WEBPACK_IMPORTED_MODULE_11__my_modules_exchangeRequests__["a" /* default */])();
 };
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/*eslint no-console: */
 window._ = __webpack_require__(11);
-// TODO: I Commented This
-// this is for bootstrap
-// window.Popper = require('popper.js').default;
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
 
 try {
   // the main lib the website needs
   window.$ = window.jQuery = __webpack_require__(13);
   __webpack_require__(14);
+  // window.AOS = require('AOS');
   window.AOS = __webpack_require__(15);
-
   // require('bootstrap');
-} catch (e) {}
+} catch (e) {
+  console.log(e);
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -40860,7 +40802,7 @@ $jscomp.polyfill = function (e, r, p, m) {
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define(t):e.AOS=t()}(this,function(){"use strict";var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},t="Expected a function",n=NaN,o="[object Symbol]",i=/^\s+|\s+$/g,a=/^[-+]0x[0-9a-f]+$/i,r=/^0b[01]+$/i,c=/^0o[0-7]+$/i,s=parseInt,u="object"==typeof e&&e&&e.Object===Object&&e,d="object"==typeof self&&self&&self.Object===Object&&self,f=u||d||Function("return this")(),l=Object.prototype.toString,m=Math.max,p=Math.min,v=function(){return f.Date.now()};function b(e,n,o){var i,a,r,c,s,u,d=0,f=!1,l=!1,b=!0;if("function"!=typeof e)throw new TypeError(t);function h(t){var n=i,o=a;return i=a=void 0,d=t,c=e.apply(o,n)}function y(e){var t=e-u;return void 0===u||t>=n||t<0||l&&e-d>=r}function k(){var e=v();if(y(e))return x(e);s=setTimeout(k,function(e){var t=n-(e-u);return l?p(t,r-(e-d)):t}(e))}function x(e){return s=void 0,b&&i?h(e):(i=a=void 0,c)}function j(){var e=v(),t=y(e);if(i=arguments,a=this,u=e,t){if(void 0===s)return function(e){return d=e,s=setTimeout(k,n),f?h(e):c}(u);if(l)return s=setTimeout(k,n),h(u)}return void 0===s&&(s=setTimeout(k,n)),c}return n=w(n)||0,g(o)&&(f=!!o.leading,r=(l="maxWait"in o)?m(w(o.maxWait)||0,n):r,b="trailing"in o?!!o.trailing:b),j.cancel=function(){void 0!==s&&clearTimeout(s),d=0,i=u=a=s=void 0},j.flush=function(){return void 0===s?c:x(v())},j}function g(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function w(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&l.call(e)==o}(e))return n;if(g(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=g(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(i,"");var u=r.test(e);return u||c.test(e)?s(e.slice(2),u?2:8):a.test(e)?n:+e}var h=function(e,n,o){var i=!0,a=!0;if("function"!=typeof e)throw new TypeError(t);return g(o)&&(i="leading"in o?!!o.leading:i,a="trailing"in o?!!o.trailing:a),b(e,n,{leading:i,maxWait:n,trailing:a})},y="Expected a function",k=NaN,x="[object Symbol]",j=/^\s+|\s+$/g,O=/^[-+]0x[0-9a-f]+$/i,E=/^0b[01]+$/i,N=/^0o[0-7]+$/i,z=parseInt,C="object"==typeof e&&e&&e.Object===Object&&e,A="object"==typeof self&&self&&self.Object===Object&&self,q=C||A||Function("return this")(),L=Object.prototype.toString,T=Math.max,S=Math.min,M=function(){return q.Date.now()};function H(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function $(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&L.call(e)==x}(e))return k;if(H(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=H(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(j,"");var n=E.test(e);return n||N.test(e)?z(e.slice(2),n?2:8):O.test(e)?k:+e}var D=function(e,t,n){var o,i,a,r,c,s,u=0,d=!1,f=!1,l=!0;if("function"!=typeof e)throw new TypeError(y);function m(t){var n=o,a=i;return o=i=void 0,u=t,r=e.apply(a,n)}function p(e){var n=e-s;return void 0===s||n>=t||n<0||f&&e-u>=a}function v(){var e=M();if(p(e))return b(e);c=setTimeout(v,function(e){var n=t-(e-s);return f?S(n,a-(e-u)):n}(e))}function b(e){return c=void 0,l&&o?m(e):(o=i=void 0,r)}function g(){var e=M(),n=p(e);if(o=arguments,i=this,s=e,n){if(void 0===c)return function(e){return u=e,c=setTimeout(v,t),d?m(e):r}(s);if(f)return c=setTimeout(v,t),m(s)}return void 0===c&&(c=setTimeout(v,t)),r}return t=$(t)||0,H(n)&&(d=!!n.leading,a=(f="maxWait"in n)?T($(n.maxWait)||0,t):a,l="trailing"in n?!!n.trailing:l),g.cancel=function(){void 0!==c&&clearTimeout(c),u=0,o=s=i=c=void 0},g.flush=function(){return void 0===c?r:b(M())},g},W=function(){};function P(e){e&&e.forEach(function(e){var t=Array.prototype.slice.call(e.addedNodes),n=Array.prototype.slice.call(e.removedNodes);if(function e(t){var n=void 0,o=void 0;for(n=0;n<t.length;n+=1){if((o=t[n]).dataset&&o.dataset.aos)return!0;if(o.children&&e(o.children))return!0}return!1}(t.concat(n)))return W()})}var _=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},Y=function(){function e(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,n,o){return n&&e(t.prototype,n),o&&e(t,o),t}}(),B=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},F=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i,I=/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i,K=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i,G=/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i;function J(){return navigator.userAgent||navigator.vendor||window.opera||""}var Q=new(function(){function e(){_(this,e)}return Y(e,[{key:"phone",value:function(){var e=J();return!(!F.test(e)&&!I.test(e.substr(0,4)))}},{key:"mobile",value:function(){var e=J();return!(!K.test(e)&&!G.test(e.substr(0,4)))}},{key:"tablet",value:function(){return this.mobile()&&!this.phone()}},{key:"ie11",value:function(){return"-ms-scroll-limit"in document.documentElement.style&&"-ms-ime-align"in document.documentElement.style}}]),e}()),R=function(e,t){var n=void 0;return Q.ie11()?(n=document.createEvent("CustomEvent")).initCustomEvent(e,!0,!0,{detail:t}):n=new CustomEvent(e,{detail:t}),document.dispatchEvent(n)},U=function(e){return e.forEach(function(e,t){return function(e,t){var n=e.options,o=e.position,i=e.node,a=(e.data,function(){e.animated&&(function(e,t){t&&t.forEach(function(t){return e.classList.remove(t)})}(i,n.animatedClassNames),R("aos:out",i),e.options.id&&R("aos:in:"+e.options.id,i),e.animated=!1)});n.mirror&&t>=o.out&&!n.once?a():t>=o.in?e.animated||(function(e,t){t&&t.forEach(function(t){return e.classList.add(t)})}(i,n.animatedClassNames),R("aos:in",i),e.options.id&&R("aos:in:"+e.options.id,i),e.animated=!0):e.animated&&!n.once&&a()}(e,window.pageYOffset)})},V=function(e){for(var t=0,n=0;e&&!isNaN(e.offsetLeft)&&!isNaN(e.offsetTop);)t+=e.offsetLeft-("BODY"!=e.tagName?e.scrollLeft:0),n+=e.offsetTop-("BODY"!=e.tagName?e.scrollTop:0),e=e.offsetParent;return{top:n,left:t}},X=function(e,t,n){var o=e.getAttribute("data-aos-"+t);if(void 0!==o){if("true"===o)return!0;if("false"===o)return!1}return o||n},Z=function(e,t){return e.forEach(function(e,n){var o=X(e.node,"mirror",t.mirror),i=X(e.node,"once",t.once),a=X(e.node,"id"),r=t.useClassNames&&e.node.getAttribute("data-aos"),c=[t.animatedClassName].concat(r?r.split(" "):[]).filter(function(e){return"string"==typeof e});t.initClassName&&e.node.classList.add(t.initClassName),e.position={in:function(e,t,n){var o=window.innerHeight,i=X(e,"anchor"),a=X(e,"anchor-placement"),r=Number(X(e,"offset",a?0:t)),c=a||n,s=e;i&&document.querySelectorAll(i)&&(s=document.querySelectorAll(i)[0]);var u=V(s).top-o;switch(c){case"top-bottom":break;case"center-bottom":u+=s.offsetHeight/2;break;case"bottom-bottom":u+=s.offsetHeight;break;case"top-center":u+=o/2;break;case"center-center":u+=o/2+s.offsetHeight/2;break;case"bottom-center":u+=o/2+s.offsetHeight;break;case"top-top":u+=o;break;case"bottom-top":u+=o+s.offsetHeight;break;case"center-top":u+=o+s.offsetHeight/2}return u+r}(e.node,t.offset,t.anchorPlacement),out:o&&function(e,t){window.innerHeight;var n=X(e,"anchor"),o=X(e,"offset",t),i=e;return n&&document.querySelectorAll(n)&&(i=document.querySelectorAll(n)[0]),V(i).top+i.offsetHeight-o}(e.node,t.offset)},e.options={once:i,mirror:o,animatedClassNames:c,id:a}}),e},ee=function(){var e=document.querySelectorAll("[data-aos]");return Array.prototype.map.call(e,function(e){return{node:e}})},te=[],ne=!1,oe={offset:120,delay:0,easing:"ease",duration:400,disable:!1,once:!1,mirror:!1,anchorPlacement:"top-bottom",startEvent:"DOMContentLoaded",animatedClassName:"aos-animate",initClassName:"aos-init",useClassNames:!1},ie=function(){return document.all&&!window.atob},ae=function(){arguments.length>0&&void 0!==arguments[0]&&arguments[0]&&(ne=!0),ne&&(te=Z(te,oe),U(te),window.addEventListener("scroll",h(function(){U(te,oe.once)},99)))},re=function(){if(te=ee(),se(oe.disable)||ie())return ce();ae()},ce=function(){te.forEach(function(e,t){e.node.removeAttribute("data-aos"),e.node.removeAttribute("data-aos-easing"),e.node.removeAttribute("data-aos-duration"),e.node.removeAttribute("data-aos-delay"),oe.initClassName&&e.node.classList.remove(oe.initClassName),oe.animatedClassName&&e.node.classList.remove(oe.animatedClassName)})},se=function(e){return!0===e||"mobile"===e&&Q.mobile()||"phone"===e&&Q.phone()||"tablet"===e&&Q.tablet()||"function"==typeof e&&!0===e()};return{init:function(e){var t,n,o;return oe=B(oe,e),te=ee(),t=re,n=window.document,o=new(window.MutationObserver||window.WebKitMutationObserver||window.MozMutationObserver)(P),W=t,o.observe(n.documentElement,{childList:!0,subtree:!0,removedNodes:!0}),se(oe.disable)||ie()?ce():(document.querySelector("body").setAttribute("data-aos-easing",oe.easing),document.querySelector("body").setAttribute("data-aos-duration",oe.duration),document.querySelector("body").setAttribute("data-aos-delay",oe.delay),-1===["DOMContentLoaded","load"].indexOf(oe.startEvent)?document.addEventListener(oe.startEvent,function(){ae(!0)}):window.addEventListener("load",function(){ae(!0)}),"DOMContentLoaded"===oe.startEvent&&["complete","interactive"].indexOf(document.readyState)>-1&&ae(!0),window.addEventListener("resize",D(ae,50,!0)),window.addEventListener("orientationchange",D(ae,50,!0)),te)},refresh:ae,refreshHard:re}});
+/* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define(t):e.AOS=t()}(this,function(){"use strict";var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},t="Expected a function",n=NaN,o="[object Symbol]",i=/^\s+|\s+$/g,a=/^[-+]0x[0-9a-f]+$/i,r=/^0b[01]+$/i,c=/^0o[0-7]+$/i,s=parseInt,u="object"==typeof e&&e&&e.Object===Object&&e,d="object"==typeof self&&self&&self.Object===Object&&self,l=u||d||Function("return this")(),f=Object.prototype.toString,m=Math.max,p=Math.min,b=function(){return l.Date.now()};function v(e,n,o){var i,a,r,c,s,u,d=0,l=!1,f=!1,v=!0;if("function"!=typeof e)throw new TypeError(t);function y(t){var n=i,o=a;return i=a=void 0,d=t,c=e.apply(o,n)}function h(e){var t=e-u;return void 0===u||t>=n||t<0||f&&e-d>=r}function k(){var e=b();if(h(e))return x(e);s=setTimeout(k,function(e){var t=n-(e-u);return f?p(t,r-(e-d)):t}(e))}function x(e){return s=void 0,v&&i?y(e):(i=a=void 0,c)}function O(){var e=b(),t=h(e);if(i=arguments,a=this,u=e,t){if(void 0===s)return function(e){return d=e,s=setTimeout(k,n),l?y(e):c}(u);if(f)return s=setTimeout(k,n),y(u)}return void 0===s&&(s=setTimeout(k,n)),c}return n=w(n)||0,g(o)&&(l=!!o.leading,r=(f="maxWait"in o)?m(w(o.maxWait)||0,n):r,v="trailing"in o?!!o.trailing:v),O.cancel=function(){void 0!==s&&clearTimeout(s),d=0,i=u=a=s=void 0},O.flush=function(){return void 0===s?c:x(b())},O}function g(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function w(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&f.call(e)==o}(e))return n;if(g(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=g(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(i,"");var u=r.test(e);return u||c.test(e)?s(e.slice(2),u?2:8):a.test(e)?n:+e}var y=function(e,n,o){var i=!0,a=!0;if("function"!=typeof e)throw new TypeError(t);return g(o)&&(i="leading"in o?!!o.leading:i,a="trailing"in o?!!o.trailing:a),v(e,n,{leading:i,maxWait:n,trailing:a})},h="Expected a function",k=NaN,x="[object Symbol]",O=/^\s+|\s+$/g,j=/^[-+]0x[0-9a-f]+$/i,E=/^0b[01]+$/i,N=/^0o[0-7]+$/i,z=parseInt,C="object"==typeof e&&e&&e.Object===Object&&e,A="object"==typeof self&&self&&self.Object===Object&&self,q=C||A||Function("return this")(),L=Object.prototype.toString,T=Math.max,M=Math.min,S=function(){return q.Date.now()};function D(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function H(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&L.call(e)==x}(e))return k;if(D(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=D(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(O,"");var n=E.test(e);return n||N.test(e)?z(e.slice(2),n?2:8):j.test(e)?k:+e}var $=function(e,t,n){var o,i,a,r,c,s,u=0,d=!1,l=!1,f=!0;if("function"!=typeof e)throw new TypeError(h);function m(t){var n=o,a=i;return o=i=void 0,u=t,r=e.apply(a,n)}function p(e){var n=e-s;return void 0===s||n>=t||n<0||l&&e-u>=a}function b(){var e=S();if(p(e))return v(e);c=setTimeout(b,function(e){var n=t-(e-s);return l?M(n,a-(e-u)):n}(e))}function v(e){return c=void 0,f&&o?m(e):(o=i=void 0,r)}function g(){var e=S(),n=p(e);if(o=arguments,i=this,s=e,n){if(void 0===c)return function(e){return u=e,c=setTimeout(b,t),d?m(e):r}(s);if(l)return c=setTimeout(b,t),m(s)}return void 0===c&&(c=setTimeout(b,t)),r}return t=H(t)||0,D(n)&&(d=!!n.leading,a=(l="maxWait"in n)?T(H(n.maxWait)||0,t):a,f="trailing"in n?!!n.trailing:f),g.cancel=function(){void 0!==c&&clearTimeout(c),u=0,o=s=i=c=void 0},g.flush=function(){return void 0===c?r:v(S())},g},W=function(){};function P(e){e&&e.forEach(function(e){var t=Array.prototype.slice.call(e.addedNodes),n=Array.prototype.slice.call(e.removedNodes);if(function e(t){var n=void 0,o=void 0;for(n=0;n<t.length;n+=1){if((o=t[n]).dataset&&o.dataset.aos)return!0;if(o.children&&e(o.children))return!0}return!1}(t.concat(n)))return W()})}function Y(){return window.MutationObserver||window.WebKitMutationObserver||window.MozMutationObserver}var _={isSupported:function(){return!!Y()},ready:function(e,t){var n=window.document,o=new(Y())(P);W=t,o.observe(n.documentElement,{childList:!0,subtree:!0,removedNodes:!0})}},B=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},F=function(){function e(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,n,o){return n&&e(t.prototype,n),o&&e(t,o),t}}(),I=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},K=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i,G=/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i,J=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i,Q=/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i;function R(){return navigator.userAgent||navigator.vendor||window.opera||""}var U=new(function(){function e(){B(this,e)}return F(e,[{key:"phone",value:function(){var e=R();return!(!K.test(e)&&!G.test(e.substr(0,4)))}},{key:"mobile",value:function(){var e=R();return!(!J.test(e)&&!Q.test(e.substr(0,4)))}},{key:"tablet",value:function(){return this.mobile()&&!this.phone()}},{key:"ie11",value:function(){return"-ms-scroll-limit"in document.documentElement.style&&"-ms-ime-align"in document.documentElement.style}}]),e}()),V=function(e,t){var n=void 0;return U.ie11()?(n=document.createEvent("CustomEvent")).initCustomEvent(e,!0,!0,{detail:t}):n=new CustomEvent(e,{detail:t}),document.dispatchEvent(n)},X=function(e){return e.forEach(function(e,t){return function(e,t){var n=e.options,o=e.position,i=e.node,a=(e.data,function(){e.animated&&(function(e,t){t&&t.forEach(function(t){return e.classList.remove(t)})}(i,n.animatedClassNames),V("aos:out",i),e.options.id&&V("aos:in:"+e.options.id,i),e.animated=!1)});n.mirror&&t>=o.out&&!n.once?a():t>=o.in?e.animated||(function(e,t){t&&t.forEach(function(t){return e.classList.add(t)})}(i,n.animatedClassNames),V("aos:in",i),e.options.id&&V("aos:in:"+e.options.id,i),e.animated=!0):e.animated&&!n.once&&a()}(e,window.pageYOffset)})},Z=function(e){for(var t=0,n=0;e&&!isNaN(e.offsetLeft)&&!isNaN(e.offsetTop);)t+=e.offsetLeft-("BODY"!=e.tagName?e.scrollLeft:0),n+=e.offsetTop-("BODY"!=e.tagName?e.scrollTop:0),e=e.offsetParent;return{top:n,left:t}},ee=function(e,t,n){var o=e.getAttribute("data-aos-"+t);if(void 0!==o){if("true"===o)return!0;if("false"===o)return!1}return o||n},te=function(e,t){return e.forEach(function(e,n){var o=ee(e.node,"mirror",t.mirror),i=ee(e.node,"once",t.once),a=ee(e.node,"id"),r=t.useClassNames&&e.node.getAttribute("data-aos"),c=[t.animatedClassName].concat(r?r.split(" "):[]).filter(function(e){return"string"==typeof e});t.initClassName&&e.node.classList.add(t.initClassName),e.position={in:function(e,t,n){var o=window.innerHeight,i=ee(e,"anchor"),a=ee(e,"anchor-placement"),r=Number(ee(e,"offset",a?0:t)),c=a||n,s=e;i&&document.querySelectorAll(i)&&(s=document.querySelectorAll(i)[0]);var u=Z(s).top-o;switch(c){case"top-bottom":break;case"center-bottom":u+=s.offsetHeight/2;break;case"bottom-bottom":u+=s.offsetHeight;break;case"top-center":u+=o/2;break;case"center-center":u+=o/2+s.offsetHeight/2;break;case"bottom-center":u+=o/2+s.offsetHeight;break;case"top-top":u+=o;break;case"bottom-top":u+=o+s.offsetHeight;break;case"center-top":u+=o+s.offsetHeight/2}return u+r}(e.node,t.offset,t.anchorPlacement),out:o&&function(e,t){window.innerHeight;var n=ee(e,"anchor"),o=ee(e,"offset",t),i=e;return n&&document.querySelectorAll(n)&&(i=document.querySelectorAll(n)[0]),Z(i).top+i.offsetHeight-o}(e.node,t.offset)},e.options={once:i,mirror:o,animatedClassNames:c,id:a}}),e},ne=function(){var e=document.querySelectorAll("[data-aos]");return Array.prototype.map.call(e,function(e){return{node:e}})},oe=[],ie=!1,ae={offset:120,delay:0,easing:"ease",duration:400,disable:!1,once:!1,mirror:!1,anchorPlacement:"top-bottom",startEvent:"DOMContentLoaded",animatedClassName:"aos-animate",initClassName:"aos-init",useClassNames:!1,disableMutationObserver:!1,throttleDelay:99,debounceDelay:50},re=function(){return document.all&&!window.atob},ce=function(){arguments.length>0&&void 0!==arguments[0]&&arguments[0]&&(ie=!0),ie&&(oe=te(oe,ae),X(oe),window.addEventListener("scroll",y(function(){X(oe,ae.once)},ae.throttleDelay)))},se=function(){if(oe=ne(),de(ae.disable)||re())return ue();ce()},ue=function(){oe.forEach(function(e,t){e.node.removeAttribute("data-aos"),e.node.removeAttribute("data-aos-easing"),e.node.removeAttribute("data-aos-duration"),e.node.removeAttribute("data-aos-delay"),ae.initClassName&&e.node.classList.remove(ae.initClassName),ae.animatedClassName&&e.node.classList.remove(ae.animatedClassName)})},de=function(e){return!0===e||"mobile"===e&&U.mobile()||"phone"===e&&U.phone()||"tablet"===e&&U.tablet()||"function"==typeof e&&!0===e()};return{init:function(e){return ae=I(ae,e),oe=ne(),ae.disableMutationObserver||_.isSupported()||(console.info('\n      aos: MutationObserver is not supported on this browser,\n      code mutations observing has been disabled.\n      You may have to call "refreshHard()" by yourself.\n    '),ae.disableMutationObserver=!0),ae.disableMutationObserver||_.ready("[data-aos]",se),de(ae.disable)||re()?ue():(document.querySelector("body").setAttribute("data-aos-easing",ae.easing),document.querySelector("body").setAttribute("data-aos-duration",ae.duration),document.querySelector("body").setAttribute("data-aos-delay",ae.delay),-1===["DOMContentLoaded","load"].indexOf(ae.startEvent)?document.addEventListener(ae.startEvent,function(){ce(!0)}):window.addEventListener("load",function(){ce(!0)}),"DOMContentLoaded"===ae.startEvent&&["complete","interactive"].indexOf(document.readyState)>-1&&ce(!0),window.addEventListener("resize",$(ce,ae.debounceDelay,!0)),window.addEventListener("orientationchange",$(ce,ae.debounceDelay,!0)),oe)},refresh:ce,refreshHard:se}});
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -41949,27 +41891,27 @@ module.exports = function spread(callback) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = initSortingForProfile;
 function initSortingForProfile() {
-    // for page showUserPosts
-    var x = document.getElementById('sortingForm');
-    var sortUrl = {
-        sortOption: 'Descending',
-        postsType: 'Available',
-        formAction: typeof x !== 'undefined' && x !== null ? document.getElementById('sortingForm').action : null
-    };
-    $('#sortOption').change(function () {
-        var selectedOption = $('#sortOption option:selected').val();
-        sortUrl.sortOption = selectedOption;
-    });
-    $('#postsType').change(function () {
-        var selectedOption = $("#postsType option:selected").val();
-        sortUrl.postsType = selectedOption;
-    });
+	// for page showUserPosts
+	var x = document.getElementById('sortingForm');
+	var sortUrl = {
+		sortOption: 'Descending',
+		postsType: 'Available',
+		formAction: typeof x !== 'undefined' && x !== null ? document.getElementById('sortingForm').action : null
+	};
+	$('#sortOption').change(function () {
+		var selectedOption = $('#sortOption option:selected').val();
+		sortUrl.sortOption = selectedOption;
+	});
+	$('#postsType').change(function () {
+		var selectedOption = $('#postsType option:selected').val();
+		sortUrl.postsType = selectedOption;
+	});
 
-    $('#sortPostsUserProfileButton').click(function () {
-        var sortingForm = document.getElementById('sortingForm');
-        sortingForm.action = '' + sortUrl.formAction + sortUrl.sortOption + 'N' + sortUrl.postsType + '/';
-        sortingForm.submit();
-    });
+	$('#sortPostsUserProfileButton').click(function () {
+		var sortingForm = document.getElementById('sortingForm');
+		sortingForm.action = '' + sortUrl.formAction + sortUrl.sortOption + 'N' + sortUrl.postsType + '/';
+		sortingForm.submit();
+	});
 }
 
 /***/ }),
@@ -41979,23 +41921,23 @@ function initSortingForProfile() {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = profileFollowFunctions;
 function profileFollowFunctions() {
-    $('.modal').modal();
-    // still not working ....
-    if ($('#sendConfirmed').length) {
-        $('#sendConfirmed').click(function () {
-            $('#sendConfirmed').addClass('disabled');
-        });
-    }
-    if ($('#cancelConfirmed').length) {
-        $('#cancelConfirmed').click(function () {
-            $('#cancelConfirmed').addClass('disabled');
-        });
-    }
-    if ($('#unFollowConfirmed').length) {
-        $('#unFollowConfirmed').click(function () {
-            $('#unFollowConfirmed').addClass('disabled');
-        });
-    }
+	$('.modal').modal();
+	// still not working ....
+	if ($('#sendConfirmed').length) {
+		$('#sendConfirmed').click(function () {
+			$('#sendConfirmed').addClass('disabled');
+		});
+	}
+	if ($('#cancelConfirmed').length) {
+		$('#cancelConfirmed').click(function () {
+			$('#cancelConfirmed').addClass('disabled');
+		});
+	}
+	if ($('#unFollowConfirmed').length) {
+		$('#unFollowConfirmed').click(function () {
+			$('#unFollowConfirmed').addClass('disabled');
+		});
+	}
 }
 
 /***/ }),
@@ -42005,54 +41947,56 @@ function profileFollowFunctions() {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = init;
 function init() {
-    AOS.init();
-    if ($('.mainResgister').length) initSignUp();
-    $('.tooltipped').tooltip();
-    $('.fixed-action-btn').floatingActionButton();
-    $('.materialboxed').materialbox();
-    scrollToTop();
-    overFlowDropDownMenu();
-    $('.modal').modal();
-    $('.parallax').parallax();
-    $('select').formSelect();
-    M.FloatingActionButton.init($('.fixed-action-btn'), {
-        direction: 'top',
-        hoverEnabled: false
-    });
+	var AOS = window.AOS;
+	var M = window.M;
+	AOS.init();
+	if ($('.mainResgister').length) initSignUp();
+	$('.tooltipped').tooltip();
+	$('.fixed-action-btn').floatingActionButton();
+	$('.materialboxed').materialbox();
+	scrollToTop();
+	overFlowDropDownMenu();
+	$('.modal').modal();
+	$('.parallax').parallax();
+	$('select').formSelect();
+	M.FloatingActionButton.init($('.fixed-action-btn'), {
+		direction: 'top',
+		hoverEnabled: false
+	});
 }
 
 function overFlowDropDownMenu() {
-    $(".dropdown-trigger").dropdown({
-        constrainWidth: false,
-        onCloseStart: function onCloseStart() {
-            $('.card').css('z-index', 1);
-            $('.card-title').css('z-index', 1);
-            $('.postImage').css('z-index', 1);
-            $('.parallax-container').css('z-index', 1);
-            $('.collection').css('z-index', 1);
-        },
-        onOpenStart: function onOpenStart() {
-            $('.card').css('z-index', -1);
-            $('.chip').css('z-index', 1);
-            $('.postImage').css('z-index', -1);
-            $('.parallax-container').css('z-index', -1);
-            $('.collection').css('z-index', -1);
-        }
-    });
+	$('.dropdown-trigger').dropdown({
+		constrainWidth: false,
+		onCloseStart: function onCloseStart() {
+			$('.card').css('z-index', 1);
+			$('.card-title').css('z-index', 1);
+			$('.postImage').css('z-index', 1);
+			$('.parallax-container').css('z-index', 1);
+			$('.collection').css('z-index', 1);
+		},
+		onOpenStart: function onOpenStart() {
+			$('.card').css('z-index', -1);
+			$('.chip').css('z-index', 1);
+			$('.postImage').css('z-index', -1);
+			$('.parallax-container').css('z-index', -1);
+			$('.collection').css('z-index', -1);
+		}
+	});
 }
 
 function scrollToTop() {
-    var scrollTopButton = $("#scrollTop");
-    scrollTopButton.click(function () {
-        $('html, body').animate({
-            scrollTop: $("#scrollTopFinalDest").offset().top
-        }, 1000);
-    });
+	var scrollTopButton = $('#scrollTop');
+	scrollTopButton.click(function () {
+		$('html, body').animate({
+			scrollTop: $('#scrollTopFinalDest').offset().top
+		}, 1000);
+	});
 }
 
 function initSignUp() {
-    $('select').formSelect();
-    $('.datepicker').datepicker();
+	$('select').formSelect();
+	$('.datepicker').datepicker();
 }
 
 /***/ }),
@@ -42064,88 +42008,88 @@ function initSignUp() {
 // calling the infinite scroll in the home
 // using Vue
 function feed() {
-    var x = new Vue({
-        el: "#feed",
-        data: {
-            posts: [],
-            lastId: $("#lastId").val(),
-            counter: 0,
-            commentNumber: [],
-            tagNames: [],
-            users: [],
-            imageLocation: []
-        },
-        methods: {
-            brokenImageHandling: function brokenImageHandling(image) {
-                image.src = "/images/404.png";
-                // $('.faildToLoadImage').show()
-                this.removeLoader();
-            },
-            removeLoader: function removeLoader() {
-                $(".imageLoader").hide();
-            },
-            removeSpecificLoader: function removeSpecificLoader(id) {
-                console.log("imageLoader" + id);
-                $(".imageLoader" + id).hide();
-            },
-            loadMorePosts: function loadMorePosts() {
-                var _this = this;
+	var x = new Vue({
+		el: '#feed',
+		data: {
+			posts: [],
+			lastId: $('#lastId').val(),
+			counter: 0,
+			commentNumber: [],
+			tagNames: [],
+			users: [],
+			imageLocation: []
+		},
+		methods: {
+			brokenImageHandling: function brokenImageHandling(image) {
+				image.src = '/images/404.png';
+				// $('.faildToLoadImage').show()
+				this.removeLoader();
+			},
+			removeLoader: function removeLoader() {
+				$('.imageLoader').hide();
+			},
+			removeSpecificLoader: function removeSpecificLoader(id) {
+				console.log('imageLoader' + id);
+				$('.imageLoader' + id).hide();
+			},
+			loadMorePosts: function loadMorePosts() {
+				var _this = this;
 
-                // console.log('@click="loadMorePosts')
-                $("#dimmerHere").addClass('disabled');
-                $("#dimmerHere").html("\n                        <div class=\"preloader-wrapper big active\">\n                        <div class=\"spinner-layer spinner-blue-only\">\n                        <div class=\"circle-clipper left\">\n                            <div class=\"circle\"></div>\n                        </div><div class=\"gap-patch\">\n                            <div class=\"circle\"></div>\n                        </div><div class=\"circle-clipper right\">\n                            <div class=\"circle\"></div>\n                        </div>\n                        </div>\n                    </div>\n                ");
-                $('#dimmerImage').removeClass("scale-out");
-                $('#dimmerImage').removeClass("scale-in");
-                $('#dimmerImage').addClass("scale-out");
-                var url = null;
-                if ($("#feedNoAuth").length) url = '/show/all/postsNoAuth';else if ($('#profile').length) url = '/show/user/posts/profile';else url = '/home/loadMorePosts';
-                axios.post(url, {
-                    lastId: this.lastId,
-                    userId: $('#userIdProfile').length ? $('#userIdProfile').val() : null
-                }).then(function (response) {
-                    $("#dimmerHere").html("More");
-                    $("#dimmerHere").removeClass('disabled');
-                    //console.log(typeof (response.data.posts))
-                    var allPosts = response.data.posts;
-                    var x = allPosts.length;
-                    for (var i = 0; i < x; i++) {
-                        _this.posts.push(allPosts[i]);
-                    } // console.log(this.posts)
-                    var allCommentNumber = response.data.commentNumber;
-                    x = allCommentNumber.length;
-                    for (var _i = 0; _i < x; _i++) {
-                        _this.commentNumber.push(allCommentNumber[_i]);
-                    } //this.commentNumber = response.data.
-                    var allTagsNames = response.data.tagNames;
-                    x = allTagsNames.length;
-                    for (var _i2 = 0; _i2 < x; _i2++) {
-                        _this.tagNames.push(allTagsNames[_i2]);
-                    }var users = response.data.users;
-                    x = users.length;
-                    for (var _i3 = 0; _i3 < x; _i3++) {
-                        _this.users.push(users[_i3]);
-                    } //this.tagNames = response.data.tagNames
-                    var imageLocation = response.data.imageLocation;
-                    x = imageLocation.length;
-                    for (var _i4 = 0; _i4 < x; _i4++) {
-                        _this.imageLocation.push(imageLocation[_i4]);
-                    }_this.lastId = allPosts[allPosts.length - 1].id;
-                    //console.log(this.lastId)
-                    $('#dimmerImage').attr("src", "/images/returnHome.png");
-                    var audio = new Audio('/sounds/service-bell_daniel_simion.mp3');
-                    $('#dimmerImage').addClass("\n                             scale-in\n                        ");
-                    audio.play();
-                }).catch(function (error) {
-                    console.log(error);
-                    var audio = new Audio('/sounds/Lightsaber_Turn_Off.mp3');
-                    audio.play();
-                    $('#dimmerImage').attr("src", "/images/404.png");
-                    $('#dimmerImage').addClass("scale-in");
-                    $("#dimmerHere").html("\uD83E\uDD16");
-                });
-            }
-        }
-    });
+				// console.log('@click="loadMorePosts')
+				$('#dimmerHere').addClass('disabled');
+				$('#dimmerHere').html('\n                        <div class="preloader-wrapper big active">\n                        <div class="spinner-layer spinner-blue-only">\n                        <div class="circle-clipper left">\n                            <div class="circle"></div>\n                        </div><div class="gap-patch">\n                            <div class="circle"></div>\n                        </div><div class="circle-clipper right">\n                            <div class="circle"></div>\n                        </div>\n                        </div>\n                    </div>\n                ');
+				$('#dimmerImage').removeClass('scale-out');
+				$('#dimmerImage').removeClass('scale-in');
+				$('#dimmerImage').addClass('scale-out');
+				var url = null;
+				if ($('#feedNoAuth').length) url = '/show/all/postsNoAuth';else if ($('#profile').length) url = '/show/user/posts/profile';else url = '/home/loadMorePosts';
+				axios.post(url, {
+					lastId: this.lastId,
+					userId: $('#userIdProfile').length ? $('#userIdProfile').val() : null
+				}).then(function (response) {
+					$('#dimmerHere').html('More');
+					$('#dimmerHere').removeClass('disabled');
+					//console.log(typeof (response.data.posts))
+					var allPosts = response.data.posts;
+					var x = allPosts.length;
+					for (var i = 0; i < x; i++) {
+						_this.posts.push(allPosts[i]);
+					} // console.log(this.posts)
+					var allCommentNumber = response.data.commentNumber;
+					x = allCommentNumber.length;
+					for (var _i = 0; _i < x; _i++) {
+						_this.commentNumber.push(allCommentNumber[_i]);
+					} //this.commentNumber = response.data.
+					var allTagsNames = response.data.tagNames;
+					x = allTagsNames.length;
+					for (var _i2 = 0; _i2 < x; _i2++) {
+						_this.tagNames.push(allTagsNames[_i2]);
+					}var users = response.data.users;
+					x = users.length;
+					for (var _i3 = 0; _i3 < x; _i3++) {
+						_this.users.push(users[_i3]);
+					} //this.tagNames = response.data.tagNames
+					var imageLocation = response.data.imageLocation;
+					x = imageLocation.length;
+					for (var _i4 = 0; _i4 < x; _i4++) {
+						_this.imageLocation.push(imageLocation[_i4]);
+					}_this.lastId = allPosts[allPosts.length - 1].id;
+					//console.log(this.lastId)
+					$('#dimmerImage').attr('src', '/images/returnHome.png');
+					var audio = new Audio('/sounds/service-bell_daniel_simion.mp3');
+					$('#dimmerImage').addClass('\n                             scale-in\n                        ');
+					audio.play();
+				}).catch(function (error) {
+					console.log(error);
+					var audio = new Audio('/sounds/Lightsaber_Turn_Off.mp3');
+					audio.play();
+					$('#dimmerImage').attr('src', '/images/404.png');
+					$('#dimmerImage').addClass('scale-in');
+					$('#dimmerHere').html('🤖');
+				});
+			}
+		}
+	});
 }
 
 /***/ }),
@@ -42158,162 +42102,168 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 // I might not add a load more button right now beacuse this might be really compilex and I don't have much time left
 // BUT! I will add it in the seeFollowersFunctionality.js file for the see follwers modal
+/*eslint no-console: */
 
 var followRequestsNumber = null;
-
 function followRequestsFunctionality() {
-    //  follow Requests Modal modal init start
-    $('.followRequestsModal').modal({
-        onOpenStart: function onOpenStart() {
-            axios.post('/show/follow-Requests').then(function (success) {
-                success.data.forEach(function (user) {
-                    // the userRequest-${user.user.id} class is for updating the IU in chagneColorBasedOnResult function
-                    // console.log(user)
-                    $('#usersRequestedToFollowYou').append('\n                        <section id="usersRequestedToFollowYouData">                    \n                            <div class="card grey lighten-1 black-text userRequest-' + user.user.id + ' col s12 m6" data-username="' + user.user.name + '">\n                            <div class="card-content">\n                                <ul class="collection borderNone">\n                                    <li class="collection-item avatar grey lighten-2 commentCollectionRemoveUl userRequest-' + user.user.id + '">\n                                        <img src="' + user.user.image + '" alt="user image" class="circle">\n                                        <span class="title strongChips searchFollowRequestsBasedOnNames" id="' + user.user.name + '">' + user.user.name + '</span>\n                                        <p>sent you a request</p>\n                                        <a href="/' + user.user.name + '" target="_blank" class="secondary-content tooltipped"\n                                        data-position="bottom" data-tooltip="Go to profile">\n                                        <i class="material-icons blue-grey-text text-darken-4">account_box</i></a>\n                                    </li>\n                                </ul>\n                                <button\n                                 class="aprroveFollowRequestButtons btn-floating  waves-effect waves-light light-blue darken-3 z-depth-5 tooltipped"\n                                 data-position="bottom" data-tooltip="Accecpt Follow Request ~ The user Will be notified"\n                                  id="' + user.user.id + '-' + user.user.name + '-approve">\n                                    <i class="material-icons">check</i>\n                                </button>\n                                <button \n                                class="declineFollowRequestButtons btn-floating  waves-effect waves-red  red accent-2 userInfoRevealCard z-depth-5 tooltipped"\n                                    data-position="bottom" data-tooltip="Decline Follow Request ~ The user will not be notified"\n                                    id="' + user.user.id + '-' + user.user.name + '-delete">\n                                        <i class="material-icons">clear</i>\n                                 </button>\n                            </div>\n                           <!-- <div class="card-tabs">\n                                <ul class="tabs tabs-fixed-width tabs-transparent">\n                                <li class="tab"><a href="#' + user.user.id + 'aboutTheUserWhoSentRequest">About</a></li>\n                                <li class="tab"><a class="active" href="#' + user.user.id + 'whenTheRequestHaveBeenSent">When</a></li>\n                                </ul>\n                            </div>\n                            <div class="card-content deep-orange lighten-1 userRequest-tabs-' + user.user.id + '">\n                                <div id="' + user.user.id + 'aboutTheUserWhoSentRequest" class="truncate">' + user.user.about + '</div>\n                                <div id="' + user.user.id + 'whenTheRequestHaveBeenSent">' + user.created_at + '</div>\n                            </div> --> \n                            </div>\n                            </section>\n                        ');
-                });
-                $('.tabs').tabs(); // for the tabs, for each user
-                followRequestsNumber = success.data.length;
-                $('#numberOfFollowRequests').html('Follow requests ' + success.data.length);
-                $('#preloaderfollowRequestsModal').hide();
-                aprroveFollowRequest();
-                declineFollowRequest();
-                searchFollowRequests(); // need to be here beacuse of the promise (if this is out side the then promiss it will load empty array)
-            }).catch(function (error) {
-                console.log(error);
-                M.toast({ html: 'something went wrong 🤖', classes: 'red accent-3' });
-            });
-        },
-        onOpenEnd: function onOpenEnd() {
-            // this just stopped working
-            $('.tooltipped').tooltip();
-        },
-        onCloseEnd: function onCloseEnd() {
-            $("#followRequestsModal").html('\n            <div class="row paddingSocial">\n            <div class="col s12 m6 white-text">\n                <p>Press <span class="red-text">Esc</span> To go back or the X Button</p>\n            </div>\n            <div class="col s12 m6">\n                <a class="btn-floating  waves-effect waves-light deep-orange accent-4 z-depth-5 modal-close floatRight">\n                  <i class="material-icons">close</i>\n                </a>\n            </div>\n              <div class="input-field col s12 m12">\n                  <i class="material-icons prefix grey-text text-lighten-3">search</i>\n                  <input id="searchFollowRequests" type="text">\n                  <label for="searchFollowRequests">Filter by first name</label>\n                </div>\n            </div>    \n              <div class="modal-content white-text">\n                <h4 id="numberOfFollowRequests">Follow requests</h4>\n                <div class="row">\n                <section id="usersRequestedToFollowYou">\n      \n                <div class="row center-align">\n                <div class="preloader-wrapper big active" id="preloaderfollowRequestsModal">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n                    \n                </section>\n                </div>\n              </div>\n            ');
-        }
-    });
-    //  follow Requests Modal modal end
+	var axios = window.axios;
+	var M = window.M;
+	//  follow Requests Modal modal init start
+	$('.followRequestsModal').modal({
+		onOpenStart: function onOpenStart() {
+			axios.post('/show/follow-Requests').then(function (success) {
+				success.data.forEach(function (user) {
+					// the userRequest-${user.user.id} class is for updating the IU in chagneColorBasedOnResult function
+					// console.log(user)
+					$('#usersRequestedToFollowYou').append('\n                        <section id="usersRequestedToFollowYouData">                    \n                            <div class="card grey lighten-1 black-text userRequest-' + user.user.id + ' col s12 m6" data-username="' + user.user.name + '">\n                            <div class="card-content">\n                                <ul class="collection borderNone">\n                                    <li class="collection-item avatar grey lighten-2 commentCollectionRemoveUl userRequest-' + user.user.id + '">\n                                        <img src="' + user.user.image + '" alt="user image" class="circle">\n                                        <span class="title strongChips searchFollowRequestsBasedOnNames" id="' + user.user.name + '">' + user.user.name + '</span>\n                                        <p>sent you a request</p>\n                                        <a href="/' + user.user.name + '" target="_blank" class="secondary-content tooltipped"\n                                        data-position="bottom" data-tooltip="Go to profile">\n                                        <i class="material-icons blue-grey-text text-darken-4">account_box</i></a>\n                                    </li>\n                                </ul>\n                                <button\n                                 class="aprroveFollowRequestButtons btn-floating  waves-effect waves-light light-blue darken-3 z-depth-5 tooltipped"\n                                 data-position="bottom" data-tooltip="Accecpt Follow Request ~ The user Will be notified"\n                                  id="' + user.user.id + '-' + user.user.name + '-approve">\n                                    <i class="material-icons">check</i>\n                                </button>\n                                <button \n                                class="declineFollowRequestButtons btn-floating  waves-effect waves-red  red accent-2 userInfoRevealCard z-depth-5 tooltipped"\n                                    data-position="bottom" data-tooltip="Decline Follow Request ~ The user will not be notified"\n                                    id="' + user.user.id + '-' + user.user.name + '-delete">\n                                        <i class="material-icons">clear</i>\n                                 </button>\n                            </div>\n                           <!-- <div class="card-tabs">\n                                <ul class="tabs tabs-fixed-width tabs-transparent">\n                                <li class="tab"><a href="#' + user.user.id + 'aboutTheUserWhoSentRequest">About</a></li>\n                                <li class="tab"><a class="active" href="#' + user.user.id + 'whenTheRequestHaveBeenSent">When</a></li>\n                                </ul>\n                            </div>\n                            <div class="card-content deep-orange lighten-1 userRequest-tabs-' + user.user.id + '">\n                                <div id="' + user.user.id + 'aboutTheUserWhoSentRequest" class="truncate">' + user.user.about + '</div>\n                                <div id="' + user.user.id + 'whenTheRequestHaveBeenSent">' + user.created_at + '</div>\n                            </div> --> \n                            </div>\n                            </section>\n                        ');
+				});
+				$('.tabs').tabs(); // for the tabs, for each user
+				followRequestsNumber = success.data.length;
+				$('#numberOfFollowRequests').html('Follow requests ' + success.data.length);
+				$('#preloaderfollowRequestsModal').hide();
+				aprroveFollowRequest();
+				declineFollowRequest();
+				searchFollowRequests(); // need to be here beacuse of the promise (if this is out side the then promiss it will load empty array)
+			}).catch(function (error) {
+				console.log(error);
+				M.toast({ html: 'something went wrong 🤖', classes: 'red accent-3' });
+			});
+		},
+		onOpenEnd: function onOpenEnd() {
+			// this just stopped working
+			$('.tooltipped').tooltip();
+		},
+		onCloseEnd: function onCloseEnd() {
+			$('#followRequestsModal').html('\n            <div class="row paddingSocial">\n            <div class="col s12 m6 white-text">\n                <p>Press <span class="red-text">Esc</span> To go back or the X Button</p>\n            </div>\n            <div class="col s12 m6">\n                <a class="btn-floating  waves-effect waves-light deep-orange accent-4 z-depth-5 modal-close floatRight">\n                  <i class="material-icons">close</i>\n                </a>\n            </div>\n              <div class="input-field col s12 m12">\n                  <i class="material-icons prefix grey-text text-lighten-3">search</i>\n                  <input id="searchFollowRequests" type="text">\n                  <label for="searchFollowRequests">Filter by first name</label>\n                </div>\n            </div>    \n              <div class="modal-content white-text">\n                <h4 id="numberOfFollowRequests">Follow requests</h4>\n                <div class="row">\n                <section id="usersRequestedToFollowYou">\n      \n                <div class="row center-align">\n                <div class="preloader-wrapper big active" id="preloaderfollowRequestsModal">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n                    \n                </section>\n                </div>\n              </div>\n            ');
+		}
+	});
+	//  follow Requests Modal modal end
 }
 // I Tride to make the aprroveFollowRequest & declineFollowRequest one function BUT, I keep Failling
 function aprroveFollowRequest() {
-    // if you use arrow function here,
-    // you will not get the id !!!!!
-    $('.aprroveFollowRequestButtons').on('click', function () {
-        var _this = this;
+	var axios = window.axios;
+	var M = window.M;
+	// if you use arrow function here,
+	// you will not get the id !!!!!
+	$('.aprroveFollowRequestButtons').on('click', function () {
+		var _this = this;
 
-        // console.log( $( this ).attr('id') ) 
-        var _$$attr$split = $(this).attr('id').split('-'),
-            _$$attr$split2 = _slicedToArray(_$$attr$split, 2),
-            userId = _$$attr$split2[0],
-            userName = _$$attr$split2[1];
-        // console.log(userId, userName)
+		// console.log( $( this ).attr('id') ) 
+		var _$$attr$split = $(this).attr('id').split('-'),
+		    _$$attr$split2 = _slicedToArray(_$$attr$split, 2),
+		    userId = _$$attr$split2[0],
+		    userName = _$$attr$split2[1];
+		// console.log(userId, userName)
 
 
-        $(this).addClass('disabled');
-        // $(`#${userId}.${userName}.delete`).addClass('disabled')
-        $(this).next().addClass('disabled'); // disable the delete button
-        axios.patch("/approve/follow", {
-            from_id: userId
-        }).then(function (success) {
-            // console.log(success)
-            // console.log(`#${userId}.${userName}.delete`)
-            $(_this).hide();
-            $(_this).next().hide(); // hiding the delete button
-            M.toast({ html: success.data.success + ' ' + userName + ' \uD83D\uDC35', classes: 'rounded light-blue accent-4' });
-            updateFollowRequestNumbers(true); // +1 for the followers number
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
-            chagneColorBasedOnResult(true, userId);
-        }).catch(function (error) {
-            $(_this).removeClass('disabled');
-            $(_this).next().removeClass('disabled');
-            console.log(error);
-            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
-            chagneColorBasedOnResult(false, userId);
-        });
-    });
+		$(this).addClass('disabled');
+		// $(`#${userId}.${userName}.delete`).addClass('disabled')
+		$(this).next().addClass('disabled'); // disable the delete button
+		axios.patch('/approve/follow', {
+			from_id: userId
+		}).then(function (success) {
+			// console.log(success)
+			// console.log(`#${userId}.${userName}.delete`)
+			$(_this).hide();
+			$(_this).next().hide(); // hiding the delete button
+			M.toast({ html: success.data.success + ' ' + userName + ' \uD83D\uDC35', classes: 'rounded light-blue accent-4' });
+			updateFollowRequestNumbers(true); // +1 for the followers number
+			// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
+			chagneColorBasedOnResult(true, userId);
+		}).catch(function (error) {
+			$(_this).removeClass('disabled');
+			$(_this).next().removeClass('disabled');
+			console.log(error);
+			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
+			// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
+			chagneColorBasedOnResult(false, userId);
+		});
+	});
 }
 
 function declineFollowRequest() {
-    // if you use arrow function here,
-    // you will not get the id !!!!!
-    $('.declineFollowRequestButtons').on('click', function () {
-        var _this2 = this;
+	var axios = window.axios;
+	var M = window.M;
+	// if you use arrow function here,
+	// you will not get the id !!!!!
+	$('.declineFollowRequestButtons').on('click', function () {
+		var _this2 = this;
 
-        // console.log( $( this ).attr('id') ) 
-        var _$$attr$split3 = $(this).attr('id').split('-'),
-            _$$attr$split4 = _slicedToArray(_$$attr$split3, 2),
-            userId = _$$attr$split4[0],
-            userName = _$$attr$split4[1];
-        // console.log(userId, userName)
+		// console.log( $( this ).attr('id') ) 
+		var _$$attr$split3 = $(this).attr('id').split('-'),
+		    _$$attr$split4 = _slicedToArray(_$$attr$split3, 2),
+		    userId = _$$attr$split4[0],
+		    userName = _$$attr$split4[1];
+		// console.log(userId, userName)
 
 
-        $(this).addClass('disabled');
-        $(this).prev().addClass('disabled'); // disable the approve button
-        axios.delete("/decline/follow", {
-            data: {
-                from_id: userId
-            }
-        }).then(function (success) {
-            $(_this2).hide();
-            $(_this2).prev().hide();
-            M.toast({ html: success.data.success + ' ' + userName + ' \uD83D\uDC35', classes: 'rounded light-blue accent-44' });
-            updateFollowRequestNumbers(); // nothing should happed to the followers number
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
-            chagneColorBasedOnResult(true, userId, true);
-        }).catch(function (error) {
-            $(_this2).removeClass('disabled');
-            $(_this2).prev().removeClass('disabled');
-            console.log(error);
-            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
-            // $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
-            chagneColorBasedOnResult(false, userId);
-        });
-    });
+		$(this).addClass('disabled');
+		$(this).prev().addClass('disabled'); // disable the approve button
+		axios.delete('/decline/follow', {
+			data: {
+				from_id: userId
+			}
+		}).then(function (success) {
+			$(_this2).hide();
+			$(_this2).prev().hide();
+			M.toast({ html: success.data.success + ' ' + userName + ' \uD83D\uDC35', classes: 'rounded light-blue accent-44' });
+			updateFollowRequestNumbers(); // nothing should happed to the followers number
+			// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('light-blue lighten-2')
+			chagneColorBasedOnResult(true, userId, true);
+		}).catch(function (error) {
+			$(_this2).removeClass('disabled');
+			$(_this2).prev().removeClass('disabled');
+			console.log(error);
+			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
+			// $(`.userRequest-${userId}`).removeClass('deep-orange lighten-2').addClass('red lighten-2')
+			chagneColorBasedOnResult(false, userId);
+		});
+	});
 }
 
 function updateFollowRequestNumbers() {
-    var increaseNumberOfFollowers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	var increaseNumberOfFollowers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-    followRequestsNumber--;
-    // updating the number of follow requests for tha modal
-    $("#numberOfFollowRequests").html('Follow requests ' + followRequestsNumber);
-    // updating the number of follow requests for the navbar and the side navbar
-    $('.updateFollowRequestsNumber').html('' + followRequestsNumber);
-    if (increaseNumberOfFollowers) {
-        // updating the number of followers in the navbar and the side navbar
-        var numberOfFollowers = $('#getFollowersNumber').text();
-        numberOfFollowers = Number.parseInt(numberOfFollowers === 'zero' ? '0' : numberOfFollowers);
-        $('.updateFollowersNumber').html('' + (numberOfFollowers + 1));
-    }
+	followRequestsNumber--;
+	// updating the number of follow requests for tha modal
+	$('#numberOfFollowRequests').html('Follow requests ' + followRequestsNumber);
+	// updating the number of follow requests for the navbar and the side navbar
+	$('.updateFollowRequestsNumber').html('' + followRequestsNumber);
+	if (increaseNumberOfFollowers) {
+		// updating the number of followers in the navbar and the side navbar
+		var numberOfFollowers = $('#getFollowersNumber').text();
+		numberOfFollowers = Number.parseInt(numberOfFollowers === 'zero' ? '0' : numberOfFollowers);
+		$('.updateFollowersNumber').html('' + (numberOfFollowers + 1));
+	}
 }
 
 function chagneColorBasedOnResult(result, userId) {
-    var decline = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+	var decline = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    $('.userRequest-' + userId).removeClass('grey lighten-1').addClass(result ? decline ? 'deep-orange lighten-1' : 'light-blue lighten-2' : 'red lighten-2');
-    // $(`.userRequest-tabs-${userId}`).removeClass('deep-orange lighten-1').addClass((result) ? (decline) ? 'purple accent-1' : 'light-blue lighten-1' :'red lighten-1')
+	$('.userRequest-' + userId).removeClass('grey lighten-1').addClass(result ? decline ? 'deep-orange lighten-1' : 'light-blue lighten-2' : 'red lighten-2');
+	// $(`.userRequest-tabs-${userId}`).removeClass('deep-orange lighten-1').addClass((result) ? (decline) ? 'purple accent-1' : 'light-blue lighten-1' :'red lighten-1')
 }
 
 function searchFollowRequests() {
-    var followRequestUserNames = [];
-    $('.searchFollowRequestsBasedOnNames').each(function (position, element) {
-        followRequestUserNames.push(element.innerHTML);
-    });
-    $(document).on('keyup', '#searchFollowRequests', function () {
-        var input = $('#searchFollowRequests');
-        followRequestUserNames.forEach(function (name) {
-            var x = name.toUpperCase(),
-                y = input.val().toUpperCase();
-            if (x.indexOf(y) > -1 && input.val()) {
-                // console.log(`${name} !== ${$('#searchFollowRequests').val()}`) 
-                $("#usersRequestedToFollowYou").find('div[data-username=\'' + name + '\']').slideDown();
-            } else if (!input.val()) {
-                $("#usersRequestedToFollowYou").find('div[data-username=\'' + name + '\']').slideDown();
-            } else {
-                $("#usersRequestedToFollowYou").find('div[data-username=\'' + name + '\']').slideUp();
-            }
-        });
-    });
+	var followRequestUserNames = [];
+	$('.searchFollowRequestsBasedOnNames').each(function (position, element) {
+		followRequestUserNames.push(element.innerHTML);
+	});
+	$(document).on('keyup', '#searchFollowRequests', function () {
+		var input = $('#searchFollowRequests');
+		followRequestUserNames.forEach(function (name) {
+			var x = name.toUpperCase(),
+			    y = input.val().toUpperCase();
+			if (x.indexOf(y) > -1 && input.val()) {
+				// console.log(`${name} !== ${$('#searchFollowRequests').val()}`) 
+				$('#usersRequestedToFollowYou').find('div[data-username=\'' + name + '\']').slideDown();
+			} else if (!input.val()) {
+				$('#usersRequestedToFollowYou').find('div[data-username=\'' + name + '\']').slideDown();
+			} else {
+				$('#usersRequestedToFollowYou').find('div[data-username=\'' + name + '\']').slideUp();
+			}
+		});
+	});
 }
 
 /***/ }),
@@ -42323,6 +42273,8 @@ function searchFollowRequests() {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = generalSocialFun;
 // This code works for the Followers Modal & the Following modal with no duplicated code !
+/*eslint no-console: */
+
 var highestId = undefined,
     arrayToFindHighestId = [],
     sectionToAddData = undefined,
@@ -42330,101 +42282,105 @@ var highestId = undefined,
     endPoint = undefined;
 
 function generalSocialFun(endPointArg, modalClass, sectionIDToLoadData, totalModalNumber, navBarTargetNumber, targetSelectionArg) {
-    sectionToAddData = $('#' + sectionIDToLoadData);
-    targetSelection = targetSelectionArg;
-    endPoint = endPointArg;
-    $('.' + modalClass).modal({
-        onOpenStart: function onOpenStart() {
-            $('#' + totalModalNumber).html($('#' + navBarTargetNumber).text());
-            highestId = undefined;
-            arrayToFindHighestId = undefined;
-            axios.post(endPoint).then(function (success) {
-                // console.log(success.data)
-                appendData(success.data);
-                searchFilter();
-                arrayToFindHighestId = success.data;
-                addEventListenerOnLoadMoreButton();
-            }).catch(function (error) {
-                console.log(error);
-                M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
-            });
-        },
-        onCloseStart: function onCloseStart() {
-            highestId = undefined;
-            arrayToFindHighestId = undefined;
-            // removing the event handler on the load more button 
-            // beacuse the function that add an event listener will be triggerd each time 
-            // the user opens the modal, this will cause calling the endpoint one more time on each open !
-            $('#modalLoadMore-' + targetSelection).off('click');
-            sectionToAddData.html('\n            <!-- PreLoader -->\n            <div class="row center-align" id="Preloader-' + targetSelection + '">\n                <div class="preloader-wrapper big active ">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n            \n            <!-- End PreLoader -->\n            ');
-        }
-    });
+	var axios = window.axios;
+	var M = window.M;
+	sectionToAddData = $('#' + sectionIDToLoadData);
+	targetSelection = targetSelectionArg;
+	endPoint = endPointArg;
+	$('.' + modalClass).modal({
+		onOpenStart: function onOpenStart() {
+			$('#' + totalModalNumber).html($('#' + navBarTargetNumber).text());
+			highestId = undefined;
+			arrayToFindHighestId = undefined;
+			axios.post(endPoint).then(function (success) {
+				// console.log(success.data)
+				appendData(success.data);
+				searchFilter();
+				arrayToFindHighestId = success.data;
+				addEventListenerOnLoadMoreButton();
+			}).catch(function (error) {
+				console.log(error);
+				M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
+			});
+		},
+		onCloseStart: function onCloseStart() {
+			highestId = undefined;
+			arrayToFindHighestId = undefined;
+			// removing the event handler on the load more button 
+			// beacuse the function that add an event listener will be triggerd each time 
+			// the user opens the modal, this will cause calling the endpoint one more time on each open !
+			$('#modalLoadMore-' + targetSelection).off('click');
+			sectionToAddData.html('\n            <!-- PreLoader -->\n            <div class="row center-align" id="Preloader-' + targetSelection + '">\n                <div class="preloader-wrapper big active ">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n            \n            <!-- End PreLoader -->\n            ');
+		}
+	});
 }
 
 function searchFilter() {
-    var Names = [];
-    $('.seacrhFilterBasedOnName').each(function (position, element) {
-        Names.push(element.innerHTML);
-    });
+	var Names = [];
+	$('.seacrhFilterBasedOnName').each(function (position, element) {
+		Names.push(element.innerHTML);
+	});
 
-    $(document).on('keyup', '#searchFilter-' + targetSelection, function () {
-        var input = $('#searchFilter-' + targetSelection);
-        Names.forEach(function (name) {
-            var x = name.toUpperCase(),
-                y = input.val().toUpperCase(),
-                theUserToFind = sectionToAddData;
-            if (x.indexOf(y) > -1 && input.val()) {
-                // console.log(`${name} !== ${$('#searchFollowRequests').val()}`) 
-                theUserToFind.find('li[data-username=\'' + name + '\']').fadeIn();
-            } else if (!input.val()) {
-                theUserToFind.find('li[data-username=\'' + name + '\']').fadeIn();
-            } else {
-                theUserToFind.find('li[data-username=\'' + name + '\']').fadeOut();
-            }
-        });
-    });
+	$(document).on('keyup', '#searchFilter-' + targetSelection, function () {
+		var input = $('#searchFilter-' + targetSelection);
+		Names.forEach(function (name) {
+			var x = name.toUpperCase(),
+			    y = input.val().toUpperCase(),
+			    theUserToFind = sectionToAddData;
+			if (x.indexOf(y) > -1 && input.val()) {
+				// console.log(`${name} !== ${$('#searchFollowRequests').val()}`) 
+				theUserToFind.find('li[data-username=\'' + name + '\']').fadeIn();
+			} else if (!input.val()) {
+				theUserToFind.find('li[data-username=\'' + name + '\']').fadeIn();
+			} else {
+				theUserToFind.find('li[data-username=\'' + name + '\']').fadeOut();
+			}
+		});
+	});
 }
 
 // if you this function multiple times you will add multiple eventListeners !!!
 function addEventListenerOnLoadMoreButton() {
-    var loaderButton = $('#modalLoadMore-' + targetSelection);
-    loaderButton.click(function () {
-        if (arrayToFindHighestId.length !== 0) {
-            if (arrayToFindHighestId.length !== 1) highestId = arrayToFindHighestId.reduce(function (prev, curr) {
-                return prev.id > curr.id ? prev.id : curr.id;
-            });else highestId = arrayToFindHighestId[0].id;
+	var axios = window.axios;
+	var M = window.M;
+	var loaderButton = $('#modalLoadMore-' + targetSelection);
+	loaderButton.click(function () {
+		if (arrayToFindHighestId.length !== 0) {
+			if (arrayToFindHighestId.length !== 1) highestId = arrayToFindHighestId.reduce(function (prev, curr) {
+				return prev.id > curr.id ? prev.id : curr.id;
+			});else highestId = arrayToFindHighestId[0].id;
 
-            // console.log(highestId)
-            // console.log(arrayToFindHighestId)
-            loaderButton.addClass('disabled');
-            axios.post(endPoint, {
-                highestId: highestId
-            }).then(function (success) {
-                // console.log(success.data)
-                if (success.data.length !== 0) appendData(success.data);else M.toast({ html: 'No More Data 🤖' });
-                loaderButton.removeClass('disabled');
-                arrayToFindHighestId = success.data;
-            }).catch(function (error) {
-                console.log(error);
-                loaderButton.removeClass('disabled');
-                M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
-            });
-        } else {
-            M.toast({ html: 'No More Data 🤖' });
-        }
-    });
-    // loaderButton.on('click', () => {
+			// console.log(highestId)
+			// console.log(arrayToFindHighestId)
+			loaderButton.addClass('disabled');
+			axios.post(endPoint, {
+				highestId: highestId
+			}).then(function (success) {
+				// console.log(success.data)
+				if (success.data.length !== 0) appendData(success.data);else M.toast({ html: 'No More Data 🤖' });
+				loaderButton.removeClass('disabled');
+				arrayToFindHighestId = success.data;
+			}).catch(function (error) {
+				console.log(error);
+				loaderButton.removeClass('disabled');
+				M.toast({ html: 'Something went wrong 🤖', classes: 'rounded red lighten-2' });
+			});
+		} else {
+			M.toast({ html: 'No More Data 🤖' });
+		}
+	});
+	// loaderButton.on('click', () => {
 
-    // })
+	// })
 }
 
 function appendData(array) {
-    var users = array;
-    $('#Preloader-' + targetSelection).hide();
-    users.forEach(function (aUser) {
-        sectionToAddData.append('\n            <li class="collection-item avatar z-depth-5 commentCollectionRemoveUl hoverable marginSocial col s12 m4" data-username="' + aUser.user.name + '">\n                <img src="' + aUser.user.image + '" alt="user image" class="circle">\n                <span class="title seacrhFilterBasedOnName">' + aUser.user.name + '</span>\n                <p>Follower Since: <br>\n                  <span class="light-blue-text text-darken-3">  ' + aUser.updated_at + ' </span>\n                </p>\n                <a href="/' + aUser.user.name + '" class="secondary-content"><i class="material-icons">account_box</i></a>\n            </li>\n        ');
-    });
-    searchFilter();
+	var users = array;
+	$('#Preloader-' + targetSelection).hide();
+	users.forEach(function (aUser) {
+		sectionToAddData.append('\n            <li class="collection-item avatar z-depth-5 commentCollectionRemoveUl hoverable marginSocial col s12 m4" data-username="' + aUser.user.name + '">\n                <img src="' + aUser.user.image + '" alt="user image" class="circle">\n                <span class="title seacrhFilterBasedOnName">' + aUser.user.name + '</span>\n                <p>Follower Since: <br>\n                  <span class="light-blue-text text-darken-3">  ' + aUser.updated_at + ' </span>\n                </p>\n                <a href="/' + aUser.user.name + '" class="secondary-content"><i class="material-icons">account_box</i></a>\n            </li>\n        ');
+	});
+	searchFilter();
 }
 
 /***/ }),
@@ -42433,126 +42389,131 @@ function appendData(array) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = postFunctions;
-var postId = $("#postId").val(),
-    postActions = $("#postActionsWishUnWish");
+/*eslint no-console: */
+var postId = $('#postId').val(),
+    postActions = $('#postActionsWishUnWish');
 
 function postFunctions() {
-    // added addPostToWishList outside the Vue instance because 
-    // Some wired Error 
-    $('#addToWishListButton').on('click', function () {
-        //  console.log("addToWishListButton")
-        addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
-    });
-    $("#deletePostFromWithListButton").on('click', function () {
-        //  console.log("deletePostFromWithListButton")
-        addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
-    });
-    addCommentInit();
-    addCommentViaTheButton();
+	// added addPostToWishList outside the Vue instance because 
+	// Some wired Error 
+	$('#addToWishListButton').on('click', function () {
+		//  console.log("addToWishListButton")
+		addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
+	});
+	$('#deletePostFromWithListButton').on('click', function () {
+		//  console.log("deletePostFromWithListButton")
+		addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
+	});
+	addCommentInit();
+	addCommentViaTheButton();
 }
 function addRemoveFromWishList(id, endPoint, targetSelection) {
-    $("#" + targetSelection + " > a").addClass('disabled');
-    $("#" + targetSelection).off('click');
-    axios.post("/" + endPoint + "/" + id, {
-        id: id
-    }).then(function (success) {
-        $("#" + targetSelection).remove();
-        switchAddNRemove(endPoint === 'addToWishList', targetSelection);
-        M.toast({ html: success.data.message + " \uD83D\uDC35" });
-        updateWishNumbersUI(endPoint === 'addToWishList');
-    }).catch(function (error) {
-        $("#" + targetSelection).removeClass('disabled');
-        console.log(error);
-        M.toast({
-            html: 'Something went wrong 🤖',
-            classes: 'red accent-3'
-        });
-    });
+	var axios = window.axios;
+	var M = window.M;
+	$('#' + targetSelection + ' > a').addClass('disabled');
+	$('#' + targetSelection).off('click');
+	axios.post('/' + endPoint + '/' + id, {
+		id: id
+	}).then(function (success) {
+		$('#' + targetSelection).remove();
+		switchAddNRemove(endPoint === 'addToWishList');
+		M.toast({ html: success.data.message + ' \uD83D\uDC35' });
+		updateWishNumbersUI(endPoint === 'addToWishList');
+	}).catch(function (error) {
+		$('#' + targetSelection).removeClass('disabled');
+		console.log(error);
+		M.toast({
+			html: 'Something went wrong 🤖',
+			classes: 'red accent-3'
+		});
+	});
 }
-function switchAddNRemove(actionAdd, targetSelection) {
-    if (actionAdd) {
-        postActions.append("\n            <li id=\"deletePostFromWithListButton\">\n                <a class=\"btn-floating red tooltipped\"  data-position=\"left\" data-tooltip=\"Already Saved\">\n                    <i class=\"material-icons\">bookmark</i>\n                </a>\n            </li>\n        ");
-        $("#deletePostFromWithListButton").on('click', function () {
-            // console.log("deletePostFromWithListButton After")
-            addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
-        });
-    } else {
-        postActions.append("\n        <li id=\"addToWishListButton\">\n            <a class=\"btn-floating red tooltipped\" data-position=\"left\" data-tooltip=\"Click Here to add post to wish list\">\n                <i class=\"material-icons\">bookmark_border</i>\n            </a>\n        </li>\n    ");
-        $('#addToWishListButton').on('click', function () {
-            // console.log("addToWishListButton After")
-            addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
-        });
-    }
+function switchAddNRemove(actionAdd) {
+	if (actionAdd) {
+		postActions.append('\n            <li id="deletePostFromWithListButton">\n                <a class="btn-floating red tooltipped"  data-position="left" data-tooltip="Already Saved">\n                    <i class="material-icons">bookmark</i>\n                </a>\n            </li>\n        ');
+		$('#deletePostFromWithListButton').on('click', function () {
+			// console.log("deletePostFromWithListButton After")
+			addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
+		});
+	} else {
+		postActions.append('\n        <li id="addToWishListButton">\n            <a class="btn-floating red tooltipped" data-position="left" data-tooltip="Click Here to add post to wish list">\n                <i class="material-icons">bookmark_border</i>\n            </a>\n        </li>\n    ');
+		$('#addToWishListButton').on('click', function () {
+			// console.log("addToWishListButton After")
+			addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
+		});
+	}
 
-    reInitFloatingButtonAndToolTips();
+	reInitFloatingButtonAndToolTips();
 }
 
 function reInitFloatingButtonAndToolTips() {
-    $('.fixed-action-btn').floatingActionButton();
-    $('.tooltipped').tooltip();
+	$('.fixed-action-btn').floatingActionButton();
+	$('.tooltipped').tooltip();
 }
 
 function addCommentInit() {
-    var commentInput = $("#commentInput");
-    commentInput.keyup(function (e) {
-        if (e.ctrlKey && e.keyCode === 13) {
-            // console.log("Submit the comment", commentInput.val())
-            submitComment(commentInput.val());
-        } else if (e.keyCode === 13) {
-            // console.log("NEW LINE !",  commentInput.val())
-        }
-    });
+	var commentInput = $('#commentInput');
+	commentInput.keyup(function (e) {
+		if (e.ctrlKey && e.keyCode === 13) {
+			// console.log("Submit the comment", commentInput.val())
+			submitComment(commentInput.val());
+		} else if (e.keyCode === 13) {
+			// console.log("NEW LINE !",  commentInput.val())
+		}
+	});
 }
 
 function addCommentViaTheButton() {
-    $("#addCommentButton").click(function () {
-        submitComment();
-    });
+	$('#addCommentButton').click(function () {
+		submitComment();
+	});
 }
 
 function submitComment() {
-    var comment = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+	var comment = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
-    var theComment = undefined;
-    if (typeof comment === 'undefined') theComment = $("#commentInput").val();else theComment = comment;
-    theComment = filterTheDataBeforeSubmit(theComment);
-    if (theComment.length) {
-        axios.post("/post/" + postId + "/addComment", {
-            comment: theComment,
-            postId: postId
-        }).then(function (success) {
-            M.toast({ html: success.data.message + " \uD83D\uDC35" });
-            removeCommentValue();
-        }).catch(function (error) {
-            console.log(error);
-            M.toast({
-                html: 'Something went wrong 🤖',
-                classes: 'red accent-3'
-            });
-        });
-    } else M.toast({ html: 'Something went wrong 🤖' });
+	var axios = window.axios;
+	var M = window.M;
+	var theComment = undefined;
+	if (typeof comment === 'undefined') theComment = $('#commentInput').val();else theComment = comment;
+	theComment = filterTheDataBeforeSubmit(theComment);
+	if (theComment.length) {
+		axios.post('/post/' + postId + '/addComment', {
+			comment: theComment,
+			postId: postId
+		}).then(function (success) {
+			M.toast({ html: success.data.message + ' \uD83D\uDC35' });
+			removeCommentValue();
+		}).catch(function (error) {
+			console.log(error);
+			M.toast({
+				html: 'Something went wrong 🤖',
+				classes: 'red accent-3'
+			});
+		});
+	} else M.toast({ html: 'Something went wrong 🤖' });
 }
 
 function filterTheDataBeforeSubmit(comment) {
-    comment = comment.trim().replace(/(<([^>]+)>)/ig, "");
-    return comment;
+	comment = comment.trim().replace(/(<([^>]+)>)/ig, '');
+	return comment;
 }
 
 function removeCommentValue() {
-    $("#commentInput").val('');
+	$('#commentInput').val('');
 }
 
 function updateWishNumbersUI(increase) {
-    var wishedPostsNumber = Number($("#getWishesNumber").text());
-    if (increase) {
-        wishedPostsNumber++;
-        $("#wishesNumberModal").html("" + wishedPostsNumber);
-        $('.updateWishesNumber').html("" + wishedPostsNumber);
-    } else {
-        wishedPostsNumber--;
-        $("#wishesNumberModal").html("" + wishedPostsNumber);
-        $('.updateWishesNumber').html("" + wishedPostsNumber);
-    }
+	var wishedPostsNumber = Number($('#getWishesNumber').text());
+	if (increase) {
+		wishedPostsNumber++;
+		$('#wishesNumberModal').html('' + wishedPostsNumber);
+		$('.updateWishesNumber').html('' + wishedPostsNumber);
+	} else {
+		wishedPostsNumber--;
+		$('#wishesNumberModal').html('' + wishedPostsNumber);
+		$('.updateWishesNumber').html('' + wishedPostsNumber);
+	}
 }
 
 /***/ }),
@@ -42563,87 +42524,93 @@ function updateWishNumbersUI(increase) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = wishes;
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
+/*eslint no-console: */
 var wishedPostsNumber = undefined,
     lowestId = undefined;
 function wishes() {
-    $('.seeWishesModal').modal({
-        onOpenStart: function onOpenStart() {
-            $("#wishesNumberModal").html($("#getWishesNumber").text());
-            axios.post('/wishedPosts').then(function (success) {
-                appendData(success.data);
-                // console.log(success.data)
-                wishedPostsNumber = Number($("#getWishesNumber").text());
-                lowestId = success.data[success.data.length - 1].id;
-                // console.log(lowestId)
-                $("#Preloader-wishes").remove();
-                loadMoreWishes();
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        onCloseStart: function onCloseStart() {
-            $("#modalLoadMore-wishes").off('click');
-            $("#modalSection-wishes").html("\n            <!-- PreLoader -->\n            <div class=\"row center-align\" id=\"Preloader-wishes\">\n                <div class=\"preloader-wrapper big active \">\n                    <div class=\"spinner-layer spinner-blue-only\">\n                      <div class=\"circle-clipper left\">\n                        <div class=\"circle\"></div>\n                      </div><div class=\"gap-patch\">\n                        <div class=\"circle\"></div>\n                      </div><div class=\"circle-clipper right\">\n                        <div class=\"circle\"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n            \n            <!-- End PreLoader -->\n            ");
-        }
-    });
+	var axios = window.axios;
+	$('.seeWishesModal').modal({
+		onOpenStart: function onOpenStart() {
+			$('#wishesNumberModal').html($('#getWishesNumber').text());
+			axios.post('/wishedPosts').then(function (success) {
+				appendData(success.data);
+				// console.log(success.data)
+				wishedPostsNumber = Number($('#getWishesNumber').text());
+				lowestId = success.data[success.data.length - 1].id;
+				// console.log(lowestId)
+				$('#Preloader-wishes').remove();
+				loadMoreWishes();
+			}).catch(function (error) {
+				console.log(error);
+			});
+		},
+		onCloseStart: function onCloseStart() {
+			$('#modalLoadMore-wishes').off('click');
+			$('#modalSection-wishes').html('\n            <!-- PreLoader -->\n            <div class="row center-align" id="Preloader-wishes">\n                <div class="preloader-wrapper big active ">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n            \n            <!-- End PreLoader -->\n            ');
+		}
+	});
 }
 
 function appendData(array) {
-    var wishesSection = $("#modalSection-wishes");
-    array.forEach(function (wish) {
-        wishesSection.append("\n            <div class=\"col s12 m4\" id=\"wishToDelete-" + wish.post.id + "\">\n            <div class=\"card\">\n            <div class=\"card-image\">\n                <img src=\"" + wish.post.post_images[0].location + "\">\n                <span class=\"card-title\">\n                    <div class=\"chip black white-text\">\n                        " + wish.post.header + "\n                    </div>\n                </span>\n            </div>\n            <div class=\"card-content\">\n                <p class=\"truncate\">\n                    " + wish.post.body + "\n                </p>\n            </div>\n            <div class=\"card-action\">\n            <div class=\"row\">\n                <div class=\"col s6 m6\">\n                    <a href=\"/show/post/" + wish.post.id + "\" target=\"_blank\" class=\"waves-effect waves-light btn yellow accent-1 black-text\">Show</a>\n                </div>\n                <div class=\"col s6 m6\">\n                    <button class=\"waves-effect waves-light btn red accent-2 deleteWishButton black-text\" id=\"wishToDeleteButton-" + wish.post.id + "\">X</button>\n                </div>\n              <!--  <div class=\"col s12 m8\">\n                    <button class=\"waves-effect waves-light btn deep-purple lighten-2 black-text\">" + wish.created_at + "</button>\n                </div> -->\n            </div>\n            </div>\n            </div>\n            </div>\n        ");
-    });
-    $('.deleteWishButton').off('click');
-    deleteWish();
+	var wishesSection = $('#modalSection-wishes');
+	array.forEach(function (wish) {
+		wishesSection.append('\n            <div class="col s12 m4" id="wishToDelete-' + wish.post.id + '">\n            <div class="card">\n            <div class="card-image">\n                <img src="' + wish.post.post_images[0].location + '">\n                <span class="card-title">\n                    <div class="chip black white-text">\n                        ' + wish.post.header + '\n                    </div>\n                </span>\n            </div>\n            <div class="card-content">\n                <p class="truncate">\n                    ' + wish.post.body + '\n                </p>\n            </div>\n            <div class="card-action">\n            <div class="row">\n                <div class="col s6 m6">\n                    <a href="/show/post/' + wish.post.id + '" target="_blank" class="waves-effect waves-light btn yellow accent-1 black-text">Show</a>\n                </div>\n                <div class="col s6 m6">\n                    <button class="waves-effect waves-light btn red accent-2 deleteWishButton black-text" id="wishToDeleteButton-' + wish.post.id + '">X</button>\n                </div>\n              <!--  <div class="col s12 m8">\n                    <button class="waves-effect waves-light btn deep-purple lighten-2 black-text">' + wish.created_at + '</button>\n                </div> -->\n            </div>\n            </div>\n            </div>\n            </div>\n        ');
+	});
+	$('.deleteWishButton').off('click');
+	deleteWish();
 }
 
 function deleteWish() {
-    $('.deleteWishButton').click(function (el) {
-        // console.log(el.target.id)
-        var _el$target$id$split = el.target.id.split('-'),
-            _el$target$id$split2 = _slicedToArray(_el$target$id$split, 2),
-            postId = _el$target$id$split2[1];
+	var axios = window.axios;
+	var M = window.M;
+	$('.deleteWishButton').click(function (el) {
+		// console.log(el.target.id)
+		var _el$target$id$split = el.target.id.split('-'),
+		    _el$target$id$split2 = _slicedToArray(_el$target$id$split, 2),
+		    postId = _el$target$id$split2[1];
 
-        $("#wishToDeleteButton-" + postId).addClass('disabled');
-        axios.delete("/deleteWishedPost/" + el.target.id, {
-            data: {
-                id: postId
-            }
-        }).then(function (success) {
-            M.toast({ html: "" + success.data.message, classes: 'rounded' });
-            updateNumberAndUI(postId);
-        }).catch(function (error) {
-            console.log(error);
-            $("#wishToDeleteButton-" + postId).removeClass('disabled');
-            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
-        });
-    });
+		$('#wishToDeleteButton-' + postId).addClass('disabled');
+		axios.delete('/deleteWishedPost/' + el.target.id, {
+			data: {
+				id: postId
+			}
+		}).then(function (success) {
+			M.toast({ html: '' + success.data.message, classes: 'rounded' });
+			updateNumberAndUI(postId);
+		}).catch(function (error) {
+			console.log(error);
+			$('#wishToDeleteButton-' + postId).removeClass('disabled');
+			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+		});
+	});
 }
 
 function updateNumberAndUI(postId) {
-    wishedPostsNumber--;
-    $("#wishesNumberModal").html("" + wishedPostsNumber);
-    $('.updateWishesNumber').html("" + wishedPostsNumber);
-    $("#wishToDelete-" + postId).slideUp().remove();
+	wishedPostsNumber--;
+	$('#wishesNumberModal').html('' + wishedPostsNumber);
+	$('.updateWishesNumber').html('' + wishedPostsNumber);
+	$('#wishToDelete-' + postId).slideUp().remove();
 }
 
 function loadMoreWishes() {
-    $("#modalLoadMore-wishes").click(function () {
-        $("#modalLoadMore-wishes").addClass('disabled');
-        axios.post('/wishedPosts', {
-            lowestId: lowestId
-        }).then(function (success) {
-            console.log(success.data);
-            console.log(lowestId);
-            $("#modalLoadMore-wishes").removeClass('disabled');
-            appendData(success.data);
-            lowestId = success.data[success.data.length - 1].id;
-        }).catch(function (error) {
-            // console.log(error)
-            M.toast({ html: 'No More Data 🤖', classes: 'rounded' });
-            $("#modalLoadMore-wishes").remove();
-        });
-    });
+	var axios = window.axios;
+	var M = window.M;
+	$('#modalLoadMore-wishes').click(function () {
+		$('#modalLoadMore-wishes').addClass('disabled');
+		axios.post('/wishedPosts', {
+			lowestId: lowestId
+		}).then(function (success) {
+			console.log(success.data);
+			console.log(lowestId);
+			$('#modalLoadMore-wishes').removeClass('disabled');
+			appendData(success.data);
+			lowestId = success.data[success.data.length - 1].id;
+		}).catch(function (err) {
+			console.log(err);
+			M.toast({ html: 'No More Data 🤖', classes: 'rounded' });
+			$('#modalLoadMore-wishes').remove();
+		});
+	});
 }
 
 /***/ }),
@@ -42663,1308 +42630,1308 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var pJS = function pJS(tag_id, params) {
 
-  var canvas_el = document.querySelector('#' + tag_id + ' > .particles-js-canvas-el');
-
-  /* particles.js variables with default values */
-  this.pJS = {
-    canvas: {
-      el: canvas_el,
-      w: canvas_el.offsetWidth,
-      h: canvas_el.offsetHeight
-    },
-    particles: {
-      number: {
-        value: 400,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-      },
-      color: {
-        value: '#fff'
-      },
-      shape: {
-        type: 'circle',
-        stroke: {
-          width: 0,
-          color: '#ff0000'
-        },
-        polygon: {
-          nb_sides: 5
-        },
-        image: {
-          src: '',
-          width: 100,
-          height: 100
-        }
-      },
-      opacity: {
-        value: 1,
-        random: false,
-        anim: {
-          enable: false,
-          speed: 2,
-          opacity_min: 0,
-          sync: false
-        }
-      },
-      size: {
-        value: 20,
-        random: false,
-        anim: {
-          enable: false,
-          speed: 20,
-          size_min: 0,
-          sync: false
-        }
-      },
-      line_linked: {
-        enable: true,
-        distance: 100,
-        color: '#fff',
-        opacity: 1,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 2,
-        direction: 'none',
-        random: false,
-        straight: false,
-        out_mode: 'out',
-        bounce: false,
-        attract: {
-          enable: false,
-          rotateX: 3000,
-          rotateY: 3000
-        }
-      },
-      array: []
-    },
-    interactivity: {
-      detect_on: 'canvas',
-      events: {
-        onhover: {
-          enable: true,
-          mode: 'grab'
-        },
-        onclick: {
-          enable: true,
-          mode: 'push'
-        },
-        resize: true
-      },
-      modes: {
-        grab: {
-          distance: 100,
-          line_linked: {
-            opacity: 1
-          }
-        },
-        bubble: {
-          distance: 200,
-          size: 80,
-          duration: 0.4
-        },
-        repulse: {
-          distance: 200,
-          duration: 0.4
-        },
-        push: {
-          particles_nb: 4
-        },
-        remove: {
-          particles_nb: 2
-        }
-      },
-      mouse: {}
-    },
-    retina_detect: false,
-    fn: {
-      interact: {},
-      modes: {},
-      vendors: {}
-    },
-    tmp: {}
-  };
-
-  var pJS = this.pJS;
-
-  /* params settings */
-  if (params) {
-    Object.deepExtend(pJS, params);
-  }
-
-  pJS.tmp.obj = {
-    size_value: pJS.particles.size.value,
-    size_anim_speed: pJS.particles.size.anim.speed,
-    move_speed: pJS.particles.move.speed,
-    line_linked_distance: pJS.particles.line_linked.distance,
-    line_linked_width: pJS.particles.line_linked.width,
-    mode_grab_distance: pJS.interactivity.modes.grab.distance,
-    mode_bubble_distance: pJS.interactivity.modes.bubble.distance,
-    mode_bubble_size: pJS.interactivity.modes.bubble.size,
-    mode_repulse_distance: pJS.interactivity.modes.repulse.distance
-  };
-
-  pJS.fn.retinaInit = function () {
-
-    if (pJS.retina_detect && window.devicePixelRatio > 1) {
-      pJS.canvas.pxratio = window.devicePixelRatio;
-      pJS.tmp.retina = true;
-    } else {
-      pJS.canvas.pxratio = 1;
-      pJS.tmp.retina = false;
-    }
-
-    pJS.canvas.w = pJS.canvas.el.offsetWidth * pJS.canvas.pxratio;
-    pJS.canvas.h = pJS.canvas.el.offsetHeight * pJS.canvas.pxratio;
-
-    pJS.particles.size.value = pJS.tmp.obj.size_value * pJS.canvas.pxratio;
-    pJS.particles.size.anim.speed = pJS.tmp.obj.size_anim_speed * pJS.canvas.pxratio;
-    pJS.particles.move.speed = pJS.tmp.obj.move_speed * pJS.canvas.pxratio;
-    pJS.particles.line_linked.distance = pJS.tmp.obj.line_linked_distance * pJS.canvas.pxratio;
-    pJS.interactivity.modes.grab.distance = pJS.tmp.obj.mode_grab_distance * pJS.canvas.pxratio;
-    pJS.interactivity.modes.bubble.distance = pJS.tmp.obj.mode_bubble_distance * pJS.canvas.pxratio;
-    pJS.particles.line_linked.width = pJS.tmp.obj.line_linked_width * pJS.canvas.pxratio;
-    pJS.interactivity.modes.bubble.size = pJS.tmp.obj.mode_bubble_size * pJS.canvas.pxratio;
-    pJS.interactivity.modes.repulse.distance = pJS.tmp.obj.mode_repulse_distance * pJS.canvas.pxratio;
-  };
-
-  /* ---------- pJS functions - canvas ------------ */
-
-  pJS.fn.canvasInit = function () {
-    pJS.canvas.ctx = pJS.canvas.el.getContext('2d');
-  };
-
-  pJS.fn.canvasSize = function () {
-
-    pJS.canvas.el.width = pJS.canvas.w;
-    pJS.canvas.el.height = pJS.canvas.h;
-
-    if (pJS && pJS.interactivity.events.resize) {
-
-      window.addEventListener('resize', function () {
-
-        pJS.canvas.w = pJS.canvas.el.offsetWidth;
-        pJS.canvas.h = pJS.canvas.el.offsetHeight;
-
-        /* resize canvas */
-        if (pJS.tmp.retina) {
-          pJS.canvas.w *= pJS.canvas.pxratio;
-          pJS.canvas.h *= pJS.canvas.pxratio;
-        }
-
-        pJS.canvas.el.width = pJS.canvas.w;
-        pJS.canvas.el.height = pJS.canvas.h;
-
-        /* repaint canvas on anim disabled */
-        if (!pJS.particles.move.enable) {
-          pJS.fn.particlesEmpty();
-          pJS.fn.particlesCreate();
-          pJS.fn.particlesDraw();
-          pJS.fn.vendors.densityAutoParticles();
-        }
-
-        /* density particles enabled */
-        pJS.fn.vendors.densityAutoParticles();
-      });
-    }
-  };
-
-  pJS.fn.canvasPaint = function () {
-    pJS.canvas.ctx.fillRect(0, 0, pJS.canvas.w, pJS.canvas.h);
-  };
-
-  pJS.fn.canvasClear = function () {
-    pJS.canvas.ctx.clearRect(0, 0, pJS.canvas.w, pJS.canvas.h);
-  };
-
-  /* --------- pJS functions - particles ----------- */
-
-  pJS.fn.particle = function (color, opacity, position) {
-
-    /* size */
-    this.radius = (pJS.particles.size.random ? Math.random() : 1) * pJS.particles.size.value;
-    if (pJS.particles.size.anim.enable) {
-      this.size_status = false;
-      this.vs = pJS.particles.size.anim.speed / 100;
-      if (!pJS.particles.size.anim.sync) {
-        this.vs = this.vs * Math.random();
-      }
-    }
-
-    /* position */
-    this.x = position ? position.x : Math.random() * pJS.canvas.w;
-    this.y = position ? position.y : Math.random() * pJS.canvas.h;
-
-    /* check position  - into the canvas */
-    if (this.x > pJS.canvas.w - this.radius * 2) this.x = this.x - this.radius;else if (this.x < this.radius * 2) this.x = this.x + this.radius;
-    if (this.y > pJS.canvas.h - this.radius * 2) this.y = this.y - this.radius;else if (this.y < this.radius * 2) this.y = this.y + this.radius;
-
-    /* check position - avoid overlap */
-    if (pJS.particles.move.bounce) {
-      pJS.fn.vendors.checkOverlap(this, position);
-    }
-
-    /* color */
-    this.color = {};
-    if (_typeof(color.value) == 'object') {
-
-      if (color.value instanceof Array) {
-        var color_selected = color.value[Math.floor(Math.random() * pJS.particles.color.value.length)];
-        this.color.rgb = hexToRgb(color_selected);
-      } else {
-        if (color.value.r != undefined && color.value.g != undefined && color.value.b != undefined) {
-          this.color.rgb = {
-            r: color.value.r,
-            g: color.value.g,
-            b: color.value.b
-          };
-        }
-        if (color.value.h != undefined && color.value.s != undefined && color.value.l != undefined) {
-          this.color.hsl = {
-            h: color.value.h,
-            s: color.value.s,
-            l: color.value.l
-          };
-        }
-      }
-    } else if (color.value == 'random') {
-      this.color.rgb = {
-        r: Math.floor(Math.random() * (255 - 0 + 1)) + 0,
-        g: Math.floor(Math.random() * (255 - 0 + 1)) + 0,
-        b: Math.floor(Math.random() * (255 - 0 + 1)) + 0
-      };
-    } else if (typeof color.value == 'string') {
-      this.color = color;
-      this.color.rgb = hexToRgb(this.color.value);
-    }
-
-    /* opacity */
-    this.opacity = (pJS.particles.opacity.random ? Math.random() : 1) * pJS.particles.opacity.value;
-    if (pJS.particles.opacity.anim.enable) {
-      this.opacity_status = false;
-      this.vo = pJS.particles.opacity.anim.speed / 100;
-      if (!pJS.particles.opacity.anim.sync) {
-        this.vo = this.vo * Math.random();
-      }
-    }
-
-    /* animation - velocity for speed */
-    var velbase = {};
-    switch (pJS.particles.move.direction) {
-      case 'top':
-        velbase = { x: 0, y: -1 };
-        break;
-      case 'top-right':
-        velbase = { x: 0.5, y: -0.5 };
-        break;
-      case 'right':
-        velbase = { x: 1, y: -0 };
-        break;
-      case 'bottom-right':
-        velbase = { x: 0.5, y: 0.5 };
-        break;
-      case 'bottom':
-        velbase = { x: 0, y: 1 };
-        break;
-      case 'bottom-left':
-        velbase = { x: -0.5, y: 1 };
-        break;
-      case 'left':
-        velbase = { x: -1, y: 0 };
-        break;
-      case 'top-left':
-        velbase = { x: -0.5, y: -0.5 };
-        break;
-      default:
-        velbase = { x: 0, y: 0 };
-        break;
-    }
-
-    if (pJS.particles.move.straight) {
-      this.vx = velbase.x;
-      this.vy = velbase.y;
-      if (pJS.particles.move.random) {
-        this.vx = this.vx * Math.random();
-        this.vy = this.vy * Math.random();
-      }
-    } else {
-      this.vx = velbase.x + Math.random() - 0.5;
-      this.vy = velbase.y + Math.random() - 0.5;
-    }
-
-    // var theta = 2.0 * Math.PI * Math.random();
-    // this.vx = Math.cos(theta);
-    // this.vy = Math.sin(theta);
-
-    this.vx_i = this.vx;
-    this.vy_i = this.vy;
-
-    /* if shape is image */
-
-    var shape_type = pJS.particles.shape.type;
-    if ((typeof shape_type === 'undefined' ? 'undefined' : _typeof(shape_type)) == 'object') {
-      if (shape_type instanceof Array) {
-        var shape_selected = shape_type[Math.floor(Math.random() * shape_type.length)];
-        this.shape = shape_selected;
-      }
-    } else {
-      this.shape = shape_type;
-    }
-
-    if (this.shape == 'image') {
-      var sh = pJS.particles.shape;
-      this.img = {
-        src: sh.image.src,
-        ratio: sh.image.width / sh.image.height
-      };
-      if (!this.img.ratio) this.img.ratio = 1;
-      if (pJS.tmp.img_type == 'svg' && pJS.tmp.source_svg != undefined) {
-        pJS.fn.vendors.createSvgImg(this);
-        if (pJS.tmp.pushing) {
-          this.img.loaded = false;
-        }
-      }
-    }
-  };
-
-  pJS.fn.particle.prototype.draw = function () {
-
-    var p = this;
-
-    if (p.radius_bubble != undefined) {
-      var radius = p.radius_bubble;
-    } else {
-      var radius = p.radius;
-    }
-
-    if (p.opacity_bubble != undefined) {
-      var opacity = p.opacity_bubble;
-    } else {
-      var opacity = p.opacity;
-    }
-
-    if (p.color.rgb) {
-      var color_value = 'rgba(' + p.color.rgb.r + ',' + p.color.rgb.g + ',' + p.color.rgb.b + ',' + opacity + ')';
-    } else {
-      var color_value = 'hsla(' + p.color.hsl.h + ',' + p.color.hsl.s + '%,' + p.color.hsl.l + '%,' + opacity + ')';
-    }
-
-    pJS.canvas.ctx.fillStyle = color_value;
-    pJS.canvas.ctx.beginPath();
-
-    switch (p.shape) {
-
-      case 'circle':
-        pJS.canvas.ctx.arc(p.x, p.y, radius, 0, Math.PI * 2, false);
-        break;
-
-      case 'edge':
-        pJS.canvas.ctx.rect(p.x - radius, p.y - radius, radius * 2, radius * 2);
-        break;
-
-      case 'triangle':
-        pJS.fn.vendors.drawShape(pJS.canvas.ctx, p.x - radius, p.y + radius / 1.66, radius * 2, 3, 2);
-        break;
-
-      case 'polygon':
-        pJS.fn.vendors.drawShape(pJS.canvas.ctx, p.x - radius / (pJS.particles.shape.polygon.nb_sides / 3.5), // startX
-        p.y - radius / (2.66 / 3.5), // startY
-        radius * 2.66 / (pJS.particles.shape.polygon.nb_sides / 3), // sideLength
-        pJS.particles.shape.polygon.nb_sides, // sideCountNumerator
-        1 // sideCountDenominator
-        );
-        break;
-
-      case 'star':
-        pJS.fn.vendors.drawShape(pJS.canvas.ctx, p.x - radius * 2 / (pJS.particles.shape.polygon.nb_sides / 4), // startX
-        p.y - radius / (2 * 2.66 / 3.5), // startY
-        radius * 2 * 2.66 / (pJS.particles.shape.polygon.nb_sides / 3), // sideLength
-        pJS.particles.shape.polygon.nb_sides, // sideCountNumerator
-        2 // sideCountDenominator
-        );
-        break;
-
-      case 'image':
-        var draw = function draw() {
-          pJS.canvas.ctx.drawImage(img_obj, p.x - radius, p.y - radius, radius * 2, radius * 2 / p.img.ratio);
-        };
-
-        if (pJS.tmp.img_type == 'svg') {
-          var img_obj = p.img.obj;
-        } else {
-          var img_obj = pJS.tmp.img_obj;
-        }
-
-        if (img_obj) {
-          draw();
-        }
-
-        break;
-
-    }
-
-    pJS.canvas.ctx.closePath();
-
-    if (pJS.particles.shape.stroke.width > 0) {
-      pJS.canvas.ctx.strokeStyle = pJS.particles.shape.stroke.color;
-      pJS.canvas.ctx.lineWidth = pJS.particles.shape.stroke.width;
-      pJS.canvas.ctx.stroke();
-    }
-
-    pJS.canvas.ctx.fill();
-  };
-
-  pJS.fn.particlesCreate = function () {
-    for (var i = 0; i < pJS.particles.number.value; i++) {
-      pJS.particles.array.push(new pJS.fn.particle(pJS.particles.color, pJS.particles.opacity.value));
-    }
-  };
-
-  pJS.fn.particlesUpdate = function () {
-
-    for (var i = 0; i < pJS.particles.array.length; i++) {
-
-      /* the particle */
-      var p = pJS.particles.array[i];
-
-      // var d = ( dx = pJS.interactivity.mouse.click_pos_x - p.x ) * dx + ( dy = pJS.interactivity.mouse.click_pos_y - p.y ) * dy;
-      // var f = -BANG_SIZE / d;
-      // if ( d < BANG_SIZE ) {
-      //     var t = Math.atan2( dy, dx );
-      //     p.vx = f * Math.cos(t);
-      //     p.vy = f * Math.sin(t);
-      // }
-
-      /* move the particle */
-      if (pJS.particles.move.enable) {
-        var ms = pJS.particles.move.speed / 2;
-        p.x += p.vx * ms;
-        p.y += p.vy * ms;
-      }
-
-      /* change opacity status */
-      if (pJS.particles.opacity.anim.enable) {
-        if (p.opacity_status == true) {
-          if (p.opacity >= pJS.particles.opacity.value) p.opacity_status = false;
-          p.opacity += p.vo;
-        } else {
-          if (p.opacity <= pJS.particles.opacity.anim.opacity_min) p.opacity_status = true;
-          p.opacity -= p.vo;
-        }
-        if (p.opacity < 0) p.opacity = 0;
-      }
-
-      /* change size */
-      if (pJS.particles.size.anim.enable) {
-        if (p.size_status == true) {
-          if (p.radius >= pJS.particles.size.value) p.size_status = false;
-          p.radius += p.vs;
-        } else {
-          if (p.radius <= pJS.particles.size.anim.size_min) p.size_status = true;
-          p.radius -= p.vs;
-        }
-        if (p.radius < 0) p.radius = 0;
-      }
-
-      /* change particle position if it is out of canvas */
-      if (pJS.particles.move.out_mode == 'bounce') {
-        var new_pos = {
-          x_left: p.radius,
-          x_right: pJS.canvas.w,
-          y_top: p.radius,
-          y_bottom: pJS.canvas.h
-        };
-      } else {
-        var new_pos = {
-          x_left: -p.radius,
-          x_right: pJS.canvas.w + p.radius,
-          y_top: -p.radius,
-          y_bottom: pJS.canvas.h + p.radius
-        };
-      }
-
-      if (p.x - p.radius > pJS.canvas.w) {
-        p.x = new_pos.x_left;
-        p.y = Math.random() * pJS.canvas.h;
-      } else if (p.x + p.radius < 0) {
-        p.x = new_pos.x_right;
-        p.y = Math.random() * pJS.canvas.h;
-      }
-      if (p.y - p.radius > pJS.canvas.h) {
-        p.y = new_pos.y_top;
-        p.x = Math.random() * pJS.canvas.w;
-      } else if (p.y + p.radius < 0) {
-        p.y = new_pos.y_bottom;
-        p.x = Math.random() * pJS.canvas.w;
-      }
-
-      /* out of canvas modes */
-      switch (pJS.particles.move.out_mode) {
-        case 'bounce':
-          if (p.x + p.radius > pJS.canvas.w) p.vx = -p.vx;else if (p.x - p.radius < 0) p.vx = -p.vx;
-          if (p.y + p.radius > pJS.canvas.h) p.vy = -p.vy;else if (p.y - p.radius < 0) p.vy = -p.vy;
-          break;
-      }
-
-      /* events */
-      if (isInArray('grab', pJS.interactivity.events.onhover.mode)) {
-        pJS.fn.modes.grabParticle(p);
-      }
-
-      if (isInArray('bubble', pJS.interactivity.events.onhover.mode) || isInArray('bubble', pJS.interactivity.events.onclick.mode)) {
-        pJS.fn.modes.bubbleParticle(p);
-      }
-
-      if (isInArray('repulse', pJS.interactivity.events.onhover.mode) || isInArray('repulse', pJS.interactivity.events.onclick.mode)) {
-        pJS.fn.modes.repulseParticle(p);
-      }
-
-      /* interaction auto between particles */
-      if (pJS.particles.line_linked.enable || pJS.particles.move.attract.enable) {
-        for (var j = i + 1; j < pJS.particles.array.length; j++) {
-          var p2 = pJS.particles.array[j];
-
-          /* link particles */
-          if (pJS.particles.line_linked.enable) {
-            pJS.fn.interact.linkParticles(p, p2);
-          }
-
-          /* attract particles */
-          if (pJS.particles.move.attract.enable) {
-            pJS.fn.interact.attractParticles(p, p2);
-          }
-
-          /* bounce particles */
-          if (pJS.particles.move.bounce) {
-            pJS.fn.interact.bounceParticles(p, p2);
-          }
-        }
-      }
-    }
-  };
-
-  pJS.fn.particlesDraw = function () {
-
-    /* clear canvas */
-    pJS.canvas.ctx.clearRect(0, 0, pJS.canvas.w, pJS.canvas.h);
-
-    /* update each particles param */
-    pJS.fn.particlesUpdate();
-
-    /* draw each particle */
-    for (var i = 0; i < pJS.particles.array.length; i++) {
-      var p = pJS.particles.array[i];
-      p.draw();
-    }
-  };
-
-  pJS.fn.particlesEmpty = function () {
-    pJS.particles.array = [];
-  };
-
-  pJS.fn.particlesRefresh = function () {
-
-    /* init all */
-    cancelRequestAnimFrame(pJS.fn.checkAnimFrame);
-    cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
-    pJS.tmp.source_svg = undefined;
-    pJS.tmp.img_obj = undefined;
-    pJS.tmp.count_svg = 0;
-    pJS.fn.particlesEmpty();
-    pJS.fn.canvasClear();
-
-    /* restart */
-    pJS.fn.vendors.start();
-  };
-
-  /* ---------- pJS functions - particles interaction ------------ */
-
-  pJS.fn.interact.linkParticles = function (p1, p2) {
-
-    var dx = p1.x - p2.x,
-        dy = p1.y - p2.y,
-        dist = Math.sqrt(dx * dx + dy * dy);
-
-    /* draw a line between p1 and p2 if the distance between them is under the config distance */
-    if (dist <= pJS.particles.line_linked.distance) {
-
-      var opacity_line = pJS.particles.line_linked.opacity - dist / (1 / pJS.particles.line_linked.opacity) / pJS.particles.line_linked.distance;
-
-      if (opacity_line > 0) {
-
-        /* style */
-        var color_line = pJS.particles.line_linked.color_rgb_line;
-        pJS.canvas.ctx.strokeStyle = 'rgba(' + color_line.r + ',' + color_line.g + ',' + color_line.b + ',' + opacity_line + ')';
-        pJS.canvas.ctx.lineWidth = pJS.particles.line_linked.width;
-        //pJS.canvas.ctx.lineCap = 'round'; /* performance issue */
-
-        /* path */
-        pJS.canvas.ctx.beginPath();
-        pJS.canvas.ctx.moveTo(p1.x, p1.y);
-        pJS.canvas.ctx.lineTo(p2.x, p2.y);
-        pJS.canvas.ctx.stroke();
-        pJS.canvas.ctx.closePath();
-      }
-    }
-  };
-
-  pJS.fn.interact.attractParticles = function (p1, p2) {
-
-    /* condensed particles */
-    var dx = p1.x - p2.x,
-        dy = p1.y - p2.y,
-        dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (dist <= pJS.particles.line_linked.distance) {
-
-      var ax = dx / (pJS.particles.move.attract.rotateX * 1000),
-          ay = dy / (pJS.particles.move.attract.rotateY * 1000);
-
-      p1.vx -= ax;
-      p1.vy -= ay;
-
-      p2.vx += ax;
-      p2.vy += ay;
-    }
-  };
-
-  pJS.fn.interact.bounceParticles = function (p1, p2) {
-
-    var dx = p1.x - p2.x,
-        dy = p1.y - p2.y,
-        dist = Math.sqrt(dx * dx + dy * dy),
-        dist_p = p1.radius + p2.radius;
-
-    if (dist <= dist_p) {
-      p1.vx = -p1.vx;
-      p1.vy = -p1.vy;
-
-      p2.vx = -p2.vx;
-      p2.vy = -p2.vy;
-    }
-  };
-
-  /* ---------- pJS functions - modes events ------------ */
-
-  pJS.fn.modes.pushParticles = function (nb, pos) {
-
-    pJS.tmp.pushing = true;
-
-    for (var i = 0; i < nb; i++) {
-      pJS.particles.array.push(new pJS.fn.particle(pJS.particles.color, pJS.particles.opacity.value, {
-        'x': pos ? pos.pos_x : Math.random() * pJS.canvas.w,
-        'y': pos ? pos.pos_y : Math.random() * pJS.canvas.h
-      }));
-      if (i == nb - 1) {
-        if (!pJS.particles.move.enable) {
-          pJS.fn.particlesDraw();
-        }
-        pJS.tmp.pushing = false;
-      }
-    }
-  };
-
-  pJS.fn.modes.removeParticles = function (nb) {
-
-    pJS.particles.array.splice(0, nb);
-    if (!pJS.particles.move.enable) {
-      pJS.fn.particlesDraw();
-    }
-  };
-
-  pJS.fn.modes.bubbleParticle = function (p) {
-
-    /* on hover event */
-    if (pJS.interactivity.events.onhover.enable && isInArray('bubble', pJS.interactivity.events.onhover.mode)) {
-      var init = function init() {
-        p.opacity_bubble = p.opacity;
-        p.radius_bubble = p.radius;
-      };
-
-      /* mousemove - check ratio */
-
-
-      var dx_mouse = p.x - pJS.interactivity.mouse.pos_x,
-          dy_mouse = p.y - pJS.interactivity.mouse.pos_y,
-          dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse),
-          ratio = 1 - dist_mouse / pJS.interactivity.modes.bubble.distance;
-
-      if (dist_mouse <= pJS.interactivity.modes.bubble.distance) {
-
-        if (ratio >= 0 && pJS.interactivity.status == 'mousemove') {
-
-          /* size */
-          if (pJS.interactivity.modes.bubble.size != pJS.particles.size.value) {
-
-            if (pJS.interactivity.modes.bubble.size > pJS.particles.size.value) {
-              var size = p.radius + pJS.interactivity.modes.bubble.size * ratio;
-              if (size >= 0) {
-                p.radius_bubble = size;
-              }
-            } else {
-              var dif = p.radius - pJS.interactivity.modes.bubble.size,
-                  size = p.radius - dif * ratio;
-              if (size > 0) {
-                p.radius_bubble = size;
-              } else {
-                p.radius_bubble = 0;
-              }
-            }
-          }
-
-          /* opacity */
-          if (pJS.interactivity.modes.bubble.opacity != pJS.particles.opacity.value) {
-
-            if (pJS.interactivity.modes.bubble.opacity > pJS.particles.opacity.value) {
-              var opacity = pJS.interactivity.modes.bubble.opacity * ratio;
-              if (opacity > p.opacity && opacity <= pJS.interactivity.modes.bubble.opacity) {
-                p.opacity_bubble = opacity;
-              }
-            } else {
-              var opacity = p.opacity - (pJS.particles.opacity.value - pJS.interactivity.modes.bubble.opacity) * ratio;
-              if (opacity < p.opacity && opacity >= pJS.interactivity.modes.bubble.opacity) {
-                p.opacity_bubble = opacity;
-              }
-            }
-          }
-        }
-      } else {
-        init();
-      }
-
-      /* mouseleave */
-      if (pJS.interactivity.status == 'mouseleave') {
-        init();
-      }
-    }
-
-    /* on click event */
-    else if (pJS.interactivity.events.onclick.enable && isInArray('bubble', pJS.interactivity.events.onclick.mode)) {
-        var process = function process(bubble_param, particles_param, p_obj_bubble, p_obj, id) {
-
-          if (bubble_param != particles_param) {
-
-            if (!pJS.tmp.bubble_duration_end) {
-              if (dist_mouse <= pJS.interactivity.modes.bubble.distance) {
-                if (p_obj_bubble != undefined) var obj = p_obj_bubble;else var obj = p_obj;
-                if (obj != bubble_param) {
-                  var value = p_obj - time_spent * (p_obj - bubble_param) / pJS.interactivity.modes.bubble.duration;
-                  if (id == 'size') p.radius_bubble = value;
-                  if (id == 'opacity') p.opacity_bubble = value;
-                }
-              } else {
-                if (id == 'size') p.radius_bubble = undefined;
-                if (id == 'opacity') p.opacity_bubble = undefined;
-              }
-            } else {
-              if (p_obj_bubble != undefined) {
-                var value_tmp = p_obj - time_spent * (p_obj - bubble_param) / pJS.interactivity.modes.bubble.duration,
-                    dif = bubble_param - value_tmp;
-                value = bubble_param + dif;
-                if (id == 'size') p.radius_bubble = value;
-                if (id == 'opacity') p.opacity_bubble = value;
-              }
-            }
-          }
-        };
-
-        if (pJS.tmp.bubble_clicking) {
-          var dx_mouse = p.x - pJS.interactivity.mouse.click_pos_x,
-              dy_mouse = p.y - pJS.interactivity.mouse.click_pos_y,
-              dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse),
-              time_spent = (new Date().getTime() - pJS.interactivity.mouse.click_time) / 1000;
-
-          if (time_spent > pJS.interactivity.modes.bubble.duration) {
-            pJS.tmp.bubble_duration_end = true;
-          }
-
-          if (time_spent > pJS.interactivity.modes.bubble.duration * 2) {
-            pJS.tmp.bubble_clicking = false;
-            pJS.tmp.bubble_duration_end = false;
-          }
-        }
-
-        if (pJS.tmp.bubble_clicking) {
-          /* size */
-          process(pJS.interactivity.modes.bubble.size, pJS.particles.size.value, p.radius_bubble, p.radius, 'size');
-          /* opacity */
-          process(pJS.interactivity.modes.bubble.opacity, pJS.particles.opacity.value, p.opacity_bubble, p.opacity, 'opacity');
-        }
-      }
-  };
-
-  pJS.fn.modes.repulseParticle = function (p) {
-
-    if (pJS.interactivity.events.onhover.enable && isInArray('repulse', pJS.interactivity.events.onhover.mode) && pJS.interactivity.status == 'mousemove') {
-
-      var dx_mouse = p.x - pJS.interactivity.mouse.pos_x,
-          dy_mouse = p.y - pJS.interactivity.mouse.pos_y,
-          dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse);
-
-      var normVec = { x: dx_mouse / dist_mouse, y: dy_mouse / dist_mouse },
-          repulseRadius = pJS.interactivity.modes.repulse.distance,
-          velocity = 100,
-          repulseFactor = clamp(1 / repulseRadius * (-1 * Math.pow(dist_mouse / repulseRadius, 2) + 1) * repulseRadius * velocity, 0, 50);
-
-      var pos = {
-        x: p.x + normVec.x * repulseFactor,
-        y: p.y + normVec.y * repulseFactor
-      };
-
-      if (pJS.particles.move.out_mode == 'bounce') {
-        if (pos.x - p.radius > 0 && pos.x + p.radius < pJS.canvas.w) p.x = pos.x;
-        if (pos.y - p.radius > 0 && pos.y + p.radius < pJS.canvas.h) p.y = pos.y;
-      } else {
-        p.x = pos.x;
-        p.y = pos.y;
-      }
-    } else if (pJS.interactivity.events.onclick.enable && isInArray('repulse', pJS.interactivity.events.onclick.mode)) {
-
-      if (!pJS.tmp.repulse_finish) {
-        pJS.tmp.repulse_count++;
-        if (pJS.tmp.repulse_count == pJS.particles.array.length) {
-          pJS.tmp.repulse_finish = true;
-        }
-      }
-
-      if (pJS.tmp.repulse_clicking) {
-        var process = function process() {
-
-          var f = Math.atan2(dy, dx);
-          p.vx = force * Math.cos(f);
-          p.vy = force * Math.sin(f);
-
-          if (pJS.particles.move.out_mode == 'bounce') {
-            var pos = {
-              x: p.x + p.vx,
-              y: p.y + p.vy
-            };
-            if (pos.x + p.radius > pJS.canvas.w) p.vx = -p.vx;else if (pos.x - p.radius < 0) p.vx = -p.vx;
-            if (pos.y + p.radius > pJS.canvas.h) p.vy = -p.vy;else if (pos.y - p.radius < 0) p.vy = -p.vy;
-          }
-        };
-
-        // default
-
-
-        var repulseRadius = Math.pow(pJS.interactivity.modes.repulse.distance / 6, 3);
-
-        var dx = pJS.interactivity.mouse.click_pos_x - p.x,
-            dy = pJS.interactivity.mouse.click_pos_y - p.y,
-            d = dx * dx + dy * dy;
-
-        var force = -repulseRadius / d * 1;
-
-        if (d <= repulseRadius) {
-          process();
-        }
-
-        // bang - slow motion mode
-        // if(!pJS.tmp.repulse_finish){
-        //   if(d <= repulseRadius){
-        //     process();
-        //   }
-        // }else{
-        //   process();
-        // }
-
-      } else {
-
-        if (pJS.tmp.repulse_clicking == false) {
-
-          p.vx = p.vx_i;
-          p.vy = p.vy_i;
-        }
-      }
-    }
-  };
-
-  pJS.fn.modes.grabParticle = function (p) {
-
-    if (pJS.interactivity.events.onhover.enable && pJS.interactivity.status == 'mousemove') {
-
-      var dx_mouse = p.x - pJS.interactivity.mouse.pos_x,
-          dy_mouse = p.y - pJS.interactivity.mouse.pos_y,
-          dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse);
-
-      /* draw a line between the cursor and the particle if the distance between them is under the config distance */
-      if (dist_mouse <= pJS.interactivity.modes.grab.distance) {
-
-        var opacity_line = pJS.interactivity.modes.grab.line_linked.opacity - dist_mouse / (1 / pJS.interactivity.modes.grab.line_linked.opacity) / pJS.interactivity.modes.grab.distance;
-
-        if (opacity_line > 0) {
-
-          /* style */
-          var color_line = pJS.particles.line_linked.color_rgb_line;
-          pJS.canvas.ctx.strokeStyle = 'rgba(' + color_line.r + ',' + color_line.g + ',' + color_line.b + ',' + opacity_line + ')';
-          pJS.canvas.ctx.lineWidth = pJS.particles.line_linked.width;
-          //pJS.canvas.ctx.lineCap = 'round'; /* performance issue */
-
-          /* path */
-          pJS.canvas.ctx.beginPath();
-          pJS.canvas.ctx.moveTo(p.x, p.y);
-          pJS.canvas.ctx.lineTo(pJS.interactivity.mouse.pos_x, pJS.interactivity.mouse.pos_y);
-          pJS.canvas.ctx.stroke();
-          pJS.canvas.ctx.closePath();
-        }
-      }
-    }
-  };
-
-  /* ---------- pJS functions - vendors ------------ */
-
-  pJS.fn.vendors.eventsListeners = function () {
-
-    /* events target element */
-    if (pJS.interactivity.detect_on == 'window') {
-      pJS.interactivity.el = window;
-    } else {
-      pJS.interactivity.el = pJS.canvas.el;
-    }
-
-    /* detect mouse pos - on hover / click event */
-    if (pJS.interactivity.events.onhover.enable || pJS.interactivity.events.onclick.enable) {
-
-      /* el on mousemove */
-      pJS.interactivity.el.addEventListener('mousemove', function (e) {
-
-        if (pJS.interactivity.el == window) {
-          var pos_x = e.clientX,
-              pos_y = e.clientY;
-        } else {
-          var pos_x = e.offsetX || e.clientX,
-              pos_y = e.offsetY || e.clientY;
-        }
-
-        pJS.interactivity.mouse.pos_x = pos_x;
-        pJS.interactivity.mouse.pos_y = pos_y;
-
-        if (pJS.tmp.retina) {
-          pJS.interactivity.mouse.pos_x *= pJS.canvas.pxratio;
-          pJS.interactivity.mouse.pos_y *= pJS.canvas.pxratio;
-        }
-
-        pJS.interactivity.status = 'mousemove';
-      });
-
-      /* el on onmouseleave */
-      pJS.interactivity.el.addEventListener('mouseleave', function (e) {
-
-        pJS.interactivity.mouse.pos_x = null;
-        pJS.interactivity.mouse.pos_y = null;
-        pJS.interactivity.status = 'mouseleave';
-      });
-    }
-
-    /* on click event */
-    if (pJS.interactivity.events.onclick.enable) {
-
-      pJS.interactivity.el.addEventListener('click', function () {
-
-        pJS.interactivity.mouse.click_pos_x = pJS.interactivity.mouse.pos_x;
-        pJS.interactivity.mouse.click_pos_y = pJS.interactivity.mouse.pos_y;
-        pJS.interactivity.mouse.click_time = new Date().getTime();
-
-        if (pJS.interactivity.events.onclick.enable) {
-
-          switch (pJS.interactivity.events.onclick.mode) {
-
-            case 'push':
-              if (pJS.particles.move.enable) {
-                pJS.fn.modes.pushParticles(pJS.interactivity.modes.push.particles_nb, pJS.interactivity.mouse);
-              } else {
-                if (pJS.interactivity.modes.push.particles_nb == 1) {
-                  pJS.fn.modes.pushParticles(pJS.interactivity.modes.push.particles_nb, pJS.interactivity.mouse);
-                } else if (pJS.interactivity.modes.push.particles_nb > 1) {
-                  pJS.fn.modes.pushParticles(pJS.interactivity.modes.push.particles_nb);
-                }
-              }
-              break;
-
-            case 'remove':
-              pJS.fn.modes.removeParticles(pJS.interactivity.modes.remove.particles_nb);
-              break;
-
-            case 'bubble':
-              pJS.tmp.bubble_clicking = true;
-              break;
-
-            case 'repulse':
-              pJS.tmp.repulse_clicking = true;
-              pJS.tmp.repulse_count = 0;
-              pJS.tmp.repulse_finish = false;
-              setTimeout(function () {
-                pJS.tmp.repulse_clicking = false;
-              }, pJS.interactivity.modes.repulse.duration * 1000);
-              break;
-
-          }
-        }
-      });
-    }
-  };
-
-  pJS.fn.vendors.densityAutoParticles = function () {
-
-    if (pJS.particles.number.density.enable) {
-
-      /* calc area */
-      var area = pJS.canvas.el.width * pJS.canvas.el.height / 1000;
-      if (pJS.tmp.retina) {
-        area = area / (pJS.canvas.pxratio * 2);
-      }
-
-      /* calc number of particles based on density area */
-      var nb_particles = area * pJS.particles.number.value / pJS.particles.number.density.value_area;
-
-      /* add or remove X particles */
-      var missing_particles = pJS.particles.array.length - nb_particles;
-      if (missing_particles < 0) pJS.fn.modes.pushParticles(Math.abs(missing_particles));else pJS.fn.modes.removeParticles(missing_particles);
-    }
-  };
-
-  pJS.fn.vendors.checkOverlap = function (p1, position) {
-    for (var i = 0; i < pJS.particles.array.length; i++) {
-      var p2 = pJS.particles.array[i];
-
-      var dx = p1.x - p2.x,
-          dy = p1.y - p2.y,
-          dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (dist <= p1.radius + p2.radius) {
-        p1.x = position ? position.x : Math.random() * pJS.canvas.w;
-        p1.y = position ? position.y : Math.random() * pJS.canvas.h;
-        pJS.fn.vendors.checkOverlap(p1);
-      }
-    }
-  };
-
-  pJS.fn.vendors.createSvgImg = function (p) {
-
-    /* set color to svg element */
-    var svgXml = pJS.tmp.source_svg,
-        rgbHex = /#([0-9A-F]{3,6})/gi,
-        coloredSvgXml = svgXml.replace(rgbHex, function (m, r, g, b) {
-      if (p.color.rgb) {
-        var color_value = 'rgba(' + p.color.rgb.r + ',' + p.color.rgb.g + ',' + p.color.rgb.b + ',' + p.opacity + ')';
-      } else {
-        var color_value = 'hsla(' + p.color.hsl.h + ',' + p.color.hsl.s + '%,' + p.color.hsl.l + '%,' + p.opacity + ')';
-      }
-      return color_value;
-    });
-
-    /* prepare to create img with colored svg */
-    var svg = new Blob([coloredSvgXml], { type: 'image/svg+xml;charset=utf-8' }),
-        DOMURL = window.URL || window.webkitURL || window,
-        url = DOMURL.createObjectURL(svg);
-
-    /* create particle img obj */
-    var img = new Image();
-    img.addEventListener('load', function () {
-      p.img.obj = img;
-      p.img.loaded = true;
-      DOMURL.revokeObjectURL(url);
-      pJS.tmp.count_svg++;
-    });
-    img.src = url;
-  };
-
-  pJS.fn.vendors.destroypJS = function () {
-    cancelAnimationFrame(pJS.fn.drawAnimFrame);
-    canvas_el.remove();
-    pJSDom = null;
-  };
-
-  pJS.fn.vendors.drawShape = function (c, startX, startY, sideLength, sideCountNumerator, sideCountDenominator) {
-
-    // By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
-    var sideCount = sideCountNumerator * sideCountDenominator;
-    var decimalSides = sideCountNumerator / sideCountDenominator;
-    var interiorAngleDegrees = 180 * (decimalSides - 2) / decimalSides;
-    var interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; // convert to radians
-    c.save();
-    c.beginPath();
-    c.translate(startX, startY);
-    c.moveTo(0, 0);
-    for (var i = 0; i < sideCount; i++) {
-      c.lineTo(sideLength, 0);
-      c.translate(sideLength, 0);
-      c.rotate(interiorAngle);
-    }
-    //c.stroke();
-    c.fill();
-    c.restore();
-  };
-
-  pJS.fn.vendors.exportImg = function () {
-    window.open(pJS.canvas.el.toDataURL('image/png'), '_blank');
-  };
-
-  pJS.fn.vendors.loadImg = function (type) {
-
-    pJS.tmp.img_error = undefined;
-
-    if (pJS.particles.shape.image.src != '') {
-
-      if (type == 'svg') {
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', pJS.particles.shape.image.src);
-        xhr.onreadystatechange = function (data) {
-          if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-              pJS.tmp.source_svg = data.currentTarget.response;
-              pJS.fn.vendors.checkBeforeDraw();
-            } else {
-              console.log('Error pJS - Image not found');
-              pJS.tmp.img_error = true;
-            }
-          }
-        };
-        xhr.send();
-      } else {
-
-        var img = new Image();
-        img.addEventListener('load', function () {
-          pJS.tmp.img_obj = img;
-          pJS.fn.vendors.checkBeforeDraw();
-        });
-        img.src = pJS.particles.shape.image.src;
-      }
-    } else {
-      console.log('Error pJS - No image.src');
-      pJS.tmp.img_error = true;
-    }
-  };
-
-  pJS.fn.vendors.draw = function () {
-
-    if (pJS.particles.shape.type == 'image') {
-
-      if (pJS.tmp.img_type == 'svg') {
-
-        if (pJS.tmp.count_svg >= pJS.particles.number.value) {
-          pJS.fn.particlesDraw();
-          if (!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-        } else {
-          //console.log('still loading...');
-          if (!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-        }
-      } else {
-
-        if (pJS.tmp.img_obj != undefined) {
-          pJS.fn.particlesDraw();
-          if (!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-        } else {
-          if (!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-        }
-      }
-    } else {
-      pJS.fn.particlesDraw();
-      if (!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-    }
-  };
-
-  pJS.fn.vendors.checkBeforeDraw = function () {
-
-    // if shape is image
-    if (pJS.particles.shape.type == 'image') {
-
-      if (pJS.tmp.img_type == 'svg' && pJS.tmp.source_svg == undefined) {
-        pJS.tmp.checkAnimFrame = requestAnimFrame(check);
-      } else {
-        //console.log('images loaded! cancel check');
-        cancelRequestAnimFrame(pJS.tmp.checkAnimFrame);
-        if (!pJS.tmp.img_error) {
-          pJS.fn.vendors.init();
-          pJS.fn.vendors.draw();
-        }
-      }
-    } else {
-      pJS.fn.vendors.init();
-      pJS.fn.vendors.draw();
-    }
-  };
-
-  pJS.fn.vendors.init = function () {
-
-    /* init canvas + particles */
-    pJS.fn.retinaInit();
-    pJS.fn.canvasInit();
-    pJS.fn.canvasSize();
-    pJS.fn.canvasPaint();
-    pJS.fn.particlesCreate();
-    pJS.fn.vendors.densityAutoParticles();
-
-    /* particles.line_linked - convert hex colors to rgb */
-    pJS.particles.line_linked.color_rgb_line = hexToRgb(pJS.particles.line_linked.color);
-  };
-
-  pJS.fn.vendors.start = function () {
-
-    if (isInArray('image', pJS.particles.shape.type)) {
-      pJS.tmp.img_type = pJS.particles.shape.image.src.substr(pJS.particles.shape.image.src.length - 3);
-      pJS.fn.vendors.loadImg(pJS.tmp.img_type);
-    } else {
-      pJS.fn.vendors.checkBeforeDraw();
-    }
-  };
-
-  /* ---------- pJS - start ------------ */
-
-  pJS.fn.vendors.eventsListeners();
-
-  pJS.fn.vendors.start();
+	var canvas_el = document.querySelector('#' + tag_id + ' > .particles-js-canvas-el');
+
+	/* particles.js variables with default values */
+	this.pJS = {
+		canvas: {
+			el: canvas_el,
+			w: canvas_el.offsetWidth,
+			h: canvas_el.offsetHeight
+		},
+		particles: {
+			number: {
+				value: 400,
+				density: {
+					enable: true,
+					value_area: 800
+				}
+			},
+			color: {
+				value: '#fff'
+			},
+			shape: {
+				type: 'circle',
+				stroke: {
+					width: 0,
+					color: '#ff0000'
+				},
+				polygon: {
+					nb_sides: 5
+				},
+				image: {
+					src: '',
+					width: 100,
+					height: 100
+				}
+			},
+			opacity: {
+				value: 1,
+				random: false,
+				anim: {
+					enable: false,
+					speed: 2,
+					opacity_min: 0,
+					sync: false
+				}
+			},
+			size: {
+				value: 20,
+				random: false,
+				anim: {
+					enable: false,
+					speed: 20,
+					size_min: 0,
+					sync: false
+				}
+			},
+			line_linked: {
+				enable: true,
+				distance: 100,
+				color: '#fff',
+				opacity: 1,
+				width: 1
+			},
+			move: {
+				enable: true,
+				speed: 2,
+				direction: 'none',
+				random: false,
+				straight: false,
+				out_mode: 'out',
+				bounce: false,
+				attract: {
+					enable: false,
+					rotateX: 3000,
+					rotateY: 3000
+				}
+			},
+			array: []
+		},
+		interactivity: {
+			detect_on: 'canvas',
+			events: {
+				onhover: {
+					enable: true,
+					mode: 'grab'
+				},
+				onclick: {
+					enable: true,
+					mode: 'push'
+				},
+				resize: true
+			},
+			modes: {
+				grab: {
+					distance: 100,
+					line_linked: {
+						opacity: 1
+					}
+				},
+				bubble: {
+					distance: 200,
+					size: 80,
+					duration: 0.4
+				},
+				repulse: {
+					distance: 200,
+					duration: 0.4
+				},
+				push: {
+					particles_nb: 4
+				},
+				remove: {
+					particles_nb: 2
+				}
+			},
+			mouse: {}
+		},
+		retina_detect: false,
+		fn: {
+			interact: {},
+			modes: {},
+			vendors: {}
+		},
+		tmp: {}
+	};
+
+	var pJS = this.pJS;
+
+	/* params settings */
+	if (params) {
+		Object.deepExtend(pJS, params);
+	}
+
+	pJS.tmp.obj = {
+		size_value: pJS.particles.size.value,
+		size_anim_speed: pJS.particles.size.anim.speed,
+		move_speed: pJS.particles.move.speed,
+		line_linked_distance: pJS.particles.line_linked.distance,
+		line_linked_width: pJS.particles.line_linked.width,
+		mode_grab_distance: pJS.interactivity.modes.grab.distance,
+		mode_bubble_distance: pJS.interactivity.modes.bubble.distance,
+		mode_bubble_size: pJS.interactivity.modes.bubble.size,
+		mode_repulse_distance: pJS.interactivity.modes.repulse.distance
+	};
+
+	pJS.fn.retinaInit = function () {
+
+		if (pJS.retina_detect && window.devicePixelRatio > 1) {
+			pJS.canvas.pxratio = window.devicePixelRatio;
+			pJS.tmp.retina = true;
+		} else {
+			pJS.canvas.pxratio = 1;
+			pJS.tmp.retina = false;
+		}
+
+		pJS.canvas.w = pJS.canvas.el.offsetWidth * pJS.canvas.pxratio;
+		pJS.canvas.h = pJS.canvas.el.offsetHeight * pJS.canvas.pxratio;
+
+		pJS.particles.size.value = pJS.tmp.obj.size_value * pJS.canvas.pxratio;
+		pJS.particles.size.anim.speed = pJS.tmp.obj.size_anim_speed * pJS.canvas.pxratio;
+		pJS.particles.move.speed = pJS.tmp.obj.move_speed * pJS.canvas.pxratio;
+		pJS.particles.line_linked.distance = pJS.tmp.obj.line_linked_distance * pJS.canvas.pxratio;
+		pJS.interactivity.modes.grab.distance = pJS.tmp.obj.mode_grab_distance * pJS.canvas.pxratio;
+		pJS.interactivity.modes.bubble.distance = pJS.tmp.obj.mode_bubble_distance * pJS.canvas.pxratio;
+		pJS.particles.line_linked.width = pJS.tmp.obj.line_linked_width * pJS.canvas.pxratio;
+		pJS.interactivity.modes.bubble.size = pJS.tmp.obj.mode_bubble_size * pJS.canvas.pxratio;
+		pJS.interactivity.modes.repulse.distance = pJS.tmp.obj.mode_repulse_distance * pJS.canvas.pxratio;
+	};
+
+	/* ---------- pJS functions - canvas ------------ */
+
+	pJS.fn.canvasInit = function () {
+		pJS.canvas.ctx = pJS.canvas.el.getContext('2d');
+	};
+
+	pJS.fn.canvasSize = function () {
+
+		pJS.canvas.el.width = pJS.canvas.w;
+		pJS.canvas.el.height = pJS.canvas.h;
+
+		if (pJS && pJS.interactivity.events.resize) {
+
+			window.addEventListener('resize', function () {
+
+				pJS.canvas.w = pJS.canvas.el.offsetWidth;
+				pJS.canvas.h = pJS.canvas.el.offsetHeight;
+
+				/* resize canvas */
+				if (pJS.tmp.retina) {
+					pJS.canvas.w *= pJS.canvas.pxratio;
+					pJS.canvas.h *= pJS.canvas.pxratio;
+				}
+
+				pJS.canvas.el.width = pJS.canvas.w;
+				pJS.canvas.el.height = pJS.canvas.h;
+
+				/* repaint canvas on anim disabled */
+				if (!pJS.particles.move.enable) {
+					pJS.fn.particlesEmpty();
+					pJS.fn.particlesCreate();
+					pJS.fn.particlesDraw();
+					pJS.fn.vendors.densityAutoParticles();
+				}
+
+				/* density particles enabled */
+				pJS.fn.vendors.densityAutoParticles();
+			});
+		}
+	};
+
+	pJS.fn.canvasPaint = function () {
+		pJS.canvas.ctx.fillRect(0, 0, pJS.canvas.w, pJS.canvas.h);
+	};
+
+	pJS.fn.canvasClear = function () {
+		pJS.canvas.ctx.clearRect(0, 0, pJS.canvas.w, pJS.canvas.h);
+	};
+
+	/* --------- pJS functions - particles ----------- */
+
+	pJS.fn.particle = function (color, opacity, position) {
+
+		/* size */
+		this.radius = (pJS.particles.size.random ? Math.random() : 1) * pJS.particles.size.value;
+		if (pJS.particles.size.anim.enable) {
+			this.size_status = false;
+			this.vs = pJS.particles.size.anim.speed / 100;
+			if (!pJS.particles.size.anim.sync) {
+				this.vs = this.vs * Math.random();
+			}
+		}
+
+		/* position */
+		this.x = position ? position.x : Math.random() * pJS.canvas.w;
+		this.y = position ? position.y : Math.random() * pJS.canvas.h;
+
+		/* check position  - into the canvas */
+		if (this.x > pJS.canvas.w - this.radius * 2) this.x = this.x - this.radius;else if (this.x < this.radius * 2) this.x = this.x + this.radius;
+		if (this.y > pJS.canvas.h - this.radius * 2) this.y = this.y - this.radius;else if (this.y < this.radius * 2) this.y = this.y + this.radius;
+
+		/* check position - avoid overlap */
+		if (pJS.particles.move.bounce) {
+			pJS.fn.vendors.checkOverlap(this, position);
+		}
+
+		/* color */
+		this.color = {};
+		if (_typeof(color.value) == 'object') {
+
+			if (color.value instanceof Array) {
+				var color_selected = color.value[Math.floor(Math.random() * pJS.particles.color.value.length)];
+				this.color.rgb = hexToRgb(color_selected);
+			} else {
+				if (color.value.r != undefined && color.value.g != undefined && color.value.b != undefined) {
+					this.color.rgb = {
+						r: color.value.r,
+						g: color.value.g,
+						b: color.value.b
+					};
+				}
+				if (color.value.h != undefined && color.value.s != undefined && color.value.l != undefined) {
+					this.color.hsl = {
+						h: color.value.h,
+						s: color.value.s,
+						l: color.value.l
+					};
+				}
+			}
+		} else if (color.value == 'random') {
+			this.color.rgb = {
+				r: Math.floor(Math.random() * (255 - 0 + 1)) + 0,
+				g: Math.floor(Math.random() * (255 - 0 + 1)) + 0,
+				b: Math.floor(Math.random() * (255 - 0 + 1)) + 0
+			};
+		} else if (typeof color.value == 'string') {
+			this.color = color;
+			this.color.rgb = hexToRgb(this.color.value);
+		}
+
+		/* opacity */
+		this.opacity = (pJS.particles.opacity.random ? Math.random() : 1) * pJS.particles.opacity.value;
+		if (pJS.particles.opacity.anim.enable) {
+			this.opacity_status = false;
+			this.vo = pJS.particles.opacity.anim.speed / 100;
+			if (!pJS.particles.opacity.anim.sync) {
+				this.vo = this.vo * Math.random();
+			}
+		}
+
+		/* animation - velocity for speed */
+		var velbase = {};
+		switch (pJS.particles.move.direction) {
+			case 'top':
+				velbase = { x: 0, y: -1 };
+				break;
+			case 'top-right':
+				velbase = { x: 0.5, y: -0.5 };
+				break;
+			case 'right':
+				velbase = { x: 1, y: -0 };
+				break;
+			case 'bottom-right':
+				velbase = { x: 0.5, y: 0.5 };
+				break;
+			case 'bottom':
+				velbase = { x: 0, y: 1 };
+				break;
+			case 'bottom-left':
+				velbase = { x: -0.5, y: 1 };
+				break;
+			case 'left':
+				velbase = { x: -1, y: 0 };
+				break;
+			case 'top-left':
+				velbase = { x: -0.5, y: -0.5 };
+				break;
+			default:
+				velbase = { x: 0, y: 0 };
+				break;
+		}
+
+		if (pJS.particles.move.straight) {
+			this.vx = velbase.x;
+			this.vy = velbase.y;
+			if (pJS.particles.move.random) {
+				this.vx = this.vx * Math.random();
+				this.vy = this.vy * Math.random();
+			}
+		} else {
+			this.vx = velbase.x + Math.random() - 0.5;
+			this.vy = velbase.y + Math.random() - 0.5;
+		}
+
+		// var theta = 2.0 * Math.PI * Math.random();
+		// this.vx = Math.cos(theta);
+		// this.vy = Math.sin(theta);
+
+		this.vx_i = this.vx;
+		this.vy_i = this.vy;
+
+		/* if shape is image */
+
+		var shape_type = pJS.particles.shape.type;
+		if ((typeof shape_type === 'undefined' ? 'undefined' : _typeof(shape_type)) == 'object') {
+			if (shape_type instanceof Array) {
+				var shape_selected = shape_type[Math.floor(Math.random() * shape_type.length)];
+				this.shape = shape_selected;
+			}
+		} else {
+			this.shape = shape_type;
+		}
+
+		if (this.shape == 'image') {
+			var sh = pJS.particles.shape;
+			this.img = {
+				src: sh.image.src,
+				ratio: sh.image.width / sh.image.height
+			};
+			if (!this.img.ratio) this.img.ratio = 1;
+			if (pJS.tmp.img_type == 'svg' && pJS.tmp.source_svg != undefined) {
+				pJS.fn.vendors.createSvgImg(this);
+				if (pJS.tmp.pushing) {
+					this.img.loaded = false;
+				}
+			}
+		}
+	};
+
+	pJS.fn.particle.prototype.draw = function () {
+
+		var p = this;
+
+		if (p.radius_bubble != undefined) {
+			var radius = p.radius_bubble;
+		} else {
+			var radius = p.radius;
+		}
+
+		if (p.opacity_bubble != undefined) {
+			var opacity = p.opacity_bubble;
+		} else {
+			var opacity = p.opacity;
+		}
+
+		if (p.color.rgb) {
+			var color_value = 'rgba(' + p.color.rgb.r + ',' + p.color.rgb.g + ',' + p.color.rgb.b + ',' + opacity + ')';
+		} else {
+			var color_value = 'hsla(' + p.color.hsl.h + ',' + p.color.hsl.s + '%,' + p.color.hsl.l + '%,' + opacity + ')';
+		}
+
+		pJS.canvas.ctx.fillStyle = color_value;
+		pJS.canvas.ctx.beginPath();
+
+		switch (p.shape) {
+
+			case 'circle':
+				pJS.canvas.ctx.arc(p.x, p.y, radius, 0, Math.PI * 2, false);
+				break;
+
+			case 'edge':
+				pJS.canvas.ctx.rect(p.x - radius, p.y - radius, radius * 2, radius * 2);
+				break;
+
+			case 'triangle':
+				pJS.fn.vendors.drawShape(pJS.canvas.ctx, p.x - radius, p.y + radius / 1.66, radius * 2, 3, 2);
+				break;
+
+			case 'polygon':
+				pJS.fn.vendors.drawShape(pJS.canvas.ctx, p.x - radius / (pJS.particles.shape.polygon.nb_sides / 3.5), // startX
+				p.y - radius / (2.66 / 3.5), // startY
+				radius * 2.66 / (pJS.particles.shape.polygon.nb_sides / 3), // sideLength
+				pJS.particles.shape.polygon.nb_sides, // sideCountNumerator
+				1 // sideCountDenominator
+				);
+				break;
+
+			case 'star':
+				pJS.fn.vendors.drawShape(pJS.canvas.ctx, p.x - radius * 2 / (pJS.particles.shape.polygon.nb_sides / 4), // startX
+				p.y - radius / (2 * 2.66 / 3.5), // startY
+				radius * 2 * 2.66 / (pJS.particles.shape.polygon.nb_sides / 3), // sideLength
+				pJS.particles.shape.polygon.nb_sides, // sideCountNumerator
+				2 // sideCountDenominator
+				);
+				break;
+
+			case 'image':
+				var draw = function draw() {
+					pJS.canvas.ctx.drawImage(img_obj, p.x - radius, p.y - radius, radius * 2, radius * 2 / p.img.ratio);
+				};
+
+				if (pJS.tmp.img_type == 'svg') {
+					var img_obj = p.img.obj;
+				} else {
+					var img_obj = pJS.tmp.img_obj;
+				}
+
+				if (img_obj) {
+					draw();
+				}
+
+				break;
+
+		}
+
+		pJS.canvas.ctx.closePath();
+
+		if (pJS.particles.shape.stroke.width > 0) {
+			pJS.canvas.ctx.strokeStyle = pJS.particles.shape.stroke.color;
+			pJS.canvas.ctx.lineWidth = pJS.particles.shape.stroke.width;
+			pJS.canvas.ctx.stroke();
+		}
+
+		pJS.canvas.ctx.fill();
+	};
+
+	pJS.fn.particlesCreate = function () {
+		for (var i = 0; i < pJS.particles.number.value; i++) {
+			pJS.particles.array.push(new pJS.fn.particle(pJS.particles.color, pJS.particles.opacity.value));
+		}
+	};
+
+	pJS.fn.particlesUpdate = function () {
+
+		for (var i = 0; i < pJS.particles.array.length; i++) {
+
+			/* the particle */
+			var p = pJS.particles.array[i];
+
+			// var d = ( dx = pJS.interactivity.mouse.click_pos_x - p.x ) * dx + ( dy = pJS.interactivity.mouse.click_pos_y - p.y ) * dy;
+			// var f = -BANG_SIZE / d;
+			// if ( d < BANG_SIZE ) {
+			//     var t = Math.atan2( dy, dx );
+			//     p.vx = f * Math.cos(t);
+			//     p.vy = f * Math.sin(t);
+			// }
+
+			/* move the particle */
+			if (pJS.particles.move.enable) {
+				var ms = pJS.particles.move.speed / 2;
+				p.x += p.vx * ms;
+				p.y += p.vy * ms;
+			}
+
+			/* change opacity status */
+			if (pJS.particles.opacity.anim.enable) {
+				if (p.opacity_status == true) {
+					if (p.opacity >= pJS.particles.opacity.value) p.opacity_status = false;
+					p.opacity += p.vo;
+				} else {
+					if (p.opacity <= pJS.particles.opacity.anim.opacity_min) p.opacity_status = true;
+					p.opacity -= p.vo;
+				}
+				if (p.opacity < 0) p.opacity = 0;
+			}
+
+			/* change size */
+			if (pJS.particles.size.anim.enable) {
+				if (p.size_status == true) {
+					if (p.radius >= pJS.particles.size.value) p.size_status = false;
+					p.radius += p.vs;
+				} else {
+					if (p.radius <= pJS.particles.size.anim.size_min) p.size_status = true;
+					p.radius -= p.vs;
+				}
+				if (p.radius < 0) p.radius = 0;
+			}
+
+			/* change particle position if it is out of canvas */
+			if (pJS.particles.move.out_mode == 'bounce') {
+				var new_pos = {
+					x_left: p.radius,
+					x_right: pJS.canvas.w,
+					y_top: p.radius,
+					y_bottom: pJS.canvas.h
+				};
+			} else {
+				var new_pos = {
+					x_left: -p.radius,
+					x_right: pJS.canvas.w + p.radius,
+					y_top: -p.radius,
+					y_bottom: pJS.canvas.h + p.radius
+				};
+			}
+
+			if (p.x - p.radius > pJS.canvas.w) {
+				p.x = new_pos.x_left;
+				p.y = Math.random() * pJS.canvas.h;
+			} else if (p.x + p.radius < 0) {
+				p.x = new_pos.x_right;
+				p.y = Math.random() * pJS.canvas.h;
+			}
+			if (p.y - p.radius > pJS.canvas.h) {
+				p.y = new_pos.y_top;
+				p.x = Math.random() * pJS.canvas.w;
+			} else if (p.y + p.radius < 0) {
+				p.y = new_pos.y_bottom;
+				p.x = Math.random() * pJS.canvas.w;
+			}
+
+			/* out of canvas modes */
+			switch (pJS.particles.move.out_mode) {
+				case 'bounce':
+					if (p.x + p.radius > pJS.canvas.w) p.vx = -p.vx;else if (p.x - p.radius < 0) p.vx = -p.vx;
+					if (p.y + p.radius > pJS.canvas.h) p.vy = -p.vy;else if (p.y - p.radius < 0) p.vy = -p.vy;
+					break;
+			}
+
+			/* events */
+			if (isInArray('grab', pJS.interactivity.events.onhover.mode)) {
+				pJS.fn.modes.grabParticle(p);
+			}
+
+			if (isInArray('bubble', pJS.interactivity.events.onhover.mode) || isInArray('bubble', pJS.interactivity.events.onclick.mode)) {
+				pJS.fn.modes.bubbleParticle(p);
+			}
+
+			if (isInArray('repulse', pJS.interactivity.events.onhover.mode) || isInArray('repulse', pJS.interactivity.events.onclick.mode)) {
+				pJS.fn.modes.repulseParticle(p);
+			}
+
+			/* interaction auto between particles */
+			if (pJS.particles.line_linked.enable || pJS.particles.move.attract.enable) {
+				for (var j = i + 1; j < pJS.particles.array.length; j++) {
+					var p2 = pJS.particles.array[j];
+
+					/* link particles */
+					if (pJS.particles.line_linked.enable) {
+						pJS.fn.interact.linkParticles(p, p2);
+					}
+
+					/* attract particles */
+					if (pJS.particles.move.attract.enable) {
+						pJS.fn.interact.attractParticles(p, p2);
+					}
+
+					/* bounce particles */
+					if (pJS.particles.move.bounce) {
+						pJS.fn.interact.bounceParticles(p, p2);
+					}
+				}
+			}
+		}
+	};
+
+	pJS.fn.particlesDraw = function () {
+
+		/* clear canvas */
+		pJS.canvas.ctx.clearRect(0, 0, pJS.canvas.w, pJS.canvas.h);
+
+		/* update each particles param */
+		pJS.fn.particlesUpdate();
+
+		/* draw each particle */
+		for (var i = 0; i < pJS.particles.array.length; i++) {
+			var p = pJS.particles.array[i];
+			p.draw();
+		}
+	};
+
+	pJS.fn.particlesEmpty = function () {
+		pJS.particles.array = [];
+	};
+
+	pJS.fn.particlesRefresh = function () {
+
+		/* init all */
+		cancelRequestAnimFrame(pJS.fn.checkAnimFrame);
+		cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
+		pJS.tmp.source_svg = undefined;
+		pJS.tmp.img_obj = undefined;
+		pJS.tmp.count_svg = 0;
+		pJS.fn.particlesEmpty();
+		pJS.fn.canvasClear();
+
+		/* restart */
+		pJS.fn.vendors.start();
+	};
+
+	/* ---------- pJS functions - particles interaction ------------ */
+
+	pJS.fn.interact.linkParticles = function (p1, p2) {
+
+		var dx = p1.x - p2.x,
+		    dy = p1.y - p2.y,
+		    dist = Math.sqrt(dx * dx + dy * dy);
+
+		/* draw a line between p1 and p2 if the distance between them is under the config distance */
+		if (dist <= pJS.particles.line_linked.distance) {
+
+			var opacity_line = pJS.particles.line_linked.opacity - dist / (1 / pJS.particles.line_linked.opacity) / pJS.particles.line_linked.distance;
+
+			if (opacity_line > 0) {
+
+				/* style */
+				var color_line = pJS.particles.line_linked.color_rgb_line;
+				pJS.canvas.ctx.strokeStyle = 'rgba(' + color_line.r + ',' + color_line.g + ',' + color_line.b + ',' + opacity_line + ')';
+				pJS.canvas.ctx.lineWidth = pJS.particles.line_linked.width;
+				//pJS.canvas.ctx.lineCap = 'round'; /* performance issue */
+
+				/* path */
+				pJS.canvas.ctx.beginPath();
+				pJS.canvas.ctx.moveTo(p1.x, p1.y);
+				pJS.canvas.ctx.lineTo(p2.x, p2.y);
+				pJS.canvas.ctx.stroke();
+				pJS.canvas.ctx.closePath();
+			}
+		}
+	};
+
+	pJS.fn.interact.attractParticles = function (p1, p2) {
+
+		/* condensed particles */
+		var dx = p1.x - p2.x,
+		    dy = p1.y - p2.y,
+		    dist = Math.sqrt(dx * dx + dy * dy);
+
+		if (dist <= pJS.particles.line_linked.distance) {
+
+			var ax = dx / (pJS.particles.move.attract.rotateX * 1000),
+			    ay = dy / (pJS.particles.move.attract.rotateY * 1000);
+
+			p1.vx -= ax;
+			p1.vy -= ay;
+
+			p2.vx += ax;
+			p2.vy += ay;
+		}
+	};
+
+	pJS.fn.interact.bounceParticles = function (p1, p2) {
+
+		var dx = p1.x - p2.x,
+		    dy = p1.y - p2.y,
+		    dist = Math.sqrt(dx * dx + dy * dy),
+		    dist_p = p1.radius + p2.radius;
+
+		if (dist <= dist_p) {
+			p1.vx = -p1.vx;
+			p1.vy = -p1.vy;
+
+			p2.vx = -p2.vx;
+			p2.vy = -p2.vy;
+		}
+	};
+
+	/* ---------- pJS functions - modes events ------------ */
+
+	pJS.fn.modes.pushParticles = function (nb, pos) {
+
+		pJS.tmp.pushing = true;
+
+		for (var i = 0; i < nb; i++) {
+			pJS.particles.array.push(new pJS.fn.particle(pJS.particles.color, pJS.particles.opacity.value, {
+				'x': pos ? pos.pos_x : Math.random() * pJS.canvas.w,
+				'y': pos ? pos.pos_y : Math.random() * pJS.canvas.h
+			}));
+			if (i == nb - 1) {
+				if (!pJS.particles.move.enable) {
+					pJS.fn.particlesDraw();
+				}
+				pJS.tmp.pushing = false;
+			}
+		}
+	};
+
+	pJS.fn.modes.removeParticles = function (nb) {
+
+		pJS.particles.array.splice(0, nb);
+		if (!pJS.particles.move.enable) {
+			pJS.fn.particlesDraw();
+		}
+	};
+
+	pJS.fn.modes.bubbleParticle = function (p) {
+
+		/* on hover event */
+		if (pJS.interactivity.events.onhover.enable && isInArray('bubble', pJS.interactivity.events.onhover.mode)) {
+			var init = function init() {
+				p.opacity_bubble = p.opacity;
+				p.radius_bubble = p.radius;
+			};
+
+			/* mousemove - check ratio */
+
+
+			var dx_mouse = p.x - pJS.interactivity.mouse.pos_x,
+			    dy_mouse = p.y - pJS.interactivity.mouse.pos_y,
+			    dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse),
+			    ratio = 1 - dist_mouse / pJS.interactivity.modes.bubble.distance;
+
+			if (dist_mouse <= pJS.interactivity.modes.bubble.distance) {
+
+				if (ratio >= 0 && pJS.interactivity.status == 'mousemove') {
+
+					/* size */
+					if (pJS.interactivity.modes.bubble.size != pJS.particles.size.value) {
+
+						if (pJS.interactivity.modes.bubble.size > pJS.particles.size.value) {
+							var size = p.radius + pJS.interactivity.modes.bubble.size * ratio;
+							if (size >= 0) {
+								p.radius_bubble = size;
+							}
+						} else {
+							var dif = p.radius - pJS.interactivity.modes.bubble.size,
+							    size = p.radius - dif * ratio;
+							if (size > 0) {
+								p.radius_bubble = size;
+							} else {
+								p.radius_bubble = 0;
+							}
+						}
+					}
+
+					/* opacity */
+					if (pJS.interactivity.modes.bubble.opacity != pJS.particles.opacity.value) {
+
+						if (pJS.interactivity.modes.bubble.opacity > pJS.particles.opacity.value) {
+							var opacity = pJS.interactivity.modes.bubble.opacity * ratio;
+							if (opacity > p.opacity && opacity <= pJS.interactivity.modes.bubble.opacity) {
+								p.opacity_bubble = opacity;
+							}
+						} else {
+							var opacity = p.opacity - (pJS.particles.opacity.value - pJS.interactivity.modes.bubble.opacity) * ratio;
+							if (opacity < p.opacity && opacity >= pJS.interactivity.modes.bubble.opacity) {
+								p.opacity_bubble = opacity;
+							}
+						}
+					}
+				}
+			} else {
+				init();
+			}
+
+			/* mouseleave */
+			if (pJS.interactivity.status == 'mouseleave') {
+				init();
+			}
+		}
+
+		/* on click event */
+		else if (pJS.interactivity.events.onclick.enable && isInArray('bubble', pJS.interactivity.events.onclick.mode)) {
+				var process = function process(bubble_param, particles_param, p_obj_bubble, p_obj, id) {
+
+					if (bubble_param != particles_param) {
+
+						if (!pJS.tmp.bubble_duration_end) {
+							if (dist_mouse <= pJS.interactivity.modes.bubble.distance) {
+								if (p_obj_bubble != undefined) var obj = p_obj_bubble;else var obj = p_obj;
+								if (obj != bubble_param) {
+									var value = p_obj - time_spent * (p_obj - bubble_param) / pJS.interactivity.modes.bubble.duration;
+									if (id == 'size') p.radius_bubble = value;
+									if (id == 'opacity') p.opacity_bubble = value;
+								}
+							} else {
+								if (id == 'size') p.radius_bubble = undefined;
+								if (id == 'opacity') p.opacity_bubble = undefined;
+							}
+						} else {
+							if (p_obj_bubble != undefined) {
+								var value_tmp = p_obj - time_spent * (p_obj - bubble_param) / pJS.interactivity.modes.bubble.duration,
+								    dif = bubble_param - value_tmp;
+								value = bubble_param + dif;
+								if (id == 'size') p.radius_bubble = value;
+								if (id == 'opacity') p.opacity_bubble = value;
+							}
+						}
+					}
+				};
+
+				if (pJS.tmp.bubble_clicking) {
+					var dx_mouse = p.x - pJS.interactivity.mouse.click_pos_x,
+					    dy_mouse = p.y - pJS.interactivity.mouse.click_pos_y,
+					    dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse),
+					    time_spent = (new Date().getTime() - pJS.interactivity.mouse.click_time) / 1000;
+
+					if (time_spent > pJS.interactivity.modes.bubble.duration) {
+						pJS.tmp.bubble_duration_end = true;
+					}
+
+					if (time_spent > pJS.interactivity.modes.bubble.duration * 2) {
+						pJS.tmp.bubble_clicking = false;
+						pJS.tmp.bubble_duration_end = false;
+					}
+				}
+
+				if (pJS.tmp.bubble_clicking) {
+					/* size */
+					process(pJS.interactivity.modes.bubble.size, pJS.particles.size.value, p.radius_bubble, p.radius, 'size');
+					/* opacity */
+					process(pJS.interactivity.modes.bubble.opacity, pJS.particles.opacity.value, p.opacity_bubble, p.opacity, 'opacity');
+				}
+			}
+	};
+
+	pJS.fn.modes.repulseParticle = function (p) {
+
+		if (pJS.interactivity.events.onhover.enable && isInArray('repulse', pJS.interactivity.events.onhover.mode) && pJS.interactivity.status == 'mousemove') {
+
+			var dx_mouse = p.x - pJS.interactivity.mouse.pos_x,
+			    dy_mouse = p.y - pJS.interactivity.mouse.pos_y,
+			    dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse);
+
+			var normVec = { x: dx_mouse / dist_mouse, y: dy_mouse / dist_mouse },
+			    repulseRadius = pJS.interactivity.modes.repulse.distance,
+			    velocity = 100,
+			    repulseFactor = clamp(1 / repulseRadius * (-1 * Math.pow(dist_mouse / repulseRadius, 2) + 1) * repulseRadius * velocity, 0, 50);
+
+			var pos = {
+				x: p.x + normVec.x * repulseFactor,
+				y: p.y + normVec.y * repulseFactor
+			};
+
+			if (pJS.particles.move.out_mode == 'bounce') {
+				if (pos.x - p.radius > 0 && pos.x + p.radius < pJS.canvas.w) p.x = pos.x;
+				if (pos.y - p.radius > 0 && pos.y + p.radius < pJS.canvas.h) p.y = pos.y;
+			} else {
+				p.x = pos.x;
+				p.y = pos.y;
+			}
+		} else if (pJS.interactivity.events.onclick.enable && isInArray('repulse', pJS.interactivity.events.onclick.mode)) {
+
+			if (!pJS.tmp.repulse_finish) {
+				pJS.tmp.repulse_count++;
+				if (pJS.tmp.repulse_count == pJS.particles.array.length) {
+					pJS.tmp.repulse_finish = true;
+				}
+			}
+
+			if (pJS.tmp.repulse_clicking) {
+				var process = function process() {
+
+					var f = Math.atan2(dy, dx);
+					p.vx = force * Math.cos(f);
+					p.vy = force * Math.sin(f);
+
+					if (pJS.particles.move.out_mode == 'bounce') {
+						var pos = {
+							x: p.x + p.vx,
+							y: p.y + p.vy
+						};
+						if (pos.x + p.radius > pJS.canvas.w) p.vx = -p.vx;else if (pos.x - p.radius < 0) p.vx = -p.vx;
+						if (pos.y + p.radius > pJS.canvas.h) p.vy = -p.vy;else if (pos.y - p.radius < 0) p.vy = -p.vy;
+					}
+				};
+
+				// default
+
+
+				var repulseRadius = Math.pow(pJS.interactivity.modes.repulse.distance / 6, 3);
+
+				var dx = pJS.interactivity.mouse.click_pos_x - p.x,
+				    dy = pJS.interactivity.mouse.click_pos_y - p.y,
+				    d = dx * dx + dy * dy;
+
+				var force = -repulseRadius / d * 1;
+
+				if (d <= repulseRadius) {
+					process();
+				}
+
+				// bang - slow motion mode
+				// if(!pJS.tmp.repulse_finish){
+				//   if(d <= repulseRadius){
+				//     process();
+				//   }
+				// }else{
+				//   process();
+				// }
+
+			} else {
+
+				if (pJS.tmp.repulse_clicking == false) {
+
+					p.vx = p.vx_i;
+					p.vy = p.vy_i;
+				}
+			}
+		}
+	};
+
+	pJS.fn.modes.grabParticle = function (p) {
+
+		if (pJS.interactivity.events.onhover.enable && pJS.interactivity.status == 'mousemove') {
+
+			var dx_mouse = p.x - pJS.interactivity.mouse.pos_x,
+			    dy_mouse = p.y - pJS.interactivity.mouse.pos_y,
+			    dist_mouse = Math.sqrt(dx_mouse * dx_mouse + dy_mouse * dy_mouse);
+
+			/* draw a line between the cursor and the particle if the distance between them is under the config distance */
+			if (dist_mouse <= pJS.interactivity.modes.grab.distance) {
+
+				var opacity_line = pJS.interactivity.modes.grab.line_linked.opacity - dist_mouse / (1 / pJS.interactivity.modes.grab.line_linked.opacity) / pJS.interactivity.modes.grab.distance;
+
+				if (opacity_line > 0) {
+
+					/* style */
+					var color_line = pJS.particles.line_linked.color_rgb_line;
+					pJS.canvas.ctx.strokeStyle = 'rgba(' + color_line.r + ',' + color_line.g + ',' + color_line.b + ',' + opacity_line + ')';
+					pJS.canvas.ctx.lineWidth = pJS.particles.line_linked.width;
+					//pJS.canvas.ctx.lineCap = 'round'; /* performance issue */
+
+					/* path */
+					pJS.canvas.ctx.beginPath();
+					pJS.canvas.ctx.moveTo(p.x, p.y);
+					pJS.canvas.ctx.lineTo(pJS.interactivity.mouse.pos_x, pJS.interactivity.mouse.pos_y);
+					pJS.canvas.ctx.stroke();
+					pJS.canvas.ctx.closePath();
+				}
+			}
+		}
+	};
+
+	/* ---------- pJS functions - vendors ------------ */
+
+	pJS.fn.vendors.eventsListeners = function () {
+
+		/* events target element */
+		if (pJS.interactivity.detect_on == 'window') {
+			pJS.interactivity.el = window;
+		} else {
+			pJS.interactivity.el = pJS.canvas.el;
+		}
+
+		/* detect mouse pos - on hover / click event */
+		if (pJS.interactivity.events.onhover.enable || pJS.interactivity.events.onclick.enable) {
+
+			/* el on mousemove */
+			pJS.interactivity.el.addEventListener('mousemove', function (e) {
+
+				if (pJS.interactivity.el == window) {
+					var pos_x = e.clientX,
+					    pos_y = e.clientY;
+				} else {
+					var pos_x = e.offsetX || e.clientX,
+					    pos_y = e.offsetY || e.clientY;
+				}
+
+				pJS.interactivity.mouse.pos_x = pos_x;
+				pJS.interactivity.mouse.pos_y = pos_y;
+
+				if (pJS.tmp.retina) {
+					pJS.interactivity.mouse.pos_x *= pJS.canvas.pxratio;
+					pJS.interactivity.mouse.pos_y *= pJS.canvas.pxratio;
+				}
+
+				pJS.interactivity.status = 'mousemove';
+			});
+
+			/* el on onmouseleave */
+			pJS.interactivity.el.addEventListener('mouseleave', function (e) {
+
+				pJS.interactivity.mouse.pos_x = null;
+				pJS.interactivity.mouse.pos_y = null;
+				pJS.interactivity.status = 'mouseleave';
+			});
+		}
+
+		/* on click event */
+		if (pJS.interactivity.events.onclick.enable) {
+
+			pJS.interactivity.el.addEventListener('click', function () {
+
+				pJS.interactivity.mouse.click_pos_x = pJS.interactivity.mouse.pos_x;
+				pJS.interactivity.mouse.click_pos_y = pJS.interactivity.mouse.pos_y;
+				pJS.interactivity.mouse.click_time = new Date().getTime();
+
+				if (pJS.interactivity.events.onclick.enable) {
+
+					switch (pJS.interactivity.events.onclick.mode) {
+
+						case 'push':
+							if (pJS.particles.move.enable) {
+								pJS.fn.modes.pushParticles(pJS.interactivity.modes.push.particles_nb, pJS.interactivity.mouse);
+							} else {
+								if (pJS.interactivity.modes.push.particles_nb == 1) {
+									pJS.fn.modes.pushParticles(pJS.interactivity.modes.push.particles_nb, pJS.interactivity.mouse);
+								} else if (pJS.interactivity.modes.push.particles_nb > 1) {
+									pJS.fn.modes.pushParticles(pJS.interactivity.modes.push.particles_nb);
+								}
+							}
+							break;
+
+						case 'remove':
+							pJS.fn.modes.removeParticles(pJS.interactivity.modes.remove.particles_nb);
+							break;
+
+						case 'bubble':
+							pJS.tmp.bubble_clicking = true;
+							break;
+
+						case 'repulse':
+							pJS.tmp.repulse_clicking = true;
+							pJS.tmp.repulse_count = 0;
+							pJS.tmp.repulse_finish = false;
+							setTimeout(function () {
+								pJS.tmp.repulse_clicking = false;
+							}, pJS.interactivity.modes.repulse.duration * 1000);
+							break;
+
+					}
+				}
+			});
+		}
+	};
+
+	pJS.fn.vendors.densityAutoParticles = function () {
+
+		if (pJS.particles.number.density.enable) {
+
+			/* calc area */
+			var area = pJS.canvas.el.width * pJS.canvas.el.height / 1000;
+			if (pJS.tmp.retina) {
+				area = area / (pJS.canvas.pxratio * 2);
+			}
+
+			/* calc number of particles based on density area */
+			var nb_particles = area * pJS.particles.number.value / pJS.particles.number.density.value_area;
+
+			/* add or remove X particles */
+			var missing_particles = pJS.particles.array.length - nb_particles;
+			if (missing_particles < 0) pJS.fn.modes.pushParticles(Math.abs(missing_particles));else pJS.fn.modes.removeParticles(missing_particles);
+		}
+	};
+
+	pJS.fn.vendors.checkOverlap = function (p1, position) {
+		for (var i = 0; i < pJS.particles.array.length; i++) {
+			var p2 = pJS.particles.array[i];
+
+			var dx = p1.x - p2.x,
+			    dy = p1.y - p2.y,
+			    dist = Math.sqrt(dx * dx + dy * dy);
+
+			if (dist <= p1.radius + p2.radius) {
+				p1.x = position ? position.x : Math.random() * pJS.canvas.w;
+				p1.y = position ? position.y : Math.random() * pJS.canvas.h;
+				pJS.fn.vendors.checkOverlap(p1);
+			}
+		}
+	};
+
+	pJS.fn.vendors.createSvgImg = function (p) {
+
+		/* set color to svg element */
+		var svgXml = pJS.tmp.source_svg,
+		    rgbHex = /#([0-9A-F]{3,6})/gi,
+		    coloredSvgXml = svgXml.replace(rgbHex, function (m, r, g, b) {
+			if (p.color.rgb) {
+				var color_value = 'rgba(' + p.color.rgb.r + ',' + p.color.rgb.g + ',' + p.color.rgb.b + ',' + p.opacity + ')';
+			} else {
+				var color_value = 'hsla(' + p.color.hsl.h + ',' + p.color.hsl.s + '%,' + p.color.hsl.l + '%,' + p.opacity + ')';
+			}
+			return color_value;
+		});
+
+		/* prepare to create img with colored svg */
+		var svg = new Blob([coloredSvgXml], { type: 'image/svg+xml;charset=utf-8' }),
+		    DOMURL = window.URL || window.webkitURL || window,
+		    url = DOMURL.createObjectURL(svg);
+
+		/* create particle img obj */
+		var img = new Image();
+		img.addEventListener('load', function () {
+			p.img.obj = img;
+			p.img.loaded = true;
+			DOMURL.revokeObjectURL(url);
+			pJS.tmp.count_svg++;
+		});
+		img.src = url;
+	};
+
+	pJS.fn.vendors.destroypJS = function () {
+		cancelAnimationFrame(pJS.fn.drawAnimFrame);
+		canvas_el.remove();
+		pJSDom = null;
+	};
+
+	pJS.fn.vendors.drawShape = function (c, startX, startY, sideLength, sideCountNumerator, sideCountDenominator) {
+
+		// By Programming Thomas - https://programmingthomas.wordpress.com/2013/04/03/n-sided-shapes/
+		var sideCount = sideCountNumerator * sideCountDenominator;
+		var decimalSides = sideCountNumerator / sideCountDenominator;
+		var interiorAngleDegrees = 180 * (decimalSides - 2) / decimalSides;
+		var interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; // convert to radians
+		c.save();
+		c.beginPath();
+		c.translate(startX, startY);
+		c.moveTo(0, 0);
+		for (var i = 0; i < sideCount; i++) {
+			c.lineTo(sideLength, 0);
+			c.translate(sideLength, 0);
+			c.rotate(interiorAngle);
+		}
+		//c.stroke();
+		c.fill();
+		c.restore();
+	};
+
+	pJS.fn.vendors.exportImg = function () {
+		window.open(pJS.canvas.el.toDataURL('image/png'), '_blank');
+	};
+
+	pJS.fn.vendors.loadImg = function (type) {
+
+		pJS.tmp.img_error = undefined;
+
+		if (pJS.particles.shape.image.src != '') {
+
+			if (type == 'svg') {
+
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', pJS.particles.shape.image.src);
+				xhr.onreadystatechange = function (data) {
+					if (xhr.readyState == 4) {
+						if (xhr.status == 200) {
+							pJS.tmp.source_svg = data.currentTarget.response;
+							pJS.fn.vendors.checkBeforeDraw();
+						} else {
+							console.log('Error pJS - Image not found');
+							pJS.tmp.img_error = true;
+						}
+					}
+				};
+				xhr.send();
+			} else {
+
+				var img = new Image();
+				img.addEventListener('load', function () {
+					pJS.tmp.img_obj = img;
+					pJS.fn.vendors.checkBeforeDraw();
+				});
+				img.src = pJS.particles.shape.image.src;
+			}
+		} else {
+			console.log('Error pJS - No image.src');
+			pJS.tmp.img_error = true;
+		}
+	};
+
+	pJS.fn.vendors.draw = function () {
+
+		if (pJS.particles.shape.type == 'image') {
+
+			if (pJS.tmp.img_type == 'svg') {
+
+				if (pJS.tmp.count_svg >= pJS.particles.number.value) {
+					pJS.fn.particlesDraw();
+					if (!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+				} else {
+					//console.log('still loading...');
+					if (!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+				}
+			} else {
+
+				if (pJS.tmp.img_obj != undefined) {
+					pJS.fn.particlesDraw();
+					if (!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+				} else {
+					if (!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+				}
+			}
+		} else {
+			pJS.fn.particlesDraw();
+			if (!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+		}
+	};
+
+	pJS.fn.vendors.checkBeforeDraw = function () {
+
+		// if shape is image
+		if (pJS.particles.shape.type == 'image') {
+
+			if (pJS.tmp.img_type == 'svg' && pJS.tmp.source_svg == undefined) {
+				pJS.tmp.checkAnimFrame = requestAnimFrame(check);
+			} else {
+				//console.log('images loaded! cancel check');
+				cancelRequestAnimFrame(pJS.tmp.checkAnimFrame);
+				if (!pJS.tmp.img_error) {
+					pJS.fn.vendors.init();
+					pJS.fn.vendors.draw();
+				}
+			}
+		} else {
+			pJS.fn.vendors.init();
+			pJS.fn.vendors.draw();
+		}
+	};
+
+	pJS.fn.vendors.init = function () {
+
+		/* init canvas + particles */
+		pJS.fn.retinaInit();
+		pJS.fn.canvasInit();
+		pJS.fn.canvasSize();
+		pJS.fn.canvasPaint();
+		pJS.fn.particlesCreate();
+		pJS.fn.vendors.densityAutoParticles();
+
+		/* particles.line_linked - convert hex colors to rgb */
+		pJS.particles.line_linked.color_rgb_line = hexToRgb(pJS.particles.line_linked.color);
+	};
+
+	pJS.fn.vendors.start = function () {
+
+		if (isInArray('image', pJS.particles.shape.type)) {
+			pJS.tmp.img_type = pJS.particles.shape.image.src.substr(pJS.particles.shape.image.src.length - 3);
+			pJS.fn.vendors.loadImg(pJS.tmp.img_type);
+		} else {
+			pJS.fn.vendors.checkBeforeDraw();
+		}
+	};
+
+	/* ---------- pJS - start ------------ */
+
+	pJS.fn.vendors.eventsListeners();
+
+	pJS.fn.vendors.start();
 };
 
 /* ---------- global functions - vendors ------------ */
 
 Object.deepExtend = function (destination, source) {
-  for (var property in source) {
-    if (source[property] && source[property].constructor && source[property].constructor === Object) {
-      destination[property] = destination[property] || {};
-      arguments.callee(destination[property], source[property]);
-    } else {
-      destination[property] = source[property];
-    }
-  }
-  return destination;
+	for (var property in source) {
+		if (source[property] && source[property].constructor && source[property].constructor === Object) {
+			destination[property] = destination[property] || {};
+			arguments.callee(destination[property], source[property]);
+		} else {
+			destination[property] = source[property];
+		}
+	}
+	return destination;
 };
 
 window.requestAnimFrame = function () {
-  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
-    window.setTimeout(callback, 1000 / 60);
-  };
+	return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
+		window.setTimeout(callback, 1000 / 60);
+	};
 }();
 
 window.cancelRequestAnimFrame = function () {
-  return window.cancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.mozCancelRequestAnimationFrame || window.oCancelRequestAnimationFrame || window.msCancelRequestAnimationFrame || clearTimeout;
+	return window.cancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.mozCancelRequestAnimationFrame || window.oCancelRequestAnimationFrame || window.msCancelRequestAnimationFrame || clearTimeout;
 }();
 
 function hexToRgb(hex) {
-  // By Tim Down - http://stackoverflow.com/a/5624139/3493650
-  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(shorthandRegex, function (m, r, g, b) {
-    return r + r + g + g + b + b;
-  });
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-};
+	// By Tim Down - http://stackoverflow.com/a/5624139/3493650
+	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+	var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+	hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+		return r + r + g + g + b + b;
+	});
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r: parseInt(result[1], 16),
+		g: parseInt(result[2], 16),
+		b: parseInt(result[3], 16)
+	} : null;
+}
 
 function clamp(number, min, max) {
-  return Math.min(Math.max(number, min), max);
-};
+	return Math.min(Math.max(number, min), max);
+}
 
 function isInArray(value, array) {
-  return array.indexOf(value) > -1;
+	return array.indexOf(value) > -1;
 }
 
 /* ---------- particles.js functions - start ------------ */
@@ -43973,66 +43940,66 @@ window.pJSDom = [];
 
 window.particlesJS = function (tag_id, params) {
 
-  //console.log(params);
+	//console.log(params);
 
-  /* no string id? so it's object params, and set the id with default id */
-  if (typeof tag_id != 'string') {
-    params = tag_id;
-    tag_id = 'particles-js';
-  }
+	/* no string id? so it's object params, and set the id with default id */
+	if (typeof tag_id != 'string') {
+		params = tag_id;
+		tag_id = 'particles-js';
+	}
 
-  /* no id? set the id to default id */
-  if (!tag_id) {
-    tag_id = 'particles-js';
-  }
+	/* no id? set the id to default id */
+	if (!tag_id) {
+		tag_id = 'particles-js';
+	}
 
-  /* pJS elements */
-  var pJS_tag = document.getElementById(tag_id),
-      pJS_canvas_class = 'particles-js-canvas-el',
-      exist_canvas = pJS_tag.getElementsByClassName(pJS_canvas_class);
+	/* pJS elements */
+	var pJS_tag = document.getElementById(tag_id),
+	    pJS_canvas_class = 'particles-js-canvas-el',
+	    exist_canvas = pJS_tag.getElementsByClassName(pJS_canvas_class);
 
-  /* remove canvas if exists into the pJS target tag */
-  if (exist_canvas.length) {
-    while (exist_canvas.length > 0) {
-      pJS_tag.removeChild(exist_canvas[0]);
-    }
-  }
+	/* remove canvas if exists into the pJS target tag */
+	if (exist_canvas.length) {
+		while (exist_canvas.length > 0) {
+			pJS_tag.removeChild(exist_canvas[0]);
+		}
+	}
 
-  /* create canvas element */
-  var canvas_el = document.createElement('canvas');
-  canvas_el.className = pJS_canvas_class;
+	/* create canvas element */
+	var canvas_el = document.createElement('canvas');
+	canvas_el.className = pJS_canvas_class;
 
-  /* set size canvas */
-  canvas_el.style.width = "100%";
-  canvas_el.style.height = "100%";
+	/* set size canvas */
+	canvas_el.style.width = '100%';
+	canvas_el.style.height = '100%';
 
-  /* append canvas */
-  var canvas = document.getElementById(tag_id).appendChild(canvas_el);
+	/* append canvas */
+	var canvas = document.getElementById(tag_id).appendChild(canvas_el);
 
-  /* launch particle.js */
-  if (canvas != null) {
-    pJSDom.push(new pJS(tag_id, params));
-  }
+	/* launch particle.js */
+	if (canvas != null) {
+		pJSDom.push(new pJS(tag_id, params));
+	}
 };
 
 window.particlesJS.load = function (tag_id, path_config_json, callback) {
 
-  /* load json config */
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', path_config_json);
-  xhr.onreadystatechange = function (data) {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200) {
-        var params = JSON.parse(data.currentTarget.response);
-        window.particlesJS(tag_id, params);
-        if (callback) callback();
-      } else {
-        console.log('Error pJS - XMLHttpRequest status: ' + xhr.status);
-        console.log('Error pJS - File config not found');
-      }
-    }
-  };
-  xhr.send();
+	/* load json config */
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', path_config_json);
+	xhr.onreadystatechange = function (data) {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+				var params = JSON.parse(data.currentTarget.response);
+				window.particlesJS(tag_id, params);
+				if (callback) callback();
+			} else {
+				console.log('Error pJS - XMLHttpRequest status: ' + xhr.status);
+				console.log('Error pJS - File config not found');
+			}
+		}
+	};
+	xhr.send();
 };
 
 /***/ }),
@@ -44043,85 +44010,92 @@ window.particlesJS.load = function (tag_id, path_config_json, callback) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = sendExchangeRequestInit;
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-function sendExchangeRequestInit() {
-    var username = $("#authUserName").val();
-    $("#sendExchangeRequestModal").modal({
-        onOpenEnd: function onOpenEnd() {
-            var search = $("#searchFilter-postsExchangeRequest"),
-                keyword = $("#searchFilter-postsExchangeRequest").val();
-            search.keyup(function () {
-                keyword = search.val();
-            });
+/*eslint no-console: */
 
-            $("#searchPostsSendExchangeRequestModal").click(function () {
-                appendPreLoaderCardsPostsExchangeRequests();
-                $("#searchPostsSendExchangeRequestModal").addClass('disabled');
-                if (keyword.length !== 0) {
-                    axios.get("/search/posts/" + keyword).then(function (success) {
-                        // console.log(success.data.length,typeof success.data)
-                        if (success.data.length === undefined) {
-                            var str = success.data.header.replace("'", "\\'");
-                            if ($("span[data-header='" + str + "']").length) {
-                                M.toast({ html: 'already got that 🤖', classes: 'rounded' });
-                                removePreLoaderCardsPostsExchangeRequests();
-                                $("#searchPostsSendExchangeRequestModal").removeClass('disabled');
-                            } else {
-                                // $("#searchPostsSendExchangeRequestModal").off('click')
-                                // $(".sendExchangeRequestWithThisId").off('click')
-                                removePreLoaderCardsPostsExchangeRequests();
-                                $("#addExchangeRequestPostsCards").append("\n                                    <div class=\"col s12 m6\">\n                                        <div class=\"card blue-grey darken-3 hoverable z-depth-5\">\n                                            <div class=\"card-content white-text\">\n                                                <span class=\"card-title\" data-header=\"" + success.data.header + "\">" + success.data.header + "</span>\n                                            </div>\n                                            <div class=\"card-action\">\n                                                <a class=\"sendExchangeRequestWithThisId waves-effect waves-light btn blue-grey darken-1 hoverable\" id=\"sendExchangeRequestWithThisId-" + success.data.id + "\">Choose This !</a>\n                                            </div>\n                                        </div>\n                                    </div>\n                                ");
-                                $("#searchPostsSendExchangeRequestModal").removeClass('disabled');
-                                // $('.sendExchangeRequestWithThisId').off('click')
-                                sendExchangeRequest();
-                            }
-                        } else {
-                            removePreLoaderCardsPostsExchangeRequests();
-                            $("#searchPostsSendExchangeRequestModal").removeClass('disabled');
-                            M.toast({ html: 'Nothing found 🤖', classes: 'rounded' });
-                        }
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                }
-            });
-        },
-        onCloseStart: function onCloseStart() {
-            $("#searchPostsSendExchangeRequestModal").removeClass('disabled');
-            $("#searchPostsSendExchangeRequestModal").off('click');
-            $("#exchangeRequestCardsPostsPreLoader").parent().remove();
-            // $(".sendExchangeRequestWithThisId").off('click')
-        }
-    });
-    $("#sendExchangeRequestTrigger").click(function () {
-        var themModal = $("#sendExchangeRequestModal");
-        M.Modal.getInstance(themModal).open();
-    });
+function sendExchangeRequestInit() {
+	var axios = window.axios;
+	var M = window.M;
+	// let username = $('#authUserName').val();
+	$('#sendExchangeRequestModal').modal({
+		onOpenEnd: function onOpenEnd() {
+			var search = $('#searchFilter-postsExchangeRequest'),
+			    keyword = $('#searchFilter-postsExchangeRequest').val();
+			search.keyup(function () {
+				keyword = search.val();
+			});
+
+			$('#searchPostsSendExchangeRequestModal').click(function () {
+				appendPreLoaderCardsPostsExchangeRequests();
+				$('#searchPostsSendExchangeRequestModal').addClass('disabled');
+				if (keyword.length !== 0) {
+					axios.get('/search/posts/' + keyword).then(function (success) {
+						// console.log(success.data.length,typeof success.data)
+						if (success.data.length === undefined) {
+							var str = success.data.header.replace('\'', '\\\'');
+							if ($('span[data-header=\'' + str + '\']').length) {
+								M.toast({ html: 'already got that 🤖', classes: 'rounded' });
+								removePreLoaderCardsPostsExchangeRequests();
+								$('#searchPostsSendExchangeRequestModal').removeClass('disabled');
+							} else {
+								// $("#searchPostsSendExchangeRequestModal").off('click')
+								// $(".sendExchangeRequestWithThisId").off('click')
+								removePreLoaderCardsPostsExchangeRequests();
+								$('#addExchangeRequestPostsCards').append('\n                                    <div class="col s12 m6">\n                                        <div class="card blue-grey darken-3 hoverable z-depth-5">\n                                            <div class="card-content white-text">\n                                                <span class="card-title" data-header="' + success.data.header + '">' + success.data.header + '</span>\n                                            </div>\n                                            <div class="card-action">\n                                                <a class="sendExchangeRequestWithThisId waves-effect waves-light btn blue-grey darken-1 hoverable" id="sendExchangeRequestWithThisId-' + success.data.id + '">Choose This !</a>\n                                            </div>\n                                        </div>\n                                    </div>\n                                ');
+								$('#searchPostsSendExchangeRequestModal').removeClass('disabled');
+								// $('.sendExchangeRequestWithThisId').off('click')
+								sendExchangeRequest();
+							}
+						} else {
+							removePreLoaderCardsPostsExchangeRequests();
+							$('#searchPostsSendExchangeRequestModal').removeClass('disabled');
+							M.toast({ html: 'Nothing found 🤖', classes: 'rounded' });
+						}
+					}).catch(function (error) {
+						console.log(error);
+					});
+				}
+			});
+		},
+		onCloseStart: function onCloseStart() {
+			$('#searchPostsSendExchangeRequestModal').removeClass('disabled');
+			$('#searchPostsSendExchangeRequestModal').off('click');
+			$('#exchangeRequestCardsPostsPreLoader').parent().remove();
+			// $(".sendExchangeRequestWithThisId").off('click')
+		}
+	});
+	$('#sendExchangeRequestTrigger').click(function () {
+		var themModal = $('#sendExchangeRequestModal');
+		M.Modal.getInstance(themModal).open();
+	});
 }
 function appendPreLoaderCardsPostsExchangeRequests() {
-    $("#addExchangeRequestPostsCards").append("\n        <div class=\"col s12 m6\">\n            <div class=\"progress\" id=\"exchangeRequestCardsPostsPreLoader\">\n                <div class=\"indeterminate\"></div>\n            </div>\n        </div>\n        ");
+	$('#addExchangeRequestPostsCards').append('\n        <div class="col s12 m6">\n            <div class="progress" id="exchangeRequestCardsPostsPreLoader">\n                <div class="indeterminate"></div>\n            </div>\n        </div>\n        ');
 }
 function removePreLoaderCardsPostsExchangeRequests() {
-    if ($("#exchangeRequestCardsPostsPreLoader").length) $("#exchangeRequestCardsPostsPreLoader").parent().remove();
+	if ($('#exchangeRequestCardsPostsPreLoader').length) $('#exchangeRequestCardsPostsPreLoader').parent().remove();
 }
 function sendExchangeRequest() {
-    $('.sendExchangeRequestWithThisId').on('click', function (e) {
-        var _e$target$id$split = e.target.id.split('-'),
-            _e$target$id$split2 = _slicedToArray(_e$target$id$split, 2),
-            postId = _e$target$id$split2[1];
+	var axios = window.axios;
+	var M = window.M;
+	$('.sendExchangeRequestWithThisId').on('click', function (e) {
+		var _e$target$id$split = e.target.id.split('-'),
+		    _e$target$id$split2 = _slicedToArray(_e$target$id$split, 2),
+		    postId = _e$target$id$split2[1];
 
-        axios.post('/sendExchangeRequest', {
-            userPostId: $("#showPostId").text(),
-            postId: postId
-        }).then(function (success) {
-            // console.log(success.data)
-            $(e.target).addClass("disabled");
-            M.toast({ html: "" + success.data.message, classes: 'rounded' });
-        }).catch(function (erro) {
-            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
-        });
-        // console.log(e.target.id)
-        // console.log("postId => ", postId, " theAuthUserIdPost =>", theAuthUserIdPost)
-    });
+		axios.post('/sendExchangeRequest', {
+			userPostId: $('#showPostId').text(),
+			postId: postId
+		}).then(function (success) {
+			// console.log(success.data)
+			$(e.target).addClass('disabled');
+			M.toast({ html: '' + success.data.message, classes: 'rounded' });
+		}).catch(function (err) {
+			console.log(err);
+			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+		});
+		// console.log(e.target.id)
+		// console.log("postId => ", postId, " theAuthUserIdPost =>", theAuthUserIdPost)
+	});
 }
 
 /***/ }),
@@ -44132,145 +44106,251 @@ function sendExchangeRequest() {
 /* harmony export (immutable) */ __webpack_exports__["a"] = exchangeRequestsInit;
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
+/*eslint no-console: */
 var exchangeRequestReverseSortingTurn = 'ASC',
     exchangeRequestReverseSortingTurnClicked = false;
 function exchangeRequestsInit() {
-    exchangeRequestsModalOptionsInit();
-    exchangeRequestsLoadMoreButtonInit();
-    $("#exchangeRequestReverseSorting").click(function () {
-        $("#exchangeRequestReverseSorting").hide();
-        exchangeRequestReverseSorting(exchangeRequestReverseSortingTurn === 'DESC');
-        switch (exchangeRequestReverseSortingTurn) {
-            case 'DESC':
-                exchangeRequestReverseSortingTurn = 'ASC';
-                break;
-            case 'ASC':
-                exchangeRequestReverseSortingTurn = 'DESC';
-            default:
-                break;
-        }
-    });
+	exchangeRequestsModalOptionsInit();
+	exchangeRequestsLoadMoreButtonInit();
+	$('#exchangeRequestReverseSorting').click(function () {
+		$('#exchangeRequestReverseSorting').hide();
+		exchangeRequestReverseSorting(exchangeRequestReverseSortingTurn === 'DESC');
+		switch (exchangeRequestReverseSortingTurn) {
+			case 'DESC':
+				exchangeRequestReverseSortingTurn = 'ASC';
+				break;
+			case 'ASC':
+				exchangeRequestReverseSortingTurn = 'DESC';
+		}
+	});
 }
 
 function exchangeRequestsModalOptionsInit() {
-    var exchangeRequestsModalOptions = $('#exchangeRequestsModalOptions');
-    var exchangeRequestsModalOptionsController = M.Modal.getInstance(exchangeRequestsModalOptions);
-    // exchangeRequestsModalOptions.modal({
-    //     onOpenEnd: () => {
-    //         console.log("exchangeRequestsModalOptions onOpenEnd")
-    //     },
-    //     onCloseEnd: () => {
-    //         console.log("exchangeRequestsModalOptions onCloseEnd")
-    //     }
-    // })
-    var dataToSubmit = undefined;
-    $('.modal-trigger-custom').click(function (e) {
-        // console.log(e.target.parentElement)
-        var x = e.target.parentElement;
-        var z = $(x);
-        dataToSubmit = {
-            exchangeRequestId: z.data('exchange-request-id'),
-            postId: z.data('auth-user-post-id'),
-            theOtherPostId: z.data('post-id')
-        };
-        console.log(dataToSubmit);
-        // console.log(z.data('exchange-request-id'))
-        // console.log(z.attr('data-exchange-request-id'))
-        exchangeRequestsModalOptionsController.open();
-    });
+	var axios = window.axios;
+	var M = window.M;
+	var exchangeRequestsModalOptions = $('#exchangeRequestsModalOptions');
+	var exchangeRequestsModalOptionsController = M.Modal.getInstance(exchangeRequestsModalOptions);
+	// exchangeRequestsModalOptions.modal({
+	//     onOpenEnd: () => {
+	//         console.log("exchangeRequestsModalOptions onOpenEnd")
+	//     },
+	//     onCloseEnd: () => {
+	//         console.log("exchangeRequestsModalOptions onCloseEnd")
+	//     }
+	// })
+	var dataToSubmit = undefined;
+	$('.modal-trigger-custom').click(function (e) {
+		// console.log(e.target.parentElement)
+		var x = e.target.parentElement;
+		var z = $(x);
+		dataToSubmit = {
+			exchangeRequestId: z.data('exchange-request-id'),
+			postId: z.data('auth-user-post-id'),
+			theOtherPostId: z.data('post-id')
+		};
+		console.log(dataToSubmit);
+		// console.log(z.data('exchange-request-id'))
+		// console.log(z.attr('data-exchange-request-id'))
+		exchangeRequestsModalOptionsController.open();
+	});
 
-    $("#acceptExchangeRequestButtonModal").off('click');
-    $("#acceptExchangeRequestButtonModal").click(function () {
-        axios.patch('/show/exchangeRequests/accept', {
-            exchangeRequestInfo: dataToSubmit
-        }).then(function (success) {
-            console.log(success.data);
-            M.toast({ html: success.data.message + " \uD83D\uDC35" });
-            if (success.data.action === 'refresh') window.location.reload(true);
-        }).catch(function (error) {
-            console.log(error);
-            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
-        });
-    });
+	$('#acceptExchangeRequestButtonModal').off('click');
+	$('#acceptExchangeRequestButtonModal').click(function () {
+		axios.patch('/show/exchangeRequests/accept', {
+			exchangeRequestInfo: dataToSubmit
+		}).then(function (success) {
+			console.log(success.data);
+			M.toast({ html: success.data.message + ' \uD83D\uDC35' });
+			if (success.data.action === 'refresh') window.location.reload(true);
+		}).catch(function (error) {
+			console.log(error);
+			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+		});
+	});
 
-    $("#deleteExchangeRequestButtonModal").off('click');
-    $("#deleteExchangeRequestButtonModal").click(function () {
-        axios.delete('/show/exchangeRequests/delete', {
-            data: {
-                exchangeRequestInfo: dataToSubmit
-            }
-        }).then(function (success) {
-            console.log(success.data);
-            M.toast({ html: success.data.message + " \uD83D\uDC35" });
-            window.location.reload(true);
-        }).catch(function (error) {
-            console.log(error);
-            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
-        });
-    });
+	$('#deleteExchangeRequestButtonModal').off('click');
+	$('#deleteExchangeRequestButtonModal').click(function () {
+		axios.delete('/show/exchangeRequests/delete', {
+			data: {
+				exchangeRequestInfo: dataToSubmit
+			}
+		}).then(function (success) {
+			console.log(success.data);
+			M.toast({ html: success.data.message + ' \uD83D\uDC35' });
+			window.location.reload(true);
+		}).catch(function (error) {
+			console.log(error);
+			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+		});
+	});
 }
 
 function exchangeRequestsLoadMoreButtonInit() {
-    var _$$last$attr$split = $('.exchangeRequest').last().attr('id').split('-'),
-        _$$last$attr$split2 = _slicedToArray(_$$last$attr$split, 2),
-        idToSend = _$$last$attr$split2[1];
+	var axios = window.axios;
+	var M = window.M;
 
-    console.log(idToSend);
-    $("#exchangeRequestsLoadMoreButton").click(function () {
-        $("#exchangeRequestsLoadMoreButton").addClass('disabled');
-        axios.post('/exchangeRequest/loadMore', {
-            idToSend: idToSend,
-            turn: exchangeRequestReverseSortingTurn === 'DESC' && exchangeRequestReverseSortingTurnClicked ? 'ASC' : 'DESC'
-        }).then(function (success) {
-            if (success.data.length === 0) {
-                M.toast({ html: 'No more Data 🤖', classes: 'rounded' });
-            } else {
-                $("#exchangeRequestsLoadMoreButton").removeClass('disabled');
-                idToSend = success.data[success.data.length - 1].id;
-                appendDataExchangeRequests(success.data);
-            }
-        }).catch(function (error) {
-            M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
-            $("#exchangeRequestsLoadMoreButton").removeClass('disabled');
-            console.log(error);
-        });
-    });
+	var _$$last$attr$split = $('.exchangeRequest').last().attr('id').split('-'),
+	    _$$last$attr$split2 = _slicedToArray(_$$last$attr$split, 2),
+	    idToSend = _$$last$attr$split2[1];
+
+	console.log(idToSend);
+	$('#exchangeRequestsLoadMoreButton').click(function () {
+		$('#exchangeRequestsLoadMoreButton').addClass('disabled');
+		axios.post('/exchangeRequest/loadMore', {
+			idToSend: idToSend,
+			turn: exchangeRequestReverseSortingTurn === 'DESC' && exchangeRequestReverseSortingTurnClicked ? 'ASC' : 'DESC'
+		}).then(function (success) {
+			if (success.data.length === 0) {
+				M.toast({ html: 'No more Data 🤖', classes: 'rounded' });
+			} else {
+				$('#exchangeRequestsLoadMoreButton').removeClass('disabled');
+				idToSend = success.data[success.data.length - 1].id;
+				appendDataExchangeRequests(success.data);
+			}
+		}).catch(function (error) {
+			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+			$('#exchangeRequestsLoadMoreButton').removeClass('disabled');
+			console.log(error);
+		});
+	});
 }
 
 function appendDataExchangeRequests(exchangeRequests) {
-    $(".modal-trigger-custom").off('click');
-    exchangeRequests.forEach(function (exchangeRequest) {
-        $('#httpAjaxData').append("\n            <div class=\"card z-depth-5 exchangeRequest\" data-aos=\"flip-left\" id=\"exchangeRequest-" + exchangeRequest.id + "\">\n            <div class=\"card-image waves-effect waves-block waves-light\">\n            <img class=\"activator\" src=\"" + exchangeRequest.theOtherPost.imageLocation + "\">\n            </div>\n            <div class=\"card-content\">\n            <span class=\"card-title activator grey-text text-darken-4\">\n                <small class=\"chip strongChips grey darken-3 blue-text z-depth-5\">\n                " + exchangeRequest.theOtherPost.header + "\n                </small>\n                <span class=\"chip strongChips grey darken-4 yellow-text text-accent-1 z-depth-5\">\n                Sent  @ " + exchangeRequest.created_at + "\n                </span>\n                <p class=\"flow-text truncate\">" + exchangeRequest.theOtherPost.body + "</p>\n                <i class=\"material-icons right\">more_vert</i>\n            </span>\n            <p>\n            <a href=\"/show/post/" + exchangeRequest.theOtherPost.id + "\" target=\"_blank\" class=\"btn-floating btn-large deep-purple lighten-4 pulse waves-effect waves-purple\">\n            <i class=\"material-icons black-text\">open_in_new</i>\n           </a>\n            <a class=\"btn-floating btn-large cyan lighten-4 pulse modal-trigger-custom waves-effect waves-red\"  data-exchange-request-id=\"" + exchangeRequest.id + "\" data-auth-user-post-id=\"" + exchangeRequest.post.id + "\" data-post-id=\"" + exchangeRequest.theOtherPost.id + "\">\n              <i class=\"material-icons black-text pulse\">more_horiz</i>\n            </a>\n            </p>\n            </div>\n            <div class=\"card-reveal\">\n            <span class=\"card-title grey-text text-darken-4\">Your post<i class=\"material-icons right\">close</i></span>\n            <div class=\"card\">\n                <div class=\"card-image\">\n                    <img src=\"" + exchangeRequest.post.imageLocation + "\">\n                    <span class=\"card-title\">\n                    <small class=\"chip strongChips grey darken-4 blue-text z-depth-5\">\n                    " + exchangeRequest.post.header + "\n                    </small>\n                    </span>\n                </div>\n                <div class=\"card-content\">\n                    <p class=\"flow-text truncate\">" + exchangeRequest.post.body + "</p>\n                </div>\n                <div class=\"card-action\">\n                    <a href=\"/show/post/" + exchangeRequest.post.id + "\" target=\"_blank\">\n                    <i class=\"material-icons black-text\">open_in_new</i>\n                    </a>\n                </div>\n            </div>\n            </div>\n        </div>\n        ");
-    });
-    exchangeRequestsModalOptionsInit();
+	$('.modal-trigger-custom').off('click');
+	exchangeRequests.forEach(function (exchangeRequest) {
+		$('#httpAjaxData').append('\n            <div class="card z-depth-5 exchangeRequest" data-aos="flip-left" id="exchangeRequest-' + exchangeRequest.id + '">\n            <div class="card-image waves-effect waves-block waves-light">\n            <img class="activator" src="' + exchangeRequest.theOtherPost.imageLocation + '">\n            </div>\n            <div class="card-content">\n            <span class="card-title activator grey-text text-darken-4">\n                <small class="chip strongChips grey darken-3 blue-text z-depth-5">\n                ' + exchangeRequest.theOtherPost.header + '\n                </small>\n                <span class="chip strongChips grey darken-4 yellow-text text-accent-1 z-depth-5">\n                Sent  @ ' + exchangeRequest.created_at + '\n                </span>\n                <p class="flow-text truncate">' + exchangeRequest.theOtherPost.body + '</p>\n                <i class="material-icons right">more_vert</i>\n            </span>\n            <p>\n            <a href="/show/post/' + exchangeRequest.theOtherPost.id + '" target="_blank" class="btn-floating btn-large deep-purple lighten-4 pulse waves-effect waves-purple">\n            <i class="material-icons black-text">open_in_new</i>\n           </a>\n            <a class="btn-floating btn-large cyan lighten-4 pulse modal-trigger-custom waves-effect waves-red"  data-exchange-request-id="' + exchangeRequest.id + '" data-auth-user-post-id="' + exchangeRequest.post.id + '" data-post-id="' + exchangeRequest.theOtherPost.id + '">\n              <i class="material-icons black-text pulse">more_horiz</i>\n            </a>\n            </p>\n            </div>\n            <div class="card-reveal">\n            <span class="card-title grey-text text-darken-4">Your post<i class="material-icons right">close</i></span>\n            <div class="card">\n                <div class="card-image">\n                    <img src="' + exchangeRequest.post.imageLocation + '">\n                    <span class="card-title">\n                    <small class="chip strongChips grey darken-4 blue-text z-depth-5">\n                    ' + exchangeRequest.post.header + '\n                    </small>\n                    </span>\n                </div>\n                <div class="card-content">\n                    <p class="flow-text truncate">' + exchangeRequest.post.body + '</p>\n                </div>\n                <div class="card-action">\n                    <a href="/show/post/' + exchangeRequest.post.id + '" target="_blank">\n                    <i class="material-icons black-text">open_in_new</i>\n                    </a>\n                </div>\n            </div>\n            </div>\n        </div>\n        ');
+	});
+	exchangeRequestsModalOptionsInit();
 }
 
 function exchangeRequestReverseSorting(ShouldItBeDESC) {
-    exchangeRequestReverseSortingTurnClicked = true;
-    $("#exchangeRequestsLoadMoreButton").addClass('disabled');
-    // Remove all child nodes from the DOM.
-    $("#exchangeRequestsDataSorting").empty();
-    $("#exchangeRequestsDataSorting").html("    \n            <div class=\"preloader-wrapper big active\" id=\"exchangeRequestsDataSortingPreLoader\">\n                <div class=\"spinner-layer spinner-blue-only\">\n                <div class=\"circle-clipper left\">\n                    <div class=\"circle\"></div>\n                </div><div class=\"gap-patch\">\n                    <div class=\"circle\"></div>\n                </div><div class=\"circle-clipper right\">\n                    <div class=\"circle\"></div>\n                </div>\n                </div>\n            </div>\n            <section id=\"httpAjaxData\"></section>\n    ");
-    axios.get("/show/exchangeRequests/" + (ShouldItBeDESC ? 'DESC' : 'ASC')).then(function (success) {
-        console.log(success.data);
-        appendDataExchangeRequests(success.data);
-        $("#exchangeRequestsLoadMoreButton").removeClass('disabled');
-        $("#exchangeRequestReverseSorting").removeClass('disabled');
-        $("#exchangeRequestsDataSortingPreLoader").remove();
-        $("#exchangeRequestsLoadMoreButton").off('click');
-        $("#exchangeRequestReverseSorting").fadeIn(2000);
-        exchangeRequestsLoadMoreButtonInit();
-    }).catch(function (error) {
-        $("#exchangeRequestsDataSortingPreLoader").remove();
-        $("#exchangeRequestReverseSorting").removeClass('disabled');
-        M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
-        console.log(error);
-        $("#exchangeRequestReverseSorting").fadeIn(2000);
-    });
+	var axios = window.axios;
+	var M = window.M;
+	exchangeRequestReverseSortingTurnClicked = true;
+	$('#exchangeRequestsLoadMoreButton').addClass('disabled');
+	// Remove all child nodes from the DOM.
+	$('#exchangeRequestsDataSorting').empty();
+	$('#exchangeRequestsDataSorting').html('    \n            <div class="preloader-wrapper big active" id="exchangeRequestsDataSortingPreLoader">\n                <div class="spinner-layer spinner-blue-only">\n                <div class="circle-clipper left">\n                    <div class="circle"></div>\n                </div><div class="gap-patch">\n                    <div class="circle"></div>\n                </div><div class="circle-clipper right">\n                    <div class="circle"></div>\n                </div>\n                </div>\n            </div>\n            <section id="httpAjaxData"></section>\n    ');
+	axios.get('/show/exchangeRequests/' + (ShouldItBeDESC ? 'DESC' : 'ASC')).then(function (success) {
+		console.log(success.data);
+		appendDataExchangeRequests(success.data);
+		$('#exchangeRequestsLoadMoreButton').removeClass('disabled');
+		$('#exchangeRequestReverseSorting').removeClass('disabled');
+		$('#exchangeRequestsDataSortingPreLoader').remove();
+		$('#exchangeRequestsLoadMoreButton').off('click');
+		$('#exchangeRequestReverseSorting').fadeIn(2000);
+		exchangeRequestsLoadMoreButtonInit();
+	}).catch(function (error) {
+		$('#exchangeRequestsDataSortingPreLoader').remove();
+		$('#exchangeRequestReverseSorting').removeClass('disabled');
+		M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
+		console.log(error);
+		$('#exchangeRequestReverseSorting').fadeIn(2000);
+	});
 }
 
 /***/ }),
 /* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = init;
+/*eslint no-console: */
+/**
+ *
+ * where every thing starts !
+ * @export
+ */
+function init() {
+	var M = window.M;
+	var inputNames = ['name', 'email'];
+	inputNames.forEach(function (name) {
+		return validation(name, M);
+	});
+	// nameValidate(M);
+	// emailValidation(M);
+}
+
+/**
+ *
+ *
+ * @param { string } name
+ * @param { materializecss } M
+ */
+function validation(name, M) {
+	var input = $('#' + name);
+	var route = getRoute(name);
+	input.blur(function () {
+		if (input.val().trim() === '') {
+			M.toast({ html: 'You can\'t have empty ' + name });
+		} else {
+			fetch('/register/' + route + '/' + input.val().trim()).then(function (res) {
+				return res.json();
+			}).then(function (res) {
+				if (res.message.indexOf('✔️') > -1) {
+					addClass(input, 'valid');
+					removeClass(input, 'invalid');
+					M.toast({ html: res.message });
+				} else {
+					addClass(input, 'invalid');
+					removeClass(input, 'valid');
+					M.toast({ html: res.message });
+				}
+			}).catch(function (err) {
+				M.toast({ html: 'Something went wrong, while checking the name' });
+				console.error(err);
+			});
+		}
+	});
+}
+
+/**
+ *
+ * look in the web.php to see how this works !
+ * @param { string } inputName
+ * @returns { string }
+ */
+function getRoute(inputName) {
+	switch (inputName) {
+		case 'name':
+			return 'user';
+		case 'email':
+			return 'email';
+	}
+}
+
+/**
+ *
+ * * el => HTML element
+ * @param {*} el
+ * @param { string } className
+ */
+function addClass(el, className) {
+	el.addClass(className);
+}
+
+/**
+ *
+ * * el => HTML element
+ * @param {*} el
+ * @param { string } className
+ */
+function removeClass(el, className) {
+	el.removeClass(className);
+}
+
+function disableButton() {
+	var registerButton = $('#registerButton');
+	addClass(registerButton, 'disabled');
+}
+
+function enableButton() {
+	var registerButton = $('#registerButton');
+	removeClass(registerButton, 'disabled');
+}
+
+/***/ }),
+/* 48 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -9,14 +9,6 @@ use Mercury\Wish;
 use Mercury\Follower;
 use Mercury\User;
 
-
-// Defualt data that you need to return 
-
-// "wishes" => Wish::getWishes(),
-// "allFollowers" => Follower::allFollowers(),
-// "allFollowedByTheUser" => Follower::allFollowedByTheUser(),
-
-
 class PostController extends Controller
 {
     public function __construct()
@@ -24,15 +16,14 @@ class PostController extends Controller
         $this->middleware('auth')->except(['show', 'showWithNoAuth', 'loadMorePostsNoAuth']);
     }
 
-    // TODO add the default in the defaults method 
-    // for DRY
-    private function defaults(){
-        
-    }
 
-    // View -> User => showPost.blade.php 
-    // Route => get('/show/post/{post}')
-    // for thge Visitor or the User
+    /**
+     * * View -> User => showPost.blade.php
+     * * Route => get('/show/post/{post}')
+     * * for thge Visitor or the User
+     * @param Post $post
+     * @return void
+     */
     public function show(Post $post){
 
         if (Auth::check()) {
@@ -47,38 +38,46 @@ class PostController extends Controller
             "post" => $post,
             "postImages" => $post->postImages,
             "comments" => $post->comments,
-            // "comments" => null,
             "isWished" => $isWished,
 
         ];
         return view("user.showPost")->with($data);
     }
-
-    // View =>  Visitor ->  showAllPosts.blade.php
-    // Route get("/show/all/posts")
+ 
+    /**
+     * * View =>  Visitor ->  showAllPosts.blade.php
+     * * Route get("/show/all/posts")
+     * @return void
+     */
     public function showWithNoAuth(){
-        // $posts = Post::where('status', 1)->orderBy('created_at')->take(10)->get();
         $data = [
             'posts' =>  Post::tenPosts()
         ];
         return view("visitor.showAllPosts")->with($data);
     }
-
-    // View => home.blade.php
-    // Route => post("/show/all/postsNoAuth")
-    // WHY => for AJAX call 
+ 
+    /**
+     * * View => home.blade.php
+     * * Route => post("/show/all/postsNoAuth")
+     * * WHY => for AJAX call 
+     * @param Request $request
+     * @return void
+     */
     public function loadMorePostsNoAuth(Request $request)
     {
         return Post::loadMorePosts($request->lastId, $request->userId);
     }
-    
-    // DRY :'(
-    // View => User -> showUserPosts.blade.php
-    // Route => get('/posts/{user}')
-    // Route => get('/posts/{user}/DescendingNAvailable/')
+
+    /**
+     * * View => User -> showUserPosts.blade.php
+     * * Route => get('/posts/{user}')
+     * * Route => get('/posts/{user}/DescendingNAvailable/')
+     * @param User $user
+     * @return void
+     */
     public function DescendingNAvailable(User $user){
         $data = [
-            "posts" => Post::sortPosts(1, 0, $user->id),
+            "posts" => Post::sortPosts('available', 0, $user->id),
             "sortType" => 'descending order for Date',
             "postsType" => 'Available',
             "user" => $user
@@ -86,11 +85,16 @@ class PostController extends Controller
         return view('user.showUserPosts')->with($data);
     }
 
-    // View => User -> showUserPosts.blade.php
-    // Route => get('/posts/{user}/AscendingNAvailable')
+    /**
+     * Undocumented function
+     * * View => User -> showUserPosts.blade.php
+     * * Route => get('/posts/{user}/AscendingNAvailable')
+     * @param User $user
+     * @return void
+     */
     public function AscendingNAvailable(User $user){
         $data = [
-            "posts" => Post::sortPosts(1, 1, $user->id),
+            "posts" => Post::sortPosts('available', 1, $user->id),
             "sortType" => 'Ascending order for Date',
             "postsType" => 'Available',
             "user" => $user
@@ -98,11 +102,15 @@ class PostController extends Controller
         return view('user.showUserPosts')->with($data);
     }
 
-    // View => User -> showUserPosts.blade.php
-    // Route => get('/posts/{user}/DescendingNArchived')
+    /**
+     * * View => User -> showUserPosts.blade.php
+     * * Route => get('/posts/{user}/DescendingNArchived')
+     * @param User $user
+     * @return void
+     */
     public function DescendingNArchived(User $user){
         $data = [
-            "posts" => Post::sortPosts(0, 0, $user->id),
+            "posts" => Post::sortPosts('archive', 0, $user->id),
             "sortType" => 'Descending order for Date',
             "postsType" => 'Archived',
             "user" => $user
@@ -110,11 +118,15 @@ class PostController extends Controller
         return view('user.showUserPosts')->with($data);
     }
 
-    // View => User -> showUserPosts.blade.php
-    // Route => get('/posts/{user}/AscendingNArchived')
+    /**
+     * * View => User -> showUserPosts.blade.php
+     * * Route => get('/posts/{user}/AscendingNArchived')
+     * @param User $user
+     * @return void
+     */
     public function AscendingNArchived(User $user){
         $data = [
-            "posts" => Post::sortPosts(0, 1, $user->id),
+            "posts" => Post::sortPosts('archive', 1, $user->id),
             "sortType" => 'Ascending order for Date',
             "postsType" => 'Archived',
             "user" => $user
@@ -122,23 +134,31 @@ class PostController extends Controller
         return view('user.showUserPosts')->with($data);
     }
 
-    // View => User -> showUserPosts.blade.php
-    // Route => get('/posts/{user}/commentsNAvailable')
+    /**
+     * * View => User -> showUserPosts.blade.php
+     * * Route => get('/posts/{user}/commentsNAvailable')
+     * @param User $user
+     * @return void
+     */
     public function commentsNAvailable(User $user){
         $data = [
-            "posts" => Post::sortPosts(1, 2, $user->id),
+            "posts" => Post::sortPosts('available', 2, $user->id),
             "sortType" => 'Order By comments number',
             "postsType" => 'Available',
             "user" => $user
         ];
         return view('user.showUserPosts')->with($data);
     }
-
-    // View => User -> showUserPosts.blade.php
-    // Route => get('/posts/{user}/commentsNArchived')
+    
+    /**
+     * * View => User -> showUserPosts.blade.php
+     * * Route => get('/posts/{user}/commentsNArchived')
+     * @param User $user
+     * @return void
+     */
     public function commentsNArchived(User $user){
         $data = [
-            "posts" => Post::sortPosts(0, 2, $user->id),
+            "posts" => Post::sortPosts('archive', 2, $user->id),
             "sortType" => 'Order By comments number',
             "postsType" => 'Archived',
             "user" => $user

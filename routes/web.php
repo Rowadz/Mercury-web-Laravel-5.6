@@ -1,17 +1,5 @@
 <?php
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 // loads the landaing page
 Route::get('/', 'HomeController@welcome')->name('wlcome');
 
@@ -36,8 +24,7 @@ Route::post("/show/all/postsNoAuth", "PostController@loadMorePostsNoAuth")->name
 Route::post("/addToWishList/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
 
 // deleting a wish
-// TODO make it delete HTTP request
-Route::post("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
+Route::delete("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
 
 // show the wished posts
 Route::post("/wishedPosts", "WishController@showWishedPosts")->name('showWishedPosts');
@@ -121,9 +108,21 @@ Route::prefix('/show/exchangeRequests')->group(function(){
         Route::delete('/delete', 'UserController@deleteExchangeRequest');
 });
 
+Route::prefix('/register')->group(function(){
+        Route::get('/user/{name?}', 'registerValidation@chackName');
+        Route::get('/email/{email?}', 'registerValidation@checkEmail');
+});
 
 
-Route::get("/explore/tags/{keyword?}", 'UserController@exploreTageReturnView')->name('exploreTage');
+
+
+
+
+
+
+
+
+Route::get("/search/{keyword?}", 'UserController@searchPage')->name('search');
 
 
 

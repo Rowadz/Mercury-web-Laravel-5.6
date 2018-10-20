@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->longText('body');
             $table->string('location', 100);
             $table->smallInteger('quantity');
-            $table->unsignedSmallInteger('status');
+            $table->enum('status', ['available', 'archive']);
             $table->string('video_link')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('tag_id')->references('id')->on('tags');

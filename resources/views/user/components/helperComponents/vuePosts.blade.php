@@ -1,5 +1,5 @@
 <section class="cardsAjax">
-        <div class="col {{isset($sm) ? $sm : 's12 m4'}}">
+        <div class="col {{isset($sm) ? $sm : ''}}">
         <div v-for="(post, index) in posts">
                 <div class="card  cyan darken-3  z-depth-5">
                    <div class="row">

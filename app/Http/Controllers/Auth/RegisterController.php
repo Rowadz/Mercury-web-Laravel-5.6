@@ -52,12 +52,12 @@ class RegisterController extends Controller
     {
         //  'image' => 'image|max:100000',
         return Validator::make($data, [
-            'name' => 'required|string|max:255|unique:users',
+            'name' => 'required|string|max:255|min:3|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'dateOfBirth' => 'Date',
             'city' => 'required|string',
-            'phone' => 'required|string|min:0|max:10',
+            'phone' => 'required|string|min:0|max:10,unique:users',
             'about' => 'string'
 
         ]);

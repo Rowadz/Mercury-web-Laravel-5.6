@@ -5,8 +5,8 @@ namespace Mercury;
 use Illuminate\Database\Eloquent\Model;
 use Mercury\Tag;
 
-//  Available posts => status = 1
-//  Archived  posts => status = 0
+//  Available posts
+//  Archived  posts
 
 class Post extends Model
 {
@@ -15,56 +15,112 @@ class Post extends Model
         'user_id', 'tag_id', 'header', 'body', 'location', 'quantity', 'status', 'video_link'
     ];
 
-    // setting realtionships
-    // One Post has many postimage
-    public function postImages(){
+
+    /**
+     * 
+     * One Post has many postimages 
+     * through a postImages table
+     * @return void
+     */
+    public function postImages()
+    {
         return $this->hasMany('Mercury\PostImage');
     }
 
-    // one post have one tag
-    public function tag(){
-        return $this->belongsTo("Mercury\\Tag");
+    /**
+     * one post have one tag through tag_id
+     * @return void
+     */
+    public function tag()
+    {
+        return $this->belongsTo("Mercury\Tag");
     }
 
-    // one post has many comments
-    public function comments(){
-        return $this->hasMany("Mercury\\Comment");
+    // 
+    /**
+     * one post has many comments through 
+     * post_id in the comment table
+     *
+     * @return void
+     */
+    public function comments()
+    {
+        return $this->hasMany("Mercury\Comment");
     }
 
-    // one post has one user
-    public function user(){
-        return $this->belongsTo("Mercury\\User");
+    // 
+    /**
+     * one post has one user
+     * through user_id
+     * @return void
+     */
+    public function user()
+    {
+        return $this->belongsTo("Mercury\User");
     }
 
-    // one post can be wished many times
-    public function wishes(){
-        return $this->hasMany("Mercury\\Wish");
+    /**
+     * one post can be wished many times
+     * through post_id in the wishes table
+     *
+     * @return void
+     */
+    public function wishes()
+    {
+        return $this->hasMany("Mercury\Wish");
     }
 
-    public function exchangeRequests(){
+    /**
+     * the post have many exhcange requests
+     * through =>
+     * * original_post_id => the onwer post
+     * * post_id => the other post id 
+     *
+     * @return void
+     */
+    public function exchangeRequests()
+    {
         return $this->hasMany("Mercury\ExchangeRequest");
     }
     
+    /**
+     * getting lastes 10 posts
+     *
+     * @return void
+     */
     public static function tenPosts(){
-        return Post::where('status', 1)
+        return Post::where('status', 'available')
                     ->orderBy('created_at', 'DESC')
                     ->take(10)
                     ->get();
     }
 
-    // default, when the page loaded
-    // Date descending order  
-    // Available posts
-    public static function tenPostsForAUser($user_id){
-        return Post::where('status', 1)->
+    
+    /**
+     * getting 10 posts for the profile
+     * 
+     *
+     * @param integer $user_id
+     * @return array
+     */
+    public static function tenPostsForAUser(int $user_id){
+        return Post::where('status', 'available')->
         where('user_id', $user_id)->
         orderBy('created_at', 'DESC')->
         paginate(10);
     }
-    public static function loadMorePosts($id, $userId){
+
+    /**
+     * getting 10 more posts
+     *
+     * @param integer $id
+     * @param integer $userId
+     * @return void
+     */
+    public static function loadMorePosts(int $id,int $userId){
         if(is_null($userId))
-            $posts = Post::where('status', 1)->where('id', '>',$id)->orderBy('created_at')->take(10)->get();
-        else $posts = Post::where('status', 1)->where('id', '>', $id)->where('user_id', $userId)->orderBy('created_at')->take(10)->get();
+            $posts = Post::where('status', 'available')->where('id', '>',$id)->orderBy('created_at')->take(10)->get();
+        else $posts = Post::where('status', 'available')->where('id', '>', $id)->where('user_id', $userId)->orderBy('created_at')->take(10)->get();
         
         $commentNumber = [];
         $tagNames = [];
@@ -75,10 +131,6 @@ class Post extends Model
             $tagNames[$key] = $post->tag->name;
             $users[$key] = $post->user->name;
             $imageLocation[$key] = $post->postImages[0]->location;
-            // foreach ($post->postImages as $image){
-            //     $imageLocation[$key] = $image->location;
-            //     break;
-            // }
         }
         return response()->json([
                 "posts" => $posts,
@@ -89,9 +141,17 @@ class Post extends Model
             ]);
     }
     
-    public static function sortPosts($availableOrArchived, $sortOption, $userId){
-        // Available Posts = $availableOrArchived = 1
-        // Archived Posts = $availableOrArchived = 0
+    /**
+     * 
+     *
+     * @param string $availableOrArchived
+     * @param integer $sortOption
+     * @param integer $userId
+     * @return void
+     */
+    public static function sortPosts(string $availableOrArchived, int $sortOption, int $userId){
+        // Available Posts = $availableOrArchived = Available
+        // Archived Posts = $availableOrArchived = archive
         // Date descending order  = $sortOption = 0
         // Date ascending order = $sortOption = 1
         // Number of comments $sortOption = 2
@@ -117,20 +177,30 @@ class Post extends Model
                 // else return self::sortComments($userId);
                 return self::sortComments($userId, ($availableOrArchived === 1) ? 1 : 0);
                 break;
-            default:
-                // do nothing
-                break;
         }
     }
 
-    private static function sortComments($userId, $status){
+    /**
+     * 
+     *
+     * @param integer $userId
+     * @param integer $status
+     * @return void
+     */
+    private static function sortComments(int $userId, int $status){
         return Post::where(['user_id' => $userId, 'status' => $status])
                     ->withCount(['comments'])
                     ->orderBy('comments_count', 'DESC')
                     ->paginate(10);
     }
 
-    public static function getPostdataExchangeRequest($keyword){
+    /**
+     * 
+     *
+     * @param string $keyword
+     * @return void
+     */
+    public static function getPostdataExchangeRequest(string $keyword){
         $upperCase = strtoupper($keyword);
         $lowerCase = strtolower($keyword);
         return Post::select('header', 'id')->where([
@@ -141,7 +211,14 @@ class Post extends Model
           ->first() ?: [];
     }
 
-    public static function checkPostStatus($id, $status){
+    /**
+     * 
+     *
+     * @param integer $id
+     * @param string $status
+     * @return void
+     */
+    public static function checkPostStatus(int $id, string $status){
         return (Post::where([
             'id' => $id,
             "status" => $status
@@ -149,7 +226,13 @@ class Post extends Model
     }
 
 
-    public static function moveToArchive($postsIds){
+    /**
+     * 
+     *
+     * @param array $postsIds
+     * @return void
+     */
+    public static function moveToArchive(array $postsIds){
         foreach($postsIds as $rowId){
             $x = Post::find($rowId);
             $x->status = 0;

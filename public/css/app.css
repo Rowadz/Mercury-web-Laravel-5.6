@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* Created By LT 19/05/2018 */
 
 .materialize-red {
@@ -6441,10 +6443,6 @@ label {
   color: #d1d1d1;
 }
 
-:-ms-input-placeholder {
-  color: #d1d1d1;
-}
-
 ::-ms-input-placeholder {
   color: #d1d1d1;
 }
@@ -10938,70 +10936,45 @@ body[data-aos-easing=ease-in-out-quart] [data-aos] {
 }
 
 * {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: ‘Bookman Old Style’, serif;
 }
 
-html,
 body {
   overflow-x: hidden !important;
+}
+
+html {
   /* width */
   /* Track */
   /* Handle */
   /* Handle on hover */
 }
 
-html ::-moz-selection,
-body ::-moz-selection {
+html ::-moz-selection {
   /* Code for Firefox */
   color: #80deea;
   background: #1a1a1a;
 }
 
-html ::selection,
-body ::selection {
+html ::selection {
   color: #80deea;
   background: #1a1a1a;
 }
 
-html ::-webkit-scrollbar,
-body ::-webkit-scrollbar {
+html ::-webkit-scrollbar {
   width: 10px;
 }
 
-html ::-webkit-scrollbar-track,
-body ::-webkit-scrollbar-track {
+html ::-webkit-scrollbar-track {
   background: #414a4c;
 }
 
-html ::-webkit-scrollbar-thumb,
-body ::-webkit-scrollbar-thumb {
+html ::-webkit-scrollbar-thumb {
   background: #0e1111;
 }
 
-html ::-webkit-scrollbar-thumb:hover,
-body ::-webkit-scrollbar-thumb:hover {
+html ::-webkit-scrollbar-thumb:hover {
   background: #353839;
-}
-
-.floatRight {
-  float: right !important;
-}
-
-.borderNone {
-  border: none !important;
-}
-
-.Vspace {
-  padding: 20px;
-}
-
-.VeryBigspace {
-  padding: 50px;
-}
-
-#scrollTop {
-  position: fixed !important;
-  z-index: 9999 !important;
 }
 
 .tagChip {
@@ -11052,7 +11025,7 @@ body ::-webkit-scrollbar-thumb:hover {
 
 .fullScreenModal {
   width: 100% !important;
-  max-height: 100%  !important;
+  max-height: 100% !important;
   height: 100% !important;
   top: 0 !important;
 }
@@ -11082,6 +11055,31 @@ body ::-webkit-scrollbar-thumb:hover {
 
 .particles-js-welcome {
   height: inherit !important;
+}
+
+.filters {
+  margin: 0.5rem 0 1rem 0;
+  position: fixed;
+}
+
+.floatRight {
+  float: right !important;
+}
+
+.borderNone {
+  border: none !important;
+}
+
+.Vspace {
+  padding: 20px;
+}
+
+.VeryBigspace {
+  padding: 50px;
+}
+
+.loginButton {
+  margin: 0px 0px 20px 0px;
 }
 
 nav {

@@ -28,13 +28,14 @@ use Carbon\Carbon;
 //        'remember_token' => str_random(10),
 
 $factory->define(Mercury\User::class, function (Faker $faker) {
+    $name = $faker->name;
     return [
-        'name' => $faker->name,
+        'name' => $name,
         'email' => $faker->unique()->safeEmail,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'API_KEY' =>str_random(5) . bcrypt(Carbon::now()->toDateTimeString()),
         'date_of_birth' => $faker->date('Y-m-d', 'now'),
-        'image' => $faker->imageUrl(640, 480, 'cats'),
+        'image' => "https://avatars.dicebear.com/v2/identicon/{$name}.svg",
         'city' => $faker->randomElement(['Amman', 'Zarqa', 'Irbid', 'Aqaba', 'As-Salt', 'Madaba', 'Mafraq', 'Jerash', "Ma'an", "Tafilah", "Karak"]),
         'phone' => $faker->e164PhoneNumber(),
         'about' => $faker->realText(250),

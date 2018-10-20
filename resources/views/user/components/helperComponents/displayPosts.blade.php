@@ -1,6 +1,6 @@
 <!-- If Not profile display them on top each other -->
 @if(isset($sm) && !isset($nextToEachOther))
-  <div class="col {{$sm ?: 's12 m4'}}">
+  <div class="col {{$sm ? $sm : ''}}">
 @endif
    @foreach($posts as $post)
       <!-- If profile display them next to each other -->

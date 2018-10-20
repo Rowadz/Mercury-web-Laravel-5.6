@@ -116,28 +116,28 @@ class HomeController extends Controller
           break;
         case 'login':
         $particles = [
-          "howMuch" => 60,
-          "color" => $fixedColor,
-          "line_color" => $ranLineColor,
-          "shape" => "polygon",
-          "opacity" => 0.1,
-          "size" => 100,
-          "line_linked" => false,
-          "direction" => "top-right",
-          "mode" => "bubble"
+          "howMuch" => 100,
+          "color" => '#78909c',
+          "line_color" => '#263238',
+          "shape" => "circle",
+          "opacity" => 1,
+          "size" => 3,
+          "line_linked" => true,
+          "direction" => "none",
+          "mode" => "repulse"
         ];
           break;
         case 'register':
         $particles = [
-          "howMuch" => 60,
-          "color" => "#5d4037",
-          "line_color" => $ranLineColor,
-          "shape" => "polygon",
-          "opacity" => 0.1,
-          "size" => 100,
-          "line_linked" => false,
-          "direction" => "top",
-          "mode" => "bubble"
+          "howMuch" => 100,
+          "color" => '#78909c',
+          "line_color" => '#263238',
+          "shape" => "circle",
+          "opacity" => 1,
+          "size" => 3,
+          "line_linked" => true,
+          "direction" => "none",
+          "mode" => "repulse"
         ];
           break;
         default:

@@ -1,23 +1,16 @@
+/*eslint no-console: */
 window._ = require('lodash');
-// TODO: I Commented This
-// this is for bootstrap
-// window.Popper = require('popper.js').default;
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
 
 try {
-    // the main lib the website needs
-    window.$ = window.jQuery = require('jquery');
-    require('materialize-css');
-    window.AOS = require('AOS');
-   
-    // require('bootstrap');
-} catch (e) {}
+	// the main lib the website needs
+	window.$ = window.jQuery = require('jquery');
+	require('materialize-css');
+	// window.AOS = require('AOS');
+	window.AOS = require('aos'); 
+	// require('bootstrap');
+} catch (e) {
+	console.log(e);
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -38,9 +31,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+	window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+	console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /**

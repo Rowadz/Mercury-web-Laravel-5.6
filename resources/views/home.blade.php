@@ -3,45 +3,58 @@
 @section('title', 'Mercury | 🌌')
 
 @section('content')
+<span id="scrollTopFinalDest"></span>
 @navBar(['style' => 'grey darken-3 z-depth-5'])
 @endnavBar
-<a class="btn-floating btn-large waves-effect waves-light   grey darken-4 z-depth-5" id="scrollTop"  data-aos="flip-left">
-    <i class="material-icons">arrow_upward</i>
-</a>
-<span id="scrollTopFinalDest"></span>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large ndigo accent-1">
+        <i class="large material-icons">dashboard</i>
+    </a>
+    <ul>
+        <li id="scrollTop"><a class="btn-floating blue-grey lighten-1"> <i class="material-icons">arrow_upward</i></a></li>
+        <li><a class="btn-floating blue darken-4"><i class="large material-icons">mode_edit</i></a></li>
+        {{-- <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li> --}}
+        {{-- <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li> --}}
+    </ul>
+</div>
+
+
+
 <div id="feed">
-   <div class="row">
-      <div class="col s12 m4 l3" >
-         <div class="collection" style="position:fixed">
-            <a href="#!" class="collection-item">Your accepted exchange requests</a>
-            <a href="#!" class="collection-item">Please click here to review people</a>
-            <a href="#!" class="collection-item">Alvin</a>
-            <a href="#!" class="collection-item">Alvin</a>
-         </div>
-      </div>
-      @displayPosts(["posts" => $posts, "sm" => "s12 m4 l6"])
-      @enddisplayPosts
-      <input type="text" id="lastId"  hidden value="{{ $posts[sizeof($posts) - 1]->id }}" >
-      <!-- Loaded posts from ajax call -->
-      <div class="col s12 m4 l3" >
-         <div class="collection">
-            <a href="#!" class="collection-item">a</a>
-            <a href="#!" class="collection-item">Alvin</a>
-            <a href="#!" class="collection-item">Alvin</a>
-            <a href="#!" class="collection-item">Alvin</a>
-         </div>
-      </div>
-   </div>
-   <div class="row">
-      <div class="col s12 m4 l3">
-         <p></p>
-      </div>
-      @vuePosts(["sm" => "s12 m4 l6"])
-      @endvuePosts
-      <div class="col s12 m4 l3">
-         <p></p>
-      </div>
-   </div>
+    <div class="row">
+        <div class="col s12 m6 l6">
+            @displayPosts(["posts" => $posts])
+            @enddisplayPosts
+        </div>
+        <div class="col s12 m6 l6">
+            <section class="filters">
+         
+            </section>
+        </div>
+        <input type="text" id="lastId" hidden value="{{ sizeof($posts) ? $posts[sizeof($posts) - 1]->id : null }}">
+        <!-- Loaded posts from ajax call -->
+    </div>
+    @if (sizeof($posts))
+    <div class="row">
+        <div class="">
+            @vuePosts(["sm" => "s12 m6 l6"])
+            @endvuePosts
+        </div>
+    </div>
+    @else
+    <div class="container">
+        <div class="row center-align">
+            <div class="col s12 m12 l12">
+                <div class="card-panel red darken-3 z-depth-5">
+                    <span class="white-text">
+                        There is no data right now :(
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
 @endsection
 @section('scripts')

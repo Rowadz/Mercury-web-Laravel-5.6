@@ -58,3 +58,34 @@ $ npm run watch
 - [Axios](https://github.com/axios/axios) A promise based HTTP client for the browser and node.js.
 - Little bit of [Vuejs](https://vuejs.org/).
 - [particlesjs](https://vincentgarreau.com/particles.js/) .
+# NOTES 
+* Please commit after each day of work.
+# SOME ISSUES YOU MIGHT HAVE 
+* You Might face som errors with the package.json file, because I'm using linux ubuntu `nodejs configuration on it is different from windows`
+* if you had the problem, replace your package.json with this
+```json
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "axios": "^0.18",
+        "cross-env": "^5.2.0",
+        "eslint": "^5.7.0",
+        "laravel-mix": "^2.1.14",
+        "lodash": "^4.17.4"
+    },
+    "dependencies": {
+        "aos": "^3.0.0-beta.6",
+        "jquery": "^3.3.1",
+        "materialize-css": "^1.0.0-rc.2"
+    }
+}
+```
