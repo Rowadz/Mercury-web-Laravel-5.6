@@ -11,6 +11,7 @@ import * as particles from './lib/particles';
 import sendExchangeRequestInit from './my_modules/social/sendExchangeRequest';
 import exchangeRequestsInit from './my_modules/exchangeRequests';
 import register from './my_modules/auth/register';
+import home from './my_modules/home';
 
 
 // init function should always run before anything so the website won't appear frozened
@@ -29,6 +30,7 @@ import register from './my_modules/auth/register';
 document.addEventListener('DOMContentLoaded', () => {
 	if($('#registerForm').length) register();
 	$('.dropdown-trigger-filter').dropdown();
+	
 });
 
 /** 
@@ -38,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.onload = () => {
 	init();
+	home();
 	if ($('#feed').length) feed();
 	if($('#sortPostsUserProfile').length) initSortingForProfile();
 	// if the image did not load  (Broken Image Handling)

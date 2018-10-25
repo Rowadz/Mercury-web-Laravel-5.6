@@ -8,8 +8,10 @@ export default function init(){
 	const M = window.M;
 	const inputNames = ['name', 'email'];
 	inputNames.forEach(name => validation(name, M));
-	// nameValidate(M);
-	// emailValidation(M);
+	validatePassword();
+	const datePicker = $('.datepicker');
+	$('select').formSelect();
+	validateDate(datePicker, M);
 }
 
 /**
@@ -82,12 +84,63 @@ function removeClass(el, className){
 }
 
 
-function disableButton(){
-	const registerButton = $('#registerButton');
-	addClass(registerButton, 'disabled');
+function validatePassword(){
+	const passwordInput = $('#password');
+	const passwordConfirm = $('#password-confirm');
+	const passwordConfirmHelper = $('#password-confirm-helper');
+	const inputs = [passwordInput, passwordConfirm];
+	inputs.forEach(el => {
+		el.blur(() => {
+			if(passwordInput.val() !== passwordConfirm.val()){
+				addClass(passwordInput, 'invalid');
+				addClass(passwordConfirm, 'invalid');
+				addClass(passwordConfirmHelper, 'red-text');
+				removeClass(passwordConfirmHelper, 'white-text');
+			} else {
+				removeClass(passwordInput, 'invalid');
+				removeClass(passwordConfirm, 'invalid');
+				removeClass(passwordConfirmHelper, 'red-text');
+				addClass(passwordConfirmHelper, 'white-text');
+			}
+		});
+	});
 }
 
-function enableButton(){
-	const registerButton = $('#registerButton');
-	removeClass(registerButton, 'disabled');
+/**
+ *
+ *
+ * @param {*} datePicker
+ */
+function validateDate(datePicker, M){
+	const DOB = $('#date-of-birth');
+	datePicker.datepicker({
+		maxDate : new Date(),
+		minDate: new Date('1970-1-1'),
+		defaultDate: new Date('1990-1-1'),
+		showClearBtn: true,
+		onClose: () => {
+			const ageMS = Date.parse(Date()) - Date.parse(datePicker.val());
+			const age = new Date();
+			age.setTime(ageMS);
+			const ageYear = age.getFullYear() - 1970;		  
+			if(ageYear < 18) {
+				addClass(DOB, 'invalid');
+				removeClass(DOB, 'valid');
+				M.toast({html: 'You should at least be 18 years old'});
+			}
+			else {
+				addClass(DOB, 'valid');
+				removeClass(DOB, 'invalid');
+			}
+		}
+	});
 }
+// function disableButton(){
+// 	const registerButton = $('#registerButton');
+// 	addClass(registerButton, 'disabled');
+// }
+
+// function enableButton(){
+// 	const registerButton = $('#registerButton');
+// 	removeClass(registerButton, 'disabled');
+// }

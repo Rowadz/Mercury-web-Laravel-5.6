@@ -2,7 +2,6 @@ export default function init  () {
 	const AOS = window.AOS;
 	const M = window.M;
 	AOS.init();
-	if($('.mainResgister').length) initSignUp();
 	$('.tooltipped').tooltip();
 	$('.fixed-action-btn').floatingActionButton();
 	$('.materialboxed').materialbox();
@@ -45,9 +44,4 @@ function scrollToTop(){
 		}, 1000);
 	});
 
-}
-
-function initSignUp(){
-	$('select').formSelect();
-	$('.datepicker').datepicker();
 }

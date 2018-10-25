@@ -11082,6 +11082,20 @@ html ::-webkit-scrollbar-thumb:hover {
   margin: 0px 0px 20px 0px;
 }
 
+.dropdown-content {
+  height: auto !important;
+}
+
+.select-dropdown {
+  color: #FFFFFF;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 nav {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   height: 90px;
@@ -11221,15 +11235,14 @@ nav li a {
 
 /* Change the white to any color  */
 
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px #eceff1 inset !important;
-  box-shadow: 0 0 0 30px #eceff1 inset !important;
-}
-
 /*Change text in autofill textbox*/
 
 input:-webkit-autofill {
   -webkit-text-fill-color: #1A1A1A !important;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset;
 }
 
 #postWrapper #infoAboutPost .infoButtonPadding {

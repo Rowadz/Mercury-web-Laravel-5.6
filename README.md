@@ -9,16 +9,22 @@ $ git clone https://github.com/MohammedAl-Rowad/Mercury-web-Laravel-5.6.git
 ```
 #### Install all the PHP dependencies
 * install [composer](https://getcomposer.org/download/)
+* then run 
 ``` composer
 $ composer install
 ```
 #### Install all the JavaScript dependencies 
 * install [NodeJs](https://nodejs.org/en/download/) 
+* then run
 ``` npm
 $ npm install
 ```
 #### Configure the application
- - rename the `.env.example` to `.env` and configure the file to match your machine.
+ - rename the `.env.example` to `.env` and configure the file to match your machine. see [how](https://laravel.com/docs/5.6/configuration)
+ - now run
+```cmd
+php artisan key:generate 
+```
 #### Run this command to create the tables
 * you need to have a database called `mercury`
 ```php 

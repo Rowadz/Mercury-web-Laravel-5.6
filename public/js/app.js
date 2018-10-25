@@ -801,6 +801,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__my_modules_social_sendExchangeRequest__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__my_modules_exchangeRequests__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__my_modules_home__ = __webpack_require__(53);
+
 
 
 
@@ -840,6 +842,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.onload = function () {
 	Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
+	Object(__WEBPACK_IMPORTED_MODULE_13__my_modules_home__["a" /* default */])();
 	if ($('#feed').length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
 	if ($('#sortPostsUserProfile').length) Object(__WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__["a" /* default */])();
 	// if the image did not load  (Broken Image Handling)
@@ -41950,7 +41953,6 @@ function init() {
 	var AOS = window.AOS;
 	var M = window.M;
 	AOS.init();
-	if ($('.mainResgister').length) initSignUp();
 	$('.tooltipped').tooltip();
 	$('.fixed-action-btn').floatingActionButton();
 	$('.materialboxed').materialbox();
@@ -41992,11 +41994,6 @@ function scrollToTop() {
 			scrollTop: $('#scrollTopFinalDest').offset().top
 		}, 1000);
 	});
-}
-
-function initSignUp() {
-	$('select').formSelect();
-	$('.datepicker').datepicker();
 }
 
 /***/ }),
@@ -44267,8 +44264,10 @@ function init() {
 	inputNames.forEach(function (name) {
 		return validation(name, M);
 	});
-	// nameValidate(M);
-	// emailValidation(M);
+	validatePassword();
+	var datePicker = $('.datepicker');
+	$('select').formSelect();
+	validateDate(datePicker, M);
 }
 
 /**
@@ -44339,21 +44338,83 @@ function removeClass(el, className) {
 	el.removeClass(className);
 }
 
-function disableButton() {
-	var registerButton = $('#registerButton');
-	addClass(registerButton, 'disabled');
+function validatePassword() {
+	var passwordInput = $('#password');
+	var passwordConfirm = $('#password-confirm');
+	var passwordConfirmHelper = $('#password-confirm-helper');
+	var inputs = [passwordInput, passwordConfirm];
+	inputs.forEach(function (el) {
+		el.blur(function () {
+			if (passwordInput.val() !== passwordConfirm.val()) {
+				addClass(passwordInput, 'invalid');
+				addClass(passwordConfirm, 'invalid');
+				addClass(passwordConfirmHelper, 'red-text');
+				removeClass(passwordConfirmHelper, 'white-text');
+			} else {
+				removeClass(passwordInput, 'invalid');
+				removeClass(passwordConfirm, 'invalid');
+				removeClass(passwordConfirmHelper, 'red-text');
+				addClass(passwordConfirmHelper, 'white-text');
+			}
+		});
+	});
 }
 
-function enableButton() {
-	var registerButton = $('#registerButton');
-	removeClass(registerButton, 'disabled');
+/**
+ *
+ *
+ * @param {*} datePicker
+ */
+function validateDate(datePicker, M) {
+	var DOB = $('#date-of-birth');
+	datePicker.datepicker({
+		maxDate: new Date(),
+		minDate: new Date('1970-1-1'),
+		defaultDate: new Date('1990-1-1'),
+		showClearBtn: true,
+		onClose: function onClose() {
+			var ageMS = Date.parse(Date()) - Date.parse(datePicker.val());
+			var age = new Date();
+			age.setTime(ageMS);
+			var ageYear = age.getFullYear() - 1970;
+			if (ageYear < 18) {
+				addClass(DOB, 'invalid');
+				removeClass(DOB, 'valid');
+				M.toast({ html: 'You should at least be 18 years old' });
+			} else {
+				addClass(DOB, 'valid');
+				removeClass(DOB, 'invalid');
+			}
+		}
+	});
 }
+// function disableButton(){
+// 	const registerButton = $('#registerButton');
+// 	addClass(registerButton, 'disabled');
+// }
+
+// function enableButton(){
+// 	const registerButton = $('#registerButton');
+// 	removeClass(registerButton, 'disabled');
+// }
 
 /***/ }),
 /* 48 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = home;
+function home() {}
 
 /***/ })
 /******/ ]);

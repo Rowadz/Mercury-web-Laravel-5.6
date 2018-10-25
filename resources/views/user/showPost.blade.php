@@ -36,7 +36,7 @@
          </li>
          @endif
          <!-- Exchange Request -->
-         @if(Auth()->user()->id !== $post->user_id && $post->status === 1)
+         @if(Auth()->user()->id !== $post->user_id && $post->status === 'available')
          <li>
             <a class="btn-floating yellow darken-3 tooltipped modal-trigger" id="sendExchangeRequestTrigger" href="#sendExchangeRequestModal" data-position="left" data-tooltip="Send Exchange Request now">
             <i class="material-icons">pets</i>

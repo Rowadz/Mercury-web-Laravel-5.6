@@ -113,11 +113,11 @@ class Post extends Model
     /**
      * getting 10 more posts
      *
-     * @param integer $id
-     * @param integer $userId
+     * @param integer|NULL $id
+     * @param integer|NULL $userId
      * @return void
      */
-    public static function loadMorePosts(int $id,int $userId){
+    public static function loadMorePosts($id, $userId){
         if(is_null($userId))
             $posts = Post::where('status', 'available')->where('id', '>',$id)->orderBy('created_at')->take(10)->get();
         else $posts = Post::where('status', 'available')->where('id', '>', $id)->where('user_id', $userId)->orderBy('created_at')->take(10)->get();

@@ -18,3 +18,17 @@
 .loginButton{
     margin: 0px 0px 20px 0px;
 }
+
+.dropdown-content{
+    height: auto !important;
+}
+
+.select-dropdown{
+    color: #FFFFFF;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

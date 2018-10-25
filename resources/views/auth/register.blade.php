@@ -60,18 +60,18 @@
                                         <input id="password-confirm" type="password" class="validate white-text"
                                             required name="password_confirmation">
                                         <label for="password-confirm">Password confirmation</label>
-                                        <span class="helper-text white-text">Should be the same as the password</span>
+                                        <span class="helper-text white-text" id="password-confirm-helper">Should be the same as the password</span>
                                     </div>
                                     <div class="input-field col s12 m6 ">
                                         <i class="material-icons prefix white-text">date_range</i>
-                                        <input type="text" class="datepicker" name="dateOfBirth" id="date-of-birth"
+                                        <input type="text" class="datepicker white-text" name="dateOfBirth" id="date-of-birth"
                                             value="{{ old('dateOfBirth') }}">
                                         <label for="date-of-birth">date of birth</label>
                                     </div>
-                                    <div class="input-field col s12 m6">
+                                    <div class="input-field col s12 m6" class="white-text">
                                         <i class="material-icons prefix blue-text text-lighten-3">location_city</i>
                                         <select id="city" name="city" required>
-                                            <option value="" disabled selected>Choose your City</option>
+                                            <option value="" disabled selected class="white-text">Choose your City</option>
                                             <option value="0">Amman</option>
                                             <option value="1">Zarqa</option>
                                             <option value="2">Irbid</option>

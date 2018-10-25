@@ -50,4 +50,6 @@ class registerValidation extends Controller
             return response()->json(['message' => "{$message} ❌"]);
         } else return response()->json(['message' => 'valid email ✔️']); 
     }
+
+    
 }
