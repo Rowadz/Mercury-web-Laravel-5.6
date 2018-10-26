@@ -41,7 +41,8 @@
                       <div class="row">
                          <div class="col s12 m12">
                             <div class="chip z-depth-5 strongChips" data-aos="fade-down-left">
-                               🐨 @{{ users[index] }}
+                              <img :src="'https://avatars.dicebear.com/v2/identicon/' + users[index] + '.svg' "  >
+                              @{{ users[index] }}
                             </div>
                             <div class="chip z-depth-5" data-aos="fade-down-right">
                                📅 @{{ post.created_at }}

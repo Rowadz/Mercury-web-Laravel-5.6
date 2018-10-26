@@ -213,4 +213,27 @@ class ExchangeRequest extends Model
             }
         }
     }
+
+    
+    /**
+     *
+     *
+     * @param integer $userId
+     * @return void
+     */
+    public static function exchangeRequestsProfile(int $userId)
+    {
+        $data =  ExchangeRequest::with('post')->whereHas('post', function($q) use ($userId){
+            $q->where('user_id',  $userId);
+        })->orderBy('created_at')->take(10)->get();
+        
+        foreach ($data as $key => $value) {
+            $data[$key]["theOtherPost"] = Post::with('user')->where([
+                'user_id' => $value['user_id'],
+                'id' => $value['post_id']
+            ])->first();
+        }
+        return $data;   
+    }
+    
 }

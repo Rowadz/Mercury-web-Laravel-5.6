@@ -17,7 +17,7 @@ class CreateFollowersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('from_id');
-            $table->unsignedSmallInteger('status');
+            $table->enum('status', ['pending', 'approved']);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('from_id')->references('id')->on('users');
             $table->timestamps();

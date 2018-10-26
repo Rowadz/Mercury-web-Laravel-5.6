@@ -150,7 +150,7 @@ class Post extends Model
      * @return void
      */
     public static function sortPosts(string $availableOrArchived, int $sortOption, int $userId){
-        // Available Posts = $availableOrArchived = Available
+        // Available Posts = $availableOrArchived = available
         // Archived Posts = $availableOrArchived = archive
         // Date descending order  = $sortOption = 0
         // Date ascending order = $sortOption = 1
@@ -175,7 +175,7 @@ class Post extends Model
                 // I did this move because we can't access the $availableOrArchived inside the closure function
                 // if($availableOrArchived === 1) return self::sortComments($userId);
                 // else return self::sortComments($userId);
-                return self::sortComments($userId, ($availableOrArchived === 1) ? 1 : 0);
+                return self::sortComments($userId, ($availableOrArchived === 'available') ? 'available' : 'archive');
                 break;
         }
     }
@@ -184,10 +184,10 @@ class Post extends Model
      * 
      *
      * @param integer $userId
-     * @param integer $status
+     * @param string $status
      * @return void
      */
-    private static function sortComments(int $userId, int $status){
+    private static function sortComments(int $userId, string $status){
         return Post::where(['user_id' => $userId, 'status' => $status])
                     ->withCount(['comments'])
                     ->orderBy('comments_count', 'DESC')

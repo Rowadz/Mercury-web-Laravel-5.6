@@ -4,10 +4,17 @@
 @navBar(['style' => 'blue-grey darken-4'])
 @endnavBar
 @if (sizeof($exchangeRequests))
-<a class="btn-floating btn-large waves-effect waves-light   grey darken-4 z-depth-5" id="scrollTop" data-aos="flip-left">
-  <i class="material-icons">arrow_upward</i>
-</a>
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large  waves-effect waves-light grey darken-4 z-depth-5" id="scrollTop">
+    <i class="large material-icons">arrow_upward</i>
+  </a>
+</div>
+
 <span id="scrollTopFinalDest"></span>
+
+
+
 <div class="row" id="exchangeRequestsPage">
   <div class="col s12 m4 l4">
     <ul class="collection with-header z-depth-5" data-aos="fade-up">
@@ -67,7 +74,7 @@
             <a class="btn-floating btn-large cyan lighten-4 pulse modal-trigger-custom waves-effect waves-red"
               data-exchange-request-id="{{$exchangeRequest->id}}" data-auth-user-post-id="{{$exchangeRequest->post->id}}"
               data-post-id="{{$exchangeRequest->theOtherPost->id}}">
-              <i class="material-icons black-text pulse">more_horiz</i>
+              <i class="material-icons black-text pulse">settings</i>
             </a>
           </p>
         </div>

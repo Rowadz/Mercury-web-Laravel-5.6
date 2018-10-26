@@ -24,17 +24,17 @@
 <div id="feed">
   <div class="row">
     <div class="col s12 m6 l6">
-      @displayPosts(["posts" => $posts])
-      @enddisplayPosts
-    </div>
-    <div class="col s12 m6 l6">
       <section class="filters">
         <div class="card-panel teal">
           <span class="white-text">
-              TODO :: add filter functions here
+            TODO :: add filter functions here
           </span>
         </div>
       </section>
+    </div>
+    <div class="col s12 m6 l6">
+      @displayPosts(["posts" => $posts])
+      @enddisplayPosts
     </div>
     <input type="text" id="lastId" hidden value="{{ sizeof($posts) ? $posts[sizeof($posts) - 1]->id : null }}">
     <!-- Loaded posts from ajax call -->

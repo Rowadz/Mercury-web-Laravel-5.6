@@ -5,13 +5,20 @@
  * @export
  */
 export default function init(){
+	disableButton();
+	let ableTosubmit = {
+		email: false,
+		date: true,
+		password: false,
+		user: false // name
+	};
 	const M = window.M;
 	const inputNames = ['name', 'email'];
-	inputNames.forEach(name => validation(name, M));
-	validatePassword();
+	inputNames.forEach(name => validation(name, M, ableTosubmit));
+	validatePassword(ableTosubmit);
 	const datePicker = $('.datepicker');
 	$('select').formSelect();
-	validateDate(datePicker, M);
+	validateDate(datePicker, M, ableTosubmit);
 }
 
 /**
@@ -20,7 +27,7 @@ export default function init(){
  * @param { string } name
  * @param { materializecss } M
  */
-function validation(name, M){
+function validation(name, M, ableTosubmit){
 	const input = $(`#${name}`);
 	const route = getRoute(name);
 	input.blur(() => {
@@ -34,10 +41,13 @@ function validation(name, M){
 						addClass(input, 'valid');
 						removeClass(input, 'invalid');
 						M.toast({html: res.message});
+						ableTosubmit[route] = true;
+						enableButton(ableTosubmit);
 					} else {
 						addClass(input, 'invalid');
 						removeClass(input, 'valid');
 						M.toast({html: res.message});
+						ableTosubmit[route] = false;
 					}
 				})
 				.catch(err => {
@@ -84,23 +94,26 @@ function removeClass(el, className){
 }
 
 
-function validatePassword(){
+function validatePassword(ableTosubmit){
 	const passwordInput = $('#password');
 	const passwordConfirm = $('#password-confirm');
 	const passwordConfirmHelper = $('#password-confirm-helper');
 	const inputs = [passwordInput, passwordConfirm];
 	inputs.forEach(el => {
 		el.blur(() => {
-			if(passwordInput.val() !== passwordConfirm.val()){
+			if(passwordInput.val() !== passwordConfirm.val() && (passwordInput.val() !== '')){
 				addClass(passwordInput, 'invalid');
 				addClass(passwordConfirm, 'invalid');
 				addClass(passwordConfirmHelper, 'red-text');
 				removeClass(passwordConfirmHelper, 'white-text');
+				ableTosubmit.password = false;
 			} else {
 				removeClass(passwordInput, 'invalid');
 				removeClass(passwordConfirm, 'invalid');
 				removeClass(passwordConfirmHelper, 'red-text');
 				addClass(passwordConfirmHelper, 'white-text');
+				ableTosubmit.password = true;
+				enableButton(ableTosubmit);
 			}
 		});
 	});
@@ -111,10 +124,10 @@ function validatePassword(){
  *
  * @param {*} datePicker
  */
-function validateDate(datePicker, M){
+function validateDate(datePicker, M, ableTosubmit){
 	const DOB = $('#date-of-birth');
 	datePicker.datepicker({
-		maxDate : new Date(),
+		maxDate : new Date('2000-12-30'),
 		minDate: new Date('1970-1-1'),
 		defaultDate: new Date('1990-1-1'),
 		showClearBtn: true,
@@ -127,20 +140,26 @@ function validateDate(datePicker, M){
 				addClass(DOB, 'invalid');
 				removeClass(DOB, 'valid');
 				M.toast({html: 'You should at least be 18 years old'});
+				ableTosubmit.date = false;
 			}
 			else {
+				enableButton(ableTosubmit);
+				ableTosubmit.date = true;
 				addClass(DOB, 'valid');
 				removeClass(DOB, 'invalid');
 			}
 		}
 	});
 }
-// function disableButton(){
-// 	const registerButton = $('#registerButton');
-// 	addClass(registerButton, 'disabled');
-// }
+function disableButton(){
+	const registerButton = $('#registerButton');
+	addClass(registerButton, 'disabled');
+}
 
-// function enableButton(){
-// 	const registerButton = $('#registerButton');
-// 	removeClass(registerButton, 'disabled');
-// }
+function enableButton(ableTosubmit){
+	const {user, email, password, date} = ableTosubmit;
+	if(user && email && password && date){
+		const registerButton = $('#registerButton');
+		removeClass(registerButton, 'disabled');
+	} 
+}

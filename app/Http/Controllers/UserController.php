@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['searchPage']);
     }
 
     /**
@@ -32,7 +32,8 @@ class UserController extends Controller
         }
     	$data = [
             "user" => $user,
-            "posts" => $user->posts()->orderBy('created_at', 'desc')->take(10)->get(),
+            "exchangeRequests" => ExchangeRequest::exchangeRequestsProfile($user->id),
+            "followingFeedProfile" => Follower::followingFeedProfile($user->id),
             "iamIFollowingThisUser" => Follower::iamIFollowingThisUser($user->id),
             "followId" => (isset($followId)) ? $followId : null,
             'followers' => Follower::followersProfile($user->id),
@@ -169,7 +170,7 @@ class UserController extends Controller
             'postId' => 'required|numeric|exists:posts,id',
             'userPostId' => 'required|numeric|exists:posts,id'
         ]);
-        if(Post::checkPostStatus($request->postId, 1) && Post::checkPostStatus($request->userPostId, 'available'))
+        if(Post::checkPostStatus($request->postId, 'available') && Post::checkPostStatus($request->userPostId, 'available'))
             return ExchangeRequest::sendExchangeRequest($request->userPostId, $request->postId);    
         else return response()->json(["message" => "🐒🐒🐒🐒🐒🐒🐒🐒"]);
     }
@@ -264,7 +265,7 @@ class UserController extends Controller
      * @param string $keyword
      * @return void
      */
-    public function searchPage($keyword = null)
+    public function searchPage(string $keyword = null)
     {
         return view('searchPage');
     }

@@ -40,24 +40,10 @@
          <div class="card-content cyan lighten-3">
             <div class="row">
                <div class="col s12 m12">
-                  <div class="chip z-depth-5 strongChips" data-aos="fade-down-left">
-                     {{array_rand([
-                       '🐨' => 'koala', 
-                       '🙉' => 'Hear-No-Evil Monkey',
-                       '🦍' => 'Gorilla',
-                       '🐩' => 'Poodle',
-                       '🐯' => 'Tiger',
-                       '🦁' => 'Lion',
-                       '🐱' => 'Cat',
-                       '🦓' => 'Zebra',
-                       '🦄' => 'Unicorn Face',
-                       '🐼' => 'Panada',
-                       '🐉' => 'Dragon',
-                       '🐲' => 'Dragon Face'
-                       ])
-                       }} 
+                  <a class="chip z-depth-5 strongChips" data-aos="fade-down-left" href="/{{$post->user->name}}">
+                       <img src="{{$post->user->image}}" alt="">
                        {{ $post->user->name }}
-                  </div>
+                  </a>
                   <div class="chip z-depth-5" data-aos="fade-down-right">
                      📅 {{  $post->created_at->diffForHumans() }} 
                   </div>

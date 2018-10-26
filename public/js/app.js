@@ -777,7 +777,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
-module.exports = __webpack_require__(48);
+module.exports = __webpack_require__(49);
 
 
 /***/ }),
@@ -801,7 +801,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__my_modules_social_sendExchangeRequest__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__my_modules_exchangeRequests__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__my_modules_home__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__my_modules_home__ = __webpack_require__(48);
 
 
 
@@ -44259,15 +44259,22 @@ function exchangeRequestReverseSorting(ShouldItBeDESC) {
  * @export
  */
 function init() {
+	disableButton();
+	var ableTosubmit = {
+		email: false,
+		date: true,
+		password: false,
+		user: false // name
+	};
 	var M = window.M;
 	var inputNames = ['name', 'email'];
 	inputNames.forEach(function (name) {
-		return validation(name, M);
+		return validation(name, M, ableTosubmit);
 	});
-	validatePassword();
+	validatePassword(ableTosubmit);
 	var datePicker = $('.datepicker');
 	$('select').formSelect();
-	validateDate(datePicker, M);
+	validateDate(datePicker, M, ableTosubmit);
 }
 
 /**
@@ -44276,7 +44283,7 @@ function init() {
  * @param { string } name
  * @param { materializecss } M
  */
-function validation(name, M) {
+function validation(name, M, ableTosubmit) {
 	var input = $('#' + name);
 	var route = getRoute(name);
 	input.blur(function () {
@@ -44290,10 +44297,13 @@ function validation(name, M) {
 					addClass(input, 'valid');
 					removeClass(input, 'invalid');
 					M.toast({ html: res.message });
+					ableTosubmit[route] = true;
+					enableButton(ableTosubmit);
 				} else {
 					addClass(input, 'invalid');
 					removeClass(input, 'valid');
 					M.toast({ html: res.message });
+					ableTosubmit[route] = false;
 				}
 			}).catch(function (err) {
 				M.toast({ html: 'Something went wrong, while checking the name' });
@@ -44338,23 +44348,26 @@ function removeClass(el, className) {
 	el.removeClass(className);
 }
 
-function validatePassword() {
+function validatePassword(ableTosubmit) {
 	var passwordInput = $('#password');
 	var passwordConfirm = $('#password-confirm');
 	var passwordConfirmHelper = $('#password-confirm-helper');
 	var inputs = [passwordInput, passwordConfirm];
 	inputs.forEach(function (el) {
 		el.blur(function () {
-			if (passwordInput.val() !== passwordConfirm.val()) {
+			if (passwordInput.val() !== passwordConfirm.val() && passwordInput.val() !== '') {
 				addClass(passwordInput, 'invalid');
 				addClass(passwordConfirm, 'invalid');
 				addClass(passwordConfirmHelper, 'red-text');
 				removeClass(passwordConfirmHelper, 'white-text');
+				ableTosubmit.password = false;
 			} else {
 				removeClass(passwordInput, 'invalid');
 				removeClass(passwordConfirm, 'invalid');
 				removeClass(passwordConfirmHelper, 'red-text');
 				addClass(passwordConfirmHelper, 'white-text');
+				ableTosubmit.password = true;
+				enableButton(ableTosubmit);
 			}
 		});
 	});
@@ -44365,10 +44378,10 @@ function validatePassword() {
  *
  * @param {*} datePicker
  */
-function validateDate(datePicker, M) {
+function validateDate(datePicker, M, ableTosubmit) {
 	var DOB = $('#date-of-birth');
 	datePicker.datepicker({
-		maxDate: new Date(),
+		maxDate: new Date('2000-12-30'),
 		minDate: new Date('1970-1-1'),
 		defaultDate: new Date('1990-1-1'),
 		showClearBtn: true,
@@ -44381,40 +44394,46 @@ function validateDate(datePicker, M) {
 				addClass(DOB, 'invalid');
 				removeClass(DOB, 'valid');
 				M.toast({ html: 'You should at least be 18 years old' });
+				ableTosubmit.date = false;
 			} else {
+				enableButton(ableTosubmit);
+				ableTosubmit.date = true;
 				addClass(DOB, 'valid');
 				removeClass(DOB, 'invalid');
 			}
 		}
 	});
 }
-// function disableButton(){
-// 	const registerButton = $('#registerButton');
-// 	addClass(registerButton, 'disabled');
-// }
+function disableButton() {
+	var registerButton = $('#registerButton');
+	addClass(registerButton, 'disabled');
+}
 
-// function enableButton(){
-// 	const registerButton = $('#registerButton');
-// 	removeClass(registerButton, 'disabled');
-// }
+function enableButton(ableTosubmit) {
+	var user = ableTosubmit.user,
+	    email = ableTosubmit.email,
+	    password = ableTosubmit.password,
+	    date = ableTosubmit.date;
+
+	if (user && email && password && date) {
+		var registerButton = $('#registerButton');
+		removeClass(registerButton, 'disabled');
+	}
+}
 
 /***/ }),
 /* 48 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = home;
 function home() {}
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
