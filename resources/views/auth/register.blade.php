@@ -59,7 +59,7 @@
                   <label for="password-confirm">Password confirmation</label>
                   <span class="helper-text white-text" id="password-confirm-helper">Should be the same as the password</span>
                 </div>
-                <div class="input-field col s12 m6 ">
+                <div class="input-field col s12 m6 fixingMatError">
                   <i class="material-icons prefix white-text">date_range</i>
                   <input type="text" class="datepicker white-text" name="dateOfBirth" id="date-of-birth" value="{{ old('dateOfBirth') }}">
                   <label for="date-of-birth">date of birth</label>

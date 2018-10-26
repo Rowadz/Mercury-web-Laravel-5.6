@@ -19,7 +19,7 @@ class CreateReviewsTable extends Migration
             $table->unsignedInteger('from_id');
             $table->string('header', 50);
             $table->text('body');
-            $table->unsignedSmallInteger('value');
+            $table->enum('value', ['happy', 'sad', 'angry']);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('from_id')->references('id')->on('users');
             $table->timestamps();

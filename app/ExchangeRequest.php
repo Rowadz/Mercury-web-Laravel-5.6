@@ -11,7 +11,6 @@ use Mercury\Post;
 // original_post_id  the The post that recived an exchange request
 // status => 1 accepted 
 // status => 0 pending 
-// status => 2 archive
 class ExchangeRequest extends Model
 {
     // who sent the request
@@ -35,6 +34,10 @@ class ExchangeRequest extends Model
     public function post()
     {
         return $this->belongsTo("Mercury\Post", "original_post_id");
+    }
+
+    public function otherPost(){
+        return $this->belongsTo("Mercury\Post", "post_id");
     }
 
     /**
@@ -168,7 +171,7 @@ class ExchangeRequest extends Model
     {   
         DB::transaction(function () use ($rowId, $postId, $theOtherPostId) {
             Post::moveToArchive([$postId, $theOtherPostId]);
-            self::moveToArchive([$postId, $theOtherPostId]);
+            self::accepted([$postId, $theOtherPostId]);
             $exchangeRequest = ExchangeRequest::find($rowId);
             $exchangeRequest->status = 'accepted';
             $exchangeRequest->save();
@@ -193,11 +196,11 @@ class ExchangeRequest extends Model
     }
 
     /**
-     * getting each recored and setting the status to 2
+     * getting each recored and setting the status to accepted
      * @param array $exchangeRequestsIds
      * @return void
      */
-    private static function moveToArchive($exchangeRequestsIds)
+    private static function accepted($exchangeRequestsIds)
     {
         foreach($exchangeRequestsIds as $id){
             $exchangeRequest = ExchangeRequest::where([
@@ -208,7 +211,7 @@ class ExchangeRequest extends Model
                 'status' => 'pending'
             ])->get();
             foreach ($exchangeRequest as $recored) {
-                $recored->status = 'archive';
+                $recored->status = 'accepted';
                 $recored->save();
             }
         }
@@ -223,17 +226,72 @@ class ExchangeRequest extends Model
      */
     public static function exchangeRequestsProfile(int $userId)
     {
-        $data =  ExchangeRequest::with('post')->whereHas('post', function($q) use ($userId){
-            $q->where('user_id',  $userId);
-        })->orderBy('created_at')->take(10)->get();
-        
+        // $data =  ExchangeRequest::with('user')->with('post')
+        //         ->with('otherPost')
+        //         ->where('status', 'accepted')->orderBy('created_at')
+        //         ->take(10)->get();
+        $data = ExchangeRequest::where([
+            'user_id' => $userId,
+            'status' => 'accepted'
+        ])->take(10)->orderBy('created_at')->get();
+
+        $users = [];
+
         foreach ($data as $key => $value) {
-            $data[$key]["theOtherPost"] = Post::with('user')->where([
-                'user_id' => $value['user_id'],
-                'id' => $value['post_id']
-            ])->first();
+            $postUser = Post::with('user')->find($value->original_post_id);
+            array_push($users, $postUser->user);
         }
-        return $data;   
+        // return $users;
+        $theExhcnageRequestsSentToTheUser = ExchangeRequest::where('status', 'accepted')
+                    ->where('user_id', '!=', $userId)->get();
+
+
+        foreach ($theExhcnageRequestsSentToTheUser as $key => $value) {
+            $postUser = Post::find($value->original_post_id);
+            if($postUser->user_id === $userId){
+                $user = User::find($value->user_id);
+                array_push($users, $user);
+            }
+        }
+
+        return $users;   
     }
     
+    /**
+     * TODO:: DESCRIPE THIS
+     *
+     * @return void
+     */
+    public static function getPeopleToReview()
+    {
+        // the request that sent to the user !
+        $theExhcnageRequestsTheUserSent = ExchangeRequest::where([
+            'user_id' => Auth()->user()->id,
+            'status' => 'accepted'
+        ])->get();
+        
+        $usersTheAuthedSentReqToThem = [];
+        foreach ($theExhcnageRequestsTheUserSent as $key => $value) {
+            $postUser = Post::with('user')->find($value->post_id);
+            array_push($usersTheAuthedSentReqToThem, $postUser->user);
+        }
+
+        $theExhcnageRequestsSent = ExchangeRequest::where('status', 'accepted')
+                    ->where('user_id', '!=', Auth()->user()->id)->get();
+
+        foreach ($theExhcnageRequestsSent as $key => $value) {
+            $postUser = Post::find($value->original_post_id);
+            if($postUser->user_id === Auth()->user()->id){
+                $userToReview = User::find($value->user_id);
+                array_push($usersTheAuthedSentReqToThem, $userToReview);
+            }
+        }
+        $finalUsers = [];
+
+        foreach ($usersTheAuthedSentReqToThem as $key => $value) {
+            if(!Review::isReviewed(Auth()->user()->id, $value->id))
+                array_push($finalUsers, $value);                
+        }
+        return view('user.peopleToReview')->with('finalUsers', $finalUsers);
+    }
 }

@@ -115,6 +115,7 @@ Route::prefix('/register')->group(function(){
 
 
 
+Route::get('/review/users', 'UserController@reviewPage')->name('review');
 
 
 
@@ -122,7 +123,18 @@ Route::prefix('/register')->group(function(){
 
 
 
+
+
+
+
+
+/**
+ * You Route Mohammed !
+ */
 Route::get("/search/{keyword?}", 'UserController@searchPage')->name('search');
+
+
+
 
 
 

@@ -205,7 +205,7 @@ class Post extends Model
         $lowerCase = strtolower($keyword);
         return Post::select('header', 'id')->where([
             "user_id" => Auth()->user()->id,
-            "status" => 1
+            "status" => 'available'
         ])->where('header', 'like', "%{$upperCase}%")
           ->orWhere('header', 'like', "%{$lowerCase}%")
           ->first() ?: [];
@@ -235,7 +235,7 @@ class Post extends Model
     public static function moveToArchive(array $postsIds){
         foreach($postsIds as $rowId){
             $x = Post::find($rowId);
-            $x->status = 0;
+            $x->status = 'archive';
             $x->save();
         }
         // Post::destroy($postsIds);

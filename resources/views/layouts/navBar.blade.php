@@ -84,7 +84,7 @@
     </a>
   </li>
   <li>
-    <a href="#" class="black-text pulse">
+    <a href="{{ route('review') }}" class="black-text pulse">
       <i class="material-icons black-text">face</i>
       People to Review
     </a>
@@ -149,6 +149,12 @@
       Wished Posts
       <span class="badge black white-text z-depth-5 updateWishesNumber"> {{ isset($wishes) ? $wishes
         : 0 }} </span>
+    </a>
+  </li>
+  <li>
+    <a href="{{ route('review') }}" class="black-text pulse">
+      <i class="material-icons black-text">face</i>
+      People to Review
     </a>
   </li>
   <li class="divider"></li>

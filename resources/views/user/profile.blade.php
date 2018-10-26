@@ -33,7 +33,7 @@
         @forelse ($followingFeedProfile as $followFeed)
         {{ $followFeed['other_user'] }}
         <div class="col s12 m5 ">
-          <div class="card-panel grey darken-4">
+          <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
 
               @if ($followFeed->user->id === Auth()->user()->id)
@@ -50,7 +50,7 @@
         </div>
         @empty
         <div class="col s12 m5">
-          <div class="card-panel grey darken-4">
+          <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
               🏹 {{ Auth()->user()->name }} has no following request activities
             </span>
@@ -58,23 +58,20 @@
         </div>
         @endforelse
         @forelse ($exchangeRequests as $feed)
-
-
         <div class="col s12 m5 ">
-          <div class="card-panel grey darken-4">
+          <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-              🤝 {{ Auth()->user()->name }} has accepted to exchange <a href="/show/post/{{$feed->post->id}}">'
-                {{$feed->post->header}} '</a>
-              with {{ $feed->theOtherPost->user->name }}'s <a href="/show/post/{{$feed->theOtherPost->id}}"> '
-                {{$feed->theOtherPost->header}} ' </a>
+                🤝 {{ $user->name }} had a ' successful ' exchange with  <a href="/{{$feed->name}}">
+                  {{ $feed->name }} 
+                </a>
             </span>
           </div>
         </div>
         @empty
         <div class="col s12 m5">
-          <div class="card-panel grey darken-4">
+          <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-              🤝 {{ Auth()->user()->name }} has no exchange request activities
+              🤝 {{ $user->name }} has no exchange request activities
             </span>
           </div>
         </div>

@@ -24,7 +24,7 @@ class CreateExchangeRequestsTable extends Migration
             $table->unsignedInteger('user_id'); // who sent the request
             $table->unsignedInteger('post_id'); // the offerd Post
             $table->unsignedInteger('original_post_id');
-            $table->enum('status', ['accepted', 'pending', 'archive']);
+            $table->enum('status', ['accepted', 'pending']);
             $table->foreign('post_id')->references('id')->on('posts');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('original_post_id')->references('id')->on('posts');

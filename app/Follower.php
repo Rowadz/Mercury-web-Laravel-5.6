@@ -46,10 +46,10 @@ class Follower extends Model
     /**
      * infinite scroll for follower
      *
-     * @param integer $highestId
+     * @param any $highestId
      * @return void
      */
-    public static function seeFollowers(int $highestId = 0)
+    public static function seeFollowers($highestId = null)
     {
         return Follower::with('user')->where([
                                 'user_id' => Auth()->user()->id,

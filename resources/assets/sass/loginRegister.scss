@@ -35,6 +35,12 @@
     }
 }
 
+.fixingMatError{
+    .select-dropdown, .dropdown-trigger, .select-dropdown, .dropdown-trigger{
+        color: black !important;
+    }
+}
+
 /* Change the white to any color  */
 // input:-webkit-autofill {
 //     -webkit-box-shadow: 0 0 0 30px getVariableData($colors, vortexling)  inset !important;

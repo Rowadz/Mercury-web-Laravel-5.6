@@ -11233,6 +11233,13 @@ nav li a {
   width: 100% !important;
 }
 
+.fixingMatError .select-dropdown,
+.fixingMatError .dropdown-trigger,
+.fixingMatError .select-dropdown,
+.fixingMatError .dropdown-trigger {
+  color: black !important;
+}
+
 /* Change the white to any color  */
 
 /*Change text in autofill textbox*/
@@ -11326,6 +11333,14 @@ input:-webkit-autofill {
 
 #profileWrapper .addNigativeMarginToTop {
   margin-top: -200px;
+}
+
+#peopleToReviewSection .emotionsReview {
+  height: 100px;
+}
+
+#peopleToReviewSection .emotionsReview:hover {
+  cursor: pointer;
 }
 
 #sortPostsUserProfile {

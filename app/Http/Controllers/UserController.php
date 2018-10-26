@@ -269,4 +269,10 @@ class UserController extends Controller
     {
         return view('searchPage');
     }
+
+    public function reviewPage()
+    {   
+        return ExchangeRequest::getPeopleToReview();
+        // return view('user.peopleToReview')->with('data', );
+    }
 }
