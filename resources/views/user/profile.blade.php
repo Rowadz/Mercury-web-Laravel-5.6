@@ -18,8 +18,7 @@
       'iamIFollowingThisUser' => $iamIFollowingThisUser,
       'followId' => $followId,
       'followers' => $followers,
-      'following' => $following
-      ])
+      'following' => $following])
       @endgeneralInfo
     </div>
     <div class="col s12 m8">
@@ -61,9 +60,8 @@
         <div class="col s12 m5 ">
           <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-                🤝 {{ $user->name }} had a ' successful ' exchange with  <a href="/{{$feed->name}}">
-                  {{ $feed->name }} 
-                </a>
+                🤝 {{ $user->name }} had a ' successful ' exchange with  
+                <a href="/{{$feed->name}}"> {{ $feed->name }} </a> {{ $feed->created_at->diffForHumans() }}
             </span>
           </div>
         </div>

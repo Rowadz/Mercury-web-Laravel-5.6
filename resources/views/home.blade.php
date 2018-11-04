@@ -23,7 +23,7 @@
 
 <div id="feed">
   <div class="row">
-    <div class="col s12 m6 l6">
+    {{-- <div class="col s12 m6 l6">
       <section class="filters">
         <div class="card-panel teal">
           <span class="white-text">
@@ -31,9 +31,9 @@
           </span>
         </div>
       </section>
-    </div>
-    <div class="col s12 m6 l6">
-      @displayPosts(["posts" => $posts])
+    </div> --}}
+    <div class="">
+      @displayPosts(["posts" => $posts,  "sm" => "s12 m4 l6 offset-l3"])
       @enddisplayPosts
     </div>
     <input type="text" id="lastId" hidden value="{{ sizeof($posts) ? $posts[sizeof($posts) - 1]->id : null }}">
@@ -42,7 +42,7 @@
   @if (sizeof($posts))
   <div class="row">
     <div class="">
-      @vuePosts(["sm" => "s12 m6 l6"])
+      @vuePosts(["sm" => "s12 m4 l6 offset-l3"])
       @endvuePosts
     </div>
   </div>

@@ -11264,24 +11264,9 @@ input:-webkit-autofill {
   color: #f0f8ff !important;
 }
 
-#postWrapper .postBody {
-  -webkit-box-shadow: 0 4px 8px 0 #00b8d4, 0 6px 20px 0 #00b8d4 !important;
-          box-shadow: 0 4px 8px 0 #00b8d4, 0 6px 20px 0 #00b8d4 !important;
-}
-
-#postWrapper .postHeader {
-  -webkit-box-shadow: 0 4px 8px 0 #ff1744, 0 6px 20px 0 #ff1744 !important;
-          box-shadow: 0 4px 8px 0 #ff1744, 0 6px 20px 0 #ff1744 !important;
-}
-
 #postWrapper .postImage {
   -webkit-box-shadow: 0 4px 8px 0 #ede7f6, 0 6px 20px 0 #ede7f6 !important;
           box-shadow: 0 4px 8px 0 #ede7f6, 0 6px 20px 0 #ede7f6 !important;
-}
-
-#postWrapper .optionsButton {
-  -webkit-box-shadow: 0 4px 8px 0 #1a1a1a, 0 6px 20px 0 #ede7f6 !important;
-          box-shadow: 0 4px 8px 0 #1a1a1a, 0 6px 20px 0 #ede7f6 !important;
 }
 
 #postWrapper .paddingTags {

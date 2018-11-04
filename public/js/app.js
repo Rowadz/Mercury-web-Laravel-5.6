@@ -777,7 +777,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
-module.exports = __webpack_require__(49);
+module.exports = __webpack_require__(50);
 
 
 /***/ }),
@@ -802,6 +802,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__my_modules_exchangeRequests__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__my_modules_home__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__my_modules_searchPage__ = __webpack_require__(49);
+
 
 
 
@@ -833,6 +835,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 document.addEventListener('DOMContentLoaded', function () {
 	if ($('#registerForm').length) Object(__WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__["a" /* default */])();
 	$('.dropdown-trigger-filter').dropdown();
+	Object(__WEBPACK_IMPORTED_MODULE_14__my_modules_searchPage__["a" /* default */])();
 });
 
 /** 
@@ -44431,6 +44434,20 @@ function home() {}
 
 /***/ }),
 /* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = initSearch;
+function initSearch() {
+    var inputSearch = $('#moh-search');
+    var buttonSearch = $('#moh-go');
+    buttonSearch.click(function () {
+        alert(inputSearch.val());
+    });
+}
+
+/***/ }),
+/* 50 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

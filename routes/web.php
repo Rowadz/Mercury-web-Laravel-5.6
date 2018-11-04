@@ -23,8 +23,8 @@ Route::post("/show/all/postsNoAuth", "PostController@loadMorePostsNoAuth")->name
 // adds a post to the wish list
 Route::post("/addToWishList/{post}", "WishController@addPostToWishList")->name('addPostToWishList');
 
-// deleting a wish
-Route::delete("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
+// deleting a wish // TODO :: make the request delete , it won't work now because of PostFunctionalities line 24 logic
+Route::post("/deleteWishedPost/{post}", "WishController@deleteWish")->name('deleteWish');
 
 // show the wished posts
 Route::post("/wishedPosts", "WishController@showWishedPosts")->name('showWishedPosts');
