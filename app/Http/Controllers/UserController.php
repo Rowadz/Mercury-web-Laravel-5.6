@@ -275,4 +275,10 @@ class UserController extends Controller
         return ExchangeRequest::getPeopleToReview();
         // return view('user.peopleToReview')->with('data', );
     }
+
+
+    public function addReview(int $userId, string $type)
+    {
+        return Review::addReview($userId, $type);
+    }
 }

@@ -22,4 +22,13 @@ class Review extends Model
 
         return $idReviewed === null ? true : false;
     }
+
+    public static function addReview(int $userId, string $type, string $header, string $body)
+    {
+        $review = new Review;
+        $review->user_id = $userId;
+        $review->from_id = Auth()->user()->id;
+        $review->header = $header;
+        $review->body = $body;
+    }
 }

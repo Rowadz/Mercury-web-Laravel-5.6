@@ -116,7 +116,7 @@ Route::prefix('/register')->group(function(){
 
 
 Route::get('/review/users', 'UserController@reviewPage')->name('review');
-
+Route::post('/addReview', 'UserController@addReview');
 
 
 

@@ -211,10 +211,10 @@ class Post extends Model
         $lowerCase = strtolower($keyword);
         return Post::select('header', 'id')->where([
             "user_id" => Auth()->user()->id,
-            "status" => 'available'
+            "status" => 'available',
         ])->where(function ($q) use ($upperCase, $lowerCase) {
             $q->where('header', 'like', "%{$upperCase}%")
-              ->orWhere('header', 'like', "%{$lowerCase}%");
+                ->orWhere('header', 'like', "%{$lowerCase}%");
         })->first() ?: [];
     }
 

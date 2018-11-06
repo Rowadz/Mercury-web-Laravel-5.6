@@ -5,7 +5,6 @@
         "mocha": true,
         "browser": true,
         "commonjs": true,
-        "es6": true,
         "jquery": true
     },
     "parserOptions": {
@@ -14,8 +13,7 @@
     },
     "extends": "eslint:recommended",
     "rules": {
-        "indent":[1, "tab"],
-        "linebreak-style": [
+          "linebreak-style": [
             "error",
             "unix"
         ],

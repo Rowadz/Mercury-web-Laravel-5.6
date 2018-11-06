@@ -91,7 +91,7 @@ class HomeController extends Controller
       // ]);
       $ranLineColor = array_rand([
         '#e0f7fa' => "cyan lighten-5", 
-        "#d32f2f" => "red darken-2", 
+        // "#d32f2f" => "red darken-2", 
         "#eceff1" => "blue-grey lighten-5", 
         "#616161" => "grey darken-2", 
         "#81d4fa" => "light-blue lighten-3",

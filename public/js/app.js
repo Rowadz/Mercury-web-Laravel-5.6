@@ -777,7 +777,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
-module.exports = __webpack_require__(50);
+module.exports = __webpack_require__(51);
 
 
 /***/ }),
@@ -803,6 +803,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__my_modules_home__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__my_modules_searchPage__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__my_modules_social_reviewFunctionality__ = __webpack_require__(50);
+
 
 
 
@@ -836,6 +838,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	if ($('#registerForm').length) Object(__WEBPACK_IMPORTED_MODULE_12__my_modules_auth_register__["a" /* default */])();
 	$('.dropdown-trigger-filter').dropdown();
 	Object(__WEBPACK_IMPORTED_MODULE_14__my_modules_searchPage__["a" /* default */])();
+	Object(__WEBPACK_IMPORTED_MODULE_15__my_modules_social_reviewFunctionality__["a" /* default */])();
+	Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
 });
 
 /** 
@@ -844,7 +848,7 @@ document.addEventListener('DOMContentLoaded', function () {
 */
 
 window.onload = function () {
-	Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
+
 	Object(__WEBPACK_IMPORTED_MODULE_13__my_modules_home__["a" /* default */])();
 	if ($('#feed').length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
 	if ($('#sortPostsUserProfile').length) Object(__WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__["a" /* default */])();
@@ -44448,6 +44452,34 @@ function initSearch() {
 
 /***/ }),
 /* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = reviewInit;
+/*eslint no-console: */
+function reviewInit() {
+    // select this data-usertoreview="2"
+    console.log(123);
+    $('.emotionsReview').on('click', function () {
+        var userId = $(this).attr('data-usertoreview');
+        var type = $(this).attr('data-type');
+        addReview(userId, type);
+    });
+}
+
+function addReview(userId, type) {
+    fetch('/addReview', {
+        method: 'POST',
+        body: JSON.stringify({ userId: userId, type: type })
+    }).then(function (res) {
+        return console.log(res);
+    }).catch(function (err) {
+        return console.log(err);
+    });
+}
+
+/***/ }),
+/* 51 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

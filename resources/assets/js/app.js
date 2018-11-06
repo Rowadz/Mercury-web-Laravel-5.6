@@ -13,6 +13,7 @@ import exchangeRequestsInit from './my_modules/exchangeRequests';
 import register from './my_modules/auth/register';
 import home from './my_modules/home';
 import initSearch from './my_modules/searchPage';
+import reviewInit from './my_modules/social/reviewFunctionality';
 
 // init function should always run before anything so the website won't appear frozened
 // execute before the page load ( for slow images )
@@ -31,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	if($('#registerForm').length) register();
 	$('.dropdown-trigger-filter').dropdown();
 	initSearch();
+	reviewInit();
+	init();
 });
 
 /** 
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 
 window.onload = () => {
-	init();
+	
 	home();
 	if ($('#feed').length) feed();
 	if($('#sortPostsUserProfile').length) initSortingForProfile();

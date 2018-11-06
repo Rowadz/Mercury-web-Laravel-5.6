@@ -33,7 +33,7 @@
       </section>
     </div> --}}
     <div class="">
-      @displayPosts(["posts" => $posts,  "sm" => "s12 m4 l6 offset-l3"])
+      @displayPosts(["posts" => $posts,  "sm" => "s12 m6 l6 offset-l3 offset-m3"])
       @enddisplayPosts
     </div>
     <input type="text" id="lastId" hidden value="{{ sizeof($posts) ? $posts[sizeof($posts) - 1]->id : null }}">
@@ -42,7 +42,7 @@
   @if (sizeof($posts))
   <div class="row">
     <div class="">
-      @vuePosts(["sm" => "s12 m4 l6 offset-l3"])
+      @vuePosts(["sm" => "s12 m6 l6 offset-l3 offset-m3"])
       @endvuePosts
     </div>
   </div>
