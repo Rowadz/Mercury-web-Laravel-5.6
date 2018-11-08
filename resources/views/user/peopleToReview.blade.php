@@ -17,8 +17,19 @@
               <strong class="black-text">{{ $user->name }}</strong>
             </a>
           </div>
+          <button class="waves-effect waves-light btn floatRight grey darken-4 reviewButtonSubmit"
+             data-addreviewtouser="{{$user->id}}"
+             data-username="{{ $user->name }}">✅</button>
         </span>
         <section class="row">
+          <div class="input-field col s12">
+            <input id="reviewHeader" type="text" class="validate white-text" required data-inputHeader="{{$user->id}}">
+            <label for="reviewHeader">Review header</label>
+          </div>
+          <div class="input-field col s12">
+            <textarea id="inputbody" class="validate materialize-textarea white-text"  required data-inputbody="{{ $user->id }}"></textarea>
+            <label for="inputbody">What do you have to say</label>
+          </div>
           <div class="col m4 l4 s4">
             <img src="{{asset('images/happy.png')}}" alt="happy" class="responsive-img emotionsReview tooltipped"
               data-position="bottom" data-tooltip="Give a happy face" data-usertoreview="{{$user->id}}" data-type="happy">

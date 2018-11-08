@@ -44458,12 +44458,22 @@ function initSearch() {
 /* harmony export (immutable) */ __webpack_exports__["a"] = reviewInit;
 /*eslint no-console: */
 function reviewInit() {
+    var typeObj = {
+        type: ''
+    };
     // select this data-usertoreview="2"
-    console.log(123);
-    $('.emotionsReview').on('click', function () {
-        var userId = $(this).attr('data-usertoreview');
-        var type = $(this).attr('data-type');
+    $('.emotionsReview').on('click', function (e) {
+        var $this = $(e.currentTarget);
+        var userId = $this.attr('data-usertoreview');
+        var type = $this.attr('data-type');
+        // TODO swtich between these ~ if the user changed his/her mind
+        $this.css('opacity', 0.1);
+        typeObj.type = type;
         addReview(userId, type);
+    });
+    $('.reviewButtonSubmit').on('click', function (e) {
+        var $this = $(e.currentTarget);
+        validateReviewForm($this.attr('data-addreviewtouser'), typeObj);
     });
 }
 
@@ -44476,6 +44486,36 @@ function addReview(userId, type) {
     }).catch(function (err) {
         return console.log(err);
     });
+}
+
+function validateReviewForm(id, typeObj) {
+    var M = window.M;
+    var inputHeader = $('[data-inputHeader="' + id + '"]');
+    var inputbody = $('[data-inputbody=' + id + ']');
+    var inputHeaderVal = inputHeader.val().trim();
+    var inputbodyVal = inputbody.val().trim();
+    if (!inputbodyVal) {
+        inputbody.addClass(['invalid', 'animated jello']);
+        M.toast({
+            html: 'You can\'t have empty body to the review',
+            classes: ' red lighten-1',
+            displayLength: 1000
+        });
+    } else inputbody.removeClass('invalid');
+    if (!inputHeaderVal) {
+        inputHeader.addClass(['invalid', 'animated jello']);
+        M.toast({
+            html: 'You can\'t have empty header to the review',
+            classes: ' red lighten-1',
+            displayLength: 1000
+        });
+    } else inputHeader.removeClass('invalid');
+
+    if (!typeObj.type) $('.emotionsReview[data-usertoreview="' + id + '"]').addClass('animated jello');
+    if (['sad', 'happy', 'angry'].indexOf(typeObj.type) > -1 && inputbodyVal && inputHeaderVal) {
+        // TODO send request now !
+        console.log('%cValid', 'color:green; font-size:50px;');
+    }
 }
 
 /***/ }),
