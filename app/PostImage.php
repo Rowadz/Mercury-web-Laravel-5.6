@@ -10,6 +10,6 @@ class PostImage extends Model
       'post_id', 'location'
     ];
     public function post(){
-        return $this->belongsTo("Mercury\\Post");
+        return $this->belongsTo("Mercury\Post");
     }
 }

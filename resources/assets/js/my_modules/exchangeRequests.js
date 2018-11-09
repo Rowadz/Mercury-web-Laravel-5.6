@@ -3,7 +3,10 @@ let exchangeRequestReverseSortingTurn = 'ASC',
 	exchangeRequestReverseSortingTurnClicked = false;
 export default function exchangeRequestsInit(){
 	exchangeRequestsModalOptionsInit();
-	exchangeRequestsLoadMoreButtonInit();
+	let pages = {
+		page: 1
+	};
+	exchangeRequestsLoadMoreButtonInit(pages);
 	$('#exchangeRequestReverseSorting').click(()=>{
 		$('#exchangeRequestReverseSorting').hide();
 		exchangeRequestReverseSorting(exchangeRequestReverseSortingTurn === 'DESC');
@@ -31,14 +34,14 @@ function exchangeRequestsModalOptionsInit(){
 	//     }
 	// })
 	let dataToSubmit = undefined;
-	$('.modal-trigger-custom').click(e=>{
+	$('.modal-trigger-custom').click(e => {
 		// console.log(e.target.parentElement)
 		let x = e.target.parentElement;
 		let z = $(x);
 		dataToSubmit = {
 			exchangeRequestId: z.data('exchange-request-id'),
-			postId: z.data('auth-user-post-id'),
-			theOtherPostId: z.data('post-id')
+			user_post_id: z.data('auth-user-post-id'),
+			owner_post_id: z.data('post-id')
 		};
 		console.log(dataToSubmit);
 		// console.log(z.data('exchange-request-id'))
@@ -78,13 +81,17 @@ function exchangeRequestsModalOptionsInit(){
 	});
 }
 
-function exchangeRequestsLoadMoreButtonInit(){
+function exchangeRequestsLoadMoreButtonInit(pages){
 	const axios = window.axios;
 	const M = window.M;
 	let [,idToSend] = $('.exchangeRequest').last().attr('id').split('-');
 	console.log(idToSend);
 	$('#exchangeRequestsLoadMoreButton').click(() => {
 		$('#exchangeRequestsLoadMoreButton').addClass('disabled');
+		fetch(`/paginate/exchangeRequests?page=${pages.page}`)
+			.then(s => s.json())
+			.then(x => console.log(x))
+			.catch(e => console.error(e));
 		axios.post('/exchangeRequest/loadMore', {
 			idToSend,
 			turn: ((exchangeRequestReverseSortingTurn === 'DESC') && exchangeRequestReverseSortingTurnClicked) ? 'ASC' : 'DESC'

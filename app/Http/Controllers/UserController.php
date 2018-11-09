@@ -8,7 +8,7 @@ use Mercury\Wish;
 use Mercury\Follower;
 use Mercury\ExchangeRequest;
 use Mercury\Post;
-
+use Mercury\Review;
 
 class UserController extends Controller
 {
@@ -27,11 +27,13 @@ class UserController extends Controller
     {
         $iamIFollowingThisUser = Follower::iamIFollowingThisUser($user->id);
         // return the row id if the user send a follow request
-        if($iamIFollowingThisUser === 0 || $iamIFollowingThisUser === 1){
+        if($iamIFollowingThisUser === 'canCancel' || $iamIFollowingThisUser === 'canUnfollow'){
             $followId = Follower::getRowId($user->id);
         }
+        // dd(Follower::iamIFollowingThisUser($user->id));
     	$data = [
             "user" => $user,
+            "reviews" => Review::reviewDataCount(),
             "exchangeRequests" => ExchangeRequest::exchangeRequestsProfile($user->id),
             "followingFeedProfile" => Follower::followingFeedProfile($user->id),
             "iamIFollowingThisUser" => Follower::iamIFollowingThisUser($user->id),
@@ -167,11 +169,11 @@ class UserController extends Controller
     public function sendExchangeRequest(Request $request)
     {
         $validatedData = $request->validate([
-            'postId' => 'required|numeric|exists:posts,id',
-            'userPostId' => 'required|numeric|exists:posts,id'
+            'owner_post_id' => 'required|numeric|exists:posts,id',
+            'user_post_id' => 'required|numeric|exists:posts,id'
         ]);
-        if(Post::checkPostStatus($request->postId, 'available') && Post::checkPostStatus($request->userPostId, 'available'))
-            return ExchangeRequest::sendExchangeRequest($request->userPostId, $request->postId);    
+        if(Post::checkPostStatus($request->owner_post_id, 'available') && Post::checkPostStatus($request->user_post_id, 'available'))
+            return ExchangeRequest::sendExchangeRequest($request->user_post_id, $request->owner_post_id, $request->user_id);    
         else return response()->json(["message" => "🐒🐒🐒🐒🐒🐒🐒🐒"]);
     }
 
@@ -182,7 +184,8 @@ class UserController extends Controller
      */
     public function seeExchangeRequest()
     {
-        return view('user.exchangeRequests')->with(["exchangeRequests" => ExchangeRequest::dataForTheExchangeRequstsView()]);
+        $exchangeRequests = ExchangeRequest::dataForTheExchangeRequstsView();
+        return view('user.exchangeRequests', compact('exchangeRequests'));
     }
 
     /**
@@ -233,11 +236,11 @@ class UserController extends Controller
         // TODO :: and tell the both users to start chatting !
         $validatedData = $request->validate([
             'exchangeRequestInfo.exchangeRequestId' => 'numeric|exists:exchange_requests,id',
-            'exchangeRequestInfo.postId' => 'numeric|exists:exchange_requests,original_post_id',
-            'exchangeRequestInfo.theOtherPostId' => 'numeric|exists:exchange_requests,post_id'
+            'exchangeRequestInfo.user_post_id' => 'numeric|exists:exchange_requests,user_post_id',
+            'exchangeRequestInfo.owner_post_id' => 'numeric|exists:exchange_requests,owner_post_id'
         ]);
-        if(ExchangeRequest::checkIfExchangeRequestExist($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['postId'], $request->exchangeRequestInfo['theOtherPostId'])){
-            return ExchangeRequest::acceptExchangeRequest($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['postId'], $request->exchangeRequestInfo['theOtherPostId']);
+        if(ExchangeRequest::checkIfExchangeRequestExist($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['user_post_id'], $request->exchangeRequestInfo['owner_post_id'])){
+            return ExchangeRequest::acceptExchangeRequest($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['user_post_id'], $request->exchangeRequestInfo['owner_post_id']);
         } else return response()->json(["message" => 'the post already exchanged ! ¯\_(ツ)_/¯']);
     }
 
@@ -251,10 +254,10 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'exchangeRequestInfo.exchangeRequestId' => 'numeric|exists:exchange_requests,id',
-            'exchangeRequestInfo.postId' => 'numeric|exists:exchange_requests,original_post_id',
-            'exchangeRequestInfo.theOtherPostId' => 'numeric|exists:exchange_requests,post_id'
+            'exchangeRequestInfo.user_post_id' => 'numeric|exists:exchange_requests,user_post_id',
+            'exchangeRequestInfo.owner_post_id' => 'numeric|exists:exchange_requests,owner_post_id'
         ]);
-        if(ExchangeRequest::checkIfExchangeRequestExist($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['postId'], $request->exchangeRequestInfo['theOtherPostId'])){
+        if(ExchangeRequest::checkIfExchangeRequestExist($request->exchangeRequestInfo['exchangeRequestId'], $request->exchangeRequestInfo['user_post_id'], $request->exchangeRequestInfo['owner_post_id'])){
             return ExchangeRequest::deleteExchangeRequest($request->exchangeRequestInfo['exchangeRequestId']);
         } else return response()->json(["message" => '¯\_(ツ)_/¯']);
     }
@@ -272,13 +275,12 @@ class UserController extends Controller
 
     public function reviewPage()
     {   
-        return ExchangeRequest::getPeopleToReview();
-        // return view('user.peopleToReview')->with('data', );
+        return view('user.peopleToReview')->with('finalUsers', ExchangeRequest::getPeopleToReview());
     }
 
 
-    public function addReview(int $userId, string $type)
+    public function addReview(Request $request)
     {
-        return Review::addReview($userId, $type);
+        return Review::addReview($request->userId, $request->type, $request->header, $request->body);
     }
 }

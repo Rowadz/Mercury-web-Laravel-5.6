@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 
 window.onload = () => {
-	
+	init();
 	home();
 	if ($('#feed').length) feed();
 	if($('#sortPostsUserProfile').length) initSortingForProfile();

@@ -23,7 +23,12 @@ class ExchangeRequest extends Model
      */
     public function user()
     {
-        return $this->belongsTo("Mercury\User");
+        return $this->belongsTo("Mercury\User", 'user_id');
+    }
+
+
+    public function onwer(){
+        return $this->belongsTo("Mercury\User", 'owner_id');
     }
 
     /**
@@ -32,14 +37,14 @@ class ExchangeRequest extends Model
      *
      * @return void
      */
-    public function post()
+    public function userPost()
     {
-        return $this->belongsTo("Mercury\Post", "original_post_id");
+        return $this->belongsTo("Mercury\Post", "user_post_id");
     }
 
-    public function otherPost()
+    public function onwerPost()
     {
-        return $this->belongsTo("Mercury\Post", "post_id");
+        return $this->belongsTo("Mercury\Post", "owner_post_id");
     }
 
     /**
@@ -50,13 +55,11 @@ class ExchangeRequest extends Model
     public static function exchangeRequestCount()
     {
         if (isset(Auth()->user()->id)) {
-            return ExchangeRequest::whereHas('post', function ($q) {
-                $q->where('user_id', Auth()->user()->id);
-            })->where('status', 'pending')->count();
-        } else {
-            return null;
-        }
-
+            return ExchangeRequest::where([
+                'user_id' => Auth()->user()->id,
+                'status' => 'pending'
+            ])->count();
+        } else return null;
     }
 
     /**
@@ -66,18 +69,20 @@ class ExchangeRequest extends Model
      * @param integer $postId
      * @return void
      */
-    public static function sendExchangeRequest($userPostId, $postId)
+    public static function sendExchangeRequest($userPostId, $ownerPostId, $userId)
     {
         if (!ExchangeRequest::where([
-            'user_id' => Auth()->user()->id,
-            'post_id' => $postId,
-            'original_post_id' => $userPostId,
+            'user_id' => $userId,
+            'owner_post_id' => $ownerPostId,
+            'user_post_id' => $userPostId,
+            'owner_id' => Auth()->user()->id,
             'status' => 'pending',
         ])->first()) {
             $exchangeRequest = new ExchangeRequest();
-            $exchangeRequest->user_id = Auth()->user()->id;
-            $exchangeRequest->post_id = $postId;
-            $exchangeRequest->original_post_id = $userPostId;
+            $exchangeRequest->user_id = $userId;
+            $exchangeRequest->user_post_id = $userPostId;
+            $exchangeRequest->owner_post_id = $ownerPostId;
+            $exchangeRequest->owner_id = Auth()->user()->id;
             $exchangeRequest->status = 'pending';
             $exchangeRequest->save();
             return response()->json([
@@ -97,17 +102,11 @@ class ExchangeRequest extends Model
      */
     public static function dataForTheExchangeRequstsView($DESC = true)
     {
-        $data = ExchangeRequest::with('post')->whereHas('post', function ($q) {
-            $q->where('user_id', Auth()->user()->id);
-        })->where('status', 'pending')->orderBy('id', ($DESC) ? 'DESC' : 'ASC')->take(2)->get();
-
-        foreach ($data as $key => $value) {
-            $data[$key]["theOtherPost"] = Post::where([
-                'user_id' => $value['user_id'],
-                'id' => $value['post_id'],
-            ])->first();
-        }
-        return $data;
+        return ExchangeRequest::with('userPost.postImages')->with('onwerPost.postImages')
+                ->where([
+                    'user_id' => Auth()->user()->id,
+                    'status' => 'pending'
+                ])->Paginate(20);
     }
 
     /**
@@ -119,30 +118,7 @@ class ExchangeRequest extends Model
      */
     public static function loadMore($id = null, $shouldItBeDESC)
     {
-        if ($id !== null && isset($shouldItBeDESC)) {
-            $data = ExchangeRequest::with('post')->whereHas('post', function ($q) {
-                $q->where('user_id', Auth()->user()->id);
-            })->where('id', ($shouldItBeDESC === 'DESC') ? '<' : '>', $id)->where('status', 'pending')->orderBy('id', ($shouldItBeDESC === 'DESC') ? 'DESC' : 'ASC')->take(2)->get();
-        } else {
-            $data = ExchangeRequest::with('post')->whereHas('post', function ($q) {
-                $q->where('user_id', Auth()->user()->id);
-            })->where('status', 'pending')->orderBy('id', (($shouldItBeDESC === 'DESC') ? 'DESC' : 'ASC'))->take(2)->get();
-        }
 
-        foreach ($data as $key => $value) {
-            $data[$key]["theOtherPost"] = Post::where([
-                'user_id' => $value['user_id'],
-                'id' => $value['post_id'],
-            ])->first();
-            $x = $data[$key]["theOtherPost"]->toarray();
-            $xx = $data[$key]["post"]->toarray();
-            $data[$key]->theOtherPost->imageLocation = PostImage::select('location')->where("post_id", $value['post_id'])->first()->location;
-            $data[$key]->post->imageLocation = PostImage::select('location')->where("post_id", $value['original_post_id'])->first()->location;
-            // you can do this as well !
-            // $data[$key]['theOtherPost']['imageLocation'] = PostImage::select('location')->where("post_id", $value['post_id'])->first()->location;
-            // $data[$key]["post"]['imageLocation'] = PostImage::select('location')->where("post_id", $value['original_post_id'])->first()->location;
-        }
-        return $data;
     }
 
     /**
@@ -157,8 +133,8 @@ class ExchangeRequest extends Model
     {
         if (ExchangeRequest::where([
             'id' => $rowId,
-            'post_id' => $theOtherPostId,
-            'original_post_id' => $postId,
+            'owner_post_id' => $theOtherPostId,
+            'user_post_id' => $postId,
             'status' => 'pending',
         ])->first()) {
             return true;
@@ -181,7 +157,7 @@ class ExchangeRequest extends Model
     {
         DB::transaction(function () use ($rowId, $postId, $theOtherPostId) {
             Post::moveToArchive([$postId, $theOtherPostId]);
-            self::accepted([$postId, $theOtherPostId]);
+            self::accepted( $rowId ,[$postId, $theOtherPostId]);
             $exchangeRequest = ExchangeRequest::find($rowId);
             $exchangeRequest->status = 'accepted';
             $exchangeRequest->save();
@@ -211,21 +187,24 @@ class ExchangeRequest extends Model
      * @param array $exchangeRequestsIds
      * @return void
      */
-    private static function accepted($exchangeRequestsIds)
+    private static function accepted($rowId, $exchangeRequestsIds)
     {
         foreach ($exchangeRequestsIds as $id) {
             $exchangeRequest = ExchangeRequest::where([
-                'post_id' => $id,
+                'user_post_id' => $id,
             ])->orWhere([
-                'original_post_id' => $id,
+                'owner_post_id' => $id,
             ])->where([
                 'status' => 'pending',
             ])->get();
             foreach ($exchangeRequest as $recored) {
-                $recored->status = 'accepted';
+                $recored->status = 'removed';
                 $recored->save();
             }
         }
+        $er = ExchangeRequest::find($rowId);
+        $er ->status = 'accepted';
+        $er->save();
     }
 
     /**
@@ -236,34 +215,16 @@ class ExchangeRequest extends Model
      */
     public static function exchangeRequestsProfile(int $userId)
     {
-        // $data =  ExchangeRequest::with('user')->with('post')
-        //         ->with('otherPost')
-        //         ->where('status', 'accepted')->orderBy('created_at')
-        //         ->take(10)->get();
-        $data = ExchangeRequest::where([
-            'user_id' => $userId,
-            'status' => 'accepted',
-        ])->take(10)->orderBy('created_at')->get();
-
-        $users = [];
-
-        foreach ($data as $key => $value) {
-            $postUser = Post::with('user')->find($value->original_post_id);
-            array_push($users, $postUser->user);
-        }
-        // return $users;
-        $theExhcnageRequestsSentToTheUser = ExchangeRequest::where('status', 'accepted')
-            ->where('user_id', '!=', $userId)->get();
-
-        foreach ($theExhcnageRequestsSentToTheUser as $key => $value) {
-            $postUser = Post::find($value->original_post_id);
-            if ($postUser->user_id === $userId) {
-                $user = User::find($value->user_id);
-                array_push($users, $user);
-            }
-        }
-
-        return $users;
+        $peopleToReview = ExchangeRequest::with('onwer')->with('user')->where([
+            'owner_id' => $userId,
+            'status' => 'accepted'
+        ])->orWhere(function($q) use ($userId){
+            $q->where([
+                'user_id' => $userId,
+                'status' => 'accepted'
+            ]);
+        })->take(10)->get();
+        return $peopleToReview;
     }
 
     /**
@@ -273,36 +234,16 @@ class ExchangeRequest extends Model
      */
     public static function getPeopleToReview()
     {
-        // the request that sent to the user !
-        $theExhcnageRequestsTheUserSent = ExchangeRequest::where([
-            'user_id' => Auth()->user()->id,
-            'status' => 'accepted',
-        ])->get();
 
-        $usersTheAuthedSentReqToThem = [];
-        foreach ($theExhcnageRequestsTheUserSent as $key => $value) {
-            $postUser = Post::with('user')->find($value->post_id);
-            array_push($usersTheAuthedSentReqToThem, $postUser->user);
-        }
-
-        $theExhcnageRequestsSent = ExchangeRequest::where('status', 'accepted')
-            ->where('user_id', '!=', Auth()->user()->id)->get();
-
-        foreach ($theExhcnageRequestsSent as $key => $value) {
-            $postUser = Post::find($value->original_post_id);
-            if ($postUser->user_id === Auth()->user()->id) {
-                $userToReview = User::find($value->user_id);
-                array_push($usersTheAuthedSentReqToThem, $userToReview);
-            }
-        }
-        $finalUsers = [];
-
-        foreach ($usersTheAuthedSentReqToThem as $key => $value) {
-            if (!Review::isReviewed(Auth()->user()->id, $value->id)) {
-                array_push($finalUsers, $value);
-            }
-
-        }
-        return view('user.peopleToReview')->with('finalUsers', $finalUsers);
+        $peopleToReview = ExchangeRequest::with('onwer')->with('user')->where([
+            'owner_id' => Auth()->user()->id,
+            'status' => 'accepted'
+        ])->orWhere(function($q){
+            $q->where([
+                'user_id' => Auth()->user()->id,
+                'status' => 'accepted'
+            ]);
+        })->take(10)->get();
+        return $peopleToReview;
     }
 }

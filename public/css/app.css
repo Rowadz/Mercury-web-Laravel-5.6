@@ -11334,6 +11334,7 @@ input:-webkit-autofill {
 
 #peopleToReviewSection .emotionsReview {
   height: 100px;
+  opacity: 0.1;
 }
 
 #peopleToReviewSection .emotionsReview:hover {

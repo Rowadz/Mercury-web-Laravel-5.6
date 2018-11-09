@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
  
+
     /**
      *
      * @param integer $theUserWhoReviewed
@@ -30,5 +31,26 @@ class Review extends Model
         $review->from_id = Auth()->user()->id;
         $review->header = $header;
         $review->body = $body;
+        if(!$review->save())return response()->json(['error' => 'something went wrong'], 500);
+        return response()->json([
+            'message' => 'created the review'
+        ], 200);
+    }
+
+    public static function reviewDataCount()
+    {
+        $happy = Review::where([
+            'value' => 'happy',
+            'user_id' => Auth()->user()->id
+        ])->count();
+        $sad = Review::where([
+            'value' => 'sad',
+            'user_id' => Auth()->user()->id
+        ])->count();
+        $angry = Review::where([
+            'value' => 'angry',
+            'user_id' => Auth()->user()->id
+        ])->count();
+        return compact('happy', 'sad', 'angry');
     }
 }

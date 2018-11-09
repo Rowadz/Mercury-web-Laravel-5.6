@@ -3,6 +3,19 @@
 @section('content')
 @navBar(['style' => 'grey darken-4 z-depth-5'])
 @endnavBar
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">settings</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red"><i class="material-icons">mode_edit</i></a></li>
+    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+  </ul>
+</div>
+
 <section id="profileWrapper">
   <div class="row">
     <div class="col s12 m12">
@@ -18,7 +31,9 @@
       'iamIFollowingThisUser' => $iamIFollowingThisUser,
       'followId' => $followId,
       'followers' => $followers,
-      'following' => $following])
+      'following' => $following,
+      'reviews' => $reviews
+      ])
       @endgeneralInfo
     </div>
     <div class="col s12 m8">
@@ -34,15 +49,15 @@
         <div class="col s12 m5 ">
           <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-
               @if ($followFeed->user->id === Auth()->user()->id)
-              🏹 {{ $followFeed->user->name }} has sent a follow request to {{ $user->name }}
+              <i class="material-icons">group_add</i>
+              {{ $followFeed->user->name }} has sent a follow request to {{ $followFeed->otherUser->name }}
               {{ $followFeed->created_at->diffForHumans() }}
               And was accepted ✔️ {{ $followFeed->updated_at->diffForHumans() }}
-              @else
+              {{-- @else
               🏹 {{ $user->name }} recived a follow request from {{ $followFeed->user->name }}
               {{ $followFeed->created_at->diffForHumans() }}
-              And was accepted ✔️{{ $followFeed->updated_at->diffForHumans() }}
+              And was accepted ✔️{{ $followFeed->updated_at->diffForHumans() }} --}}
               @endif
             </span>
           </div>
@@ -51,7 +66,7 @@
         <div class="col s12 m5">
           <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-              🏹 {{ Auth()->user()->name }} has no following request activities
+              <i class="material-icons">group_add</i> {{ Auth()->user()->name }} has no following request activities
             </span>
           </div>
         </div>
@@ -60,8 +75,9 @@
         <div class="col s12 m5 ">
           <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-                🤝 {{ $user->name }} had a ' successful ' exchange with  
-                <a href="/{{$feed->name}}"> {{ $feed->name }} </a> {{ $feed->created_at->diffForHumans() }}
+              <i class="material-icons">mood</i> {{ $user->name }} had a ' successful ' exchange with
+              <a href="/{{$feed->user->name}}"> {{ $feed->user->id === $user->id ? $feed->onwer->name :
+                $feed->user->name}} </a> {{ $feed->created_at->diffForHumans() }}
             </span>
           </div>
         </div>

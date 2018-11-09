@@ -28,15 +28,25 @@ class User extends Authenticatable
     ];
 
     public function posts(){
-        return $this->hasMany("Mercury\\Post");
+        return $this->hasMany("Mercury\Post");
     }
 
     public function comments(){
-        return $this->hasMany("Mercury\\Comment");
+        return $this->hasMany("Mercury\Comment");
     }
 
     public function followers(){
-        return $this->hasMany("Mercury\\Follower");
+        return $this->hasMany("Mercury\Follower");
+    }
+
+    public function reviewToMe()
+    {
+        return $this->belongsTo("Mercury\Review", 'id', 'user_id');
+    }
+
+
+    public function reviewFromMe(){
+        return $this->belongsTo("Mercury\Review", 'id', 'from_id');
     }
     
 }

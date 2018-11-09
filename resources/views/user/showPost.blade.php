@@ -47,7 +47,7 @@
   @endauth
   @navBar(['style' => 'grey darken-3 z-depth-5'])
   @endnavBar
-  <div id="{{ isset(Auth()->user()->id) ? 'post' : ''}}">
+  <div id="{{ isset(Auth()->user()->id) ? 'post' : ''}}" class="selectMeuseridpost" data-useridpost="{{ $post->user_id }}">
     {{-- Load post here --}}
     @post(['post' => $post, 'postImages' => $postImages, 'isWished' => $isWished])
     @endpost

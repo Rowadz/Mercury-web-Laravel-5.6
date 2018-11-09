@@ -33,7 +33,7 @@
             </strong>   
             </span>
             <a class="btn-floating halfway-fab  waves-effect waves-teal blue-grey darken-4 z-depth-5"
-               href="/show/post/{{$post->id}}" target="_blank" rel="noreferrer" data-aos="fade-right" >
+               href="/show/post/{{$post->id}}" target="_blank" rel="noreferrer"  >
             <i class="material-icons">free_breakfast</i>
             </a>
          </div>

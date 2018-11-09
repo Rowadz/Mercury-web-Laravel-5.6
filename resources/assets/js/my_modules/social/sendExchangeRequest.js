@@ -88,10 +88,12 @@ function sendExchangeRequest(){
 	const axios = window.axios;
 	const M = window.M;
 	$('.sendExchangeRequestWithThisId').on('click', e => {
-		let [, postId] = e.target.id.split('-');
+		const [, onwer_post_id] = e.target.id.split('-');
+		const userId = $('.selectMeuseridpost').attr('data-useridpost');
 		axios.post('/sendExchangeRequest', {
-			userPostId: $('#showPostId').text(),
-			postId
+			user_post_id: $('#showPostId').text(), // the post for the user who recieved the request
+			onwer_post_id:onwer_post_id, // the offerd Post
+			user_id: userId // who recived the request
 		}).then(success => {
 			// console.log(success.data)
 			$(e.target).addClass('disabled');

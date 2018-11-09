@@ -1,6 +1,8 @@
 @extends('layouts.master')
+
 @section('title' , 'Mercury | 🤝')
 @section('content')
+<span id="scrollTopFinalDest"></span>
 @navBar(['style' => 'blue-grey darken-4'])
 @endnavBar
 @if (sizeof($exchangeRequests))
@@ -11,7 +13,7 @@
   </a>
 </div>
 
-<span id="scrollTopFinalDest"></span>
+
 
 
 
@@ -28,17 +30,7 @@
           </a>
         </div>
       </li>
-      <!--<li class="collection-item">
-            <div>Get a specific post
-               <a href="#!" class="secondary-content">
-               <i class="material-icons black-text">my_location</i>
-               </a>
-            </div>
-         </li> -->
     </ul>
-    <!--<section id="searchForAPostExchangeRequestResult">
-
-      </section> -->
   </div>
   <div class="col s12 m4 l4">
     <div class="row">
@@ -54,26 +46,26 @@
       @foreach ($exchangeRequests as $exchangeRequest)
       <div class="card z-depth-5 exchangeRequest" data-aos="flip-left" id="exchangeRequest-{{$exchangeRequest->id}}">
         <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" src="{{$exchangeRequest->theOtherPost->postImages[0]->location}}">
+          <img class="activator" src="{{$exchangeRequest->onwerPost->postImages[0]->location}}">
         </div>
         <div class="card-content">
           <span class="card-title activator grey-text text-darken-4">
             <small class="chip strongChips grey darken-3 blue-text z-depth-5">
-              {{$exchangeRequest->theOtherPost->header}}
+              {{$exchangeRequest->onwerPost->header}}
             </small>
             <span class="chip strongChips grey darken-4 yellow-text text-accent-1 z-depth-5">
               Sent @ {{$exchangeRequest->created_at}}
             </span>
-            <p class="flow-text truncate">{{$exchangeRequest->theOtherPost->body}}</p>
+            <p class="flow-text truncate">{{$exchangeRequest->onwerPost->body}}</p>
             <i class="material-icons right">more_vert</i>
           </span>
           <p>
-            <a href="/show/post/{{$exchangeRequest->theOtherPost->id}}" target="_blank" class="btn-floating btn-large deep-purple lighten-4 pulse waves-effect waves-purple">
+            <a href="/show/post/{{$exchangeRequest->onwerPost->id}}" target="_blank" class="btn-floating btn-large deep-purple lighten-4 pulse waves-effect waves-purple">
               <i class="material-icons black-text">open_in_new</i>
             </a>
             <a class="btn-floating btn-large cyan lighten-4 pulse modal-trigger-custom waves-effect waves-red"
-              data-exchange-request-id="{{$exchangeRequest->id}}" data-auth-user-post-id="{{$exchangeRequest->post->id}}"
-              data-post-id="{{$exchangeRequest->theOtherPost->id}}">
+              data-exchange-request-id="{{$exchangeRequest->id}}" data-auth-user-post-id="{{$exchangeRequest->userPost->id}}"
+              data-post-id="{{$exchangeRequest->onwerPost->id}}">
               <i class="material-icons black-text pulse">settings</i>
             </a>
           </p>
@@ -82,18 +74,18 @@
           <span class="card-title grey-text text-darken-4">Your post<i class="material-icons right">close</i></span>
           <div class="card z-depth-5">
             <div class="card-image">
-              <img src="{{$exchangeRequest->post->postImages[0]->location}}">
+              <img src="{{$exchangeRequest->userPost->postImages[0]->location}}">
               <span class="card-title">
                 <small class="chip strongChips grey darken-4 blue-text z-depth-5">
-                  {{$exchangeRequest->post->header}}
+                  {{$exchangeRequest->userPost->header}}
                 </small>
               </span>
             </div>
             <div class="card-content">
-              <p class="flow-text truncate">{{$exchangeRequest->post->body}}</p>
+              <p class="flow-text truncate">{{$exchangeRequest->userPost->body}}</p>
             </div>
             <div class="card-action">
-              <a href="/show/post/{{$exchangeRequest->post->id}}" target="_blank">
+              <a href="/show/post/{{$exchangeRequest->userPost->id}}" target="_blank">
                 <i class="material-icons black-text">open_in_new</i>
               </a>
             </div>
@@ -105,12 +97,12 @@
     </section>
   </div>
 </div>
-<div class="row">
+{{-- <div class="row">
   <div class="col s12 m4 l4"></div>
   <div class="col s12 m4 l4">
     <a class="waves-effect waves-light btn btn-large black z-depth-5" id="exchangeRequestsLoadMoreButton">Load More</a>
   </div>
-</div>
+</div> --}}
 <div id="exchangeRequestsModalOptions" class="modal">
   <div class="modal-content">
     <h4>Exchange Request Options</h4>
@@ -154,4 +146,7 @@
   </div>
 </div>
 @endif
+{{-- {{ $exchangeRequests->total() }} --}}
+{{-- {{ $exchangeRequests->links('user.components.helperComponents.pagination', ['posts' => $exchangeRequests]) }} --}}
 @endsection
+{{-- {!! $exchangeRequests->links() !!} --}}

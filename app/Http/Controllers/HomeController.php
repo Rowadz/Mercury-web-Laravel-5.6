@@ -74,9 +74,9 @@ class HomeController extends Controller
       $ranColor = array_rand([
         '#616161' => "grey darken-2", 
         "#004d40" => "teal darken-4", 
-        "#d50000" => "red accent-4", 
+        // "#d50000" => "red accent-4", 
         "#4527a0" => "deep-purple darken-3", 
-        "#ffee58" => "yellow lighten-1", 
+        // "#ffee58" => "yellow lighten-1", 
         "#00b0ff" => "light-blue accent-3", 
         "#37474f" => "blue-grey darken-3"
       ]);

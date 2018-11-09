@@ -777,7 +777,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
-module.exports = __webpack_require__(51);
+module.exports = __webpack_require__(52);
 
 
 /***/ }),
@@ -848,7 +848,7 @@ document.addEventListener('DOMContentLoaded', function () {
 */
 
 window.onload = function () {
-
+	Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
 	Object(__WEBPACK_IMPORTED_MODULE_13__my_modules_home__["a" /* default */])();
 	if ($('#feed').length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
 	if ($('#sortPostsUserProfile').length) Object(__WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__["a" /* default */])();
@@ -44084,11 +44084,13 @@ function sendExchangeRequest() {
 	$('.sendExchangeRequestWithThisId').on('click', function (e) {
 		var _e$target$id$split = e.target.id.split('-'),
 		    _e$target$id$split2 = _slicedToArray(_e$target$id$split, 2),
-		    postId = _e$target$id$split2[1];
+		    onwer_post_id = _e$target$id$split2[1];
 
+		var userId = $('.selectMeuseridpost').attr('data-useridpost');
 		axios.post('/sendExchangeRequest', {
-			userPostId: $('#showPostId').text(),
-			postId: postId
+			user_post_id: $('#showPostId').text(), // the post for the user who recieved the request
+			onwer_post_id: onwer_post_id, // the offerd Post
+			user_id: userId // who recived the request
 		}).then(function (success) {
 			// console.log(success.data)
 			$(e.target).addClass('disabled');
@@ -44115,7 +44117,10 @@ var exchangeRequestReverseSortingTurn = 'ASC',
     exchangeRequestReverseSortingTurnClicked = false;
 function exchangeRequestsInit() {
 	exchangeRequestsModalOptionsInit();
-	exchangeRequestsLoadMoreButtonInit();
+	var pages = {
+		page: 1
+	};
+	exchangeRequestsLoadMoreButtonInit(pages);
 	$('#exchangeRequestReverseSorting').click(function () {
 		$('#exchangeRequestReverseSorting').hide();
 		exchangeRequestReverseSorting(exchangeRequestReverseSortingTurn === 'DESC');
@@ -44149,8 +44154,8 @@ function exchangeRequestsModalOptionsInit() {
 		var z = $(x);
 		dataToSubmit = {
 			exchangeRequestId: z.data('exchange-request-id'),
-			postId: z.data('auth-user-post-id'),
-			theOtherPostId: z.data('post-id')
+			user_post_id: z.data('auth-user-post-id'),
+			owner_post_id: z.data('post-id')
 		};
 		console.log(dataToSubmit);
 		// console.log(z.data('exchange-request-id'))
@@ -44189,7 +44194,7 @@ function exchangeRequestsModalOptionsInit() {
 	});
 }
 
-function exchangeRequestsLoadMoreButtonInit() {
+function exchangeRequestsLoadMoreButtonInit(pages) {
 	var axios = window.axios;
 	var M = window.M;
 
@@ -44200,6 +44205,13 @@ function exchangeRequestsLoadMoreButtonInit() {
 	console.log(idToSend);
 	$('#exchangeRequestsLoadMoreButton').click(function () {
 		$('#exchangeRequestsLoadMoreButton').addClass('disabled');
+		fetch('/paginate/exchangeRequests?page=' + pages.page).then(function (s) {
+			return s.json();
+		}).then(function (x) {
+			return console.log(x);
+		}).catch(function (e) {
+			return console.error(e);
+		});
 		axios.post('/exchangeRequest/loadMore', {
 			idToSend: idToSend,
 			turn: exchangeRequestReverseSortingTurn === 'DESC' && exchangeRequestReverseSortingTurnClicked ? 'ASC' : 'DESC'
@@ -44456,70 +44468,114 @@ function initSearch() {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = reviewInit;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_headers__ = __webpack_require__(51);
 /*eslint no-console: */
+
 function reviewInit() {
     var typeObj = {
         type: ''
     };
     // select this data-usertoreview="2"
-    $('.emotionsReview').on('click', function (e) {
+    $(document).on('click', '.emotionsReview', function (e) {
         var $this = $(e.currentTarget);
         var userId = $this.attr('data-usertoreview');
         var type = $this.attr('data-type');
-        // TODO swtich between these ~ if the user changed his/her mind
-        $this.css('opacity', 0.1);
         typeObj.type = type;
-        addReview(userId, type);
+        switchNdisable(userId, typeObj);
     });
-    $('.reviewButtonSubmit').on('click', function (e) {
+    $(document).on('click', '.reviewButtonSubmit', function (e) {
         var $this = $(e.currentTarget);
         validateReviewForm($this.attr('data-addreviewtouser'), typeObj);
     });
 }
 
-function addReview(userId, type) {
+function addReview(userId, type, header, body) {
+    var M = window.M;
     fetch('/addReview', {
+        headers: __WEBPACK_IMPORTED_MODULE_0__helpers_headers__["a" /* applicationHeaders */],
         method: 'POST',
-        body: JSON.stringify({ userId: userId, type: type })
+        body: JSON.stringify({ userId: userId, type: type, header: header, body: body })
     }).then(function (res) {
-        return console.log(res);
+        if (res.status === 500) throw new Error(res.error);
+        return res.json();
+    }).then(function (res) {
+        $('[data-divuser="' + userId + '"]').fadeOut(200, function () {
+            return M.toast({ html: 'Sucess !' });
+        });
+        console.log(res);
     }).catch(function (err) {
-        return console.log(err);
+        $('.progress[data-userid=' + userId + ']').replaceWith('<button class="waves-effect waves-light btn floatRight grey darken-4 reviewButtonSubmit"data-addreviewtouser="' + userId + '">\u2705</button>');
+        M.toast({ html: '🤯 Somehting went wrong, please try again later' });
+        console.log(err);
     });
 }
 
-function validateReviewForm(id, typeObj) {
+function validateReviewForm(userId, _ref) {
+    var type = _ref.type;
+
     var M = window.M;
-    var inputHeader = $('[data-inputHeader="' + id + '"]');
-    var inputbody = $('[data-inputbody=' + id + ']');
+    var inputHeader = $('[data-inputHeader="' + userId + '"]');
+    var inputbody = $('[data-inputbody=' + userId + ']');
     var inputHeaderVal = inputHeader.val().trim();
     var inputbodyVal = inputbody.val().trim();
     if (!inputbodyVal) {
         inputbody.addClass(['invalid', 'animated jello']);
         M.toast({
-            html: 'You can\'t have empty body to the review',
-            classes: ' red lighten-1',
-            displayLength: 1000
+            html: '🤯 You can\'t have empty body to the review U+1F92F',
+            classes: ' cyan darken-4'
         });
     } else inputbody.removeClass('invalid');
     if (!inputHeaderVal) {
         inputHeader.addClass(['invalid', 'animated jello']);
         M.toast({
-            html: 'You can\'t have empty header to the review',
-            classes: ' red lighten-1',
-            displayLength: 1000
+            html: '🤯 You can\'t have empty header to the review',
+            classes: ' cyan darken-4'
         });
     } else inputHeader.removeClass('invalid');
-
-    if (!typeObj.type) $('.emotionsReview[data-usertoreview="' + id + '"]').addClass('animated jello');
-    if (['sad', 'happy', 'angry'].indexOf(typeObj.type) > -1 && inputbodyVal && inputHeaderVal) {
-        // TODO send request now !
+    console.log(type);
+    if (!type) {
+        $('.emotionsReview[data-usertoreview="' + userId + '"]').addClass('animated jello');
+        M.toast({
+            html: '🤯 please select an image',
+            classes: ' cyan darken-4'
+        });
+    }
+    if (['sad', 'happy', 'angry'].indexOf(type) > -1 && inputbodyVal && inputHeaderVal) {
+        $('.reviewButtonSubmit[data-addreviewtouser=' + userId + ']').replaceWith('<div class="progress" data-userid=' + userId + '><div class="indeterminate"></div></div>');
+        addReview(userId, type, inputHeaderVal, inputbodyVal);
         console.log('%cValid', 'color:green; font-size:50px;');
     }
 }
 
+function switchNdisable(userId, _ref2) {
+    var type = _ref2.type;
+
+    $('.emotionsReview[data-usertoreview="' + userId + '"][data-type=' + type + ']').css('opacity', 1);
+    $('.emotionsReview[data-usertoreview="' + userId + '"]:not([data-type=' + type + '])').css('opacity', 0.1);
+}
+
 /***/ }),
 /* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return applicationHeaders; });
+
+/**
+ * the 'applicationHeaders' are required to be a header in all the
+ * POST ~ DELETE ~ PUT ~ UPDATE 
+ * requests ! 
+ */
+var token = document.head.querySelector('meta[name="csrf-token"]');
+var applicationHeaders = new Headers({
+  'X-CSRF-TOKEN': token.content,
+  'Content-Type': 'application/json'
+});
+
+
+
+/***/ }),
+/* 52 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -21,13 +21,15 @@ class CreateExchangeRequestsTable extends Migration
     {
         Schema::create('exchange_requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id'); // who sent the request
-            $table->unsignedInteger('post_id'); // the offerd Post
-            $table->unsignedInteger('original_post_id');
-            $table->enum('status', ['accepted', 'pending']);
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->unsignedInteger('user_id'); // who recived the request
+            $table->unsignedInteger('owner_post_id'); // the offerd Post
+            $table->unsignedInteger('owner_id'); // who sent the request
+            $table->unsignedInteger('user_post_id'); // the post for the user who recieved the request
+            $table->enum('status', ['accepted', 'pending', 'removed']);
+            $table->foreign('user_post_id')->references('id')->on('posts');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('original_post_id')->references('id')->on('posts');
+            $table->foreign('owner_id')->references('id')->on('users');
+            $table->foreign('owner_post_id')->references('id')->on('posts');
             $table->timestamps();
         });
     }

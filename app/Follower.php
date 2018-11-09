@@ -265,9 +265,10 @@ class Follower extends Model
                 'from_id' => isset(Auth()->user()->id) ? Auth()->user()->id :  null,
                 'user_id' => $id
             ])->first();
-            if(!empty($data))
-                return $data->status;
-            else return false;
+            if(isset($data)){
+                if($data->status === 'pending') return 'canCancel';
+                else if($data->status === 'approved') return 'canUnfollow';
+            }else return 'notFollowing';
         }
         else return null;
     }
@@ -311,7 +312,15 @@ class Follower extends Model
      */
     public static function followingFeedProfile(int $userId)
     {
-        $data =  Follower::with('user')->with('otherUser')->where('status', 'approved')->orderBy('created_at')->take(10)->get();
+        $data =  Follower::with('user')->with('otherUser')->where([
+            'status' => 'approved',
+            'user_id' => $userId
+        ])->orWhere(function($q) use($userId) {
+            $q->where([
+                'from_id' => $userId,
+                'status' => 'approved'
+            ]);
+        })->orderBy('created_at')->take(10)->get();
         return $data;   
     }
 
