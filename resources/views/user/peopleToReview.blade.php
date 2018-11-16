@@ -31,11 +31,13 @@
           </div>
           <div class="col m4 l4 s4">
             <img src="{{asset('images/happy.png')}}" alt="happy" class="responsive-img emotionsReview tooltipped"
-              data-position="bottom" data-tooltip="Give a happy face" data-usertoreview="{{$user->onwer->id}}" data-type="happy">
+              data-position="bottom" data-tooltip="Give a happy face" data-usertoreview="{{$user->onwer->id}}"
+              data-type="happy">
           </div>
           <div class="col m4 l4 s4">
             <img src="{{asset('images/angry.png')}}" alt="angry" class="responsive-img emotionsReview tooltipped"
-              data-position="bottom" data-tooltip="Give a angry face" data-usertoreview="{{$user->onwer->id}}" data-type="angry">
+              data-position="bottom" data-tooltip="Give a angry face" data-usertoreview="{{$user->onwer->id}}"
+              data-type="angry">
           </div>
           <div class="col m4 l4 s4">
             <img src="{{asset('images/sad.png')}}" alt="sad" class="responsive-img emotionsReview tooltipped"

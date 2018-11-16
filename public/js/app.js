@@ -840,6 +840,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	Object(__WEBPACK_IMPORTED_MODULE_14__my_modules_searchPage__["a" /* default */])();
 	Object(__WEBPACK_IMPORTED_MODULE_15__my_modules_social_reviewFunctionality__["a" /* default */])();
 	Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
+	Object(__WEBPACK_IMPORTED_MODULE_13__my_modules_home__["a" /* default */])();
+	if ($('#feed').length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
 });
 
 /** 
@@ -848,9 +850,7 @@ document.addEventListener('DOMContentLoaded', function () {
 */
 
 window.onload = function () {
-	Object(__WEBPACK_IMPORTED_MODULE_3__my_modules_init__["a" /* default */])();
-	Object(__WEBPACK_IMPORTED_MODULE_13__my_modules_home__["a" /* default */])();
-	if ($('#feed').length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
+	// init();
 	if ($('#sortPostsUserProfile').length) Object(__WEBPACK_IMPORTED_MODULE_1__my_modules_sortPaginationProfilePosts__["a" /* default */])();
 	// if the image did not load  (Broken Image Handling)
 	if ($('#profile').length) Object(__WEBPACK_IMPORTED_MODULE_2__my_modules_profileFollowFunctionallies__["a" /* default */])();
@@ -42532,89 +42532,98 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 var wishedPostsNumber = undefined,
     lowestId = undefined;
 function wishes() {
-	var axios = window.axios;
-	$('.seeWishesModal').modal({
-		onOpenStart: function onOpenStart() {
-			$('#wishesNumberModal').html($('#getWishesNumber').text());
-			axios.post('/wishedPosts').then(function (success) {
-				appendData(success.data);
-				// console.log(success.data)
-				wishedPostsNumber = Number($('#getWishesNumber').text());
-				lowestId = success.data[success.data.length - 1].id;
-				// console.log(lowestId)
-				$('#Preloader-wishes').remove();
-				loadMoreWishes();
-			}).catch(function (error) {
-				console.log(error);
-			});
-		},
-		onCloseStart: function onCloseStart() {
-			$('#modalLoadMore-wishes').off('click');
-			$('#modalSection-wishes').html('\n            <!-- PreLoader -->\n            <div class="row center-align" id="Preloader-wishes">\n                <div class="preloader-wrapper big active ">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n            \n            <!-- End PreLoader -->\n            ');
-		}
-	});
+  var axios = window.axios;
+  $('.seeWishesModal').modal({
+    onOpenStart: function onOpenStart() {
+      $('#wishesNumberModal').html($('#getWishesNumber').text());
+      axios.post('/wishedPosts').then(function (success) {
+        appendData(success.data);
+        console.log(success.data);
+        wishedPostsNumber = Number($('#getWishesNumber').text());
+        if (success.data.length <= 0) lowestId = 0;else lowestId = success.data[success.data.length - 1].id;
+        // console.log(lowestId)
+        $('#Preloader-wishes').remove();
+        loadMoreWishes();
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    onCloseStart: function onCloseStart() {
+      $('#modalLoadMore-wishes').off('click');
+      $('#modalSection-wishes').html('\n            <!-- PreLoader -->\n            <div class="row center-align" id="Preloader-wishes">\n                <div class="preloader-wrapper big active ">\n                    <div class="spinner-layer spinner-blue-only">\n                      <div class="circle-clipper left">\n                        <div class="circle"></div>\n                      </div><div class="gap-patch">\n                        <div class="circle"></div>\n                      </div><div class="circle-clipper right">\n                        <div class="circle"></div>\n                      </div>\n                    </div>\n                  </div>\n            </div>\n            \n            <!-- End PreLoader -->\n            ');
+    }
+  });
 }
 
 function appendData(array) {
-	var wishesSection = $('#modalSection-wishes');
-	array.forEach(function (wish) {
-		wishesSection.append('\n            <div class="col s12 m4" id="wishToDelete-' + wish.post.id + '">\n            <div class="card">\n            <div class="card-image">\n                <img src="' + wish.post.post_images[0].location + '">\n                <span class="card-title">\n                    <div class="chip black white-text">\n                        ' + wish.post.header + '\n                    </div>\n                </span>\n            </div>\n            <div class="card-content">\n                <p class="truncate">\n                    ' + wish.post.body + '\n                </p>\n            </div>\n            <div class="card-action">\n            <div class="row">\n                <div class="col s6 m6">\n                    <a href="/show/post/' + wish.post.id + '" target="_blank" class="waves-effect waves-light btn yellow accent-1 black-text">Show</a>\n                </div>\n                <div class="col s6 m6">\n                    <button class="waves-effect waves-light btn red accent-2 deleteWishButton black-text" id="wishToDeleteButton-' + wish.post.id + '">X</button>\n                </div>\n              <!--  <div class="col s12 m8">\n                    <button class="waves-effect waves-light btn deep-purple lighten-2 black-text">' + wish.created_at + '</button>\n                </div> -->\n            </div>\n            </div>\n            </div>\n            </div>\n        ');
-	});
-	$('.deleteWishButton').off('click');
-	deleteWish();
+  var wishesSection = $('#modalSection-wishes');
+  array.forEach(function (wish) {
+    wishesSection.append('\n            <div class="col s12 m4" id="wishToDelete-' + wish.post.id + '">\n            <div class="card">\n            <div class="card-image">\n                <img src="' + wish.post.post_images[0].location + '">\n                <span class="card-title">\n                    <div class="chip black white-text">\n                        ' + wish.post.header + '\n                    </div>\n                </span>\n            </div>\n            <div class="card-content">\n                <p class="truncate">\n                    ' + wish.post.body + '\n                </p>\n            </div>\n            <div class="card-action">\n            <div class="row">\n                <div class="col s6 m6">\n                    <a href="/show/post/' + wish.post.id + '" target="_blank" class="waves-effect waves-light btn yellow accent-1 black-text">Show</a>\n                </div>\n                <div class="col s6 m6">\n                    <button class="waves-effect waves-light btn red accent-2 deleteWishButton black-text" id="wishToDeleteButton-' + wish.post.id + '">X</button>\n                </div>\n              <!--  <div class="col s12 m8">\n                    <button class="waves-effect waves-light btn deep-purple lighten-2 black-text">' + wish.created_at + '</button>\n                </div> -->\n            </div>\n            </div>\n            </div>\n            </div>\n        ');
+  });
+  $('.deleteWishButton').off('click');
+  deleteWish();
 }
 
 function deleteWish() {
-	var axios = window.axios;
-	var M = window.M;
-	$('.deleteWishButton').click(function (el) {
-		// console.log(el.target.id)
-		var _el$target$id$split = el.target.id.split('-'),
-		    _el$target$id$split2 = _slicedToArray(_el$target$id$split, 2),
-		    postId = _el$target$id$split2[1];
+  var axios = window.axios;
+  var M = window.M;
+  $('.deleteWishButton').click(function (el) {
+    // console.log(el.target.id)
+    var _el$target$id$split = el.target.id.split('-'),
+        _el$target$id$split2 = _slicedToArray(_el$target$id$split, 2),
+        postId = _el$target$id$split2[1];
 
-		$('#wishToDeleteButton-' + postId).addClass('disabled');
-		axios.delete('/deleteWishedPost/' + el.target.id, {
-			data: {
-				id: postId
-			}
-		}).then(function (success) {
-			M.toast({ html: '' + success.data.message, classes: 'rounded' });
-			updateNumberAndUI(postId);
-		}).catch(function (error) {
-			console.log(error);
-			$('#wishToDeleteButton-' + postId).removeClass('disabled');
-			M.toast({ html: 'Something went wrong 🤖', classes: 'rounded' });
-		});
-	});
+    $('#wishToDeleteButton-' + postId).addClass('disabled');
+    axios.delete('/deleteWishedPost/' + el.target.id, {
+      data: {
+        id: postId
+      }
+    }).then(function (success) {
+      M.toast({
+        html: '' + success.data.message,
+        classes: 'rounded'
+      });
+      updateNumberAndUI(postId);
+    }).catch(function (error) {
+      console.log(error);
+      $('#wishToDeleteButton-' + postId).removeClass('disabled');
+      M.toast({
+        html: 'Something went wrong 🤖',
+        classes: 'rounded'
+      });
+    });
+  });
 }
 
 function updateNumberAndUI(postId) {
-	wishedPostsNumber--;
-	$('#wishesNumberModal').html('' + wishedPostsNumber);
-	$('.updateWishesNumber').html('' + wishedPostsNumber);
-	$('#wishToDelete-' + postId).slideUp().remove();
+  wishedPostsNumber--;
+  $('#wishesNumberModal').html('' + wishedPostsNumber);
+  $('.updateWishesNumber').html('' + wishedPostsNumber);
+  $('#wishToDelete-' + postId).slideUp().remove();
 }
 
 function loadMoreWishes() {
-	var axios = window.axios;
-	var M = window.M;
-	$('#modalLoadMore-wishes').click(function () {
-		$('#modalLoadMore-wishes').addClass('disabled');
-		axios.post('/wishedPosts', {
-			lowestId: lowestId
-		}).then(function (success) {
-			console.log(success.data);
-			console.log(lowestId);
-			$('#modalLoadMore-wishes').removeClass('disabled');
-			appendData(success.data);
-			lowestId = success.data[success.data.length - 1].id;
-		}).catch(function (err) {
-			console.log(err);
-			M.toast({ html: 'No More Data 🤖', classes: 'rounded' });
-			$('#modalLoadMore-wishes').remove();
-		});
-	});
+  var axios = window.axios;
+  var M = window.M;
+  $('#modalLoadMore-wishes').click(function () {
+    $('#modalLoadMore-wishes').addClass('disabled');
+    axios.post('/wishedPosts', {
+      lowestId: lowestId
+    }).then(function (success) {
+      console.log(success.data);
+      console.log(lowestId);
+      $('#modalLoadMore-wishes').removeClass('disabled');
+      appendData(success.data);
+      lowestId = success.data[success.data.length - 1].id || null;
+    }).catch(function (err) {
+      console.log(err);
+      M.toast({
+        html: 'No More Data 🤖',
+        classes: 'rounded'
+      });
+      $('#modalLoadMore-wishes').remove();
+    });
+  });
 }
 
 /***/ }),

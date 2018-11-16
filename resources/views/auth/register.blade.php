@@ -12,7 +12,7 @@
           <h1 class="inputs greet">
             Welcome
           </h1>
-          <div class="row  ">
+          <div class="row">
             <div class="col s12 m12 inputs">
               <div class="col s12 m6 white-text" data-aos="fade-right">
                 <a href="{{route('wlcome')}}" class="btn-floating btn-large waves-effect waves-light black hoverable tooltipped"

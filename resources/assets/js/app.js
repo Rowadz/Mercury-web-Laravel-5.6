@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	initSearch();
 	reviewInit();
 	init();
+	home();
+	if ($('#feed').length) feed();
 });
 
 /** 
@@ -42,9 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 
 window.onload = () => {
-	init();
-	home();
-	if ($('#feed').length) feed();
+	// init();
 	if($('#sortPostsUserProfile').length) initSortingForProfile();
 	// if the image did not load  (Broken Image Handling)
 	if($('#profile').length) profileFollowFunctions();

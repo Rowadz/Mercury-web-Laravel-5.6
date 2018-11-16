@@ -65,7 +65,7 @@ function exchangeRequestsModalOptionsInit(){
 	});
 
 	$('#deleteExchangeRequestButtonModal').off('click');
-	$('#deleteExchangeRequestButtonModal').click(()=>{
+	$('#deleteExchangeRequestButtonModal').click(() => {
 		axios.delete('/show/exchangeRequests/delete', {
 			data:{
 				exchangeRequestInfo: dataToSubmit

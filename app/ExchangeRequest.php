@@ -5,13 +5,8 @@ namespace Mercury;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Mercury\Post;
-use Mercury\PostImage;
+use Mercury\User;
 
-// user_id  who sent the request
-// post_id  the offerd Post
-// original_post_id  the The post that recived an exchange request
-// status => 1 accepted
-// status => 0 pending
 class ExchangeRequest extends Model
 {
     // who sent the request
@@ -26,8 +21,8 @@ class ExchangeRequest extends Model
         return $this->belongsTo("Mercury\User", 'user_id');
     }
 
-
-    public function onwer(){
+    public function onwer()
+    {
         return $this->belongsTo("Mercury\User", 'owner_id');
     }
 
@@ -47,6 +42,16 @@ class ExchangeRequest extends Model
         return $this->belongsTo("Mercury\Post", "owner_post_id");
     }
 
+    public function onwerToReview()
+    {
+        return $this->belongsTo('Mercury\Review', 'owner_id', 'from_id');
+    }
+
+    public function userToReview()
+    {
+        return $this->belongsTo('Mercury\Review', 'user_id', 'user_id');
+    }
+
     /**
      * getting how many exchange requests was sent to the user
      *
@@ -57,9 +62,12 @@ class ExchangeRequest extends Model
         if (isset(Auth()->user()->id)) {
             return ExchangeRequest::where([
                 'user_id' => Auth()->user()->id,
-                'status' => 'pending'
+                'status' => 'pending',
             ])->count();
-        } else return null;
+        } else {
+            return null;
+        }
+
     }
 
     /**
@@ -103,10 +111,10 @@ class ExchangeRequest extends Model
     public static function dataForTheExchangeRequstsView($DESC = true)
     {
         return ExchangeRequest::with('userPost.postImages')->with('onwerPost.postImages')
-                ->where([
-                    'user_id' => Auth()->user()->id,
-                    'status' => 'pending'
-                ])->Paginate(20);
+            ->where([
+                'user_id' => Auth()->user()->id,
+                'status' => 'pending',
+            ])->Paginate(20);
     }
 
     /**
@@ -157,7 +165,7 @@ class ExchangeRequest extends Model
     {
         DB::transaction(function () use ($rowId, $postId, $theOtherPostId) {
             Post::moveToArchive([$postId, $theOtherPostId]);
-            self::accepted( $rowId ,[$postId, $theOtherPostId]);
+            self::accepted($rowId, [$postId, $theOtherPostId]);
             $exchangeRequest = ExchangeRequest::find($rowId);
             $exchangeRequest->status = 'accepted';
             $exchangeRequest->save();
@@ -203,7 +211,7 @@ class ExchangeRequest extends Model
             }
         }
         $er = ExchangeRequest::find($rowId);
-        $er ->status = 'accepted';
+        $er->status = 'accepted';
         $er->save();
     }
 
@@ -217,11 +225,11 @@ class ExchangeRequest extends Model
     {
         $peopleToReview = ExchangeRequest::with('onwer')->with('user')->where([
             'owner_id' => $userId,
-            'status' => 'accepted'
-        ])->orWhere(function($q) use ($userId){
+            'status' => 'accepted',
+        ])->orWhere(function ($q) use ($userId) {
             $q->where([
                 'user_id' => $userId,
-                'status' => 'accepted'
+                'status' => 'accepted',
             ]);
         })->take(10)->get();
         return $peopleToReview;
@@ -234,16 +242,15 @@ class ExchangeRequest extends Model
      */
     public static function getPeopleToReview()
     {
-
-        $peopleToReview = ExchangeRequest::with('onwer')->with('user')->where([
-            'owner_id' => Auth()->user()->id,
-            'status' => 'accepted'
-        ])->orWhere(function($q){
+        $peopleToReview = ExchangeRequest::with(['onwerToReview' => function ($q) {
+            $q->where([
+                'from_id' => Auth()->user()->id,
+            ]);
+        }])->with(['onwerToReview' => function ($q) {
             $q->where([
                 'user_id' => Auth()->user()->id,
-                'status' => 'accepted'
             ]);
-        })->take(10)->get();
+        }])->get();
         return $peopleToReview;
     }
 }

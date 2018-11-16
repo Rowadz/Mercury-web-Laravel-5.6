@@ -12,7 +12,7 @@
   </title>
   <!-- styles -->
   <!-- Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  {{-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> --}}
   <!-- custom css -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <!-- Main icon -->

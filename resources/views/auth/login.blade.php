@@ -4,7 +4,7 @@
 @endnavBar --}}
 @section('content')
 <section class="mainLogin" id="loginPage">
-    <div class="" id="particles-js">
+    <div id="particles-js">
         <!-- <div class="VspaceLogin"></div> -->
         <div class="row fixParticlesIssue">
             <div class="container  flow-text  z-depth-5 hoverable mainResgister ">

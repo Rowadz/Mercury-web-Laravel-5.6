@@ -18,6 +18,7 @@
         "animate.css": "^3.7.0",
         "aos": "^3.0.0-beta.6",
         "jquery": "^3.3.1",
+        "material-design-icons": "^3.0.1",
         "materialize-css": "^1.0.0-rc.2"
     }
 }

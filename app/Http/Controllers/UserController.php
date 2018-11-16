@@ -33,7 +33,7 @@ class UserController extends Controller
         // dd(Follower::iamIFollowingThisUser($user->id));
     	$data = [
             "user" => $user,
-            "reviews" => Review::reviewDataCount(),
+            "reviews" => Review::reviewDataCount($user),
             "exchangeRequests" => ExchangeRequest::exchangeRequestsProfile($user->id),
             "followingFeedProfile" => Follower::followingFeedProfile($user->id),
             "iamIFollowingThisUser" => Follower::iamIFollowingThisUser($user->id),
