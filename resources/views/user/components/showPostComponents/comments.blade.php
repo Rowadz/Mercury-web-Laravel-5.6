@@ -6,7 +6,7 @@
         <img src="{{ $comment->user->image }}" alt="user image" class="circle  z-depth-5 " data-aos="zoom-in">
         <span class="title">
           <a class="usernameComment" data-aos="fade-up" href="/{{ $comment->user->name }}">
-            🐻 {{ $comment->user->name }}
+            {{ $comment->user->name }}
           </a>
         </span>
         <p>

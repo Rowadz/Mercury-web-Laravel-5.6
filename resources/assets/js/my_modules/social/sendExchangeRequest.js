@@ -92,7 +92,7 @@ function sendExchangeRequest(){
 		const userId = $('.selectMeuseridpost').attr('data-useridpost');
 		axios.post('/sendExchangeRequest', {
 			user_post_id: $('#showPostId').text(), // the post for the user who recieved the request
-			onwer_post_id:onwer_post_id, // the offerd Post
+			owner_post_id:onwer_post_id, // the offerd Post
 			user_id: userId // who recived the request
 		}).then(success => {
 			// console.log(success.data)

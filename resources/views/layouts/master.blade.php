@@ -31,6 +31,7 @@
 
   @auth
   <input type="text" value="{{Auth()->user()->name}}" id="authUserName" hidden>
+  <input type="text" value="{{Auth()->user()->id}}" id="authUserIdForNotify" hidden>
   @endauth
 
   @followRequests

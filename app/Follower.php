@@ -3,17 +3,17 @@
 namespace Mercury;
 
 use Illuminate\Database\Eloquent\Model;
-use Mercury\User;
 use Mercury\Follower;
-
+use Mercury\User;
+use Illuminate\Support\Facades\Redis;
 
 class Follower extends Model
-{ 
+{
     /**
      * each recored belongsTo one user ~ the onwer
      *
      * @return void
-     */  
+     */
     public function user()
     {
         return $this->belongsTo("Mercury\User", "from_id");
@@ -36,12 +36,11 @@ class Follower extends Model
      */
     public static function allFollowers()
     {
-    	return Follower::where([
-            'user_id' => isset(Auth()->user()->id)?Auth()->user()->id:null,
-            'status' => 'approved'
+        return Follower::where([
+            'user_id' => isset(Auth()->user()->id) ? Auth()->user()->id : null,
+            'status' => 'approved',
         ])->get()->count();
     }
-
 
     /**
      * infinite scroll for follower
@@ -52,17 +51,15 @@ class Follower extends Model
     public static function seeFollowers($highestId = null)
     {
         return Follower::with('user')->where([
-                                'user_id' => Auth()->user()->id,
-                                'status' => 'approved',
-                            ])->where('id' ,'>', $highestId ?: 0)
-                            ->orderBy('id')
-                            ->take(10)->get();
+            'user_id' => Auth()->user()->id,
+            'status' => 'approved',
+        ])->where('id', '>', $highestId ?: 0)
+            ->orderBy('id')
+            ->take(10)->get();
     }
 
-
-
     /**
-     * getting the people that follow the authed user 
+     * getting the people that follow the authed user
      * @param integer $highestId
      * @return void
      */
@@ -70,16 +67,18 @@ class Follower extends Model
     {
         $following = Follower::where([
             'from_id' => Auth()->user()->id,
-            'status' => 'approved'
-        ])->where('id', '>' , $highestId ?: 0)
+            'status' => 'approved',
+        ])->where('id', '>', $highestId ?: 0)
             ->orderBy('id')
             ->take(10)
             ->get();
         $sizeofFollowingArray = sizeof($following);
-        for ($i=0; $i <  $sizeofFollowingArray; $i++) $following[$i]['user'] = User::find($following[$i]->user_id)->toArray();
+        for ($i = 0; $i < $sizeofFollowingArray; $i++) {
+            $following[$i]['user'] = User::find($following[$i]->user_id)->toArray();
+        }
+
         return $following;
     }
-
 
     /**
      * getting the people that the authed user follow
@@ -89,8 +88,8 @@ class Follower extends Model
     public static function allFollowedByTheUser()
     {
         return Follower::where([
-            'from_id' => isset(Auth()->user()->id)?Auth()->user()->id:null,
-            'status' => 'approved'
+            'from_id' => isset(Auth()->user()->id) ? Auth()->user()->id : null,
+            'status' => 'approved',
         ])->get()->count();
     }
 
@@ -103,10 +102,10 @@ class Follower extends Model
     {
         return isset(Auth()->user()->id) ? Follower::where([
             'user_id' => Auth()->user()->id,
-            'status' => 'pending'
-        ])->count() :  null;
+            'status' => 'pending',
+        ])->count() : null;
     }
-    
+
     /**
      * getting the follow requests
      *
@@ -114,25 +113,15 @@ class Follower extends Model
      */
     public static function allRequests()
     {
-        try{
-            $userSentRequest = Follower::with('user')->where([
-                'user_id' => Auth()->user()->id,
-                'status' => 'pending'
-            ])->get();
-            $users = [];
-            foreach ($userSentRequest as $user) {
-                array_push($users, $user);
-            }
-            return $users;
-            // return Follower::where([
-            //     'user_id' => Auth()->user()->id,
-            //     'status' => 0
-            // ])->get();
-        }catch (Exception $e){
-            return response()->json([
-                'serverError' => "Something went wrong"
-            ]);
+        $userSentRequest = Follower::with('user')->where([
+            'user_id' => Auth()->user()->id,
+            'status' => 'pending',
+        ])->get();
+        $users = [];
+        foreach ($userSentRequest as $user) {
+            array_push($users, $user);
         }
+        return $users;
     }
 
     /**
@@ -144,17 +133,32 @@ class Follower extends Model
     public static function approve(int $id)
     {
         $follower = self::checkIfFollowRequestExistInTheDataBase($id);
-        if(!empty($follower) && ($follower->user_id === Auth()->user()->id)){
+        if (!empty($follower) && ($follower->user_id === Auth()->user()->id)) {
             $follower->status = 'approved';
-            $follower->save();
+            if($follower->save()){
+                $userToNotifyId = $follower->from_id === Auth()->user()->id ? $follower->user_id : $follower->from_id;
+                $theUserThatApprovedId = $userToNotifyId === $follower->from_id ? $follower->user_id : $follower->from_id;
+                $theUserThatApprovedname = User::select('name')->where('id', $theUserThatApprovedId)->get();
+                $data = [
+                    'event' => 'approvedFollowNotify',
+                    'data' => [
+                        'userId' => $userToNotifyId,
+                        'theUserThatApprovedname' => $theUserThatApprovedname[0]->name
+                    ]
+                ];
+                Redis::publish('notification', json_encode($data));
+            }
             return response()->json([
-                'success' => 'You accepted the follow request from '
+                'success' => 'You accepted the follow request from ',
             ]);
-        } else return response()->json(['error' => 'not a valid request' ]);
+        } else {
+            return response()->json(['error' => 'not a valid request']);
+        }
+
     }
 
     /**
-     * delete the recored 
+     * delete the recored
      *
      * @param integer $id
      * @return void
@@ -162,12 +166,15 @@ class Follower extends Model
     public static function decline(int $id)
     {
         $follower = self::checkIfFollowRequestExistInTheDataBase($id);
-        if( ! empty($follower) && ($follower->user_id === Auth()->user()->id)){
+        if (!empty($follower) && ($follower->user_id === Auth()->user()->id)) {
             $follower->delete();
             return response()->json([
-                'success' => 'You declined the follow request from '
+                'success' => 'You declined the follow request from ',
             ]);
-        } else return response()->json(['error' => 'not a valid request']);
+        } else {
+            return response()->json(['error' => 'not a valid request']);
+        }
+
     }
 
     /**
@@ -181,7 +188,7 @@ class Follower extends Model
         return Follower::where([
             'user_id' => Auth()->user()->id,
             'from_id' => $id,
-            'status' => 'pending'
+            'status' => 'pending',
         ])->first();
     }
 
@@ -191,11 +198,11 @@ class Follower extends Model
      * @param integer $id
      * @return void
      */
-    public static  function getRowId(int $id)
+    public static function getRowId(int $id)
     {
         return Follower::where("from_id", Auth()->user()->id)->
-               where("user_id", $id)->
-               first()->id;
+            where("user_id", $id)->
+            first()->id;
     }
 
     /**
@@ -208,11 +215,11 @@ class Follower extends Model
     {
         // deleting the follow request by column id
         $follower = Follower::find($id);
-        if($follower->from_id === Auth()->user()->id && $follower){
-            $follower->delete();    
+        if ($follower->from_id === Auth()->user()->id && $follower) {
+            $follower->delete();
             return true;
         }
-        return false;  
+        return false;
     }
 
     /**
@@ -224,15 +231,24 @@ class Follower extends Model
      */
     public static function followUser(int $user_id)
     {
-        if(empty(Follower::where([
-                    'from_id' => isset(Auth()->user()->id) ? Auth()->user()->id : null,
-                    'user_id' => $user_id
-                ])->first())){
+        if (empty(Follower::where([
+            'from_id' => isset(Auth()->user()->id) ? Auth()->user()->id : null,
+            'user_id' => $user_id,
+        ])->first())) {
             $follower = new Follower;
             $follower->from_id = Auth()->user()->id;
             $follower->user_id = $user_id;
             $follower->status = 'pending';
-            $follower->save();
+            if($follower->save()){
+                $data = [
+                    'event' => 'newFollowRequestNotify',
+                    'data' => [
+                        'userId' => $user_id,
+                        'username' => Auth()->user()->name
+                    ]
+                ];
+                Redis::publish('notification', json_encode($data));
+            }
             return true;
         }
         return false;
@@ -250,30 +266,36 @@ class Follower extends Model
         return self::cancel($id);
     }
 
-
-
     /**
-     * checking if the authed user follwing the other user being viewed 
+     * checking if the authed user follwing the other user being viewed
      *
      * @param integer $id
      * @return void
      */
     public static function iamIFollowingThisUser(int $id)
     {
-        if($id !== Auth()->user()->id){
+        if ($id !== Auth()->user()->id) {
             $data = Follower::where([
-                'from_id' => isset(Auth()->user()->id) ? Auth()->user()->id :  null,
-                'user_id' => $id
+                'from_id' => isset(Auth()->user()->id) ? Auth()->user()->id : null,
+                'user_id' => $id,
             ])->first();
-            if(isset($data)){
-                if($data->status === 'pending') return 'canCancel';
-                else if($data->status === 'approved') return 'canUnfollow';
-            }else return 'notFollowing';
+            if (isset($data)) {
+                if ($data->status === 'pending') {
+                    return 'canCancel';
+                } else if ($data->status === 'approved') {
+                    return 'canUnfollow';
+                }
+
+            } else {
+                return 'notFollowing';
+            }
+
+        } else {
+            return null;
         }
-        else return null;
+
     }
 
-    
     /**
      * getting how many followers a user had
      * ~ for the profile page
@@ -285,7 +307,7 @@ class Follower extends Model
     {
         return Follower::where([
             'user_id' => $userId,
-            'status' => 'approved'
+            'status' => 'approved',
         ])->count();
     }
 
@@ -300,7 +322,7 @@ class Follower extends Model
     {
         return Follower::where([
             'from_id' => $userId,
-            'status' => 'approved'
+            'status' => 'approved',
         ])->count();
     }
 
@@ -312,16 +334,16 @@ class Follower extends Model
      */
     public static function followingFeedProfile(int $userId)
     {
-        $data =  Follower::with('user')->with('otherUser')->where([
+        $data = Follower::with('user')->with('otherUser')->where([
             'status' => 'approved',
-            'user_id' => $userId
-        ])->orWhere(function($q) use($userId) {
+            'user_id' => $userId,
+        ])->orWhere(function ($q) use ($userId) {
             $q->where([
                 'from_id' => $userId,
-                'status' => 'approved'
+                'status' => 'approved',
             ]);
         })->orderBy('created_at')->take(10)->get();
-        return $data;   
+        return $data;
     }
 
 }

@@ -4,6 +4,7 @@ namespace Mercury;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Mercury\Post;
 use Mercury\User;
 
@@ -92,10 +93,19 @@ class ExchangeRequest extends Model
             $exchangeRequest->owner_post_id = $ownerPostId;
             $exchangeRequest->owner_id = Auth()->user()->id;
             $exchangeRequest->status = 'pending';
-            $exchangeRequest->save();
-            return response()->json([
-                "message" => "Sent 🐵",
-            ]);
+            if ($exchangeRequest->save()) {
+                $data = [
+                    'event' => 'newExchangeRequestNotify',
+                    'data' => [
+                        'userId' => $userId,
+                        'username' => Auth()->user()->name,
+                    ],
+                ];
+                Redis::publish('notification', json_encode($data));
+                return response()->json([
+                    "message" => "Sent 🐵",
+                ]);
+            }
         } else {
             return response()->json(["message" => "Already Sent!! 🙊🙊"]);
         }
@@ -163,12 +173,24 @@ class ExchangeRequest extends Model
      */
     public static function acceptExchangeRequest($rowId, $postId, $theOtherPostId)
     {
-        DB::transaction(function () use ($rowId, $postId, $theOtherPostId) {
+        $recored = ExchangeRequest::find($rowId);
+        $postHeader = Post::select('header')->where('id', $theOtherPostId)->get();
+        $username = Post::find($postId)->user->name;
+        DB::transaction(function () use ($rowId, $postId, $theOtherPostId, $recored, $postHeader, $username) {
             Post::moveToArchive([$postId, $theOtherPostId]);
             self::accepted($rowId, [$postId, $theOtherPostId]);
             $exchangeRequest = ExchangeRequest::find($rowId);
             $exchangeRequest->status = 'accepted';
             $exchangeRequest->save();
+            $data = [
+                'event' => 'exchangeRequestApprovedNotify',
+                'data' => [
+                    'userId' => $recored['owner_id'],
+                    'postHeader' => $postHeader[0]->header,
+                    'username' => $username,
+                ],
+            ];
+            Redis::publish('notification', json_encode($data));
         });
         return response()->json([
             "message" => "You just accepted this exchange request",
@@ -236,7 +258,7 @@ class ExchangeRequest extends Model
     }
 
     /**
-     * TODO:: DESCRIPE THIS
+     *
      *
      * @return void
      */

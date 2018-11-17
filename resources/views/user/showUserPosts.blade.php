@@ -1,5 +1,7 @@
 @extends('layouts.master')
+
 @section('title', "Mercury | 📜 $user->name ")
+
 @section('content')
 @navBar(['style' => 'grey darken-4 z-depth-4'])
 @endnavBar
@@ -48,3 +50,4 @@
   </div>
 </div>
 {{ $posts->links('user.components.helperComponents.pagination', ['posts' => $posts]) }}
+@endsection

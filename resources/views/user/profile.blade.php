@@ -45,20 +45,13 @@
       </div>
       <div class="row">
         @forelse ($followingFeedProfile as $followFeed)
-        {{ $followFeed['other_user'] }}
         <div class="col s12 m5 ">
           <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-              @if ($followFeed->user->id === Auth()->user()->id)
               <i class="material-icons">group_add</i>
               {{ $followFeed->user->name }} has sent a follow request to {{ $followFeed->otherUser->name }}
               {{ $followFeed->created_at->diffForHumans() }}
               And was accepted ✔️ {{ $followFeed->updated_at->diffForHumans() }}
-              {{-- @else
-              🏹 {{ $user->name }} recived a follow request from {{ $followFeed->user->name }}
-              {{ $followFeed->created_at->diffForHumans() }}
-              And was accepted ✔️{{ $followFeed->updated_at->diffForHumans() }} --}}
-              @endif
             </span>
           </div>
         </div>

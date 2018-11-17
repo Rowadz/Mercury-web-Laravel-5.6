@@ -120,7 +120,9 @@ Route::post('/addReview', 'UserController@addReview');
 
 
 
-
+Route::prefix('/realTime')->group(function(){
+        Route::get('get/user/{id}', 'RealTimeController@getUser');
+});
 
 
 

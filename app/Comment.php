@@ -3,7 +3,7 @@
 namespace Mercury;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Redis;
 class Comment extends Model
 {
     /**
@@ -39,8 +39,26 @@ class Comment extends Model
         $theComment->user_id = Auth()->user()->id;
         $theComment->post_id = $id;
         $theComment->body = $comment;
-        $theComment->save();
-        return response()->json(["message" => "Comment added"]);
+        $data = [
+            'event' => 'newComment',
+            'data' => $theComment
+        ];
+        if($theComment->save()){
+            Redis::publish('new-comment', json_encode($data));
+            $notification = [
+                'event' => 'newCommentNotify',
+                'data' => [
+                    'username' => Auth()->user()->name,
+                    'userId' => $theComment->post->user_id,
+                    'commentUserId' => Auth()->user()->id,
+                    'postId' => $theComment->post_id,
+                    'postHeader' => $theComment->post->header
+                ]
+            ];
+            Redis::publish('notification', json_encode($notification));
+            return response()->json(["message" => "Comment added"]);
+        } else response()->json(["message" => "Something went wrong"]);
+        
     }
 
 

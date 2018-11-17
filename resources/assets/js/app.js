@@ -7,6 +7,7 @@ import followRequestsFunctionality from './my_modules/social/followRequestsFunct
 import generalSocialFun from './my_modules/social/generalSocialFun';
 import postFunctions from './my_modules/social/postFunctionalities';
 import wishes from './my_modules/social/wishes';
+// eslint-disable-next-line no-unused-vars
 import * as particles from './lib/particles';
 import sendExchangeRequestInit from './my_modules/social/sendExchangeRequest';
 import exchangeRequestsInit from './my_modules/exchangeRequests';
@@ -14,6 +15,8 @@ import register from './my_modules/auth/register';
 import home from './my_modules/home';
 import initSearch from './my_modules/searchPage';
 import reviewInit from './my_modules/social/reviewFunctionality';
+import notifications from './my_modules/realTime/notifications';
+import io from 'socket.io-client';
 
 // init function should always run before anything so the website won't appear frozened
 // execute before the page load ( for slow images )
@@ -21,7 +24,8 @@ import reviewInit from './my_modules/social/reviewFunctionality';
 // in case they take long time
 // This is AN IFFE
 (()=>{
-	if ($('#post').length) postFunctions();
+	if ($('#post').length) postFunctions(io);
+	notifications(io);
 	$('.sidenav').sidenav();
 })();
 
@@ -36,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	init();
 	home();
 	if ($('#feed').length) feed();
+	
 });
 
 /** 
@@ -44,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 
 window.onload = () => {
-	// init();
 	if($('#sortPostsUserProfile').length) initSortingForProfile();
 	// if the image did not load  (Broken Image Handling)
 	if($('#profile').length) profileFollowFunctions();
 	followRequestsFunctionality();
+	/*eslint no-undef: */
 	if( $('#welcomePage').length) particlesJS.load('particles-js','./json/wlecome', () => {});
 	else if($('#registerPage').length) particlesJS.load('particles-js','./json/register', () => {});
 	else if($('#loginPage').length) particlesJS.load('particles-js','./json/login', () => {});
