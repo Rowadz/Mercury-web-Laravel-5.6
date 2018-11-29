@@ -9,10 +9,7 @@
     <i class="large material-icons">settings</i>
   </a>
   <ul>
-    <li><a class="btn-floating red"><i class="material-icons">mode_edit</i></a></li>
-    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    <li><a  href="{{ route('addPost') }}" class="btn-floating blue darken-4"><i class="large material-icons">mode_edit</i></a></li>
   </ul>
 </div>
 
@@ -59,7 +56,7 @@
         <div class="col s12 m5">
           <div class="card-panel grey darken-4 hoverable">
             <span class="white-text">
-              <i class="material-icons">group_add</i> {{ Auth()->user()->name }} has no following request activities
+              <i class="material-icons">group_add</i> {{ $user->name }} has no following request activities
             </span>
           </div>
         </div>

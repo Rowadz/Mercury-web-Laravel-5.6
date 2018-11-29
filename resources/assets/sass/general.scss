@@ -8,6 +8,7 @@ body {
 }
 
 html {
+    // overflow-x: hidden !important; dose not work
     ::-moz-selection {
         /* Code for Firefox */
         color: #80deea;

@@ -124,16 +124,17 @@ Route::prefix('/realTime')->group(function(){
         Route::get('get/user/{id}', 'RealTimeController@getUser');
 });
 
-
+Route::view('/add/post', 'user.post.add')->middleware('auth')->name('addPost');
 
 
 
 
 
 /**
- * You Route Mohammed !
+ * Your Route Mohammed !
  */
-Route::get("/search/{keyword?}", 'UserController@searchPage')->name('search');
+Route::get('/search/all', 'UserController@searchPage')->name('search');
+// Route::get('/search/our/{keyword}', 'UserController@searchMoh');
 
 
 

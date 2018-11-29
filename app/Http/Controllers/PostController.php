@@ -24,7 +24,8 @@ class PostController extends Controller
      * @param Post $post
      * @return void
      */
-    public function show(Post $post){
+    public function show(Post $post)
+    {
 
         if (Auth::check()) {
             $isWished = Wish::where("post_id", $post->id)->where("user_id", Auth()->user()->id)->get()->count();
@@ -49,7 +50,8 @@ class PostController extends Controller
      * * Route get("/show/all/posts")
      * @return void
      */
-    public function showWithNoAuth(){
+    public function showWithNoAuth()
+    {
         $data = [
             'posts' =>  Post::tenPosts()
         ];
@@ -75,7 +77,8 @@ class PostController extends Controller
      * @param User $user
      * @return void
      */
-    public function DescendingNAvailable(User $user){
+    public function DescendingNAvailable(User $user)
+    {
         $data = [
             "posts" => Post::sortPosts('available', 0, $user->id),
             "sortType" => 'descending order for Date',
@@ -92,7 +95,8 @@ class PostController extends Controller
      * @param User $user
      * @return void
      */
-    public function AscendingNAvailable(User $user){
+    public function AscendingNAvailable(User $user)
+    {
         $data = [
             "posts" => Post::sortPosts('available', 1, $user->id),
             "sortType" => 'Ascending order for Date',
@@ -108,7 +112,8 @@ class PostController extends Controller
      * @param User $user
      * @return void
      */
-    public function DescendingNArchived(User $user){
+    public function DescendingNArchived(User $user)
+    {
         $data = [
             "posts" => Post::sortPosts('archive', 0, $user->id),
             "sortType" => 'Descending order for Date',
@@ -124,7 +129,8 @@ class PostController extends Controller
      * @param User $user
      * @return void
      */
-    public function AscendingNArchived(User $user){
+    public function AscendingNArchived(User $user)
+    {
         $data = [
             "posts" => Post::sortPosts('archive', 1, $user->id),
             "sortType" => 'Ascending order for Date',
@@ -140,7 +146,8 @@ class PostController extends Controller
      * @param User $user
      * @return void
      */
-    public function commentsNAvailable(User $user){
+    public function commentsNAvailable(User $user)
+    {
         $data = [
             "posts" => Post::sortPosts('available', 2, $user->id),
             "sortType" => 'Order By comments number',
@@ -156,7 +163,8 @@ class PostController extends Controller
      * @param User $user
      * @return void
      */
-    public function commentsNArchived(User $user){
+    public function commentsNArchived(User $user)
+    {
         $data = [
             "posts" => Post::sortPosts('archive', 2, $user->id),
             "sortType" => 'Order By comments number',
@@ -166,7 +174,14 @@ class PostController extends Controller
         return view('user.showUserPosts')->with($data);
     }
 
-    public function loadUserPosts(Request $request){
+    /**
+     * 
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function loadUserPosts(Request $request)
+    {
         $validatedData = $request->validate([
             'lastId' => 'required|numeric',
             'userId' => 'required|numeric|exists:users,id'
@@ -175,7 +190,14 @@ class PostController extends Controller
     }
 
 
-    public function getPostdataExchangeRequest($keyword){
+    /**
+     *
+     * @param string $keyword
+     * @return void
+     */
+    public function getPostdataExchangeRequest($keyword)
+    {
         return Post::getPostdataExchangeRequest($keyword);
     }
+
 }

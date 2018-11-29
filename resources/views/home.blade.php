@@ -13,9 +13,8 @@
   </a>
   <ul>
     <li id="scrollTop"><a class="btn-floating blue-grey lighten-1"> <i class="material-icons">arrow_upward</i></a></li>
-    <li><a class="btn-floating blue darken-4"><i class="large material-icons">mode_edit</i></a></li>
+    <li><a  href="{{ route('addPost') }}" class="btn-floating blue darken-4"><i class="large material-icons">mode_edit</i></a></li>
     {{-- <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li> --}}
-    {{-- <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li> --}}
   </ul>
 </div>
 
