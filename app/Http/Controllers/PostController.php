@@ -5,9 +5,9 @@ namespace Mercury\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mercury\Post;
-use Mercury\Wish;
-use Mercury\Follower;
+use Mercury\Tag;
 use Mercury\User;
+use Mercury\Wish;
 
 class PostController extends Controller
 {
@@ -15,7 +15,6 @@ class PostController extends Controller
     {
         $this->middleware('auth')->except(['show', 'showWithNoAuth', 'loadMorePostsNoAuth']);
     }
-
 
     /**
      * * View -> User => showPost.blade.php
@@ -29,7 +28,7 @@ class PostController extends Controller
 
         if (Auth::check()) {
             $isWished = Wish::where("post_id", $post->id)->where("user_id", Auth()->user()->id)->get()->count();
-            $wishes =  Wish::getWishes();
+            $wishes = Wish::getWishes();
         } else {
             $isWished = null;
             $wishes = null;
@@ -44,7 +43,7 @@ class PostController extends Controller
         ];
         return view("user.showPost")->with($data);
     }
- 
+
     /**
      * * View =>  Visitor ->  showAllPosts.blade.php
      * * Route get("/show/all/posts")
@@ -53,15 +52,15 @@ class PostController extends Controller
     public function showWithNoAuth()
     {
         $data = [
-            'posts' =>  Post::tenPosts()
+            'posts' => Post::tenPosts(),
         ];
         return view("visitor.showAllPosts")->with($data);
     }
- 
+
     /**
      * * View => home.blade.php
      * * Route => post("/show/all/postsNoAuth")
-     * * WHY => for AJAX call 
+     * * WHY => for AJAX call
      * @param Request $request
      * @return void
      */
@@ -83,7 +82,7 @@ class PostController extends Controller
             "posts" => Post::sortPosts('available', 0, $user->id),
             "sortType" => 'descending order for Date',
             "postsType" => 'Available',
-            "user" => $user
+            "user" => $user,
         ];
         return view('user.showUserPosts')->with($data);
     }
@@ -101,7 +100,7 @@ class PostController extends Controller
             "posts" => Post::sortPosts('available', 1, $user->id),
             "sortType" => 'Ascending order for Date',
             "postsType" => 'Available',
-            "user" => $user
+            "user" => $user,
         ];
         return view('user.showUserPosts')->with($data);
     }
@@ -118,7 +117,7 @@ class PostController extends Controller
             "posts" => Post::sortPosts('archive', 0, $user->id),
             "sortType" => 'Descending order for Date',
             "postsType" => 'Archived',
-            "user" => $user
+            "user" => $user,
         ];
         return view('user.showUserPosts')->with($data);
     }
@@ -135,7 +134,7 @@ class PostController extends Controller
             "posts" => Post::sortPosts('archive', 1, $user->id),
             "sortType" => 'Ascending order for Date',
             "postsType" => 'Archived',
-            "user" => $user
+            "user" => $user,
         ];
         return view('user.showUserPosts')->with($data);
     }
@@ -152,11 +151,11 @@ class PostController extends Controller
             "posts" => Post::sortPosts('available', 2, $user->id),
             "sortType" => 'Order By comments number',
             "postsType" => 'Available',
-            "user" => $user
+            "user" => $user,
         ];
         return view('user.showUserPosts')->with($data);
     }
-    
+
     /**
      * * View => User -> showUserPosts.blade.php
      * * Route => get('/posts/{user}/commentsNArchived')
@@ -169,13 +168,13 @@ class PostController extends Controller
             "posts" => Post::sortPosts('archive', 2, $user->id),
             "sortType" => 'Order By comments number',
             "postsType" => 'Archived',
-            "user" => $user
+            "user" => $user,
         ];
         return view('user.showUserPosts')->with($data);
     }
 
     /**
-     * 
+     *
      *
      * @param Request $request
      * @return void
@@ -184,11 +183,10 @@ class PostController extends Controller
     {
         $validatedData = $request->validate([
             'lastId' => 'required|numeric',
-            'userId' => 'required|numeric|exists:users,id'
+            'userId' => 'required|numeric|exists:users,id',
         ]);
         return Post::loadMorePosts($request->lastId, $request->userId);
     }
-
 
     /**
      *
@@ -200,4 +198,23 @@ class PostController extends Controller
         return Post::getPostdataExchangeRequest($keyword);
     }
 
+    public function getTags()
+    {
+        return response()->json([
+            Tag::select('id', 'name')->get(),
+        ]);
+    }
+
+    public function newPost(Request $request)
+    {
+        $request->validate([
+            'header' => 'required',
+            'body' => 'required',
+            'location' => 'required',
+            'quantity' => 'required|numeric|min:1|max:100'
+        ]);
+        return response()->json([
+            Post::new($request->all()),
+        ]);
+    }
 }

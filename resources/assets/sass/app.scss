@@ -21,7 +21,11 @@ $colors:(
     infernalbrood: rgb(255, 23, 68),
     soulsoul: rgb(237, 231, 246),
     theArcticTumor: #15959F,
-    smokepaw: #F8F8FF
+    smokepaw: #F8F8FF,
+    label: #ffffff,
+    focusLabel: #424242,
+    valid: #00acc1,
+    invalid: #e53935
 );
 
 $mediaQueriesVariables: (
@@ -44,6 +48,7 @@ $mediaQueriesVariables: (
 @import "post.scss";
 @import "profile.scss";
 @import "peopleToReview.scss";
+@import "addPost.scss";
 
 // for sorting the posts
 #sortPostsUserProfile{

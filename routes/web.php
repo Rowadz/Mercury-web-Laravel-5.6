@@ -86,7 +86,7 @@ Route::prefix('/posts/{user}')->group(function(){
 
 Route::post('/show/user/posts/profile', 'PostController@loadUserPosts')->name('loadUserPosts');
 
-Route::get('/chat', "UserController@chat")->name('openChat');
+Route::get('/user/chat', "UserController@chat")->name('openChat');
 
 Route::get('/json/{json}','HomeController@particles');
 Route::get('/search/posts/{keyword?}', 'PostController@getPostdataExchangeRequest');
@@ -125,7 +125,8 @@ Route::prefix('/realTime')->group(function(){
 });
 
 Route::view('/add/post', 'user.post.add')->middleware('auth')->name('addPost');
-
+Route::get('/get/tags', 'PostController@getTags');
+Route::post('/new/post', 'PostController@newPost');
 
 
 

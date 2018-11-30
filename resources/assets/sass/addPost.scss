@@ -1,0 +1,40 @@
+ #addPost {
+   /* label color */
+   .input-field label {
+     color: getVariableData($colors, label);
+   }
+
+   /* label focus color */
+   .input-field input[type=text]:focus+label {
+     color: getVariableData($colors, focusLabel);
+   }
+
+   /* label underline focus color */
+   .input-field input[type=text]:focus {
+     border-bottom: 1px solid getVariableData($colors, focusLabel);
+     ;
+     box-shadow: 0 1px 0 0 getVariableData($colors, focusLabel);
+     ;
+   }
+
+   /* valid color */
+   .input-field input[type=text].valid {
+     border-bottom: 1px solid getVariableData($colors, valid);
+     box-shadow: 0 1px 0 0 getVariableData($colors, valid);
+   }
+
+   /* invalid color */
+   .input-field input[type=text].invalid {
+     border-bottom: 1px solid getVariableData($colors, invalid);
+     box-shadow: 0 1px 0 0 getVariableData($colors, invalid);
+   }
+
+   /* icon prefix focus color */
+   .input-field .prefix.active {
+     color: #000;
+   }
+
+   label{
+    text-align: center;
+   }
+ }

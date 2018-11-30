@@ -3,6 +3,7 @@
 namespace Mercury;
 
 use Illuminate\Database\Eloquent\Model;
+use Mercury\PostImage;
 use Mercury\Tag;
 
 //  Available posts
@@ -247,5 +248,32 @@ class Post extends Model
             $x->save();
         }
         // Post::destroy($postsIds);
+    }
+
+    public static function new ($data) {
+        $post = new Post;
+        $post->header = $data['header'];
+        $post->body = $data['body'];
+        $post->user_id = Auth()->user()->id;
+        $post->location = $data['location'];
+        $post->quantity = $data['quantity'];
+        $post->video_link = $data['videoLink'] || null;
+        $post->tag_id = isset($data['tag']) ? $data['tag'] : null;
+        $post->save();
+        $postImage = new PostImage;
+        $postImage->post_id = $post->id;
+        $postImage->location = $data['image1'];
+        $postImage->save();
+        if (isset($data['image2'])) {
+            $postImage->post_id = $post->id;
+            $postImage->location = $data['image2'];
+            $postImage->save();
+        }
+        if (isset($data['image3'])) {
+            $postImage->post_id = $post->id;
+            $postImage->location = $data['image3'];
+            $postImage->save();
+        }
+        return $post;
     }
 }

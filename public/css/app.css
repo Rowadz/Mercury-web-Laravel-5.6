@@ -11137,11 +11137,7 @@ html ::-webkit-scrollbar-thumb:hover {
   color: #FFFFFF;
 }
 
-mt-5 {
-  margin-top: 20px !important;
-}
-
-bor {
+.bor {
   border-radius: 20px !important;
 }
 
@@ -11385,6 +11381,49 @@ input:-webkit-autofill {
 #peopleToReviewSection .emotionsReview:hover {
   cursor: pointer;
   opacity: 0.5;
+}
+
+#addPost {
+  /* label color */
+  /* label focus color */
+  /* label underline focus color */
+  /* valid color */
+  /* invalid color */
+  /* icon prefix focus color */
+}
+
+#addPost .input-field label {
+  color: #ffffff;
+}
+
+#addPost .input-field input[type=text]:focus + label {
+  color: #424242;
+}
+
+#addPost .input-field input[type=text]:focus {
+  border-bottom: 1px solid #424242;
+  -webkit-box-shadow: 0 1px 0 0 #424242;
+          box-shadow: 0 1px 0 0 #424242;
+}
+
+#addPost .input-field input[type=text].valid {
+  border-bottom: 1px solid #00acc1;
+  -webkit-box-shadow: 0 1px 0 0 #00acc1;
+          box-shadow: 0 1px 0 0 #00acc1;
+}
+
+#addPost .input-field input[type=text].invalid {
+  border-bottom: 1px solid #e53935;
+  -webkit-box-shadow: 0 1px 0 0 #e53935;
+          box-shadow: 0 1px 0 0 #e53935;
+}
+
+#addPost .input-field .prefix.active {
+  color: #000;
+}
+
+#addPost label {
+  text-align: center;
 }
 
 #sortPostsUserProfile {

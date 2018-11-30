@@ -17,69 +17,71 @@ import initSearch from './my_modules/searchPage';
 import reviewInit from './my_modules/social/reviewFunctionality';
 import notifications from './my_modules/realTime/notifications';
 import io from 'socket.io-client';
+import initAddPost from './my_modules/posts/addPost';
 
 // init function should always run before anything so the website won't appear frozened
 // execute before the page load ( for slow images )
 // so the user can comment before the images loads 
 // in case they take long time
 // This is AN IFFE
-(()=>{
-	if ($('#post').length) postFunctions(io);
-	notifications(io);
-	$('.sidenav').sidenav();
+(() => {
+  if ($('#post').length) postFunctions(io);
+  notifications(io);
+  $('.sidenav').sidenav();
 })();
 
 /** 
  * this will run before window.onload
-*/
+ */
 document.addEventListener('DOMContentLoaded', () => {
-	if($('#registerForm').length) register();
-	$('.dropdown-trigger-filter').dropdown();
-	initSearch();
-	reviewInit();
-	init();
-	home();
-	if ($('#feed').length) feed();
-	
+  if ($('#registerForm').length) register();
+  $('.dropdown-trigger-filter').dropdown();
+  initSearch();
+  reviewInit();
+  init();
+  home();
+  if ($('#feed').length) feed();
+  if ($('#addPost').length) initAddPost();
+
 });
 
 /** 
  * this function will run after the page loaded! .
  * in many browsers, the window.onload event is not triggered until all images have loaded
-*/
+ */
 
 window.onload = () => {
-	if($('#sortPostsUserProfile').length) initSortingForProfile();
-	// if the image did not load  (Broken Image Handling)
-	if($('#profile').length) profileFollowFunctions();
-	followRequestsFunctionality();
-	/*eslint no-undef: */
-	if( $('#welcomePage').length) particlesJS.load('particles-js','./json/wlecome', () => {});
-	else if($('#registerPage').length) particlesJS.load('particles-js','./json/register', () => {});
-	else if($('#loginPage').length) particlesJS.load('particles-js','./json/login', () => {});
-	if ($('#post').length) sendExchangeRequestInit();
-	$('.peopleYouAreFollowingModalTrigger').click(()=>{
-		generalSocialFun(
-			'/user/following',
-			'seeFollowingModal',
-			'modalSection-following',
-			'followingNumberModal',
-			'getpeopleYouAreFollowingNumber',
-			'following'
-		);
-	});
-	$('.followersModalTrigger').click(()=>{
-		generalSocialFun(
-			'/user/followers',
-			'seeFollowersModal',
-			'modalSection-followers',
-			'followersNumberModal',
-			'getFollowersNumber',
-			'followers'
-		);
-	});
-	$('.wishesModalTrigger').click(()=>{
-		wishes();
-	});
-	if($('#exchangeRequestsPage').length) exchangeRequestsInit();
+  if ($('#sortPostsUserProfile').length) initSortingForProfile();
+  // if the image did not load  (Broken Image Handling)
+  if ($('#profile').length) profileFollowFunctions();
+  followRequestsFunctionality();
+  /*eslint no-undef: */
+  if ($('#welcomePage').length) particlesJS.load('particles-js', './json/wlecome', () => {});
+  else if ($('#registerPage').length) particlesJS.load('particles-js', './json/register', () => {});
+  else if ($('#loginPage').length) particlesJS.load('particles-js', './json/login', () => {});
+  if ($('#post').length) sendExchangeRequestInit();
+  $('.peopleYouAreFollowingModalTrigger').click(() => {
+    generalSocialFun(
+      '/user/following',
+      'seeFollowingModal',
+      'modalSection-following',
+      'followingNumberModal',
+      'getpeopleYouAreFollowingNumber',
+      'following'
+    );
+  });
+  $('.followersModalTrigger').click(() => {
+    generalSocialFun(
+      '/user/followers',
+      'seeFollowersModal',
+      'modalSection-followers',
+      'followersNumberModal',
+      'getFollowersNumber',
+      'followers'
+    );
+  });
+  $('.wishesModalTrigger').click(() => {
+    wishes();
+  });
+  if ($('#exchangeRequestsPage').length) exchangeRequestsInit();
 };
