@@ -11426,6 +11426,10 @@ input:-webkit-autofill {
   text-align: center;
 }
 
+#chat .clickable {
+  cursor: pointer;
+}
+
 #sortPostsUserProfile {
   margin-top: 10px !important;
 }

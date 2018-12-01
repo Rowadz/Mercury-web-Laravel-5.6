@@ -290,10 +290,4 @@ class UserController extends Controller
     {
         return Review::addReview($request->userId, $request->type, $request->header, $request->body);
     }
-
-    public function chat()
-    {
-        // todo return the user with his/her messages !
-        return 'yeah...';
-    }
 }

@@ -27,15 +27,18 @@ class User extends Authenticatable
         'password', 'remember_token', 'API_KEY'
     ];
 
-    public function posts(){
+    public function posts()
+    {
         return $this->hasMany("Mercury\Post");
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany("Mercury\Comment");
     }
 
-    public function followers(){
+    public function followers()
+    {
         return $this->hasMany("Mercury\Follower");
     }
 
@@ -45,8 +48,19 @@ class User extends Authenticatable
     }
 
 
-    public function reviewFromMe(){
+    public function reviewFromMe()
+    {
         return $this->belongsTo("Mercury\Review", 'id', 'from_id');
+    }
+
+    public function sent()
+    {
+        return $this->hasMany('Mercury\Message', 'from_id');
+    }
+
+    public function received()
+    {
+        return $this->hasMany('Mercury\Message', 'user_id');
     }
     
 }
