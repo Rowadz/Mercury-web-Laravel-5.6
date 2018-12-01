@@ -290,3 +290,24 @@ CREATE TABLE `wishes` (
   CONSTRAINT `wishes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ```
+
+#### first view
+``` SQL 
+CREATE VIEW users_names_for_chat AS SELECT
+	DISTINCT revicer.name as revicer_name,
+    revicer.id as revicer_id,
+    revicer.image as revicer_image,
+	sender.name as sender_name,
+    sender.id as sender_id,
+    sender.image as sender_image
+FROM
+    mercury.messages
+        LEFT JOIN
+    users AS revicer ON revicer.id = messages.user_id
+        LEFT JOIN
+    users AS sender ON sender.id = messages.from_id;
+    
+    
+    
+
+```
