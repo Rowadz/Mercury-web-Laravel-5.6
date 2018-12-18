@@ -1,5 +1,39 @@
-#chat{
-	.clickable{
-		cursor: pointer;
-	}
+#chat {
+  .clickable {
+    cursor: pointer;
+  }
+
+  .h-100 {
+    height: 100vh !important;
+  }
+
+  .mt-0 {
+    margin-top: 0 !important;
+  }
+
+  .mb-0 {
+    margin-top: 0 !important;
+  }
+
+  .msgPopUp {
+    float: left;
+    width: 50%;
+    border: none !important;
+    margin-left: 20px;
+  }
+
+  .msgPopUpMe {
+    float: right;
+    width: 50%;
+    border: none !important;
+    margin-right: 20px;
+  }
+
+  .msgUser {
+    border: none !important;
+  }
+
+  .overflowChatBox {
+    overflow-y: auto;
+  }
 }

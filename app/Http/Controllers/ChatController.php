@@ -38,4 +38,15 @@ class ChatController extends Controller
 
         return response()->json($data);
     }
+
+    public function saveMessage(Request $request)
+    {
+        $newMsg = new Message;
+        $newMsg->from_id = $request->from_id;
+        $newMsg->user_id = $request->user_id;
+        $newMsg->body = $request->body;
+        return Message::saveMessage($newMsg) ?
+        response()->json(['message' => 'success']) :
+        response()->json(['message' => 'faild']);
+    }
 }
