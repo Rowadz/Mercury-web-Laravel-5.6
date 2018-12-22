@@ -283,7 +283,7 @@ class UserController extends Controller
 
     public function reviewPage()
     {
-        return view('user.peopleToReview')->with('finalUsers', ExchangeRequest::getPeopleToReview());
+        return view('user.peopleToReview')->with('users', ExchangeRequest::getPeopleToReview());
     }
 
     public function addReview(Request $request)

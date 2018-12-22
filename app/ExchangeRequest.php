@@ -264,15 +264,25 @@ class ExchangeRequest extends Model
      */
     public static function getPeopleToReview()
     {
-        $peopleToReview = ExchangeRequest::with(['onwerToReview' => function ($q) {
-            $q->where([
-                'from_id' => Auth()->user()->id,
-            ]);
-        }])->with(['onwerToReview' => function ($q) {
-            $q->where([
-                'user_id' => Auth()->user()->id,
-            ]);
-        }])->get();
+
+        $peopleToReview = DB::table('exchange_requests')
+            ->select('user.name as user_name', 'user.id as user_id', DB::raw('count(reviews.id) as review_count'))
+            ->join('users as user', 'user.id', '=', 'exchange_requests.user_id')
+            ->join('users as onwer', 'onwer.id', '=', 'exchange_requests.owner_id')
+            ->leftJoin('reviews', 'reviews.from_id', '=', 'exchange_requests.owner_id')
+            ->where('onwer.id', Auth()->user()->id)
+            ->groupBy('user.name', 'user.id')
+            ->having('review_count', 0)
+            ->union(
+                DB::table('exchange_requests')
+                    ->select('onwer.name as user_name', 'onwer.id as user_id', DB::raw('count(reviews.id) as review_count'))
+                    ->join('users as user', 'user.id', '=', 'exchange_requests.user_id')
+                    ->join('users as onwer', 'onwer.id', '=', 'exchange_requests.owner_id')
+                    ->leftJoin('reviews', 'reviews.user_id', '=', 'exchange_requests.user_id')
+                    ->where('user.id', Auth()->user()->id)
+                    ->groupBy('onwer.name', 'onwer.id')
+                    ->having('review_count', 0)
+            )->get()->toArray();
         return $peopleToReview;
     }
 }

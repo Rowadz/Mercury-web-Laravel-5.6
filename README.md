@@ -306,8 +306,50 @@ FROM
     users AS revicer ON revicer.id = messages.user_id
         LEFT JOIN
     users AS sender ON sender.id = messages.from_id;
-    
-    
-    
+```
 
+
+#### Might help you !
+* to get the usres that need to be reviewed
+* go to `app/ExchangeRequest => getPeopleToReview method` to see the php code ~ if you want ~
+```SQL
+SELECT 
+    user.name as 'user_name', 
+    user.id as 'user_id',
+    count(reviews.id)
+FROM
+    mercury.exchange_requests
+        INNER JOIN
+    users AS user ON user.id = exchange_requests.user_id
+        INNER JOIN
+    users AS onwer ON onwer.id = exchange_requests.owner_id
+		LEFT JOIN
+	reviews ON reviews.from_id = exchange_requests.owner_id
+WHERE
+    onwer.id = 9
+AND 
+	exchange_requests.status =  'accepted'
+GROUP BY user.name , user.id
+having count(reviews.id) = 0
+UNION 
+(
+SELECT 
+    onwer.name as 'user_name', 
+    onwer.id as 'user_id',
+	count(reviews.id)
+FROM
+    mercury.exchange_requests
+        INNER JOIN
+    users AS user ON user.id = exchange_requests.user_id
+        INNER JOIN
+    users AS onwer ON onwer.id = exchange_requests.owner_id
+		LEFT JOIN
+	reviews ON reviews.user_id = exchange_requests.user_id
+WHERE
+    user.id = 9
+AND 		
+	exchange_requests.status =  'accepted'
+GROUP BY onwer.name , onwer.id 
+having count(reviews.id) = 0
+);
 ```
