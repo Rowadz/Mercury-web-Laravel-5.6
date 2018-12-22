@@ -86,7 +86,8 @@ Route::prefix('/posts/{user}')->group(function(){
 
 Route::post('/show/user/posts/profile', 'PostController@loadUserPosts')->name('loadUserPosts');
 
-Route::get('/user/chat', "ChatController@index")->name('openChat');
+Route::get('user/getChatNames', "ChatController@getNames");
+Route::view('/user/chat', 'user.chat.chat')->name('openChat');
 Route::get('/user/chat/{name}', 'ChatController@getMessages');
 
 

@@ -13,14 +13,13 @@ class ChatController extends Controller
         $this->middleware('auth')->except(['searchPage']);
     }
 
-    public function index()
+    public function getNames()
     {
-        $data = [
-            'users' => users_names_for_chat::select('sender_name as name', 'sender_image as image')->where(function ($q) {
+        return response()->json(
+            users_names_for_chat::select('sender_name as name', 'sender_image as image')->where(function ($q) {
                 $q->where('sender_id', Auth()->user()->id)->orWhere('revicer_id', Auth()->user()->id);
-            })->where('sender_id', '!=', Auth()->user()->id)->get(),
-        ];
-        return view('user.chat.chat')->with($data);
+            })->where('sender_id', '!=', Auth()->user()->id)->paginate(10)
+        );
     }
 
     public function getMessages(string $name)
@@ -33,7 +32,7 @@ class ChatController extends Controller
             })->where(function ($q) use ($user) {
                 $q->where('user_id', Auth()->user()->id)
                     ->orWhere('from_id', Auth()->user()->id);
-            })->get(),
+            })->orderBy('id', 'desc')->get(),
         ];
 
         return response()->json($data);

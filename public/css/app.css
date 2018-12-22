@@ -11430,6 +11430,40 @@ input:-webkit-autofill {
   cursor: pointer;
 }
 
+#chat .h-100 {
+  height: 100vh !important;
+}
+
+#chat .mt-0 {
+  margin-top: 0 !important;
+}
+
+#chat .mb-0 {
+  margin-top: 0 !important;
+}
+
+#chat .msgPopUp {
+  float: left;
+  width: 50%;
+  border: none !important;
+  margin-left: 20px;
+}
+
+#chat .msgPopUpMe {
+  float: right;
+  width: 50%;
+  border: none !important;
+  margin-right: 20px;
+}
+
+#chat .msgUser {
+  border: none !important;
+}
+
+#chat .overflowChatBox {
+  overflow-y: auto;
+}
+
 #sortPostsUserProfile {
   margin-top: 10px !important;
 }
