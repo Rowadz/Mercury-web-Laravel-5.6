@@ -14666,7 +14666,7 @@ module.exports = function(obj, fn){
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(32);
-module.exports = __webpack_require__(102);
+module.exports = __webpack_require__(108);
 
 
 /***/ }),
@@ -54977,10 +54977,11 @@ return $;
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = initChat;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_usernamesPagination__ = __webpack_require__(117);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_displayData__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_usernamesPagination__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_displayData__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__helpers_messagesPagination__ = __webpack_require__(107);
 
 
 var getUserNames = function () {
@@ -55072,6 +55073,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 /*eslint no-console: */
 
 
+
 function initChat() {
   getUserNames(__WEBPACK_IMPORTED_MODULE_1__helpers_usernamesPagination__["b" /* usernamesPagination */]);
   addEventListeners();
@@ -55103,13 +55105,17 @@ function getMessages(name, image) {
   fetch('/user/chat/' + name).then(function (res) {
     return res.json();
   }).then(function (res) {
+    console.log(res);
+    Object(__WEBPACK_IMPORTED_MODULE_3__helpers_messagesPagination__["a" /* mapMessagesPaginationPagination */])(res);
+    console.log(__WEBPACK_IMPORTED_MODULE_3__helpers_messagesPagination__["b" /* messagesPagination */]);
     $('#chatPreloader').remove();
-    res.messages.forEach(function (msg) {
-      return __WEBPACK_IMPORTED_MODULE_2__helpers_displayData__["a" /* displayMessages */](msg, image, addMessagesHere);
+    res.data.forEach(function (msg) {
+      __WEBPACK_IMPORTED_MODULE_2__helpers_displayData__["a" /* displayMessages */](msg, image, $('#authUserImage').val(), addMessagesHere);
     });
   })
   // eslint-disable-next-line no-unused-vars
   .catch(function (err) {
+    console.error(err);
     M.toast({
       html: 'Something went wrong while loading the messages, try again later'
     });
@@ -55118,30 +55124,13 @@ function getMessages(name, image) {
 
 /***/ }),
 /* 102 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(115);
+module.exports = __webpack_require__(103);
 
 
 /***/ }),
-/* 115 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -55166,7 +55155,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(116);
+module.exports = __webpack_require__(104);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -55182,7 +55171,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 116 */
+/* 104 */
 /***/ (function(module, exports) {
 
 /**
@@ -55915,7 +55904,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 117 */
+/* 105 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55941,7 +55930,7 @@ var mapUsernamesPagination = function mapUsernamesPagination(obj) {
 
 
 /***/ }),
-/* 118 */
+/* 106 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55980,9 +55969,41 @@ var someoneIsShy = function someoneIsShy(displayUsersHere) {
 	displayUsersHere.html('\n\t<ul class="collection msgUser clickable hoverable mt-0">\n\t<li class="collection-item avatar grey darken-1">\n\t  <img src="/images/happy.png" alt="" class="circle">\n\t  <p class="white-text">\n\t\tSomeone is shy\n\t  </p>\n\t</li>\n  </ul>\n\t');
 };
 
-var displayMessages = function displayMessages(msg, image, addMessagesHere) {
-	addMessagesHere.append('\n\t<div class="row">\n\t  <ul class="collection z-depth-5 animated flash ' + (msg.from_id === +$('#authUserIdForNotify').val() ? 'msgPopUpMe' : 'msgPopUp') + '">\n\t\t<li class="collection-item avatar  grey darken-4">\n\t\t  <img src="' + image + '" alt="" class="circle">\n\t\t  <time class="title">' + msg.created_at + '</time>\n\t\t  <p>\n\t\t\t' + msg.body + '\n\t\t  </p>\n\t\t</li>\n\t  </ul>\n\t</div>\n\t\t');
+var displayMessages = function displayMessages(msg, image, authUserImage, addMessagesHere) {
+	addMessagesHere.append('\n\t<div class="row">\n\t  <ul class="collection z-depth-5 msgBox animated flash ' + (msg.from_id === +$('#authUserIdForNotify').val() ? 'msgPopUpMe' : 'msgPopUp') + '">\n\t\t<li class="collection-item avatar  grey darken-4">\n\t\t  <img src="' + (msg.from_id === +$('#authUserIdForNotify').val() ? authUserImage : image) + '" alt="" class="circle">\n\t\t  <time class="title">' + msg.created_at + '</time>\n\t\t  <p>\n\t\t\t' + msg.body + '\n\t\t  </p>\n\t\t</li>\n\t  </ul>\n\t</div>\n\t\t');
 };
+
+/***/ }),
+/* 107 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return messagesPagination; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mapMessagesPaginationPagination; });
+var messagesPagination = {
+  current_page: 1,
+  last_page: undefined,
+  first_page_url: '/user/getChatNames?page=1',
+  last_page_url: undefined,
+  next_page_url: undefined,
+  total: undefined
+};
+
+var mapMessagesPaginationPagination = function mapMessagesPaginationPagination(obj) {
+  for (var key in obj) {
+    if (messagesPagination.hasOwnProperty(key)) {
+      messagesPagination[key] = obj[key];
+    }
+  }
+};
+
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

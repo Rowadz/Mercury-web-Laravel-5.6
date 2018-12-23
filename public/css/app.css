@@ -11430,6 +11430,11 @@ input:-webkit-autofill {
   cursor: pointer;
 }
 
+#chat .msgBox {
+  border-radius: 30px;
+  margin-bottom: -25px;
+}
+
 #chat .h-100 {
   height: 100vh !important;
 }

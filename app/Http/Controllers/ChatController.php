@@ -25,19 +25,17 @@ class ChatController extends Controller
     public function getMessages(string $name)
     {
         $user = User::where('name', $name)->first();
-        $data = [
-            'messages' => Message::where(function ($q) use ($user) {
+        return response()->json(
+            Message::where(function ($q) use ($user) {
                 $q->where('user_id', $user->id)
                     ->orWhere('from_id', $user->id);
             })->where(function ($q) use ($user) {
                 $q->where('user_id', Auth()->user()->id)
                     ->orWhere('from_id', Auth()->user()->id);
-            })->orderBy('id', 'desc')->get(),
-        ];
-
-        return response()->json($data);
+            })->orderBy('id', 'desc')->paginate(100)
+        );
     }
-
+    
     public function saveMessage(Request $request)
     {
         $newMsg = new Message;

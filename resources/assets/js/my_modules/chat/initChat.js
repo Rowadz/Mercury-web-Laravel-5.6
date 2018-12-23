@@ -4,6 +4,10 @@ import {
   mapUsernamesPagination,
 } from './helpers/usernamesPagination';
 import * as dd from './helpers/displayData';
+import {
+  messagesPagination,
+  mapMessagesPaginationPagination
+} from './helpers/messagesPagination';
 export default function initChat() {
   getUserNames(usernamesPagination);
   addEventListeners();
@@ -56,7 +60,8 @@ function someoneIsShy(displayUsersHere) {
 
 
 async function fetchNames() {
-  if (usernamesPagination.current_page === usernamesPagination.last_page) return Promise.reject('done');
+  if (usernamesPagination.current_page === usernamesPagination.last_page)
+    return Promise.reject('done');
   return usernamesPagination.next_page_url === undefined ?
     fetch('/user/getChatNames').then(res => res.json()) :
     fetch(`${usernamesPagination.next_page_url}`).then(res => res.json());
@@ -70,11 +75,17 @@ function getMessages(name, image) {
   fetch(`/user/chat/${name}`)
     .then(res => res.json())
     .then(res => {
+      console.log(res);
+      mapMessagesPaginationPagination(res);
+      console.log(messagesPagination);
       $('#chatPreloader').remove();
-      res.messages.forEach(msg => dd.displayMessages(msg, image, addMessagesHere));
+      res.data.forEach(msg => {
+        dd.displayMessages(msg, image, $('#authUserImage').val() ,addMessagesHere);
+      });
     })
     // eslint-disable-next-line no-unused-vars
     .catch(err => {
+      console.error(err);
       M.toast({
         html: 'Something went wrong while loading the messages, try again later'
       });
