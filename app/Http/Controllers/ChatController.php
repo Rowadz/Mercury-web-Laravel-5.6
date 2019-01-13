@@ -35,13 +35,21 @@ class ChatController extends Controller
             })->orderBy('id', 'desc')->paginate(100)
         );
     }
-    
+
     public function saveMessage(Request $request)
     {
         $newMsg = new Message;
         $newMsg->from_id = $request->from_id;
         $newMsg->user_id = $request->user_id;
         $newMsg->body = $request->body;
+        $notification = [
+            'event' => 'newMessage',
+            'data' => [
+                'username' => Auth()->user()->name,
+                'userId' => $theComment->post->user_id,
+            ],
+        ];
+        Redis::publish('notification', json_encode($notification));
         return Message::saveMessage($newMsg) ?
         response()->json(['message' => 'success']) :
         response()->json(['message' => 'faild']);

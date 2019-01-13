@@ -80,7 +80,7 @@ function getMessages(name, image) {
       console.log(messagesPagination);
       $('#chatPreloader').remove();
       res.data.forEach(msg => {
-        dd.displayMessages(msg, image, $('#authUserImage').val() ,addMessagesHere);
+        dd.displayMessages(msg, image, $('#authUserImage').val(), addMessagesHere);
       });
     })
     // eslint-disable-next-line no-unused-vars

@@ -7,40 +7,39 @@
 @import "helpers.scss";
 @import "~material-design-icons/iconfont/material-icons.css";
 
-$colors:(
-    mainColor: #151019,
-    blightpod: rgba(50,59,62, 0.7),
-    murksoul: rgba(29, 170, 189, 0.7),
-    haunttaur: #1a1a1a,
-    vortexling: #eceff1,
-    theLonelyStatue: #1A1A1A,
-    mistface: rgba(167,255,235, 0.2),
-    mistfaceLight : rgba(167,255,235, 0.19),
-    brineling: #f0f8ff,
-    smokevine: rgb(0, 184, 212),
-    infernalbrood: rgb(255, 23, 68),
-    soulsoul: rgb(237, 231, 246),
-    theArcticTumor: #15959F,
-    smokepaw: #F8F8FF,
-    label: #ffffff,
-    focusLabel: #424242,
-    valid: #00acc1,
-    invalid: #e53935
-);
+$colors:(mainColor: #151019,
+blightpod: rgba(50, 59, 62, 0.7),
+murksoul: rgba(29, 170, 189, 0.7),
+haunttaur: #1a1a1a,
+vortexling: #eceff1,
+theLonelyStatue: #1A1A1A,
+mistface: rgba(167, 255, 235, 0.2),
+mistfaceLight : rgba(167, 255, 235, 0.19),
+brineling: #f0f8ff,
+smokevine: rgb(0, 184, 212),
+infernalbrood: rgb(255, 23, 68),
+soulsoul: rgb(237, 231, 246),
+theArcticTumor: #15959F,
+smokepaw: #F8F8FF,
+label: #ffffff,
+focusLabel: #424242,
+valid: #00acc1,
+invalid: #e53935);
 
-$mediaQueriesVariables: (
-    phone: 601px
-);
+$mediaQueriesVariables: (phone: 601px);
 
-@function getVariableData($setName,$varName){
-    @return map-get($setName, $varName)
-};
+@function getVariableData($setName, $varName) {
+  @return map-get($setName, $varName)
+}
+
+;
 
 @mixin phone {
-    @media only screen and (min-width: #{getVariableData($mediaQueriesVariables, phone)}){
-        @content;
-    }
+  @media only screen and (min-width: #{getVariableData($mediaQueriesVariables, phone)}) {
+    @content;
+  }
 }
+
 // imported after the mixin and the function beacuse these files uses them
 @import "nav.scss";
 @import "welcome.scss";
@@ -52,10 +51,12 @@ $mediaQueriesVariables: (
 @import "chat.scss";
 
 // for sorting the posts
-#sortPostsUserProfile{
-    margin-top: 10px !important;
-    .select-wrapper input.select-dropdown {
-        color: whitesmoke !important;
-    }
+#sortPostsUserProfile {
+  margin-top: 10px !important;
+
+  .select-wrapper input.select-dropdown {
+    color: whitesmoke !important;
+  }
 }
+
 // end for sorting the posts

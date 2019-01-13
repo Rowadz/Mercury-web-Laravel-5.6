@@ -45,7 +45,7 @@
                 <div class="input-field col s12 m6" data-aos="flip-down">
                   <i class="material-icons prefix blue-text text-lighten-3">email</i>
                   <input id="email" type="email" class="validate white-text" value="{{ old('email') }}" required name='email'>
-                  <label for="email">E-Mail Addredd</label>
+                  <label for="email">E-Mail address</label>
                   <span class="helper-text white-text">Should be unique</span>
                 </div>
                 <div class="input-field col s12 m6 " data-aos="flip-up">

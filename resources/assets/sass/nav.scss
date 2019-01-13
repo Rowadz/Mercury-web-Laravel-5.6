@@ -1,65 +1,74 @@
 nav {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  height: 90px;
+  line-height: 90px;
+  z-index: 1 !important;
+  position: inherit !important;
+
+  &.a {
+    outline: none;
+  }
+
+  i,
+  [class^="mdi-"],
+  [class*="mdi-"],
+  i.material-icons,
+  .button-collapse i {
     height: 90px;
     line-height: 90px;
-    z-index: 1 !important;
-    position: inherit !important;
+  }
 
-    &.a {
-      outline: none;
-    }
+  .brand-logo {
+    font-size: 1.6rem;
+  }
 
-    i, [class^="mdi-"], [class*="mdi-"], i.material-icons, .button-collapse i {
-      height: 90px;
-      line-height: 90px;
-    }
+  height: 90px;
+  line-height: 90px;
 
-    .brand-logo {
-      font-size: 1.6rem;
-    }
+  .nav-wrapper i {
+    height: 90px;
+    line-height: 90px;
+  }
 
+  a.sidenav-trigger {
     height: 90px;
     line-height: 90px;
 
-    .nav-wrapper i {
+    i {
       height: 90px;
       line-height: 90px;
     }
+  }
 
-    a.sidenav-trigger {
+  li {
+    &:hover {
+      background-color: transparent;
+    }
+
+    a {
+      font-size: 20px !important;
+    }
+  }
+
+  @include phone {
+    nav {
       height: 90px;
       line-height: 90px;
-      i {
+
+      .nav-wrapper i {
         height: 90px;
         line-height: 90px;
       }
-    }
-    
-    li {
-      &:hover {
-        background-color: transparent;
-      }
-      a {
-        font-size: 20px !important;
-      }
-    }
 
-    @include phone{
-        nav {
-            height: 90px;
-            line-height: 90px;
-            .nav-wrapper i {
-              height: 90px;
-              line-height: 90px;
-            }
-            a.button-collapse {
-              height: 90px;
-              line-height: 90px;
-              i {
-                height: 90px;
-                line-height: 90px;
-              }
-            }
-          }
+      a.button-collapse {
+        height: 90px;
+        line-height: 90px;
+
+        i {
+          height: 90px;
+          line-height: 90px;
+        }
+      }
     }
   }
+}
