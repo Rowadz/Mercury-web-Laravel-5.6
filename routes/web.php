@@ -35,9 +35,8 @@ Route::post("/post/{post}/addComment", "CommentController@addComment")->name('ad
 // displaying ta user profile
 Route::get("/{user}", "UserController@profile")->name('profile');
 
-
 // checking for a new follow requests
-// opens a modal 
+// opens a modal
 Route::post("/show/follow-Requests", "UserController@showFollowingRequests")->name('showFollowingRequests');
 
 // approve the follow request
@@ -59,29 +58,27 @@ Route::post("/user/followers", "UserController@seeFollowers")->name('seeFollower
 Route::delete("/cancelFollow", "UserController@cancelFollow")->name('cencelFollowRequest');
 
 // Follow the user from profile page
-Route::post("/followUser" , "UserController@followUser")->name('followUser');
+Route::post("/followUser", "UserController@followUser")->name('followUser');
 
 // unFollow the user from the profile page
 Route::delete("/unfollowUser", "UserController@unfollowUser")->name('unfollowUser');
 
-
-// get a user's posts from sortShowUserPosts page 
+// get a user's posts from sortShowUserPosts page
 Route::get('/posts/{user}', "PostController@DescendingNAvailable")->name('allUserPosts'); // old name is allUserPosts
 
 // get all the user followers
 Route::post('/user/following', "UserController@seeTheUsersYouAreFollowing")->name('seeTheUsersYouAreFollowing');
 
-
 // 6 routes for sorting the data with pagination from sortShowUserPosts page
-// this in not good 
+// this in not good
 // DRY
-Route::prefix('/posts/{user}')->group(function(){
-        Route::get('/DescendingNAvailable', "PostController@DescendingNAvailable")->name('DescendingNAvailable');
-        Route::get('/AscendingNAvailable', "PostController@AscendingNAvailable")->name('AscendingNAvailable');
-        Route::get('/DescendingNArchived', "PostController@DescendingNArchived")->name('DescendingNArchived');
-        Route::get('/AscendingNArchived', "PostController@AscendingNArchived")->name('AscendingNArchived');
-        Route::get('/commentsNAvailable', "PostController@commentsNAvailable")->name('commentsNAvailable');
-        Route::get('/commentsNArchived', "PostController@commentsNArchived")->name('commentsNArchived');
+Route::prefix('/posts/{user}')->group(function () {
+    Route::get('/DescendingNAvailable', "PostController@DescendingNAvailable")->name('DescendingNAvailable');
+    Route::get('/AscendingNAvailable', "PostController@AscendingNAvailable")->name('AscendingNAvailable');
+    Route::get('/DescendingNArchived', "PostController@DescendingNArchived")->name('DescendingNArchived');
+    Route::get('/AscendingNArchived', "PostController@AscendingNArchived")->name('AscendingNArchived');
+    Route::get('/commentsNAvailable', "PostController@commentsNAvailable")->name('commentsNAvailable');
+    Route::get('/commentsNArchived', "PostController@commentsNArchived")->name('commentsNArchived');
 });
 
 Route::post('/show/user/posts/profile', 'PostController@loadUserPosts')->name('loadUserPosts');
@@ -90,50 +87,37 @@ Route::get('user/getChatNames', "ChatController@getNames");
 Route::view('/user/chat', 'user.chat.chat')->name('openChat');
 Route::get('/user/chat/{name}', 'ChatController@getMessages');
 
-
-
-Route::get('/json/{json}','HomeController@particles');
+Route::get('/json/{json}', 'HomeController@particles');
 Route::get('/search/posts/{keyword?}', 'PostController@getPostdataExchangeRequest');
 Route::post('/sendExchangeRequest', 'UserController@sendExchangeRequest');
 
 Route::post('/exchangeRequest/loadMore', 'UserController@exchangeRequestLoadMore')->name('exchangeRequestLoadMore');
 
-
-
-
-
-Route::prefix('/show/exchangeRequests')->group(function(){
-        Route::get('/', 'UserController@seeExchangeRequest')->name('exchangeRequest');        
-        Route::middleware(['onlyAjax'])->group(function () {
-                Route::get('/DESC', 'UserController@seeExchangeRequestDESC');
-                Route::get('/ASC', 'UserController@seeExchangeRequestASC');
-        });
-        Route::patch('/accept', 'UserController@acceptExchangeRequest');
-        Route::delete('/delete', 'UserController@deleteExchangeRequest');
+Route::prefix('/show/exchangeRequests')->group(function () {
+    Route::get('/', 'UserController@seeExchangeRequest')->name('exchangeRequest');
+    Route::middleware(['onlyAjax'])->group(function () {
+        Route::get('/DESC', 'UserController@seeExchangeRequestDESC');
+        Route::get('/ASC', 'UserController@seeExchangeRequestASC');
+    });
+    Route::patch('/accept', 'UserController@acceptExchangeRequest');
+    Route::delete('/delete', 'UserController@deleteExchangeRequest');
 });
 
-Route::prefix('/register')->group(function(){
-        Route::get('/user/{name?}', 'registerValidation@chackName');
-        Route::get('/email/{email?}', 'registerValidation@checkEmail');
+Route::prefix('/register')->group(function () {
+    Route::get('/user/{name?}', 'registerValidation@chackName');
+    Route::get('/email/{email?}', 'registerValidation@checkEmail');
 });
-
-
 
 Route::get('/review/users', 'UserController@reviewPage')->name('review');
 Route::post('/addReview', 'UserController@addReview');
 
-
-
-Route::prefix('/realTime')->group(function(){
-        Route::get('get/user/{id}', 'RealTimeController@getUser');
+Route::prefix('/realTime')->group(function () {
+    Route::get('get/user/{id}', 'RealTimeController@getUser');
 });
 
 Route::view('/add/post', 'user.post.add')->middleware('auth')->name('addPost');
 Route::get('/get/tags', 'PostController@getTags');
 Route::post('/new/post', 'PostController@newPost');
-
-
-
 
 /**
  * Your Route Mohammed !
@@ -141,40 +125,8 @@ Route::post('/new/post', 'PostController@newPost');
 Route::get('/search/all', 'UserController@searchPage')->name('search');
 // Route::get('/search/our/{keyword}', 'UserController@searchMoh');
 
-
-
-
-
-
-
-Route::get('/testing/now', function(){
-// dd(
-        
-//         // Mercury\ExchangeRequest::where([
-//         //         'user_id' => Auth()->user()->id
-//         // ])->with(['exchangeRequests'])->get()
-//         Mercury\Post::where([
-//                 'user_id' => Auth()->user()->id
-//         ])->withCount(['exchangeRequests'])->get()
-//         ,
-//         Mercury\Post::find(586)->exchangeRequests()->where('user_id', Auth()->user()->id)->get()
-//         ,
-//         Mercury\ExchangeRequest::with(['post' => function($q){
-//                 $q->where([
-//                     "user_id" => Auth()->user()->id
-//                 ]);
-//             }])->get()
-// );
-        // dd(
-        //         Mercury\ExchangeRequest::whereHas('post', function($q){
-        //                 $q->where('user_id',  22);
-        //         })->count(),
-        //         Mercury\Post::whereHas('exchangeRequests', function($q){
-        //                 $q->where('user_id',  Auth()->user()->id);
-        //         })->get(),
-        //         Mercury\Post::has('exchangeRequests')->get(),
-        //         Mercury\ExchangeRequest::has('post')->get()
-        // );
-        return Mercury\ExchangeRequest::dataForTheExchangeRequstsView();
+Route::get('/testing/now', function () {
+    return Mercury\ExchangeRequest::dataForTheExchangeRequstsView();
 });
 
+Route::post('/message', 'ChatController@addMessage');

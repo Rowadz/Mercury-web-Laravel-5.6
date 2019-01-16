@@ -45,3 +45,19 @@ export const displayMessages = (msg, image, authUserImage, addMessagesHere) => {
 	</div>
 		`);
 };
+
+export const prependMessage = (msg, image, authUserImage, addMessagesHere) => {
+  addMessagesHere.prepend(`
+	<div class="row">
+	  <ul class="collection z-depth-5 msgBox animated flash ${msg.from_id === +$('#authUserIdForNotify').val() ? 'msgPopUpMe' : 'msgPopUp'}">
+		<li class="collection-item avatar  grey darken-4">
+		  <img src="${msg.from_id === +$('#authUserIdForNotify').val() ? authUserImage : image}" alt="" class="circle">
+		  <time class="title">${msg.created_at}</time>
+		  <p>
+			${msg.body}
+		  </p>
+		</li>
+	  </ul>
+	</div>
+		`);
+};

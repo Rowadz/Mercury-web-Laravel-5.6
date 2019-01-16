@@ -17,21 +17,24 @@ class Message extends Model
         return $this->belongsTo('Mercury\User', 'user_id');
     }
 
-    public static function saveMessage(Message $msg): boolean
+    public static function saveMessage(Message $msg, int $userToNotify)
     {
-        if ($newMsg->save()) {
-            self::notify();
+        if ($msg->save()) {
+            self::notify($userToNotify);
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
+
     }
 
-    private static function notify(int $from_id, int $user_id)
+    private static function notify($userToNotify)
     {
         $notification = [
-            'event' => 'newChatMessage',
+            'event' => 'newMessage',
             'data' => [
-                'from_id' => $from_id,
-                'to_id' => $user_id,
+                'username' => Auth()->user()->name,
+                'userId' => $userToNotify,
             ],
         ];
         Redis::publish('notification', json_encode($notification));

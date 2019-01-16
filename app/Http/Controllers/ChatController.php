@@ -2,6 +2,7 @@
 
 namespace Mercury\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Mercury\Message;
 use Mercury\User;
 use Mercury\users_names_for_chat;
@@ -32,26 +33,19 @@ class ChatController extends Controller
             })->where(function ($q) use ($user) {
                 $q->where('user_id', Auth()->user()->id)
                     ->orWhere('from_id', Auth()->user()->id);
-            })->orderBy('id', 'desc')->paginate(100)
+            })->orderBy('id', 'desc')->paginate(10)
         );
     }
 
-    public function saveMessage(Request $request)
+    public function addMessage(Request $request)
     {
+        $user = User::where('name', $request->username)->first();
         $newMsg = new Message;
-        $newMsg->from_id = $request->from_id;
-        $newMsg->user_id = $request->user_id;
+        $newMsg->from_id = Auth()->user()->id;
+        $newMsg->user_id = $user->id;
         $newMsg->body = $request->body;
-        $notification = [
-            'event' => 'newMessage',
-            'data' => [
-                'username' => Auth()->user()->name,
-                'userId' => $theComment->post->user_id,
-            ],
-        ];
-        Redis::publish('notification', json_encode($notification));
-        return Message::saveMessage($newMsg) ?
-        response()->json(['message' => 'success']) :
+        return Message::saveMessage($newMsg, $user->id) ?
+        response()->json($newMsg) :
         response()->json(['message' => 'faild']);
     }
 }
