@@ -14679,7 +14679,7 @@ var displayUsers = function displayUsers(names, displayUsersHere) {
 		for (var _iterator = names[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 			var user = _step.value;
 
-			displayUsersHere.append('\n\t\t<ul class="collection msgUser clickable hoverable mt-0" data-user="' + user.name + '" data-image="' + user.image + '">\n\t\t<li class="collection-item avatar grey darken-1">\n\t\t  <img src="' + user.image + '" alt="" class="circle">\n\t\t  <time class="title">' + user.name + '</time>\n\t\t  <p>\n\t\t\tUSER_MSG\n\t\t  </p>\n\t\t  <!-- here number -->\n\t\t</li>\n\t  </ul>\n\t\t');
+			displayUsersHere.append('\n\t\t<ul class="collection msgUser clickable hoverable mt-0" data-user="' + user.name + '" data-image="' + user.image + '">\n\t\t<li class="collection-item avatar grey darken-1">\n\t\t  <img src="' + user.image + '" alt="" class="circle">\n\t\t  <time class="title" data-usernamenot="' + user.name + '">' + user.name + '</time>\n\n\t\t  <!-- here number -->\n\t\t</li>\n\t  </ul>\n\t\t');
 			// <span class="new badge" data-badge-caption="custom caption">4</span>
 		}
 	} catch (err) {
@@ -14715,7 +14715,7 @@ var prependMessage = function prependMessage(msg, image, authUserImage, addMessa
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(33);
-module.exports = __webpack_require__(109);
+module.exports = __webpack_require__(110);
 
 
 /***/ }),
@@ -14747,6 +14747,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17_socket_io_client__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__my_modules_posts_addPost__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__my_modules_chat_initChat__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__my_modules_chat_realTimeRoom_trRoom__ = __webpack_require__(109);
 
 
 
@@ -14757,6 +14758,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // eslint-disable-next-line no-unused-vars
+
 
 
 
@@ -14791,7 +14793,8 @@ document.addEventListener('DOMContentLoaded', function () {
   Object(__WEBPACK_IMPORTED_MODULE_13__my_modules_home__["a" /* default */])();
   if ($('#feed').length) Object(__WEBPACK_IMPORTED_MODULE_4__my_modules_vue_infiniteScrollHome__["a" /* default */])();
   if ($('#addPost').length) Object(__WEBPACK_IMPORTED_MODULE_18__my_modules_posts_addPost__["a" /* default */])();
-  if ($('#chat').length) Object(__WEBPACK_IMPORTED_MODULE_19__my_modules_chat_initChat__["a" /* default */])();
+  if ($('#chat').length) Object(__WEBPACK_IMPORTED_MODULE_19__my_modules_chat_initChat__["a" /* default */])(__WEBPACK_IMPORTED_MODULE_17_socket_io_client___default.a);else localStorage.removeItem('userChat');
+  Object(__WEBPACK_IMPORTED_MODULE_20__my_modules_chat_realTimeRoom_trRoom__["a" /* subscribeToOpensUserRoom */])($('#authUserIdForNotify').val(), __WEBPACK_IMPORTED_MODULE_17_socket_io_client___default.a);
 });
 
 /** 
@@ -45787,156 +45790,166 @@ var postId = $('#postId').val(),
     postActions = $('#postActionsWishUnWish');
 
 function postFunctions(io) {
-	// added addPostToWishList outside the Vue instance because 
-	// Some wired Error 
-	$('#addToWishListButton').on('click', function () {
-		//  console.log("addToWishListButton")
-		addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
-	});
-	$('#deletePostFromWithListButton').on('click', function () {
-		//  console.log("deletePostFromWithListButton")
-		addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
-	});
-	addCommentInit();
-	addCommentViaTheButton();
-	initSocketIo(io);
+  // added addPostToWishList outside the Vue instance because 
+  // Some wired Error 
+  $('#addToWishListButton').on('click', function () {
+    //  console.log("addToWishListButton")
+    addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
+  });
+  $('#deletePostFromWithListButton').on('click', function () {
+    //  console.log("deletePostFromWithListButton")
+    addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
+  });
+  addCommentInit();
+  addCommentViaTheButton();
+  initSocketIo(io);
 }
 
 function addRemoveFromWishList(id, endPoint, targetSelection) {
-	var axios = window.axios;
-	var M = window.M;
-	$('#' + targetSelection + ' > a').addClass('disabled');
-	$('#' + targetSelection).off('click');
-	axios.post('/' + endPoint + '/' + id, {
-		id: id
-	}).then(function (success) {
-		$('#' + targetSelection).remove();
-		switchAddNRemove(endPoint === 'addToWishList');
-		M.toast({ html: success.data.message + ' \uD83D\uDC35' });
-		updateWishNumbersUI(endPoint === 'addToWishList');
-	}).catch(function (error) {
-		$('#' + targetSelection).removeClass('disabled');
-		console.log(error);
-		M.toast({
-			html: 'Something went wrong 🤖',
-			classes: 'red accent-3'
-		});
-	});
+  var axios = window.axios;
+  var M = window.M;
+  $('#' + targetSelection + ' > a').addClass('disabled');
+  $('#' + targetSelection).off('click');
+  axios.post('/' + endPoint + '/' + id, {
+    id: id
+  }).then(function (success) {
+    $('#' + targetSelection).remove();
+    switchAddNRemove(endPoint === 'addToWishList');
+    M.toast({
+      html: success.data.message + ' \uD83D\uDC35'
+    });
+    updateWishNumbersUI(endPoint === 'addToWishList');
+  }).catch(function (error) {
+    $('#' + targetSelection).removeClass('disabled');
+    console.log(error);
+    M.toast({
+      html: 'Something went wrong 🤖',
+      classes: 'red accent-3'
+    });
+  });
 }
 
 function switchAddNRemove(actionAdd) {
-	if (actionAdd) {
-		postActions.append('\n            <li id="deletePostFromWithListButton">\n                <a class="btn-floating red">\n                    <i class="material-icons">bookmark</i>\n                </a>\n            </li>\n        ');
-		$('#deletePostFromWithListButton').on('click', function () {
-			return addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
-		});
-	} else {
-		postActions.append('\n        <li id="addToWishListButton">\n            <a class="btn-floating red">\n                <i class="material-icons">bookmark_border</i>\n            </a>\n        </li>\n    ');
-		$('#addToWishListButton').on('click', function () {
-			return addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
-		});
-	}
+  if (actionAdd) {
+    postActions.append('\n            <li id="deletePostFromWithListButton">\n                <a class="btn-floating red">\n                    <i class="material-icons">bookmark</i>\n                </a>\n            </li>\n        ');
+    $('#deletePostFromWithListButton').on('click', function () {
+      return addRemoveFromWishList(postId, 'deleteWishedPost', 'deletePostFromWithListButton');
+    });
+  } else {
+    postActions.append('\n        <li id="addToWishListButton">\n            <a class="btn-floating red">\n                <i class="material-icons">bookmark_border</i>\n            </a>\n        </li>\n    ');
+    $('#addToWishListButton').on('click', function () {
+      return addRemoveFromWishList(postId, 'addToWishList', 'addToWishListButton');
+    });
+  }
 
-	reInitFloatingButtonAndToolTips();
+  reInitFloatingButtonAndToolTips();
 }
 
 function reInitFloatingButtonAndToolTips() {
-	$('.fixed-action-btn').floatingActionButton();
+  $('.fixed-action-btn').floatingActionButton();
 }
 
 function addCommentInit() {
-	var commentInput = $('#commentInput');
-	commentInput.keyup(function (e) {
-		if (e.ctrlKey && e.keyCode === 13) {
-			// console.log("Submit the comment", commentInput.val())
-			submitComment(commentInput.val());
-		} else if (e.keyCode === 13) {
-			// console.log("NEW LINE !",  commentInput.val())
-		}
-	});
+  var commentInput = $('#commentInput');
+  commentInput.keyup(function (e) {
+    if (e.ctrlKey && e.keyCode === 13) {
+      // console.log("Submit the comment", commentInput.val())
+      submitComment(commentInput.val());
+    } else if (e.keyCode === 13) {
+      // console.log("NEW LINE !",  commentInput.val())
+    }
+  });
 }
 
 function addCommentViaTheButton() {
-	$('#addCommentButton').click(function () {
-		return submitComment();
-	});
+  $('#addCommentButton').click(function () {
+    return submitComment();
+  });
 }
 
 function submitComment() {
-	var comment = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+  var comment = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
-	var axios = window.axios;
-	var M = window.M;
-	var theComment = undefined;
-	if (typeof comment === 'undefined') theComment = $('#commentInput').val();else theComment = comment;
-	theComment = filterTheDataBeforeSubmit(theComment);
-	if (theComment.length) {
-		axios.post('/post/' + postId + '/addComment', {
-			comment: theComment,
-			postId: postId
-		}).then(function (success) {
-			M.toast({ html: success.data.message + ' \uD83D\uDC35' });
-			removeCommentValue();
-		}).catch(function (error) {
-			console.log(error);
-			M.toast({
-				html: 'Something went wrong 🤖',
-				classes: 'red accent-3'
-			});
-		});
-	} else M.toast({ html: 'Something went wrong 🤖' });
+  var axios = window.axios;
+  var M = window.M;
+  var theComment = undefined;
+  if (typeof comment === 'undefined') theComment = $('#commentInput').val();else theComment = comment;
+  theComment = filterTheDataBeforeSubmit(theComment);
+  if (theComment.length) {
+    axios.post('/post/' + postId + '/addComment', {
+      comment: theComment,
+      postId: postId
+    }).then(function (success) {
+      M.toast({
+        html: success.data.message + ' \uD83D\uDC35'
+      });
+      removeCommentValue();
+    }).catch(function (error) {
+      console.log(error);
+      M.toast({
+        html: 'Something went wrong 🤖',
+        classes: 'red accent-3'
+      });
+    });
+  } else M.toast({
+    html: 'Something went wrong 🤖'
+  });
 }
 
 function filterTheDataBeforeSubmit(comment) {
-	comment = comment.trim().replace(/(<([^>]+)>)/ig, '');
-	return comment;
+  comment = comment.trim().replace(/(<([^>]+)>)/ig, '');
+  return comment;
 }
 
 function removeCommentValue() {
-	$('#commentInput').val('');
+  $('#commentInput').val('');
 }
 
 function updateWishNumbersUI(increase) {
-	var wishedPostsNumber = Number($('#getWishesNumber').text());
-	if (increase) {
-		wishedPostsNumber++;
-		$('#wishesNumberModal').html('' + wishedPostsNumber);
-		$('.updateWishesNumber').html('' + wishedPostsNumber);
-	} else {
-		wishedPostsNumber--;
-		$('#wishesNumberModal').html('' + wishedPostsNumber);
-		$('.updateWishesNumber').html('' + wishedPostsNumber);
-	}
+  var wishedPostsNumber = Number($('#getWishesNumber').text());
+  if (increase) {
+    wishedPostsNumber++;
+    $('#wishesNumberModal').html('' + wishedPostsNumber);
+    $('.updateWishesNumber').html('' + wishedPostsNumber);
+  } else {
+    wishedPostsNumber--;
+    $('#wishesNumberModal').html('' + wishedPostsNumber);
+    $('.updateWishesNumber').html('' + wishedPostsNumber);
+  }
 }
 
 function initSocketIo(io) {
-	var socket = new io('http://mercury.test:3000');
-	socket.on('new-comment:' + postId, function (data) {
-		getTheUser(data.user_id, data);
-	});
+  var socket = new io('http://mercury.test:3000');
+  socket.on('new-comment:' + postId, function (data) {
+    getTheUser(data.user_id, data);
+  });
 }
 
 function getTheUser(userId, comment) {
-	var M = window.M;
-	fetch('/realTime/get/user/' + userId).then(function (res) {
-		return res.json();
-	}).then(function (user) {
-		var userWithComment = {
-			comment: comment,
-			user: user
-		};
-		var authedUserId = $('#postWrapper').attr('data-authuserid');
-		if (user.id != authedUserId) {
-			var audio = new Audio('/sounds/new-commnet-all.mp3');
-			audio.play();
-			M.toast({ html: user.name + ' added a comment just now !' });
-		}
-		$('#addMoreCommentsHere').append('\n\t\t\t<div class="col s12 m4">\n\t\t\t  <ul class="collection z-depth-5 commentCollectionRemoveUl">\n\t\t\t\t<li class="collection-item avatar blue-grey darken-1 white-text  z-depth-5 ">\n\t\t\t\t\t<img src="' + userWithComment.user.image + '" alt="user image" class="circle  z-depth-5 " data-aos="zoom-in">\n\t\t\t\t\t<span class="title">\n\t\t\t\t\t<a class="usernameComment" data-aos="fade-up" href="/' + userWithComment.user.name + '">\n\t\t\t\t\t\t' + userWithComment.user.name + '\n\t\t\t\t\t</a>\n\t\t\t\t\t</span>\n\t\t\t\t\t<p>\n\t\t\t\t\t<small class="commentDate" data-aos="fade-right">\n\t\t\t\t\t\t\uD83D\uDCC6 ' + new Date(userWithComment.comment.created_at).toLocaleDateString() + '\t\n\t\t\t\t\t</small>\n\t\t\t\t\t<br><br>\n\t\t\t\t\t<span data-aos="flip-up">\n\t\t\t\t\t\t' + userWithComment.comment.body + '\n\t\t\t\t\t</span>\n\t\t\t\t\t</p>\n\t\t\t\t\t<a class="secondary-content" data-aos="flip-up"><i class="material-icons">person_outline</i></a>\n\t\t\t\t</li>\n\t\t\t  </ul>\n\t\t\t</div>\n\t\t');
-	})
-	// eslint-disable-next-line no-unused-vars
-	.catch(function (err) {
-		return M.toast({ html: 'something went wrong, please refresh the page !' });
-	});
+  var M = window.M;
+  fetch('/realTime/get/user/' + userId).then(function (res) {
+    return res.json();
+  }).then(function (user) {
+    var userWithComment = {
+      comment: comment,
+      user: user
+    };
+    var authedUserId = $('#postWrapper').attr('data-authuserid');
+    if (user.id != authedUserId) {
+      var audio = new Audio('/sounds/new-commnet-all.mp3');
+      audio.play();
+      M.toast({
+        html: user.name + ' added a comment just now !'
+      });
+    }
+    $('#addMoreCommentsHere').append('\n\t\t\t<div class="col s12 m4">\n\t\t\t  <ul class="collection z-depth-5 commentCollectionRemoveUl">\n\t\t\t\t<li class="collection-item avatar blue-grey darken-1 white-text  z-depth-5 ">\n\t\t\t\t\t<img src="' + userWithComment.user.image + '" alt="user image" class="circle  z-depth-5 " data-aos="zoom-in">\n\t\t\t\t\t<span class="title">\n\t\t\t\t\t<a class="usernameComment" data-aos="fade-up" href="/' + userWithComment.user.name + '">\n\t\t\t\t\t\t' + userWithComment.user.name + '\n\t\t\t\t\t</a>\n\t\t\t\t\t</span>\n\t\t\t\t\t<p>\n\t\t\t\t\t<small class="commentDate" data-aos="fade-right">\n\t\t\t\t\t\t\uD83D\uDCC6 ' + new Date(userWithComment.comment.created_at).toLocaleDateString() + '\t\n\t\t\t\t\t</small>\n\t\t\t\t\t<br><br>\n\t\t\t\t\t<span data-aos="flip-up">\n\t\t\t\t\t\t' + userWithComment.comment.body + '\n\t\t\t\t\t</span>\n\t\t\t\t\t</p>\n\t\t\t\t\t<a class="secondary-content" data-aos="flip-up"><i class="material-icons">person_outline</i></a>\n\t\t\t\t</li>\n\t\t\t  </ul>\n\t\t\t</div>\n\t\t');
+  })
+  // eslint-disable-next-line no-unused-vars
+  .catch(function (err) {
+    return M.toast({
+      html: 'something went wrong, please refresh the page !'
+    });
+  });
 }
 
 /***/ }),
@@ -55143,7 +55156,7 @@ var userData = {
 var prevUserData = {
   username: ''
 };
-function initChat() {
+function initChat(io) {
   M.toast({ // eslint-disable-line
     html: 'you can click&nbsp;<span class="amber-text text-lighten-3">ctrl + m &nbsp;</span> to start send a message',
     displayLength: 10000
@@ -55153,10 +55166,10 @@ function initChat() {
     : undefined;
   });
   getUserNames(__WEBPACK_IMPORTED_MODULE_1__helpers_usernamesPagination__["b" /* usernamesPagination */]);
-  addEventListeners();
+  addEventListeners(io);
 }
 
-function addEventListeners() {
+function addEventListeners(io) {
   $(document).on('click', '[data-user]', function () {
     userData.username = $(this).attr('data-user');
     userData.image = $(this).attr('data-image');
@@ -56076,11 +56089,16 @@ var resetMessagesPagination = function resetMessagesPagination() {
 
 /*eslint no-console: */
 function sendMessageInit(selectedChatInfo) {
-  console.log(selectedChatInfo);
+  localStorage.setItem('userChat', JSON.stringify(selectedChatInfo));
   var messageTextarea = $('#messageTextarea');
+  messageTextarea.off('keyup');
+  $(document).off('keyup', messageTextarea);
   $(document).on('keyup', messageTextarea, function (e) {
-    console.log(selectedChatInfo);
-    if (e.keyCode === 13 && selectedChatInfo) submitMessage(selectedChatInfo, messageTextarea.val());
+    if (e.keyCode === 13 && selectedChatInfo) {
+      if (messageTextarea.val().trim() === '') return;
+      submitMessage(selectedChatInfo, messageTextarea.val());
+      messageTextarea.val('');
+    }
   });
 }
 
@@ -56109,6 +56127,51 @@ function submitMessage(selectedChatInfo, messageTextarea) {
 
 /***/ }),
 /* 109 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return subscribeToOpensUserRoom; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_displayData__ = __webpack_require__(31);
+
+
+/*eslint no-console: */
+function subscribeToOpensUserRoom(currentUserId, io) {
+  var socket = new io('http://mercury.test:3000');
+  socket.on('newMessage:' + currentUserId, function (data) {
+    try {
+      var userChat = JSON.parse(localStorage.getItem('userChat'));
+      if (userChat.username === data.username) {
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_displayData__["c" /* prependMessage */])(data.message, userChat.image, $('#authUserImage').val(), $('#addMessagesHere'));
+      }
+    } catch (error) {}
+    $('[data-usernamenot]').each(function (i, el) {
+      if (el.innerText === data.username) {
+        console.log(el.previousSibling);
+        el.parentElement.parentElement.remove();
+        $('#displayUsersHere').prepend('\n\t\t<ul class="animated bounce collection msgUser clickable hoverable mt-0" data-user="' + data.username + '" data-image="' + data.image + '">\n\t\t<li class="collection-item avatar grey darken-1">\n\t\t  <img src="' + data.image + '" alt="" class="circle">\n\t\t  <time class="title" data-usernamenot="' + data.username + '">' + data.username + '</time>\n\t\t  <p class="truncate orange-text text-darken-1" data-newmessagelabel="true">\n\t\t\tnew message\n\t\t  </p>\n\t\t  <!-- here number -->\n\t\t</li>\n\t  </ul>\n\t\t');
+      }
+    });
+    playSounds();
+    M.toast({ // eslint-disable-line
+      html: '<img src="' + data.image + '" class="circle" height="20px" width="20px"/>' + data.username + ' sent you a message',
+      displayLength: 10000
+    });
+  });
+}
+
+
+
+function playSounds() {
+  var audio = new Audio('/sounds/skypePOP.mp3');
+  audio.play().then(function () {
+    return console.log('playing sounds...');
+  }).catch(function (err) {
+    return console.log(err);
+  });
+}
+
+/***/ }),
+/* 110 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

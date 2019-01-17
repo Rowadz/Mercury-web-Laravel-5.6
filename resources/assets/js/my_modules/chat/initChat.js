@@ -19,7 +19,7 @@ const userData = {
 const prevUserData = {
   username: '',
 };
-export default function initChat() {
+export default function initChat(io) {
   M.toast({ // eslint-disable-line
     html: 'you can click&nbsp;<span class="amber-text text-lighten-3">ctrl + m &nbsp;</span> to start send a message',
     displayLength: 10000
@@ -31,12 +31,12 @@ export default function initChat() {
     undefined
   );
   getUserNames(usernamesPagination);
-  addEventListeners();
+  addEventListeners(io);
 }
 
 
 
-function addEventListeners() {
+function addEventListeners(io) {
   $(document).on('click', '[data-user]', function () {
     userData.username = $(this).attr('data-user');
     userData.image = $(this).attr('data-image');
@@ -51,6 +51,8 @@ function addEventListeners() {
       getMessages(userData.username, userData.image, false);
     }
   });
+
+
 }
 
 async function getUserNames() {

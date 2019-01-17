@@ -4,10 +4,8 @@ export const displayUsers = (names, displayUsersHere) => {
 		<ul class="collection msgUser clickable hoverable mt-0" data-user="${user.name}" data-image="${user.image}">
 		<li class="collection-item avatar grey darken-1">
 		  <img src="${ user.image }" alt="" class="circle">
-		  <time class="title">${ user.name}</time>
-		  <p>
-			USER_MSG
-		  </p>
+		  <time class="title" data-usernamenot="${user.name}">${ user.name}</time>
+
 		  <!-- here number -->
 		</li>
 	  </ul>

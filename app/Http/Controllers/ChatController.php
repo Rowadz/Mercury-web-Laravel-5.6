@@ -11,16 +11,28 @@ class ChatController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['searchPage']);
+        $this->middleware('auth');
     }
 
     public function getNames()
     {
-        return response()->json(
-            users_names_for_chat::select('sender_name as name', 'sender_image as image')->where(function ($q) {
-                $q->where('sender_id', Auth()->user()->id)->orWhere('revicer_id', Auth()->user()->id);
-            })->where('sender_id', '!=', Auth()->user()->id)->paginate(10)
-        );
+        $sender = users_names_for_chat::select('sender_name as name', 'sender_image as image')->where(function ($q) {
+            $q->where('revicer_id', Auth()->user()->id);
+        })->paginate(10);
+        $con = true;
+        foreach ($sender as $key => $value) {
+            $con = false;
+        }
+        if ($con) {
+            return response()->json(
+                users_names_for_chat::select('revicer_name as name', 'revicer_image as image')->where(function ($q) {
+                    $q->where('sender_id', Auth()->user()->id);
+                })->paginate(10)
+            );
+        } else {
+            return response()->json($sender);
+        }
+
     }
 
     public function getMessages(string $name)
@@ -39,6 +51,9 @@ class ChatController extends Controller
 
     public function addMessage(Request $request)
     {
+        $validatedData = $request->validate([
+            'body' => 'required|max:2500|min:1',
+        ]);
         $user = User::where('name', $request->username)->first();
         $newMsg = new Message;
         $newMsg->from_id = Auth()->user()->id;

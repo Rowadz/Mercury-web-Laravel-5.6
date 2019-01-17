@@ -5,12 +5,16 @@ import * as dd from '../helpers/displayData';
 
 /*eslint no-console: */
 export function sendMessageInit(selectedChatInfo) {
-  console.log(selectedChatInfo);
+  localStorage.setItem('userChat', JSON.stringify(selectedChatInfo));
   const messageTextarea = $('#messageTextarea');
+  messageTextarea.off('keyup');
+  $(document).off('keyup', messageTextarea);
   $(document).on('keyup', messageTextarea, e => {
-    console.log(selectedChatInfo);
-    if (e.keyCode === 13 && selectedChatInfo) submitMessage(selectedChatInfo, messageTextarea.val());
-
+    if (e.keyCode === 13 && selectedChatInfo) {
+      if (messageTextarea.val().trim() === '') return;
+      submitMessage(selectedChatInfo, messageTextarea.val());
+      messageTextarea.val('');
+    }
   });
 }
 

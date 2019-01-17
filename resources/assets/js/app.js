@@ -19,6 +19,9 @@ import notifications from './my_modules/realTime/notifications';
 import io from 'socket.io-client';
 import initAddPost from './my_modules/posts/addPost';
 import initChat from './my_modules/chat/initChat';
+import {
+  subscribeToOpensUserRoom
+} from './my_modules/chat/realTimeRoom/trRoom';
 // init function should always run before anything so the website won't appear frozened
 // execute before the page load ( for slow images )
 // so the user can comment before the images loads 
@@ -42,7 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
   home();
   if ($('#feed').length) feed();
   if ($('#addPost').length) initAddPost();
-  if ($('#chat').length) initChat();
+  if ($('#chat').length) initChat(io);
+  else localStorage.removeItem('userChat');
+  subscribeToOpensUserRoom($('#authUserIdForNotify').val(), io);
 });
 
 /** 

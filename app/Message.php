@@ -20,7 +20,7 @@ class Message extends Model
     public static function saveMessage(Message $msg, int $userToNotify)
     {
         if ($msg->save()) {
-            self::notify($userToNotify);
+            self::notify($userToNotify, $msg);
             return true;
         } else {
             return false;
@@ -28,13 +28,15 @@ class Message extends Model
 
     }
 
-    private static function notify($userToNotify)
+    private static function notify($userToNotify, $msg)
     {
         $notification = [
             'event' => 'newMessage',
             'data' => [
                 'username' => Auth()->user()->name,
                 'userId' => $userToNotify,
+                'image' => Auth()->user()->image,
+                'message' => $msg,
             ],
         ];
         Redis::publish('notification', json_encode($notification));
