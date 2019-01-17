@@ -40,7 +40,6 @@
     <a href="{{ route('openChat') }}" class="black-text">
       <i class="material-icons black-text">message</i>
       Chat
-      <span class="new badge black white-text z-depth-5">+99</span>
     </a>
   </li>
   <li>
@@ -108,7 +107,6 @@
     <a href="{{ route('openChat') }}" class="black-text">
       <i class="material-icons black-text">message</i>
       Chat
-      <span class="new badge black white-text z-depth-5">+99</span>
     </a>
   </li>
   <li>

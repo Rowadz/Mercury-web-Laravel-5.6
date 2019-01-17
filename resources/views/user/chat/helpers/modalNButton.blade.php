@@ -6,7 +6,7 @@
 
 <div id="addMessage" class="modal grey darken-4">
   <div class="modal-content">
-    <h4 class="white-text">Add Comment</h4>
+    <h4 class="white-text">Add Message</h4>
     <div class="row">
       <div class="input-field col s12">
         <i class="material-icons prefix">mode_edit</i>

@@ -181,11 +181,11 @@
           </a>
         </div>
         @else
-        <div class="col s12 m12 actionsButtonsProfile">
+        {{-- <div class="col s12 m12 actionsButtonsProfile">
           <a class="waves-effect waves-light btn hoverable  cyan darken-1 btn-large z-depth-5" style="width:100%">
             Your chat
           </a>
-        </div>
+        </div> --}}
         @endif
         <div class="col s12 m12 actionsButtonsProfile">
           <a class="waves-effect waves-light btn hoverable  deep-orange lighten-1 btn-large" href="/posts/{{$user->name}}/DescendingNAvailable/"

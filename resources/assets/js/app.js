@@ -22,6 +22,9 @@ import initChat from './my_modules/chat/initChat';
 import {
   subscribeToOpensUserRoom
 } from './my_modules/chat/realTimeRoom/trRoom';
+import {
+  profileMessageInit
+} from './my_modules/chat/profile/profileStartChat';
 // init function should always run before anything so the website won't appear frozened
 // execute before the page load ( for slow images )
 // so the user can comment before the images loads 
@@ -48,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if ($('#chat').length) initChat(io);
   else localStorage.removeItem('userChat');
   subscribeToOpensUserRoom($('#authUserIdForNotify').val(), io);
+  if ($('#messageFromProfileTrigger').length) profileMessageInit();
 });
 
 /** 

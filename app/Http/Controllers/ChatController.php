@@ -54,7 +54,11 @@ class ChatController extends Controller
         $validatedData = $request->validate([
             'body' => 'required|max:2500|min:1',
         ]);
-        $user = User::where('name', $request->username)->first();
+        if (isset($request->username)) {
+            $user = User::where('name', $request->username)->first();
+        } else {
+            $user = User::findOrFail($request->userId);
+        }
         $newMsg = new Message;
         $newMsg->from_id = Auth()->user()->id;
         $newMsg->user_id = $user->id;
