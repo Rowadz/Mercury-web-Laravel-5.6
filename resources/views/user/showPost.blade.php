@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title', "$post->header")
 @section('content')
-<article id="postWrapper" data-authuserid="{{ Auth()->user()->id }}">
+<article id="postWrapper" data-authuserid="{{ isset(Auth()->user()->id) ? Auth()->user()->id :  0}}">
   @auth
   <div class="fixed-action-btn">
     <a class="btn-floating btn-large blue-grey darken-4 hoverable">

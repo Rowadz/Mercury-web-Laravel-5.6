@@ -121,9 +121,9 @@ class Post extends Model
     public static function loadMorePosts($id, $userId)
     {
         if (is_null($userId)) {
-            $posts = Post::where('status', 'available')->where('id', '>', $id)->orderBy('created_at')->take(10)->get();
+            $posts = Post::where('status', 'available')->where('id', '<', $id)->orderBy('created_at')->take(10)->get();
         } else {
-            $posts = Post::where('status', 'available')->where('id', '>', $id)->where('user_id', $userId)->orderBy('created_at')->take(10)->get();
+            $posts = Post::where('status', 'available')->where('id', '<', $id)->where('user_id', $userId)->orderBy('created_at')->take(10)->get();
         }
 
         $commentNumber = [];
@@ -250,7 +250,7 @@ class Post extends Model
         // Post::destroy($postsIds);
     }
 
-    public static function new ($data) {
+    function new ($data) {
         $post = new Post;
         $post->header = $data['header'];
         $post->body = $data['body'];

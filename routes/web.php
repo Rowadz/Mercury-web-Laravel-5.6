@@ -123,7 +123,18 @@ Route::post('/new/post', 'PostController@newPost');
  * Your Route Mohammed !
  */
 Route::get('/search/all', 'UserController@searchPage')->name('search');
-// Route::get('/search/our/{keyword}', 'UserController@searchMoh');
+
+use Illuminate\Support\Facades\Input;
+use Mercury\Post;
+Route::get('/posts/search/cus', function () {
+
+    $q = Input::get('q');
+    $posts = Post::where('body', 'LIKE', "%{$q}%")->take(10)->get();
+    $data = [
+        'posts' => $posts,
+    ];
+    return view('visitor.showAllPosts')->with($data);
+});
 
 Route::get('/testing/now', function () {
     return Mercury\ExchangeRequest::dataForTheExchangeRequstsView();

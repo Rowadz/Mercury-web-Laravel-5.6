@@ -10,7 +10,7 @@
       <div class="input-field col s12 m6 l6">
         <i class="material-icons prefix blue-text">textsms</i>
         <input type="text" id="moh-search" class="autocomplete white-text">
-        <label for="autocomplete-input">Search Posts</label>
+        <label for="moh-search">Search Posts</label>
       </div>
       <div class="input-field col s12 m6 l6">
         <button class="btn" id="moh-go">

@@ -61,12 +61,12 @@
     </div>
   </div>
 </section>
-<footer class="page-footer grey darken-2">
-  <div class="footer-copyright">
+<footer class="page-footer grey darken-5">
+  <div class="footer-copyright  grey darken-5">
     <div class="container">
       © 2019 Lorem, ipsum.
       <a class="grey-text text-lighten-4 right" href="{{url('/')}}">
-        <img src="{{asset('images/Logo.png')}}">
+        <img src="{{asset('images/mainLogoSmall.png')}}">
       </a>
     </div>
   </div>

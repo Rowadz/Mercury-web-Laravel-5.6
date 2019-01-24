@@ -47909,11 +47909,11 @@ function home() {}
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = initSearch;
 function initSearch() {
-    var inputSearch = $('#moh-search');
-    var buttonSearch = $('#moh-go');
-    buttonSearch.click(function () {
-        // alert(inputSearch.val());
-    });
+  var inputSearch = $('#moh-search');
+  var buttonSearch = $('#moh-go');
+  buttonSearch.click(function () {
+    window.location = '/posts/search/cus?q=' + inputSearch.val();
+  });
 }
 
 /***/ }),

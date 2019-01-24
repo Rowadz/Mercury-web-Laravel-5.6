@@ -16,7 +16,7 @@
   <!-- custom css -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <!-- Main icon -->
-  <link rel="shortcut icon" href="{{ asset('images/Logo.png') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('images/mainLogo.png') }}" type="image/x-icon">
   <!-- MoreCss -->
   @yield('moreCSS')
   <script>
