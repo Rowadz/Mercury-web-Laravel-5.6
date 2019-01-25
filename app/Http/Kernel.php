@@ -19,6 +19,8 @@ class Kernel extends HttpKernel
         \Mercury\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Mercury\Http\Middleware\TrustProxies::class,
+        \Barryvdh\Cors\HandleCors::class,
+
     ];
 
     /**
@@ -40,6 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            \Barryvdh\Cors\HandleCors::class,
         ],
     ];
 
@@ -60,5 +63,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'onlyAjax' => \Mercury\Http\Middleware\onlyAjax::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 }

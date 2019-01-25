@@ -2,13 +2,12 @@
 
 namespace Mercury\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Input;
-use Mercury\User;
-use Mercury\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Carbon\Carbon;
+use Mercury\Http\Controllers\Controller;
+use Mercury\User;
 
 class RegisterController extends Controller
 {
@@ -21,7 +20,7 @@ class RegisterController extends Controller
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
-    */
+     */
 
     use RegistersUsers;
 
@@ -58,8 +57,7 @@ class RegisterController extends Controller
             'dateOfBirth' => 'Date',
             'city' => 'required|string',
             'phone' => 'required|string|min:0|max:10,unique:users',
-            'about' => 'string'
-
+            'about' => 'string',
         ]);
     }
 
@@ -82,7 +80,7 @@ class RegisterController extends Controller
             'image' => "http://lorempixel.com/800/600/cats/",
             'city' => $this->cities[$data['city']],
             'phone' => $data['phone'],
-            'about' => $data['about']
+            'about' => $data['about'],
 
         ]);
     }

@@ -2,8 +2,8 @@
 
 namespace Mercury;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', "API_KEY", "date_of_birth", "image" , "city" , "phone", "about"
+        'name', 'email', 'password', "API_KEY", "date_of_birth", "image", "city", "phone", "about",
     ];
 
     /**
@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'API_KEY'
+        'password', 'remember_token',
     ];
 
     public function posts()
@@ -47,7 +47,6 @@ class User extends Authenticatable
         return $this->belongsTo("Mercury\Review", 'id', 'user_id');
     }
 
-
     public function reviewFromMe()
     {
         return $this->belongsTo("Mercury\Review", 'id', 'from_id');
@@ -62,5 +61,5 @@ class User extends Authenticatable
     {
         return $this->hasMany('Mercury\Message', 'user_id');
     }
-    
+
 }
