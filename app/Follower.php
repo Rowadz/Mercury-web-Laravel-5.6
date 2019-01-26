@@ -3,9 +3,9 @@
 namespace Mercury;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Redis;
 use Mercury\Follower;
 use Mercury\User;
-use Illuminate\Support\Facades\Redis;
 
 class Follower extends Model
 {
@@ -135,7 +135,7 @@ class Follower extends Model
         $follower = self::checkIfFollowRequestExistInTheDataBase($id);
         if (!empty($follower) && ($follower->user_id === Auth()->user()->id)) {
             $follower->status = 'approved';
-            if($follower->save()){
+            if ($follower->save()) {
                 $userToNotifyId = $follower->from_id === Auth()->user()->id ? $follower->user_id : $follower->from_id;
                 $theUserThatApprovedId = $userToNotifyId === $follower->from_id ? $follower->user_id : $follower->from_id;
                 $theUserThatApprovedname = User::select('name')->where('id', $theUserThatApprovedId)->get();
@@ -143,8 +143,8 @@ class Follower extends Model
                     'event' => 'approvedFollowNotify',
                     'data' => [
                         'userId' => $userToNotifyId,
-                        'theUserThatApprovedname' => $theUserThatApprovedname[0]->name
-                    ]
+                        'theUserThatApprovedname' => $theUserThatApprovedname[0]->name,
+                    ],
                 ];
                 Redis::publish('notification', json_encode($data));
             }
@@ -239,13 +239,45 @@ class Follower extends Model
             $follower->from_id = Auth()->user()->id;
             $follower->user_id = $user_id;
             $follower->status = 'pending';
-            if($follower->save()){
+            if ($follower->save()) {
+                $data = [
+                    'event' => 'approvedFollowNotify',
+                    'data' => [
+                        'userId' => $user_id,
+                        'username' => Auth()->user()->name,
+                    ],
+                ];
+                Redis::publish('notification', json_encode($data));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static function deleteFollow(int $rowId)
+    {
+        $follower = Follower::find($rowId);
+        $follower->delete();
+        return true;
+    }
+
+    public static function followUserAPI(int $userId, int $fromId)
+    {
+        if (empty(Follower::where([
+            'from_id' => $fromId,
+            'user_id' => $userId,
+        ])->first())) {
+            $follower = new Follower;
+            $follower->from_id = $fromId;
+            $follower->user_id = $userId;
+            $follower->status = 'approved';
+            if ($follower->save()) {
                 $data = [
                     'event' => 'newFollowRequestNotify',
                     'data' => [
-                        'userId' => $user_id,
-                        'username' => Auth()->user()->name
-                    ]
+                        'userId' => $userId,
+                        'username' => User::find($fromId)->name,
+                    ],
                 ];
                 Redis::publish('notification', json_encode($data));
             }
@@ -293,7 +325,17 @@ class Follower extends Model
         } else {
             return null;
         }
+    }
 
+    public static function iamI(int $id, int $currId)
+    {
+        if ($id === $currId) {
+            return 'the same user';
+        }
+        return Follower::where([
+            'from_id' => $currId,
+            'user_id' => $id,
+        ])->first();
     }
 
     /**

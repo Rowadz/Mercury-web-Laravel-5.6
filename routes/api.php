@@ -29,3 +29,7 @@ Route::get('/bookmarked/{postId}/{userId}', 'API\PostController@isWished');
 Route::post('/bookmark', 'API\PostController@bookmark');
 Route::post('/deleteBookmark', 'API\PostController@deleteBookmark');
 Route::get('/getWishedPosts/{userId}', 'API\PostController@getWishedPosts');
+
+Route::get('/user/{id}/{currId}', 'API\ProfileController@getUser');
+Route::post('/follow', 'API\ProfileController@follow');
+Route::delete('/follow/{rowId}', 'API\ProfileController@deleteFollow');
