@@ -28,3 +28,4 @@ Route::get('/post/{id}', 'API\PostController@get');
 Route::get('/bookmarked/{postId}/{userId}', 'API\PostController@isWished');
 Route::post('/bookmark', 'API\PostController@bookmark');
 Route::post('/deleteBookmark', 'API\PostController@deleteBookmark');
+Route::get('/getWishedPosts/{userId}', 'API\PostController@getWishedPosts');

@@ -64,4 +64,13 @@ class PostController extends Controller
         ])->first()->delete();
         return response()->json(["message" => "The Wish has been deleted"]);
     }
+
+    public function getWishedPosts(int $userId)
+    {
+        return response()->json(
+            Wish::with('post.postImages', 'post.tag', 'post.user')
+                ->where('user_id', $userId)
+                ->orderBy('created_at', 'desc')
+                ->get());
+    }
 }
