@@ -48017,7 +48017,7 @@ function switchNdisable(userId, _ref2) {
 /*eslint no-console: */
 function notifications(io) {
   var authUserIdForNotify = $('#authUserIdForNotify').val();
-  var socket = new io('http://mercury.test:3000');
+  var socket = new io('https://odd-insect-67.localtunnel.me');
   commentOnYourPost(socket, authUserIdForNotify);
   followRequestApproved(socket, authUserIdForNotify);
   newFollowRequest(socket, authUserIdForNotify);

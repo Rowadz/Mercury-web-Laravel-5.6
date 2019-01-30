@@ -33,3 +33,6 @@ Route::get('/getWishedPosts/{userId}', 'API\PostController@getWishedPosts');
 Route::get('/user/{id}/{currId}', 'API\ProfileController@getUser');
 Route::post('/follow', 'API\ProfileController@follow');
 Route::delete('/follow/{rowId}', 'API\ProfileController@deleteFollow');
+
+Route::get('/followers/{id}', 'API\FollowController@followers');
+Route::get('/following/{id}', 'API\FollowController@following');

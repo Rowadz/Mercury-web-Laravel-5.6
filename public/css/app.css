@@ -11469,10 +11469,6 @@ input:-webkit-autofill {
   overflow-y: auto;
 }
 
-html {
-  overflow-x: hidden !important;
-}
-
 #sortPostsUserProfile {
   margin-top: 10px !important;
 }
