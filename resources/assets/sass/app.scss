@@ -40,6 +40,19 @@ $mediaQueriesVariables: (phone: 601px);
   }
 }
 
+html {
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+body {
+  margin: 0 auto !important;
+  overflow-x: hidden !important;
+  width: 100vw !important;
+  position: relative !important;
+}
+
 // imported after the mixin and the function beacuse these files uses them
 @import "nav.scss";
 @import "welcome.scss";
@@ -58,5 +71,6 @@ $mediaQueriesVariables: (phone: 601px);
     color: whitesmoke !important;
   }
 }
+
 
 // end for sorting the posts

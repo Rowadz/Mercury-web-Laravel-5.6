@@ -11147,6 +11147,19 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+html {
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+body {
+  margin: 0 auto !important;
+  overflow-x: hidden !important;
+  width: 100vw !important;
+  position: relative !important;
+}
+
 nav {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   height: 90px;

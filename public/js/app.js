@@ -1566,8 +1566,7 @@ module.exports = defaults;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return socketURL; });
-var socketURL = 'https://bad-dingo-7.localtunnel.me';
-// 'http://mercury.test:3000'
+var socketURL = 'http://mercury.test:3000';
 
 /***/ }),
 /* 10 */
