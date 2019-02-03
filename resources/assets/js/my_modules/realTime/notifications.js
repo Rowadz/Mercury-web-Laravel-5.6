@@ -1,14 +1,18 @@
+import {
+  socketURL
+} from "../helpers/socketURL";
+
 /*eslint no-console: */
 export default function notifications(io) {
   const authUserIdForNotify = $('#authUserIdForNotify').val();
-  const socket = new io('http://mercury.test:3000');
+  const socket = new io(socketURL);
   commentOnYourPost(socket, authUserIdForNotify);
   followRequestApproved(socket, authUserIdForNotify);
   newFollowRequest(socket, authUserIdForNotify);
   newExchangeRequest(socket, authUserIdForNotify);
   exchangeRequestApproved(socket, authUserIdForNotify);
   // TODO  :: chat notification if the user not in the chat page !
-  // TODO  :: or not talking with a user that he/she sent them ...
+  // TODO  :: or not t  alking with a user that he/she sent them ...
 }
 
 

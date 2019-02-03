@@ -1,3 +1,7 @@
+import {
+  socketURL
+} from "../helpers/socketURL";
+
 /*eslint no-console: */
 let postId = $('#postId').val(),
   postActions = $('#postActionsWishUnWish');
@@ -142,7 +146,7 @@ function updateWishNumbersUI(increase) {
 
 
 function initSocketIo(io) {
-  const socket = new io('http://mercury.test:3000');
+  const socket = new io(socketURL);
   socket.on(`new-comment:${postId}`, (data) => {
     getTheUser(data.user_id, data);
   });

@@ -1,10 +1,13 @@
 import {
   prependMessage
 } from '../helpers/displayData';
+import {
+  socketURL
+} from '../../helpers/socketURL';
 
 /*eslint no-console: */
 function subscribeToOpensUserRoom(currentUserId, io) {
-  const socket = new io('http://mercury.test:3000');
+  const socket = new io(socketURL);
   socket.on(`newMessage:${currentUserId}`, data => {
     try {
       const userChat = JSON.parse(localStorage.getItem('userChat'));
