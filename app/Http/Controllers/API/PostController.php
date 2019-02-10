@@ -12,7 +12,7 @@ class PostController extends Controller
     public function paginate()
     {
         return response()->json(
-            Post::with('user')
+            Postpwith('user')
                 ->with('postImages')
                 ->with('tag')
                 ->orderBy('created_at', 'desc')

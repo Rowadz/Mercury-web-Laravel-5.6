@@ -250,7 +250,12 @@ class Post extends Model
         // Post::destroy($postsIds);
     }
 
-    function new ($data) {
+    //  app/Post.php
+    // this was new
+    // change new to newPost
+    public static function newPost($data) // here
+
+    {
         $post = new Post;
         $post->header = $data['header'];
         $post->body = $data['body'];

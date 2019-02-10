@@ -205,16 +205,17 @@ class PostController extends Controller
         ]);
     }
 
+    // app/Htpp/Controllers/PostController.php
     public function newPost(Request $request)
     {
         $request->validate([
             'header' => 'required',
             'body' => 'required',
             'location' => 'required',
-            'quantity' => 'required|numeric|min:1|max:100'
+            'quantity' => 'required|numeric|min:1|max:100',
         ]);
         return response()->json([
-            Post::new($request->all()),
+            Post::newPost($request->all()), // this was Post::new
         ]);
     }
 }
